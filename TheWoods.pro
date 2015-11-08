@@ -3,13 +3,15 @@ CONFIG += console c++11
 CONFIG -= app_bundle
 CONFIG -= qt
 
-SRCDIR = "src/src"
+SRCDIR = "src"
 
-INCLUDEPATH += "src/include"
+INCLUDEPATH += "$$SRCDIR/window"
 
-HEADERS += gamewindow.h
+HEADERS += $$SRCDIR/window/gamewindow.h \
+    src/window/windowmanager.h
 
-SOURCES += src/main.cpp $$SRCDIR/gamewindow.cpp
+SOURCES += src/main.cpp $$SRCDIR/window/gamewindow.cpp \
+    src/window/windowmanager.cpp
 
 LIBS += -L"$$PWD/SFML/lib"
 

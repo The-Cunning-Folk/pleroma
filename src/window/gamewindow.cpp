@@ -1,0 +1,106 @@
+#include "gamewindow.h"
+
+using namespace BQ;
+
+GameWindow::GameWindow()
+{
+   window.create(sf::VideoMode(480, 270), "Default Window");
+}
+
+GameWindow::GameWindow(int width, int height, std::string name)
+{
+   debugShape.setFillColor(sf::Color::Green);
+   debugShape.setRadius(rand()%100);
+   window.create(sf::VideoMode(width, height), name);
+}
+
+GameWindow::GameWindow(GameWindow & gameWindow)
+{
+    GameWindow(gameWindow.getWidth(),gameWindow.getHeight(),gameWindow.getName());
+}
+
+bool GameWindow::isOpen()
+{
+   return window.isOpen();
+}
+
+void GameWindow::clear()
+{
+    window.clear();
+}
+
+void GameWindow::display()
+{
+    window.display();
+}
+
+void GameWindow::close()
+{
+    window.close();
+}
+
+void GameWindow::setTag(std::string newtag)
+{
+    tag = newtag;
+}
+
+void GameWindow::setName(std::string newname)
+{
+    name = newname;
+}
+
+void GameWindow::setWidth(int newwidth)
+{
+    width = newwidth;
+}
+
+void GameWindow::setHeight(int newheight)
+{
+    height = newheight;
+}
+
+int GameWindow::getHeight()
+{
+    return height;
+}
+
+int GameWindow::getWidth()
+{
+    return width;
+}
+
+std::string GameWindow::getName()
+{
+    return name;
+}
+
+void GameWindow::updateEvents()
+{
+
+    sf::Event event;
+    while (window.pollEvent(event))
+    {
+        if (event.type == sf::Event::Closed){
+            window.close();
+        }
+        if(event.type == sf::Event::Resized){
+            width = window.getSize().x;
+            height = window.getSize().y;
+        }
+    }
+
+    debugShape.setRadius(debugShape.getRadius()+1);
+    if(debugShape.getRadius()>100){
+        debugShape.setRadius(1);
+    }
+}
+
+void GameWindow::draw(const sf::Drawable & tex)
+{
+    window.draw(tex);
+}
+
+void GameWindow::draw()
+{
+    draw(debugShape);
+}
