@@ -9,14 +9,14 @@ GameWindow::GameWindow()
 
 GameWindow::GameWindow(int width, int height, std::string name)
 {
+   debugShape.setFillColor(sf::Color::Green);
+   debugShape.setRadius(rand()%100);
    window.create(sf::VideoMode(width, height), name);
 }
 
 GameWindow::GameWindow(GameWindow & gameWindow)
 {
-
     GameWindow(gameWindow.getWidth(),gameWindow.getHeight(),gameWindow.getName());
-    //window.create(sf::VideoMode(gameWindow.getWidth(),gameWindow.getHeight()),gameWindow.getName());
 }
 
 bool GameWindow::isOpen()
@@ -74,7 +74,33 @@ std::string GameWindow::getName()
     return name;
 }
 
-void GameWindow::run()
+void GameWindow::updateEvents()
 {
 
+    sf::Event event;
+    while (window.pollEvent(event))
+    {
+        if (event.type == sf::Event::Closed){
+            window.close();
+        }
+        if(event.type == sf::Event::Resized){
+            width = window.getSize().x;
+            height = window.getSize().y;
+        }
+    }
+
+    debugShape.setRadius(debugShape.getRadius()+1);
+    if(debugShape.getRadius()>100){
+        debugShape.setRadius(1);
+    }
+}
+
+void GameWindow::draw(const sf::Drawable & tex)
+{
+    window.draw(tex);
+}
+
+void GameWindow::draw()
+{
+    draw(debugShape);
 }

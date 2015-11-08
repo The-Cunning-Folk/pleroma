@@ -9,9 +9,13 @@ namespace BQ {
     public:
         WindowManager();
 
+        //window management
         void addWindow(std::string,int,int,std::string);
         void removeWindow(std::string);
 
+
+        //runtime
+        bool anyOpen();
         void run();
 
     private:

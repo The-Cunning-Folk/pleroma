@@ -11,7 +11,7 @@ namespace BQ{
         GameWindow(int,int,std::string);
         GameWindow(GameWindow&);
 
-        void run();
+        void updateEvents();
 
         //expanded sfml renderwindow functionality
 
@@ -19,6 +19,8 @@ namespace BQ{
         void clear();
         void display();
         void close();
+        void draw(const sf::Drawable&);
+        void draw();
 
         //getters and setters
 
@@ -38,6 +40,8 @@ namespace BQ{
         int width,height;
         std::string name;
         std::string tag;
+
+        sf::CircleShape debugShape;
 
     };
 }
