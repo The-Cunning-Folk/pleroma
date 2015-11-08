@@ -1,7 +1,10 @@
 #ifndef WINDOWMANAGER_H
 #define WINDOWMANAGER_H
 
+#include <memory>
 #include <gamewindow.h>
+
+typedef std::shared_ptr<BQ::GameWindow> window_ptr;
 
 namespace BQ {
     class WindowManager
@@ -19,7 +22,7 @@ namespace BQ {
         void run();
 
     private:
-        std::vector<BQ::GameWindow*> gameWindows;
+        std::vector<window_ptr> gameWindows;
     };
 }
 
