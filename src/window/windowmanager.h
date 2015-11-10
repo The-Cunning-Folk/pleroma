@@ -13,7 +13,7 @@ namespace BQ {
         WindowManager();
 
         //window management
-        void addWindow(std::string,int,int,std::string);
+        window_ptr addWindow(std::string,int,int,std::string);
         void removeWindow(std::string);
 
 

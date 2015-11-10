@@ -8,11 +8,11 @@ WindowManager::WindowManager()
 
 }
 
-void WindowManager::addWindow(std::string tag,int width,int height,std::string name)
+window_ptr WindowManager::addWindow(std::string tag,int width,int height,std::string name)
 {
-
     window_ptr newWindow(new GameWindow(width,height,name));  // p1 owns Foo
     gameWindows.push_back(newWindow);
+    return(newWindow);
 }
 
 void WindowManager::removeWindow(std::string)

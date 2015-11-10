@@ -9,7 +9,7 @@ void App::run(){
 
     debug.println("building window");
 
-    windowManager.addWindow("game",480,270,"Dev Build");
+    window_ptr gameWindow = windowManager.addWindow("game",480,270,"Dev Build");
 
     windowManager.run();
 
