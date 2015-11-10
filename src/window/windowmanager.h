@@ -13,13 +13,13 @@ namespace BQ {
         WindowManager();
 
         //window management
-        void addWindow(std::string,int,int,std::string);
+        window_ptr addWindow(std::string,int,int,std::string);
         void removeWindow(std::string);
 
 
         //runtime
         bool anyOpen();
-        void run();
+
 
     private:
         std::vector<window_ptr> gameWindows;

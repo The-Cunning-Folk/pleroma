@@ -41,8 +41,6 @@ namespace BQ{
         std::string name;
         std::string tag;
 
-        sf::CircleShape debugShape;
-
     };
 }
 

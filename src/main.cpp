@@ -1,17 +1,18 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
 
-#include <windowmanager.h>
+#include <app.h>
 
 using namespace std;
+using namespace BQ;
 
 int main()
 {
-    BQ::WindowManager windowManager;
 
-    windowManager.addWindow("game",480,270,"Dev Build");
+    App app;
 
-    windowManager.run();
+    app.run();
 
     return 0;
+
 }
