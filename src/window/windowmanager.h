@@ -19,7 +19,7 @@ namespace BQ {
 
         //runtime
         bool anyOpen();
-        void run();
+
 
     private:
         std::vector<window_ptr> gameWindows;

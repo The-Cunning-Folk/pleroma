@@ -29,8 +29,15 @@ void Game::run()
         //game loop goes here
 
         gameWindow->updateEvents();
-
         gameWindow->clear();
+
+        //logic here
+
+        //end logic
+
+        //drawing here
+
+        //end drawing
 
         gameWindow->display();
     }
