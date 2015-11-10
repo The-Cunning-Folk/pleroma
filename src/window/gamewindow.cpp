@@ -9,8 +9,6 @@ GameWindow::GameWindow()
 
 GameWindow::GameWindow(int width, int height, std::string name)
 {
-   debugShape.setFillColor(sf::Color::Green);
-   debugShape.setRadius(rand()%100);
    window.create(sf::VideoMode(width, height), name);
 }
 
@@ -89,10 +87,6 @@ void GameWindow::updateEvents()
         }
     }
 
-    debugShape.setRadius(debugShape.getRadius()+1);
-    if(debugShape.getRadius()>100){
-        debugShape.setRadius(1);
-    }
 }
 
 void GameWindow::draw(const sf::Drawable & tex)
@@ -102,5 +96,5 @@ void GameWindow::draw(const sf::Drawable & tex)
 
 void GameWindow::draw()
 {
-    draw(debugShape);
+
 }
