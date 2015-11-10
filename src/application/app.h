@@ -3,6 +3,7 @@
 
 #include<windowmanager.h>
 #include<debugutils.h>
+#include<game.h>
 
 class App
 {
@@ -15,6 +16,7 @@ private:
 
     BQ::WindowManager windowManager;
     BQ::DebugUtils debug;
+    BQ::Game game;
 
 
 };
