@@ -26,6 +26,8 @@ public:
     sf::Time getTime();
     float getSeconds(std::string);
     float getSeconds();
+    float getSecondsAndRestart(std::string);
+    float getSecondsAndRestart();
 
     void injectDebug(BQ::DebugUtils*);
 

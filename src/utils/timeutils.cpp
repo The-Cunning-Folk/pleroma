@@ -75,3 +75,13 @@ float TimeUtils::getSeconds() //global
     return globalClock.getElapsedTime().asSeconds();
 }
 
+float TimeUtils::getSecondsAndRestart(std::string name)
+{
+    return getClock(name)->restart().asSeconds();
+}
+
+float TimeUtils::getSecondsAndRestart()
+{
+    return globalClock.restart().asSeconds();
+}
+

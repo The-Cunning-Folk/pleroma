@@ -5,6 +5,7 @@ using namespace BQ;
 GameWindow::GameWindow()
 {
    window.create(sf::VideoMode(480, 270), "Default Window");
+   window.setFramerateLimit(120);
 }
 
 GameWindow::GameWindow(int width, int height, std::string name)
