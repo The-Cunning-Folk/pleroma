@@ -40,9 +40,6 @@ void Game::run()
     //end temporary behaviours
 
     while(gameWindow->isOpen()){
-
-        debug->printinfo("what");
-
         //game loop goes here
 
         gameWindow->updateEvents();

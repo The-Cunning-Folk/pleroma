@@ -21,12 +21,8 @@ void Grid::setScale(int value)
     if(value <= 0){
         value = 2;
     }
-
     scale = math.nxtPow2(value);
     power = math.getPow2(scale);
-
-    debug->printVal("grid scale",scale);
-    debug->printVal("grid power",power);
 }
 
 sf::Vector2f Grid::getOrigin() const
