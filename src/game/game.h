@@ -7,6 +7,7 @@
 #include <debugutils.h>
 #include <mathsutils.h>
 #include <grid.h>
+#include<inputmap.h>
 
 typedef std::shared_ptr<BQ::GameWindow> window_ptr;
 
@@ -29,6 +30,7 @@ public:
 
     void initialiseInjections();
     void initialiseClocks();
+    void initialiseInput();
 
     void tests();
 
@@ -45,6 +47,7 @@ private:
 
     //global properties
     Grid grid;
+    InputMap input;
 
     //variables
     float frameRate;

@@ -26,7 +26,7 @@ void Game::run()
 
 
     initialiseInjections(); //injections
-
+    initialiseInput();
     initialiseClocks(); //clock definitions
 
     //temporary behaviours
@@ -50,6 +50,11 @@ void Game::run()
         float logicTime = debug->time.getSeconds("logicTime");
 
         //logic here
+
+        input.update();
+
+        if(input.keyToggled("debug"))
+            debug->println("display debug");
 
         test.setRadius(rand()%20);
 
@@ -85,6 +90,12 @@ void Game::initialiseClocks()
 {
     debug->time.addClock("frameTime");
     debug->time.addClock("logicTime");
+}
+
+void Game::initialiseInput()
+{
+    input.setKeyInput("menu",sf::Keyboard::Escape);
+    input.setKeyInput("debug",sf::Keyboard::F3);
 }
 
 void Game::stabiliseFrameRate(float currentFrameDuration)

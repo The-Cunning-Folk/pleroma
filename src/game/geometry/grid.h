@@ -20,9 +20,9 @@ public:
     int getScale() const;
     void setScale(int value);
 
-    sf::Vector2f getOrigin() const;
-    void setOrigin(const sf::Vector2f &value);
-    void setOrigin(float,float);
+    sf::Vector2i getOrigin() const;
+    void setOrigin(const sf::Vector2i &value);
+    void setOrigin(int,int);
 
     //todo: layering
     //I'm not totally decided on how I'm handling layers at this stage
@@ -33,7 +33,7 @@ public:
     int getGridLayer(float); //get my height with just a float
 
     sf::Vector2f getCentre(sf::Vector2i);
-    sf::Vector2f getCenter(int,int);
+    sf::Vector2f getCentre(int,int);
     float getLayerMidPoint(int); // get the float for the halfway point of a layer
 
     void setDebug(DebugUtils *value);
@@ -42,7 +42,7 @@ private:
 
     int scale; // this must be a power of 2 so I can bitshift
     int power; //the power of 2 that the scale is
-    sf::Vector2f origin; //the actual position of grid(0,0)
+    sf::Vector2i origin; //the actual position of grid(0,0)
 
     //passed from game
     DebugUtils* debug;
