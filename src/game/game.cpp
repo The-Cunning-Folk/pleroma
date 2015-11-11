@@ -10,6 +10,7 @@ Game::Game()
 void Game::setGameWindow(window_ptr window)
 {
     gameWindow = window;
+
 }
 
 window_ptr Game::getGameWindow()
@@ -37,9 +38,7 @@ void Game::stabiliseFrameRate(float currentFrameDuration)
         std::string currentString = std::to_string(currentFrameDuration);
 
         std::string warning = "frame duration exceeded target";
-        debug.printwarn(warning);
-        debug.printVal("target frame duration",targetFrameDuration);
-        debug.printVal("recorded frame duration",currentFrameDuration);
+        debug->printwarn(warning);
     }
     sf::sleep(sleepTime);
 }
@@ -48,12 +47,12 @@ void Game::run()
 {
 
     if(gameWindow == NULL){
-        debug.println("no game window defined, the application will now exit");
+        debug->println("no game window defined, the application will now exit");
         return;
     }
 
-    debug.time.addClock("frameTime");
-    debug.time.addClock("logicTime");
+    debug->time.addClock("frameTime");
+    debug->time.addClock("logicTime");
 
     sf::CircleShape test;
 
@@ -61,6 +60,8 @@ void Game::run()
     test.setFillColor(sf::Color::Blue);
 
     while(gameWindow->isOpen()){
+
+        debug->printinfo("what");
 
 
 
@@ -74,7 +75,7 @@ void Game::run()
 
 
         //logictime is for calculating how long it's been since the engines were last updated
-        float logicTime = debug.time.getSeconds("logicTime");
+        float logicTime = debug->time.getSeconds("logicTime");
 
         //logic here
 
@@ -83,7 +84,7 @@ void Game::run()
         //end logic
 
         //restart the logic timer
-        debug.time.restartClock("logicTime");
+        debug->time.restartClock("logicTime");
 
         //drawing here
 
@@ -91,14 +92,24 @@ void Game::run()
 
         //end drawing
 
-        float frameTime = debug.time.getSeconds("frameTime");
-        stabiliseFrameRate(frameTime);
-
-        frameTime = debug.time.getSecondsAndRestart("frameTime");
-        float fps = 1.0/frameTime;
-
         gameWindow->display();
 
+        //framerate stuff
+        float frameTime = debug->time.getSeconds("frameTime");
+        stabiliseFrameRate(frameTime);
+        frameTime = debug->time.getSecondsAndRestart("frameTime");
+        float fps = 1.0/frameTime;
+        //end framerate stuff
 
     }
+}
+
+DebugUtils *Game::getDebug() const
+{
+    return debug;
+}
+
+void Game::setDebug(DebugUtils *value)
+{
+    debug = value;
 }

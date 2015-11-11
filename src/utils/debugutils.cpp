@@ -12,16 +12,25 @@ void DebugUtils::println(std::string output)
    std::cout << output << std::endl;
 }
 
-void DebugUtils::printerr(std::string error)
+void DebugUtils::printerr(std::string output)
 {
-    std::string output = "[ERROR] - " + error;
-    println(output);
+    if(errorLog!=NULL){
+        errorLog->println(output);
+    }
 }
 
-void DebugUtils::printwarn(std::string warn)
+void DebugUtils::printwarn(std::string output)
 {
-    std::string output = "[WARNING] - " + warn;
-    println(output);
+    if(warnLog!= NULL){
+        warnLog->println(output);
+    }
+}
+
+void DebugUtils::printinfo(std::string output)
+{
+    if(infoLog!= NULL){
+        infoLog->println(output);
+    }
 }
 
 void DebugUtils::printVal(std::string name, std::string val)

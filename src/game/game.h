@@ -25,9 +25,13 @@ public:
 
     void run();
 
+    DebugUtils *getDebug() const;
+
+    void setDebug(DebugUtils *value);
+
 private:
 
-    DebugUtils debug;
+    DebugUtils* debug;
 
     window_ptr gameWindow;
 

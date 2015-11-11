@@ -8,7 +8,8 @@ SRCDIR = "src"
 INCLUDEPATH += "$$SRCDIR/window" \
     "$$SRCDIR/application" \
     "$$SRCDIR/utils" \
-    "$$SRCDIR/game"
+    "$$SRCDIR/game" \
+    "$$SRCDIR/game/geometry"
 
 HEADERS += $$SRCDIR/window/gamewindow.h \
     src/window/windowmanager.h \
@@ -16,14 +17,22 @@ HEADERS += $$SRCDIR/window/gamewindow.h \
     src/application/app.h \
     src/game/game.h \
     src/typedef/apptypes.h \
-    src/utils/timeutils.h
+    src/utils/timeutils.h \
+    src/game/geometry/grid.h \
+    src/utils/mathsutils.h \
+    src/utils/logger.h \
+    src/utils/loggerfactory.h
 
 SOURCES += src/main.cpp $$SRCDIR/window/gamewindow.cpp \
     src/window/windowmanager.cpp \
     src/utils/debugutils.cpp \
     src/application/app.cpp \
     src/game/game.cpp \
-    src/utils/timeutils.cpp
+    src/utils/timeutils.cpp \
+    src/game/geometry/grid.cpp \
+    src/utils/mathsutils.cpp \
+    src/utils/logger.cpp \
+    src/utils/loggerfactory.cpp
 
 LIBS += -L"$$PWD/SFML/lib"
 

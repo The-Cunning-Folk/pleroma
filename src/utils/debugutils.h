@@ -5,6 +5,7 @@
 #include <string>
 
 #include <timeutils.h>
+#include <logger.h>
 
 //this class should act as a penknife for debugging,
 //so it's possible to get sensible information everywhere
@@ -18,9 +19,14 @@ public:
 
     TimeUtils time;
 
+    Logger *warnLog;
+    Logger *errorLog;
+    Logger *infoLog;
+
     void println(std::string);
     void printerr(std::string);
     void printwarn(std::string);
+    void printinfo(std::string);
     void printVal(std::string, std::string);
     void printVal(std::string, float);
     void printVal(std::string, int);

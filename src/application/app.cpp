@@ -3,6 +3,12 @@
 App::App()
 {
 
+    debug.errorLog = loggers.getError();
+    debug.warnLog = loggers.getWarn();
+    debug.infoLog = loggers.getInfo();
+
+    game.setDebug(&debug);
+
 }
 
 void App::run(){
