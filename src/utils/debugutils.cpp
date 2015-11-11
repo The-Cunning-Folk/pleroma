@@ -4,7 +4,7 @@ using namespace BQ;
 
 DebugUtils::DebugUtils()
 {
-
+    time.injectDebug(this);
 }
 
 void DebugUtils::println(std::string output)

@@ -15,7 +15,5 @@ void App::run(){
 
     game.run();
 
-    //windowManager.run();
-
 }
 
