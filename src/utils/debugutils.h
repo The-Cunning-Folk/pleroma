@@ -19,6 +19,8 @@ public:
     TimeUtils time;
 
     void println(std::string);
+    void printerr(std::string);
+    void printwarn(std::string);
     void printVal(std::string, std::string);
     void printVal(std::string, float);
     void printVal(std::string, int);

@@ -17,6 +17,33 @@ window_ptr Game::getGameWindow()
     return gameWindow;
 }
 
+void Game::setFrameRate(float fps)
+{
+    frameRate = fps;
+    targetFrameDuration = 1.0/fps;
+}
+
+float Game::getFrameRate()
+{
+    return (frameRate);
+}
+
+void Game::stabiliseFrameRate(float currentFrameDuration)
+{
+    sf::Time sleepTime = sf::seconds(targetFrameDuration - currentFrameDuration);
+    if(sleepTime.asSeconds() < 0){
+
+        std::string targetString = std::to_string(targetFrameDuration);
+        std::string currentString = std::to_string(currentFrameDuration);
+
+        std::string warning = "frame duration exceeded target";
+        debug.printwarn(warning);
+        debug.printVal("target frame duration",targetFrameDuration);
+        debug.printVal("recorded frame duration",currentFrameDuration);
+    }
+    sf::sleep(sleepTime);
+}
+
 void Game::run()
 {
 
@@ -44,9 +71,7 @@ void Game::run()
 
         //get time since last window.clear call
 
-        float frameTime = debug.time.getSecondsAndRestart("frameTime");
-        float fps = 1.0/frameTime;
-        debug.printVal("fps",fps);
+
 
         //logictime is for calculating how long it's been since the engines were last updated
         float logicTime = debug.time.getSeconds("logicTime");
@@ -66,9 +91,13 @@ void Game::run()
 
         //end drawing
 
+        float frameTime = debug.time.getSeconds("frameTime");
+        stabiliseFrameRate(frameTime);
+
+        frameTime = debug.time.getSecondsAndRestart("frameTime");
+        float fps = 1.0/frameTime;
+
         gameWindow->display();
-
-
 
 
     }

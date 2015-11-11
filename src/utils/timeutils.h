@@ -29,6 +29,7 @@ public:
     float getSecondsAndRestart(std::string);
     float getSecondsAndRestart();
 
+
     void injectDebug(BQ::DebugUtils*);
 
 private:
