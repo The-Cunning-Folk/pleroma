@@ -36,6 +36,7 @@ public:
     sf::Vector2f getCenter(int,int);
     float getLayerMidPoint(int); // get the float for the halfway point of a layer
 
+    void setDebug(DebugUtils *value);
 
 private:
 
@@ -43,8 +44,11 @@ private:
     int power; //the power of 2 that the scale is
     sf::Vector2f origin; //the actual position of grid(0,0)
 
+    //passed from game
+    DebugUtils* debug;
+
+    //owns its own maths instance for speed
     MathsUtils math;
-    DebugUtils debug;
 
 };
 }

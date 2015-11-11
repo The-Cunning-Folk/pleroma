@@ -5,6 +5,8 @@
 #include <memory>
 #include <gamewindow.h>
 #include <debugutils.h>
+#include <mathsutils.h>
+#include <grid.h>
 
 typedef std::shared_ptr<BQ::GameWindow> window_ptr;
 
@@ -25,16 +27,26 @@ public:
 
     void run();
 
-    DebugUtils *getDebug() const;
+    void initialiseInjections();
+    void initialiseClocks();
+
+    void tests();
 
     void setDebug(DebugUtils *value);
 
 private:
 
+    //inherited properties
     DebugUtils* debug;
-
     window_ptr gameWindow;
 
+    //utilities owned by game
+    MathsUtils math;
+
+    //global properties
+    Grid grid;
+
+    //variables
     float frameRate;
     float targetFrameDuration;
 

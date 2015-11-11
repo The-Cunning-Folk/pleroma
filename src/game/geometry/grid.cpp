@@ -5,7 +5,7 @@ using namespace BQ;
 Grid::Grid()
 {
     setOrigin(0,0);
-    setScale(16);
+    setScale(0);
 }
 
 
@@ -18,16 +18,15 @@ void Grid::setScale(int value)
 {
     //must be a power of 2
 
-    if(value < 0){
-        return;
+    if(value <= 0){
+        value = 2;
     }
 
     scale = math.nxtPow2(value);
-
     power = math.getPow2(scale);
 
-    debug.printVal("grid scale",scale);
-    debug.printVal("grid power",power);
+    debug->printVal("grid scale",scale);
+    debug->printVal("grid power",power);
 }
 
 sf::Vector2f Grid::getOrigin() const
@@ -68,4 +67,9 @@ sf::Vector2i Grid::getGridPosition(float x, float y)
 sf::Vector2f BQ::Grid::getCentre(sf::Vector2i gridPosition)
 {
 
+}
+
+void Grid::setDebug(DebugUtils *value)
+{
+    debug = value;
 }
