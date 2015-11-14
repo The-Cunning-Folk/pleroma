@@ -5,7 +5,8 @@ CONFIG -= qt
 
 SRCDIR = "src"
 
-INCLUDEPATH += "$$SRCDIR/window" \
+INCLUDEPATH += "SFML/include" \
+    "$$SRCDIR/window" \
     "$$SRCDIR/application" \
     "$$SRCDIR/utils" \
     "$$SRCDIR/game" \
