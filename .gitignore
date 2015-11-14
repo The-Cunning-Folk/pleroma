@@ -11,6 +11,9 @@
 *.orig
 *.rej
 *.so
+*.dll
+*.manifest
+*.exp
 *.so.*
 *_pch.h.cpp
 *_resource.rc
