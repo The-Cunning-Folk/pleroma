@@ -48,6 +48,7 @@ void Logger::setSuppressed(bool value)
 void Logger::println(std::string output)
 {
    logfile << label << " --- " << output << std::endl;
+   defaultLog << label << " --- " << output << std::endl;
 }
 
 void Logger::printVal(std::string name, std::string val)

@@ -11,7 +11,9 @@ INCLUDEPATH += "SFML/include" \
     "$$SRCDIR/utils" \
     "$$SRCDIR/game" \
     "$$SRCDIR/game/geometry" \
-    "$$SRCDIR/input"
+    "$$SRCDIR/input" \
+    "$$SRCDIR/components" \
+    "$$SRCDIR/gameobject"
 
 HEADERS += $$SRCDIR/window/gamewindow.h \
     src/window/windowmanager.h \
@@ -25,7 +27,9 @@ HEADERS += $$SRCDIR/window/gamewindow.h \
     src/utils/logger.h \
     src/utils/loggerfactory.h \
     src/input/inputmap.h \
-    src/input/keyinput.h
+    src/input/keyinput.h \
+    src/gameobject/gameobject.h \
+    src/components/component.h
 
 SOURCES += src/main.cpp $$SRCDIR/window/gamewindow.cpp \
     src/window/windowmanager.cpp \
@@ -38,7 +42,9 @@ SOURCES += src/main.cpp $$SRCDIR/window/gamewindow.cpp \
     src/utils/logger.cpp \
     src/utils/loggerfactory.cpp \
     src/input/inputmap.cpp \
-    src/input/keyinput.cpp
+    src/input/keyinput.cpp \
+    src/gameobject/gameobject.cpp \
+    src/components/component.cpp
 
 LIBS += -L"$$PWD/SFML/lib"
 

@@ -12,6 +12,7 @@ private:
 
     std::string label;
     std::ofstream logfile;
+    std::ofstream defaultLog;
     bool suppressed;
     std::string filepath;
 
@@ -20,7 +21,7 @@ public:
     Logger (const Logger&);
     Logger& operator=(const Logger&);
 
-    Logger(): logfile("log.log",std::ofstream::app) {}
+    Logger(): logfile("log.log",std::ofstream::app), defaultLog("log.log",std::ofstream::app) {}
 
     std::string getLabel() const;
     void setLabel(const std::string &value);
