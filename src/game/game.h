@@ -8,6 +8,8 @@
 #include <mathsutils.h>
 #include <grid.h>
 #include<inputmap.h>
+#include<gameobjectstack.h>
+#include<gameobjectfactory.h>
 
 typedef std::shared_ptr<BQ::GameWindow> window_ptr;
 
@@ -32,9 +34,13 @@ public:
     void initialiseClocks();
     void initialiseInput();
 
-    void tests();
+    void initialiseTests();
+    void runTests();
 
     void setDebug(DebugUtils *value);
+
+    GameObjectStack gameObjects;
+    GameObjectFactory gameObjectFactory;
 
 private:
 
@@ -52,6 +58,8 @@ private:
     //variables
     float frameRate;
     float targetFrameDuration;
+
+
 
 };
 }

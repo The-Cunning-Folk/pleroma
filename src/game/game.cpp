@@ -7,9 +7,11 @@ Game::Game()
 
 }
 
-void Game::tests()
+void Game::runTests()
 {
     //add temporary stuff here for testing and debugging so the loop doesn't get too cluttered
+    if(input.keyToggled("addObject"))
+        gameObjectFactory.newObject();
 }
 
 void Game::run()
@@ -29,9 +31,7 @@ void Game::run()
     initialiseInput();
     initialiseClocks(); //clock definitions
 
-    //temporary behaviours
-
-    tests();
+    initialiseTests();
 
     sf::CircleShape test;
     test.setRadius(10);
@@ -55,6 +55,10 @@ void Game::run()
 
         if(input.keyToggled("debug"))
             debug->println("display debug");
+
+        //temporary behaviours
+
+        runTests();
 
         test.setRadius(rand()%20);
 
@@ -83,7 +87,10 @@ void Game::run()
 
 void Game::initialiseInjections()
 {
-    grid.setDebug(debug);
+   gameObjectFactory.setStack(&gameObjects);
+   gameObjectFactory.setDebug(debug);
+
+   grid.setDebug(debug);
 }
 
 void Game::initialiseClocks()
@@ -96,6 +103,12 @@ void Game::initialiseInput()
 {
     input.setKeyInput("menu",sf::Keyboard::Escape);
     input.setKeyInput("debug",sf::Keyboard::F3);
+
+}
+
+void Game::initialiseTests()
+{
+    input.setKeyInput("addObject",sf::Keyboard::F8);
 }
 
 void Game::stabiliseFrameRate(float currentFrameDuration)

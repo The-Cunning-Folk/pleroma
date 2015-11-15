@@ -9,9 +9,7 @@
 
 namespace BQ{
 
-class DebugUtils;
-
-
+class DebugUtils; //forward definition
 
 class TimeUtils
 {

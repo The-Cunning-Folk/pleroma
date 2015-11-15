@@ -19,8 +19,6 @@ Logger* LoggerFactory::getError()
     return &error;
 }
 
-
-
 Logger* LoggerFactory::getWarn()
 {
     return &warn;

@@ -29,7 +29,9 @@ HEADERS += $$SRCDIR/window/gamewindow.h \
     src/input/inputmap.h \
     src/input/keyinput.h \
     src/gameobject/gameobject.h \
-    src/components/component.h
+    src/components/component.h \
+    src/gameobject/gameobjectfactory.h \
+    src/gameobject/gameobjectstack.h
 
 SOURCES += src/main.cpp $$SRCDIR/window/gamewindow.cpp \
     src/window/windowmanager.cpp \
@@ -44,7 +46,9 @@ SOURCES += src/main.cpp $$SRCDIR/window/gamewindow.cpp \
     src/input/inputmap.cpp \
     src/input/keyinput.cpp \
     src/gameobject/gameobject.cpp \
-    src/components/component.cpp
+    src/components/component.cpp \
+    src/gameobject/gameobjectfactory.cpp \
+    src/gameobject/gameobjectstack.cpp
 
 LIBS += -L"$$PWD/SFML/lib"
 
