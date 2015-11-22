@@ -13,7 +13,8 @@ INCLUDEPATH += "SFML/include" \
     "$$SRCDIR/game/geometry" \
     "$$SRCDIR/input" \
     "$$SRCDIR/components" \
-    "$$SRCDIR/gameobject"
+    "$$SRCDIR/gameobject" \
+    "$$SRCDIR/factories"
 
 HEADERS += $$SRCDIR/window/gamewindow.h \
     src/window/windowmanager.h \
@@ -30,8 +31,11 @@ HEADERS += $$SRCDIR/window/gamewindow.h \
     src/input/keyinput.h \
     src/gameobject/gameobject.h \
     src/components/component.h \
-    src/gameobject/gameobjectfactory.h \
-    src/gameobject/gameobjectstack.h
+    src/factories/gameobjectfactory.h \
+    src/gameobject/gameobjectstack.h \
+    src/components/transform.h \
+    src/factories/componentfactory.h \
+    src/factories/factory.h
 
 SOURCES += src/main.cpp $$SRCDIR/window/gamewindow.cpp \
     src/window/windowmanager.cpp \
@@ -47,8 +51,11 @@ SOURCES += src/main.cpp $$SRCDIR/window/gamewindow.cpp \
     src/input/keyinput.cpp \
     src/gameobject/gameobject.cpp \
     src/components/component.cpp \
-    src/gameobject/gameobjectfactory.cpp \
-    src/gameobject/gameobjectstack.cpp
+    src/factories/gameobjectfactory.cpp \
+    src/gameobject/gameobjectstack.cpp \
+    src/components/transform.cpp \
+    src/factories/componentfactory.cpp \
+    src/factories/factory.cpp
 
 LIBS += -L"$$PWD/SFML/lib"
 

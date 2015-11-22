@@ -12,10 +12,7 @@ void GameObjectFactory::setStack(GameObjectStack * stack)
     gameObjects = stack;
 }
 
-void GameObjectFactory::setDebug(DebugUtils *value)
-{
-    debug = value;
-}
+
 
 void GameObjectFactory::newObject()
 {

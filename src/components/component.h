@@ -2,6 +2,8 @@
 #define COMPONENT_H
 
 #include<string>
+#include<SFML/Graphics.hpp>
+#include<mathsutils.h>
 
 namespace BQ{
 class GameObject;

@@ -14,7 +14,7 @@ void GameObject::addComponent(Component* component)
     {
         name = component->typeId + std::to_string(component->uniqueId);
     }
-    components[name] = component;
+    addComponent(name,component);
 }
 
 void GameObject::update()
@@ -24,3 +24,8 @@ void GameObject::update()
 
 
 
+
+void BQ::GameObject::addComponent(std::string name, BQ::Component * component)
+{
+    components[name] = component;
+}

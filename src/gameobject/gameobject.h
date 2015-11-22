@@ -18,6 +18,7 @@ public:
     int uniqueId;
 
     void addComponent(Component*);
+    void addComponent(std::string,Component*);
     Component* getComponentByName(std::string);
 
     void update();

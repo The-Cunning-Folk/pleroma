@@ -3,7 +3,7 @@
 
 #include <gameobject.h>
 #include <gameobjectstack.h>
-#include <debugutils.h>
+
 
 #include <iostream>
 #include <vector>
@@ -11,21 +11,19 @@
 #include<memory>
 #include <map>
 
+#include <factory.h>
+
 namespace BQ{
-class GameObjectFactory
+class GameObjectFactory : public Factory
 {
 public:
 
     GameObjectFactory();
     void setStack(GameObjectStack*);
 
-    DebugUtils* debug;
-
     //ridiculous number of add functions go here, need some way to generate archetypes for items from file
 
     void newObject();
-
-    void setDebug(DebugUtils *value);
 
 private:
 
