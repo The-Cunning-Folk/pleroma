@@ -7,6 +7,7 @@
 #include <gameobject.h>
 
 #include <transformengine.h>
+#include <inputengine.h>
 
 
 using namespace BQ;
@@ -20,12 +21,19 @@ public:
     Transform* newTransform(std::string);
     Transform* newChildTransform(Transform*);
 
+    PlayerInput* newPlayerInput();
+    PlayerInput* newPlayerInput(std::string);
+
     TransformEngine *getTransformEngine() const;
     void setTransformEngine(TransformEngine *value);
+
+    InputEngine *getInputEngine() const;
+    void setInputEngine(InputEngine *value);
 
 private:
 
     TransformEngine* transformEngine;
+    InputEngine* inputEngine;
 
 };
 

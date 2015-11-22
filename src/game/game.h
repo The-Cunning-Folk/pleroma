@@ -36,6 +36,7 @@ public:
     void initialiseClocks();
     void initialiseInput();
     void initialiseTests();
+    void initialisePlayers();
 
     void runTests();
     void runEngines();
@@ -53,6 +54,7 @@ private:
 
     //engines
     TransformEngine transformEngine;
+    InputEngine inputEngine;
 
 
     //inherited properties

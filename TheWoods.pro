@@ -41,7 +41,9 @@ HEADERS += $$SRCDIR/window/gamewindow.h \
     src/engines/engine.h \
     src/engines/transformengine.h \
     src/shapes/crossshape.h \
-    src/shapes/customshape.h
+    src/shapes/customshape.h \
+    src/components/playerinput.h \
+    src/engines/inputengine.h
 
 SOURCES += src/main.cpp $$SRCDIR/window/gamewindow.cpp \
     src/window/windowmanager.cpp \
@@ -65,7 +67,9 @@ SOURCES += src/main.cpp $$SRCDIR/window/gamewindow.cpp \
     src/engines/engine.cpp \
     src/engines/transformengine.cpp \
     src/shapes/crossshape.cpp \
-    src/shapes/customshape.cpp
+    src/shapes/customshape.cpp \
+    src/components/playerinput.cpp \
+    src/engines/inputengine.cpp
 
 LIBS += -L"$$PWD/SFML/lib"
 

@@ -16,6 +16,7 @@ void Game::runTests()
 
 void Game::runEngines()
 {
+    inputEngine.run();
     transformEngine.run();
 }
 
@@ -35,6 +36,8 @@ void Game::run()
     initialiseInjections(); //injections
     initialiseInput();
     initialiseClocks(); //clock definitions
+
+    initialisePlayers();
 
     initialiseTests();
 
@@ -95,11 +98,13 @@ void Game::initialiseInjections()
 
    componentFactory.setDebug(debug);
    componentFactory.setTransformEngine(&transformEngine);
+   componentFactory.setInputEngine(&inputEngine);
 
    gameObjectFactory.setStack(&gameObjects);
    gameObjectFactory.setDebug(debug);
    gameObjectFactory.setComponentFactory(&componentFactory);
 
+   inputEngine.setGameWindow(gameWindow);
    transformEngine.setGameWindow(gameWindow);
 
    grid.setDebug(debug);
@@ -121,6 +126,11 @@ void Game::initialiseInput()
 void Game::initialiseTests()
 {
     input.setKeyInput("addObject",sf::Keyboard::F8);
+}
+
+void Game::initialisePlayers()
+{
+    gameObjectFactory.newPlayerObject();
 }
 
 void Game::stabiliseFrameRate(float currentFrameDuration)
