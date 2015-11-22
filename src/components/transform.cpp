@@ -4,12 +4,12 @@ using namespace BQ;
 
 Transform::Transform()
 {
-
+    typeId = "transform";
 }
 
 void Transform::move(sf::Vector2f value)
 {
-    typeId = "transform";
+
 }
 
 void Transform::move(sf::Vector2i value)

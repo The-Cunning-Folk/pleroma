@@ -35,9 +35,10 @@ public:
     void initialiseInjections();
     void initialiseClocks();
     void initialiseInput();
-
     void initialiseTests();
+
     void runTests();
+    void runEngines();
 
     void setDebug(DebugUtils *value);
 

@@ -11,6 +11,8 @@ class TransformEngine : public Engine
 public:
     TransformEngine();
 
+    void run();
+
     std::vector<Transform> transforms;
 
     Transform* addTransform();

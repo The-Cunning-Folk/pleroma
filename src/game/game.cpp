@@ -14,6 +14,11 @@ void Game::runTests()
         gameObjectFactory.newObject();
 }
 
+void Game::runEngines()
+{
+    transformEngine.run();
+}
+
 void Game::run()
 {
     if(debug == NULL){
@@ -59,6 +64,8 @@ void Game::run()
         //temporary behaviours
 
         runTests();
+
+        runEngines();
 
         test.setRadius(rand()%20);
 
