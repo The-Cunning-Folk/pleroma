@@ -10,6 +10,8 @@
 #include<inputmap.h>
 #include<gameobjectstack.h>
 #include<gameobjectfactory.h>
+#include<componentfactory.h>
+#include<transformengine.h>
 
 typedef std::shared_ptr<BQ::GameWindow> window_ptr;
 
@@ -40,9 +42,17 @@ public:
     void setDebug(DebugUtils *value);
 
     GameObjectStack gameObjects;
-    GameObjectFactory gameObjectFactory;
+
 
 private:
+
+    //factories
+    GameObjectFactory gameObjectFactory;
+    ComponentFactory componentFactory;
+
+    //engines
+    TransformEngine transformEngine;
+
 
     //inherited properties
     DebugUtils* debug;

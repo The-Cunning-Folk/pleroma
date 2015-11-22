@@ -1,6 +1,8 @@
 #ifndef GAMEOBJECT_H
 #define GAMEOBJECT_H
 
+#include<transform.h>
+
 #include<component.h>
 #include <iostream>
 #include <vector>
@@ -14,6 +16,8 @@ class GameObject
 public:
     GameObject();
 
+    Transform* transform;
+
     std::string name;
     int uniqueId;
 
@@ -23,6 +27,8 @@ public:
 
     void update();
 
+    Transform *getTransform() const;
+    void setTransform(Transform *value);
 
 private:
 

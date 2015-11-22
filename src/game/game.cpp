@@ -87,8 +87,13 @@ void Game::run()
 
 void Game::initialiseInjections()
 {
+
+   componentFactory.setDebug(debug);
+   componentFactory.setTransformEngine(&transformEngine);
+
    gameObjectFactory.setStack(&gameObjects);
    gameObjectFactory.setDebug(debug);
+   gameObjectFactory.setComponentFactory(&componentFactory);
 
    grid.setDebug(debug);
 }

@@ -4,6 +4,10 @@
 #include <factory.h>
 #include <component.h>
 #include <transform.h>
+#include <gameobject.h>
+
+#include <transformengine.h>
+
 
 using namespace BQ;
 
@@ -16,7 +20,12 @@ public:
     Transform* newTransform(std::string);
     Transform* newChildTransform(Transform*);
 
+    TransformEngine *getTransformEngine() const;
+    void setTransformEngine(TransformEngine *value);
 
+private:
+
+    TransformEngine* transformEngine;
 
 };
 
