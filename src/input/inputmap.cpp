@@ -28,7 +28,21 @@ bool InputMap::keyPressed(std::string name)
 void InputMap::setKeyInput(std::string name, sf::Keyboard::Key key)
 {
     KeyInput newInput(key);
+    newInput.name = name;
     keys[name] = newInput;
+}
+
+std::vector<std::string> InputMap::getKeysDown()
+{
+    std::vector<std::string>keysDown(0);
+    for(it = keys.begin(); it != keys.end(); it++) {
+        KeyInput& input = it->second;
+        if(input.isDown)
+        {
+            keysDown.push_back(input.name);
+        }
+    }
+    return(keysDown);
 }
 
 void InputMap::update()

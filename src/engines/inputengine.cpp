@@ -10,6 +10,18 @@ InputEngine::InputEngine()
 void InputEngine::run()
 {
     //check for inputs
+
+    for(unsigned int i = 0; i<inputs.size(); i++)
+    {
+        inputs[i].update();
+        std::vector<std::string> activeInputs = inputs[i].inputMap.getKeysDown();
+        if(activeInputs.size() > 0){
+            for(unsigned int j = 0; j<activeInputs.size();j++)
+            {
+                debug->println(activeInputs[j]);
+            }
+        }
+    }
 }
 
 PlayerInput *InputEngine::addPlayerInput()

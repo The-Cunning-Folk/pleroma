@@ -9,6 +9,5 @@ PlayerInput::PlayerInput()
 
 void PlayerInput::update()
 {
-
+    inputMap.update();
 }
-

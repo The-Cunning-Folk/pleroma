@@ -33,7 +33,12 @@ GameObject* GameObjectFactory::newObject()
 GameObject* GameObjectFactory::newPlayerObject()
 {
     GameObject* player = newObject();
-    player->addComponent("input",componentFactory->newPlayerInput());
+    PlayerInput* input = componentFactory->newPlayerInput();
+    player->addComponent("input",input);
+    input->inputMap.setKeyInput("move_up",sf::Keyboard::W);
+    input->inputMap.setKeyInput("move_left",sf::Keyboard::A);
+    input->inputMap.setKeyInput("move_right",sf::Keyboard::D);
+    input->inputMap.setKeyInput("move_down",sf::Keyboard::S);
     return player;
 }
 

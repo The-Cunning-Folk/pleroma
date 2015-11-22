@@ -23,6 +23,7 @@ public:
     bool keyPressed(std::string);
 
     void setKeyInput(std::string,sf::Keyboard::Key);
+    std::vector<std::string> getKeysDown();
     void update();
 
 };
