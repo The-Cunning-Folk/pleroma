@@ -11,11 +11,15 @@ class TransformEngine : public Engine
 public:
     TransformEngine();
 
+
+
     void run();
+    void drawDebug();
 
     std::vector<Transform> transforms;
 
     Transform* addTransform();
+
 };
 }
 

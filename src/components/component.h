@@ -4,14 +4,17 @@
 #include<string>
 #include<SFML/Graphics.hpp>
 #include<mathsutils.h>
+#include<debugutils.h>
 
 namespace BQ{
 class GameObject;
 
-class Component
+class Component : public sf::Drawable
 {
 public:
     Component();
+
+    DebugUtils* debug;
 
     std::string name; //name of the component. All components should be named
     std::string typeId; //what type of component am I?
@@ -19,6 +22,15 @@ public:
 
     void setParent(GameObject*);
     void setName(std::string);
+
+    virtual void update()
+    {
+        //nothing here
+    }
+
+
+    DebugUtils *getDebug() const;
+    void setDebug(DebugUtils *value);
 
 private:
 

@@ -67,8 +67,6 @@ void Game::run()
 
         runEngines();
 
-        test.setRadius(rand()%20);
-
         //end logic
 
         //restart the logic timer
@@ -76,7 +74,7 @@ void Game::run()
 
         //drawing here
 
-        gameWindow->draw(test);
+        transformEngine.drawDebug();
 
         //end drawing
 
@@ -101,6 +99,8 @@ void Game::initialiseInjections()
    gameObjectFactory.setStack(&gameObjects);
    gameObjectFactory.setDebug(debug);
    gameObjectFactory.setComponentFactory(&componentFactory);
+
+   transformEngine.setGameWindow(gameWindow);
 
    grid.setDebug(debug);
 }

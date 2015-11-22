@@ -28,6 +28,7 @@ void GameObjectFactory::newObject()
 {
     GameObject* object = gameObjects->addObject();
     object->setTransform(componentFactory->newTransform());
+    object->getTransform()->setPosition(sf::Vector2f(100,100));
     debug->println("generated object: " + object->name);
 }
 
