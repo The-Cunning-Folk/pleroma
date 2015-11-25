@@ -16,9 +16,11 @@ void Game::runTests()
 
 void Game::runEngines()
 {
+    float logicTime = debug->time.getSeconds("logicTime");
     inputEngine.run();
     transformEngine.run();
 
+    eventEngine.setDelta(logicTime);
     eventEngine.run();
 }
 
@@ -57,7 +59,7 @@ void Game::run()
 
         //get time since last window.clear call
         //logictime is for calculating how long it's been since the engines were last updated
-        float logicTime = debug->time.getSeconds("logicTime");
+
 
         //logic here
 
