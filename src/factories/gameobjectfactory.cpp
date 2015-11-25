@@ -22,13 +22,23 @@ void GameObjectFactory::setComponentFactory(ComponentFactory *value)
     componentFactory = value;
 }
 
-
-
-void GameObjectFactory::newObject()
+GameObject* GameObjectFactory::newObject()
 {
     GameObject* object = gameObjects->addObject();
     object->setTransform(componentFactory->newTransform());
-    object->getTransform()->setPosition(sf::Vector2f(100,100));
     debug->println("generated object: " + object->name);
+    return object;
+}
+
+GameObject* GameObjectFactory::newPlayerObject() //builds behaviours for the player
+{
+    GameObject* player = newObject();
+    PlayerInput* input = componentFactory->newPlayerInput();
+    player->addComponent("input",input);
+    input->inputMap.setKeyInput("move_up",sf::Keyboard::W);
+    input->inputMap.setKeyInput("move_left",sf::Keyboard::A);
+    input->inputMap.setKeyInput("move_right",sf::Keyboard::D);
+    input->inputMap.setKeyInput("move_down",sf::Keyboard::S);
+    return player;
 }
 

@@ -19,6 +19,11 @@ void Component::setDebug(DebugUtils *value)
     debug = value;
 }
 
+GameObject *Component::getParent() const
+{
+    return parent;
+}
+
 
 void Component::setParent(GameObject * gameObject)
 {

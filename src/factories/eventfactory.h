@@ -1,0 +1,22 @@
+#ifndef EVENTFACTORY_H
+#define EVENTFACTORY_H
+
+#include<factory.h>
+#include<eventengine.h>
+
+namespace BQ{
+class EventFactory : public Factory
+{
+public:
+    EventFactory();
+
+    EventEngine* eventEngine;
+
+    void createEvent(std::string,GameObject*);
+
+    EventEngine *getEventEngine() const;
+    void setEventEngine(EventEngine *value);
+};
+}
+
+#endif // EVENTFACTORY_H

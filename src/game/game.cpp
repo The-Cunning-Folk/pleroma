@@ -16,7 +16,12 @@ void Game::runTests()
 
 void Game::runEngines()
 {
+    float logicTime = debug->time.getSeconds("logicTime");
+    inputEngine.run();
     transformEngine.run();
+
+    eventEngine.setDelta(logicTime);
+    eventEngine.run();
 }
 
 void Game::run()
@@ -36,6 +41,8 @@ void Game::run()
     initialiseInput();
     initialiseClocks(); //clock definitions
 
+    initialisePlayers();
+
     initialiseTests();
 
     sf::CircleShape test;
@@ -52,7 +59,7 @@ void Game::run()
 
         //get time since last window.clear call
         //logictime is for calculating how long it's been since the engines were last updated
-        float logicTime = debug->time.getSeconds("logicTime");
+
 
         //logic here
 
@@ -95,12 +102,20 @@ void Game::initialiseInjections()
 
    componentFactory.setDebug(debug);
    componentFactory.setTransformEngine(&transformEngine);
+   componentFactory.setInputEngine(&inputEngine);
 
    gameObjectFactory.setStack(&gameObjects);
    gameObjectFactory.setDebug(debug);
    gameObjectFactory.setComponentFactory(&componentFactory);
 
+   eventFactory.setEventEngine(&eventEngine);
+   eventFactory.setDebug(debug);
+
+   eventEngine.setGameWindow(gameWindow);
+   inputEngine.setGameWindow(gameWindow);
    transformEngine.setGameWindow(gameWindow);
+
+   inputEngine.setEventFactory(&eventFactory);
 
    grid.setDebug(debug);
 }
@@ -121,6 +136,11 @@ void Game::initialiseInput()
 void Game::initialiseTests()
 {
     input.setKeyInput("addObject",sf::Keyboard::F8);
+}
+
+void Game::initialisePlayers()
+{
+    gameObjectFactory.newPlayerObject();
 }
 
 void Game::stabiliseFrameRate(float currentFrameDuration)

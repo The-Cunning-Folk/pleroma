@@ -25,6 +25,18 @@ Transform *ComponentFactory::newChildTransform(Transform* parent)
     return(transform);
 }
 
+PlayerInput *ComponentFactory::newPlayerInput()
+{
+    return inputEngine->addPlayerInput();
+}
+
+PlayerInput *ComponentFactory::newPlayerInput(std::string name)
+{
+    PlayerInput* input = newPlayerInput();
+    input->setName(name);
+    return(input);
+}
+
 TransformEngine *ComponentFactory::getTransformEngine() const
 {
     return transformEngine;
@@ -33,4 +45,14 @@ TransformEngine *ComponentFactory::getTransformEngine() const
 void ComponentFactory::setTransformEngine(TransformEngine *value)
 {
     transformEngine = value;
+}
+
+InputEngine *ComponentFactory::getInputEngine() const
+{
+    return inputEngine;
+}
+
+void ComponentFactory::setInputEngine(InputEngine *value)
+{
+    inputEngine = value;
 }

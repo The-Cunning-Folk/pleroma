@@ -16,7 +16,8 @@ INCLUDEPATH += "SFML/include" \
     "$$SRCDIR/gameobject" \
     "$$SRCDIR/factories" \
     "$$SRCDIR/engines" \
-    "$$SRCDIR/shapes"
+    "$$SRCDIR/shapes" \
+    "$$SRCDIR/logic"
 
 HEADERS += $$SRCDIR/window/gamewindow.h \
     src/window/windowmanager.h \
@@ -41,7 +42,12 @@ HEADERS += $$SRCDIR/window/gamewindow.h \
     src/engines/engine.h \
     src/engines/transformengine.h \
     src/shapes/crossshape.h \
-    src/shapes/customshape.h
+    src/shapes/customshape.h \
+    src/components/playerinput.h \
+    src/engines/inputengine.h \
+    src/engines/eventengine.h \
+    src/logic/event.h \
+    src/factories/eventfactory.h
 
 SOURCES += src/main.cpp $$SRCDIR/window/gamewindow.cpp \
     src/window/windowmanager.cpp \
@@ -65,7 +71,12 @@ SOURCES += src/main.cpp $$SRCDIR/window/gamewindow.cpp \
     src/engines/engine.cpp \
     src/engines/transformengine.cpp \
     src/shapes/crossshape.cpp \
-    src/shapes/customshape.cpp
+    src/shapes/customshape.cpp \
+    src/components/playerinput.cpp \
+    src/engines/inputengine.cpp \
+    src/engines/eventengine.cpp \
+    src/logic/event.cpp \
+    src/factories/eventfactory.cpp
 
 LIBS += -L"$$PWD/SFML/lib"
 

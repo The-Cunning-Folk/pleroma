@@ -10,6 +10,7 @@ public:
     KeyInput(sf::Keyboard::Key);
 
     sf::Keyboard::Key key;
+    std::string name;
     bool isDown;
     bool toggled;
 

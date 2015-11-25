@@ -24,6 +24,7 @@ public:
     void addComponent(Component*);
     void addComponent(std::string,Component*);
     Component* getComponentByName(std::string);
+    std::map<std::string,Component*> getComponentsByType(std::string);
 
     void update();
 
@@ -32,7 +33,7 @@ public:
 
 private:
 
-    std::map<std::string,Component*> components;
+    std::map<std::string,std::map<std::string,Component*>> components;
 };
 }
 

@@ -26,7 +26,8 @@ public:
 
     ComponentFactory* componentFactory;
 
-    void newObject();
+    GameObject* newObject();
+    GameObject* newPlayerObject();
 
     ComponentFactory *getComponentFactory() const;
     void setComponentFactory(ComponentFactory *value);

@@ -11,8 +11,6 @@ class TransformEngine : public Engine
 public:
     TransformEngine();
 
-
-
     void run();
     void drawDebug();
 

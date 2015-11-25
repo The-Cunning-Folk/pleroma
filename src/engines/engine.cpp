@@ -1,10 +1,22 @@
 #include "engine.h"
 
+#include<eventfactory.h>
+
 using namespace BQ;
 
 Engine::Engine()
 {
 
+}
+
+EventFactory *Engine::getEventFactory() const
+{
+    return eventFactory;
+}
+
+void Engine::setEventFactory(EventFactory *value)
+{
+    eventFactory = value;
 }
 
 DebugUtils *Engine::getDebug() const

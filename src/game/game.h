@@ -10,8 +10,10 @@
 #include<inputmap.h>
 #include<gameobjectstack.h>
 #include<gameobjectfactory.h>
+#include<eventfactory.h>
 #include<componentfactory.h>
 #include<transformengine.h>
+#include<eventengine.h>
 
 typedef std::shared_ptr<BQ::GameWindow> window_ptr;
 
@@ -36,6 +38,7 @@ public:
     void initialiseClocks();
     void initialiseInput();
     void initialiseTests();
+    void initialisePlayers();
 
     void runTests();
     void runEngines();
@@ -50,9 +53,12 @@ private:
     //factories
     GameObjectFactory gameObjectFactory;
     ComponentFactory componentFactory;
+    EventFactory eventFactory;
 
     //engines
     TransformEngine transformEngine;
+    InputEngine inputEngine;
+    EventEngine eventEngine;
 
 
     //inherited properties
