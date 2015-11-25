@@ -31,5 +31,6 @@ Transform *TransformEngine::addTransform()
     if(debug != NULL){
         transforms.back().setDebug(debug);
     }
+    transforms.back().index = transforms.size();
     return(&transforms.back());
 }

@@ -18,7 +18,7 @@ void InputEngine::run()
         if(activeInputs.size() > 0){
             for(unsigned int j = 0; j<activeInputs.size();j++)
             {
-                debug->println(activeInputs[j]);
+
             }
         }
     }
@@ -30,6 +30,7 @@ PlayerInput *InputEngine::addPlayerInput()
     if(debug != NULL){
         inputs.back().setDebug(debug);
     }
+    inputs.back().index = inputs.size();
     return(&inputs.back());
 }
 

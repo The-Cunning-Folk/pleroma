@@ -19,6 +19,7 @@ public:
     std::string name; //name of the component. All components should be named
     std::string typeId; //what type of component am I?
     int uniqueId; //a unique component id... not sure how I'll track this but we'll try
+    int index;
 
     void setParent(GameObject*);
     void setName(std::string);
