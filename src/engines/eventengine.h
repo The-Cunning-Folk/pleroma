@@ -18,6 +18,10 @@ public:
 
     void pushEvent(Event);
 
+    void resolveGlobally(std::string); //check for a global script call
+    void resolveLocally(Event&); //use the triggeredBy's behaviour component
+    void resolve(Event&);
+
     float getDelta() const;
     void setDelta(float value);
 

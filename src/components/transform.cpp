@@ -48,21 +48,22 @@ void Transform::setGridPosition(const sf::Vector2i &value)
 
 void Transform::move(sf::Vector2f value)
 {
-
+    position = position + value;
+    setGridPosition(sf::Vector2i(position.x,position.y));
 }
 
 void Transform::move(sf::Vector2i value)
 {
-
+    move(sf::Vector2f(value.x,value.y));
 }
 
 void Transform::move(float x, float y)
 {
-
+    move(sf::Vector2f(x,y));
 }
 
 void Transform::move(int x, int y)
 {
-
+    move(sf::Vector2f(x,y));
 }
 

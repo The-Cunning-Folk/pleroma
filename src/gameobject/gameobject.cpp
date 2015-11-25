@@ -14,8 +14,8 @@ Transform *GameObject::getTransform() const
 
 void GameObject::setTransform(Transform *value)
 {
+    value->setParent(this);
     transform = value;
-    transform->setParent(this);
 }
 
 void GameObject::addComponent(Component* component)
@@ -35,6 +35,7 @@ void GameObject::update()
 
 void BQ::GameObject::addComponent(std::string name, BQ::Component * component)
 {
+    component->setParent(this);
     components[component->typeId][name] = component;
 }
 
