@@ -10,8 +10,10 @@
 #include<inputmap.h>
 #include<gameobjectstack.h>
 #include<gameobjectfactory.h>
+#include<eventfactory.h>
 #include<componentfactory.h>
 #include<transformengine.h>
+#include<eventengine.h>
 
 typedef std::shared_ptr<BQ::GameWindow> window_ptr;
 
@@ -51,10 +53,12 @@ private:
     //factories
     GameObjectFactory gameObjectFactory;
     ComponentFactory componentFactory;
+    EventFactory eventFactory;
 
     //engines
     TransformEngine transformEngine;
     InputEngine inputEngine;
+    EventEngine eventEngine;
 
 
     //inherited properties

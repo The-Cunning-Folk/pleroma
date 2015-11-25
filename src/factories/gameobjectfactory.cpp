@@ -30,7 +30,7 @@ GameObject* GameObjectFactory::newObject()
     return object;
 }
 
-GameObject* GameObjectFactory::newPlayerObject()
+GameObject* GameObjectFactory::newPlayerObject() //builds behaviours for the player
 {
     GameObject* player = newObject();
     PlayerInput* input = componentFactory->newPlayerInput();
