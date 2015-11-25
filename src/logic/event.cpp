@@ -7,3 +7,9 @@ Event::Event()
 
 }
 
+Event::Event(std::string script, GameObject * object)
+{
+    this->script = script;
+    triggeredBy = object;
+}
+

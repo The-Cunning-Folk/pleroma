@@ -14,6 +14,16 @@ public:
 
     std::vector<Event> events;
 
+    void run();
+
+    void pushEvent(Event);
+
+    float getDelta() const;
+    void setDelta(float value);
+
+protected:
+
+    float delta; //the time since the last update
 
 
 };

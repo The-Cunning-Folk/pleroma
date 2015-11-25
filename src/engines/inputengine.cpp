@@ -1,5 +1,7 @@
 #include "inputengine.h"
 
+#include<eventfactory.h>
+
 using namespace BQ;
 
 InputEngine::InputEngine()
@@ -18,7 +20,7 @@ void InputEngine::run()
         if(activeInputs.size() > 0){
             for(unsigned int j = 0; j<activeInputs.size();j++)
             {
-
+                eventFactory->createEvent(activeInputs[i],inputs[i].getParent());
             }
         }
     }

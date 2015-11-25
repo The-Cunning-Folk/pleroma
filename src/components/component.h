@@ -33,6 +33,8 @@ public:
     DebugUtils *getDebug() const;
     void setDebug(DebugUtils *value);
 
+    GameObject *getParent() const;
+
 private:
 
     GameObject* parent; //shouldn't always need this, but very useful for some things

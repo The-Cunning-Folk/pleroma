@@ -9,6 +9,7 @@ class Event
 {
 public:
     Event();
+    Event(std::string,GameObject*);
 
     GameObject* triggeredBy;
     std::string script;

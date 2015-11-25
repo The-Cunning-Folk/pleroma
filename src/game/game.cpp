@@ -18,6 +18,8 @@ void Game::runEngines()
 {
     inputEngine.run();
     transformEngine.run();
+
+    eventEngine.run();
 }
 
 void Game::run()
@@ -104,8 +106,14 @@ void Game::initialiseInjections()
    gameObjectFactory.setDebug(debug);
    gameObjectFactory.setComponentFactory(&componentFactory);
 
+   eventFactory.setEventEngine(&eventEngine);
+   eventFactory.setDebug(debug);
+
+   eventEngine.setGameWindow(gameWindow);
    inputEngine.setGameWindow(gameWindow);
    transformEngine.setGameWindow(gameWindow);
+
+   inputEngine.setEventFactory(&eventFactory);
 
    grid.setDebug(debug);
 }
