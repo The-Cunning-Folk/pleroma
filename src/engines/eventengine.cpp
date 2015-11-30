@@ -31,9 +31,7 @@ void EventEngine::resolveGlobally(std::string script)
 
 void EventEngine::resolveLocally(Event& event)
 {
-    debug->println(event.script);
     //just temporary code until I can get this working, should be handled with polymorphic behaviour components
-    debug->printVal("delta",delta);
     float speed = delta*200.0;
     if(event.script.compare("move_right")==0)
     {

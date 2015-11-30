@@ -2,15 +2,16 @@
 #define KEYINPUT_H
 
 #include <SFML/Graphics.hpp>
+#include<basicinput.h>
 
-class KeyInput
+class KeyInput: public BasicInput
 {
 public:
     KeyInput();
     KeyInput(sf::Keyboard::Key);
 
     sf::Keyboard::Key key;
-    std::string name;
+
     bool isDown;
     bool toggled;
 
