@@ -45,6 +45,11 @@ bool Controller::isButtonPressed(int button)
     return sf::Joystick::isButtonPressed(index,button);
 }
 
+float Controller::getAxis(sf::Joystick::Axis axis)
+{
+    return sf::Joystick::getAxisPosition(index,axis);
+}
+
 float Controller::getXAxis()
 {
     return sf::Joystick::getAxisPosition(index,sf::Joystick::X);

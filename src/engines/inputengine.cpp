@@ -23,17 +23,23 @@ void InputEngine::run()
         inputs[i].update();
         std::vector<std::string> activeInputs = inputs[i].inputMap.getKeysDown();
         std::vector<std::string> activeButtons = inputs[i].inputMap.getButtonsDown();
+        std::vector<std::string> activeAxes = inputs[i].inputMap.getJoystickInput();
         if(activeInputs.size() > 0){
             for(unsigned int j = 0; j<activeInputs.size();j++)
             {
-                eventFactory->createEvent(activeInputs[j],inputs[i].getParent());
+                eventFactory->createEvent("key_input[" + activeInputs[j] + "]",inputs[i].getParent());
             }
         }
         if(activeButtons.size() > 0){
             for(unsigned int j = 0; j<activeButtons.size();j++)
             {
-                debug->println(activeButtons[j]);
-                eventFactory->createEvent(activeButtons[j],inputs[i].getParent());
+                eventFactory->createEvent("button_input[" + activeButtons[j] + "]",inputs[i].getParent());
+            }
+        }
+        if(activeAxes.size() > 0){
+            for(unsigned int j = 0; j<activeAxes.size(); j++)
+            {
+                eventFactory->createEvent("joystick_input[" +activeAxes[j] + "]",inputs[i].getParent());
             }
         }
     }

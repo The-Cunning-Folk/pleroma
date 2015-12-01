@@ -19,7 +19,9 @@ public:
 
     unsigned int index;
     unsigned int buttons;
+
     std::vector<std::string> axes;
+    std::vector<sf::Joystick::Axis> indices;
 
     bool isConnected();
     bool isBound();
@@ -27,6 +29,9 @@ public:
     InputMap* parent;
 
     bool isButtonPressed(int);
+
+    float getAxis(sf::Joystick::Axis);
+
     float getXAxis();
     float getYAxis();
     float getZAxis();

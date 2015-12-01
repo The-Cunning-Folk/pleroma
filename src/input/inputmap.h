@@ -3,6 +3,7 @@
 
 #include <keyinput.h>
 #include <buttoninput.h>
+#include <joystickinput.h>
 #include <controller.h>
 #include <map>
 #include <memory>
@@ -18,10 +19,11 @@ private:
     Controller* controller;
 
     std::map<std::string,ButtonInput> buttons;
-    std::map<std::string,float> axes;
+    std::map<std::string,JoystickInput> axes;
     std::map<std::string,KeyInput> keys;
     std::map<std::string,KeyInput>::iterator it;
     std::map<std::string,ButtonInput>::iterator bt;
+    std::map<std::string,JoystickInput>::iterator jt;
 
 public:
     InputMap();
@@ -36,6 +38,7 @@ public:
 
     std::vector<std::string> getKeysDown();
     std::vector<std::string> getButtonsDown();
+    std::vector<std::string> getJoystickInput();
 
     void setButtonInput(std::string,int);
 

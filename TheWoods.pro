@@ -51,7 +51,8 @@ HEADERS += $$SRCDIR/window/gamewindow.h \
     src/input/basicinput.h \
     src/input/buttoninput.h \
     src/factories/inputfactory.h \
-    src/input/controller.h
+    src/input/controller.h \
+    src/input/joystickinput.h
 
 SOURCES += src/main.cpp $$SRCDIR/window/gamewindow.cpp \
     src/window/windowmanager.cpp \
@@ -84,7 +85,8 @@ SOURCES += src/main.cpp $$SRCDIR/window/gamewindow.cpp \
     src/input/basicinput.cpp \
     src/input/buttoninput.cpp \
     src/factories/inputfactory.cpp \
-    src/input/controller.cpp
+    src/input/controller.cpp \
+    src/input/joystickinput.cpp
 
 LIBS += -L"$$PWD/SFML/lib"
 

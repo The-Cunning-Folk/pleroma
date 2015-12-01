@@ -42,13 +42,14 @@ void InputFactory::detectControllers()
             debug->printinfo("has V: " + std::to_string(hasV));
 
             std::vector<std::string> axes;
+            std::vector<sf::Joystick::Axis> indices;
 
-            if(hasX){axes.push_back("X");}
-            if(hasY){axes.push_back("Y");}
-            if(hasZ){axes.push_back("Z");}
-            if(hasR){axes.push_back("R");}
-            if(hasU){axes.push_back("U");}
-            if(hasV){axes.push_back("V");}
+            if(hasX){axes.push_back("X"); indices.push_back(sf::Joystick::Axis::X);}
+            if(hasY){axes.push_back("Y"); indices.push_back(sf::Joystick::Axis::Y);}
+            if(hasZ){axes.push_back("Z"); indices.push_back(sf::Joystick::Axis::Z);}
+            if(hasR){axes.push_back("R"); indices.push_back(sf::Joystick::Axis::R);}
+            if(hasU){axes.push_back("U"); indices.push_back(sf::Joystick::Axis::U);}
+            if(hasV){axes.push_back("V"); indices.push_back(sf::Joystick::Axis::V);}
 
             std::string axesList = "";
 
@@ -68,6 +69,7 @@ void InputFactory::detectControllers()
             ctrl.index = i;
             ctrl.buttons = buttons;
             ctrl.axes = axes;
+            ctrl.indices = indices;
 
             inputEngine->addController(ctrl);
         }

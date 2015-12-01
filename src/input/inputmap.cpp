@@ -32,6 +32,11 @@ void InputMap::setController(Controller *value)
         ButtonInput btn(mapping[i],i);
         buttons[mapping[i]] = btn;
     }
+
+    for(unsigned int i=0; i<controller->axes.size(); i++) {
+        JoystickInput jstk(controller->axes[i],controller->indices[i]);
+        axes[controller->axes[i]] = jstk;
+    }
 }
 
 InputMap::InputMap()
@@ -101,12 +106,26 @@ std::vector<std::string> InputMap::getButtonsDown()
     for(bt = buttons.begin(); bt != buttons.end(); bt++) {
         ButtonInput& button = bt->second;
         if(button.isDown){
-            std::cout << (button.name) << std::endl;
             buttonsDown.push_back(button.name);
         }
     }
     return buttonsDown;
 }
+
+std::vector<std::string> InputMap::getJoystickInput()
+{
+    std::vector<std::string>joystickInputs(0);
+    for(jt = axes.begin(); jt != axes.end(); jt++) {
+        JoystickInput& axis = jt->second;
+        if(fabs(axis.getPosition()) > 0.0)
+        {
+            std::string joystr = axis.name + "(" + std::to_string(axis.getPosition()) + ")";
+            joystickInputs.push_back(joystr);
+        }
+    }
+    return joystickInputs;
+}
+
 
 void InputMap::setButtonInput(std::string, int)
 {
@@ -156,6 +175,12 @@ void InputMap::update()
                 button.isDown = false;
             }
         }
+
+        for(jt = axes.begin(); jt != axes.end(); jt++) {
+            JoystickInput& axis = jt->second;
+            axis.position = controller->getAxis(axis.axis);
+        }
+
     }
 }
 
