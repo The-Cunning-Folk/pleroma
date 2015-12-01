@@ -47,7 +47,12 @@ HEADERS += $$SRCDIR/window/gamewindow.h \
     src/engines/inputengine.h \
     src/engines/eventengine.h \
     src/logic/event.h \
-    src/factories/eventfactory.h
+    src/factories/eventfactory.h \
+    src/input/basicinput.h \
+    src/input/buttoninput.h \
+    src/factories/inputfactory.h \
+    src/input/controller.h \
+    src/input/joystickinput.h
 
 SOURCES += src/main.cpp $$SRCDIR/window/gamewindow.cpp \
     src/window/windowmanager.cpp \
@@ -76,7 +81,12 @@ SOURCES += src/main.cpp $$SRCDIR/window/gamewindow.cpp \
     src/engines/inputengine.cpp \
     src/engines/eventengine.cpp \
     src/logic/event.cpp \
-    src/factories/eventfactory.cpp
+    src/factories/eventfactory.cpp \
+    src/input/basicinput.cpp \
+    src/input/buttoninput.cpp \
+    src/factories/inputfactory.cpp \
+    src/input/controller.cpp \
+    src/input/joystickinput.cpp
 
 LIBS += -L"$$PWD/SFML/lib"
 

@@ -12,6 +12,10 @@ void Game::runTests()
     //add temporary stuff here for testing and debugging so the loop doesn't get too cluttered
     if(input.keyToggled("addObject"))
         gameObjectFactory.newObject();
+
+
+
+
 }
 
 void Game::runEngines()
@@ -41,13 +45,11 @@ void Game::run()
     initialiseInput();
     initialiseClocks(); //clock definitions
 
-    initialisePlayers();
-
     initialiseTests();
 
-    sf::CircleShape test;
-    test.setRadius(10);
-    test.setFillColor(sf::Color::Blue);
+    initialisePlayers();
+
+
 
     //end temporary behaviours
 
@@ -111,6 +113,9 @@ void Game::initialiseInjections()
    eventFactory.setEventEngine(&eventEngine);
    eventFactory.setDebug(debug);
 
+   inputFactory.setInputEngine(&inputEngine);
+   inputFactory.setDebug(debug);
+
    eventEngine.setGameWindow(gameWindow);
    inputEngine.setGameWindow(gameWindow);
    transformEngine.setGameWindow(gameWindow);
@@ -136,6 +141,7 @@ void Game::initialiseInput()
 void Game::initialiseTests()
 {
     input.setKeyInput("addObject",sf::Keyboard::F8);
+    inputFactory.detectControllers();
 }
 
 void Game::initialisePlayers()

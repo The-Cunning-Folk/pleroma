@@ -18,6 +18,8 @@ public:
 
     void pushEvent(Event);
 
+    std::map<std::string,std::string> parseEvent(std::string);
+
     void resolveGlobally(std::string); //check for a global script call
     void resolveLocally(Event&); //use the triggeredBy's behaviour component
     void resolve(Event&);

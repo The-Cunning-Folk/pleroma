@@ -3,6 +3,12 @@
 
 #include <debugutils.h>
 
+#include<iostream>
+#include<vector>
+#include<functional>
+#include<memory>
+#include<map>
+
 namespace BQ {
 
 class Factory
@@ -12,7 +18,8 @@ public:
 
     DebugUtils* debug;
 
-     void setDebug(DebugUtils *value);
+    void setDebug(DebugUtils *value);
+
 };
 
 }
