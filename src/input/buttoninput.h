@@ -8,8 +8,8 @@ class ButtonInput : public BasicInput
 {
 public:
     ButtonInput();
+    ButtonInput(std::string,int);
 
-    int joystickIndex;
     int buttonIndex;
 
     bool isDown;

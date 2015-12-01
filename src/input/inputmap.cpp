@@ -2,9 +2,59 @@
 
 using namespace BQ;
 
+Controller *InputMap::getController() const
+{
+    return controller;
+}
+
+void InputMap::setController(Controller *value)
+{
+    value->setParent(this);
+    controller = value;
+
+    //todo: load this from file!
+    std::vector<std::string> mapping(0);
+    mapping.push_back("pad_A");
+    mapping.push_back("pad_B");
+    mapping.push_back("pad_X");
+    mapping.push_back("pad_Y");
+    mapping.push_back("LB");
+    mapping.push_back("RB");
+    mapping.push_back("back");
+    mapping.push_back("start");
+    mapping.push_back("LS");
+    mapping.push_back("RS");
+
+    for(unsigned int i=0; i<controller->buttons; i++){
+        if(i>mapping.size()-1){
+            break;
+        }
+        ButtonInput btn(mapping[i],i);
+        buttons[mapping[i]] = btn;
+    }
+}
+
 InputMap::InputMap()
 {
 
+}
+
+bool InputMap::buttonPressed(std::string name)
+{
+    if(!buttons.count(name))
+    {
+        return false;
+    }
+    return(buttons[name].isDown);
+}
+
+bool InputMap::buttonToggled(std::string name)
+{
+    if(!buttons.count(name))
+    {
+        return false;
+    }
+    return(buttons[name].toggled);
 }
 
 bool InputMap::keyToggled(std::string name)
@@ -45,6 +95,24 @@ std::vector<std::string> InputMap::getKeysDown()
     return(keysDown);
 }
 
+std::vector<std::string> InputMap::getButtonsDown()
+{
+    std::vector<std::string>buttonsDown(0);
+    for(bt = buttons.begin(); bt != buttons.end(); bt++) {
+        ButtonInput& button = bt->second;
+        if(button.isDown){
+            std::cout << (button.name) << std::endl;
+            buttonsDown.push_back(button.name);
+        }
+    }
+    return buttonsDown;
+}
+
+void InputMap::setButtonInput(std::string, int)
+{
+
+}
+
 void InputMap::update()
 {
 
@@ -65,6 +133,28 @@ void InputMap::update()
                 input.toggled = false;
             }
             input.isDown = false;
+        }
+    }
+
+    if(controller != NULL){
+        for(bt = buttons.begin(); bt != buttons.end(); bt++) {
+            ButtonInput& button = bt->second;
+            if(controller->isButtonPressed(button.buttonIndex))
+            {
+                button.isDown = true;
+            }
+            else
+            {
+                if(button.isDown)
+                {
+                    button.toggled = true;
+                }
+                else
+                {
+                    button.toggled = false;
+                }
+                button.isDown = false;
+            }
         }
     }
 }

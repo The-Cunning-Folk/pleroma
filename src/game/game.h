@@ -8,10 +8,14 @@
 #include <mathsutils.h>
 #include <grid.h>
 #include<inputmap.h>
+
 #include<gameobjectstack.h>
+
 #include<gameobjectfactory.h>
 #include<eventfactory.h>
 #include<componentfactory.h>
+#include<inputfactory.h>
+
 #include<transformengine.h>
 #include<eventengine.h>
 
@@ -54,6 +58,7 @@ private:
     GameObjectFactory gameObjectFactory;
     ComponentFactory componentFactory;
     EventFactory eventFactory;
+    InputFactory inputFactory;
 
     //engines
     TransformEngine transformEngine;

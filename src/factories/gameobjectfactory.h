@@ -6,13 +6,7 @@
 
 #include <componentfactory.h>
 
-#include <iostream>
-#include <vector>
-#include<functional>
-#include<memory>
-#include <map>
-
-#include <factory.h>
+#include<factory.h>
 
 namespace BQ{
 class GameObjectFactory : public Factory
