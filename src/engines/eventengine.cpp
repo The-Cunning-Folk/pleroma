@@ -9,13 +9,27 @@ EventEngine::EventEngine()
 
 }
 
+GameLogic *EventEngine::addGameLogic()
+{
+    gameLogics.resize(gameLogics.size() + 1);
+    debug->println("added logic");
+    return &gameLogics.back();
+}
+
 void EventEngine::run()
 {
     for(int i=0; i<events.size();i++)
     {
         resolve(events[i]);
     }
+    for(unsigned int i=0; i<toUpdate.size();i++)
+    {
+        int j = toUpdate[i];
+        gameLogics[j].setDelta(delta);
+        gameLogics[j].update();
+    }
     events.clear();
+    toUpdate.clear();
 }
 
 void EventEngine::pushEvent(Event event)
@@ -50,14 +64,8 @@ std::map<std::string,std::string> EventEngine::parseEvent(std::string event)
     return parsed;
 }
 
-void EventEngine::resolveGlobally(std::string script)
+void EventEngine::resolveGlobally(Event& event)
 {
-
-}
-
-void EventEngine::resolveLocally(Event& event)
-{
-    //just temporary code until I can get this working, should be handled with polymorphic behaviour components
     float speed = delta*200.0;
     std::map<std::string,std::string> parsed = parseEvent(event.script);
     if(parsed["action"].compare("X")==0)
@@ -70,27 +78,25 @@ void EventEngine::resolveLocally(Event& event)
         float deltaY = std::stof(parsed["val"])*0.01;
         event.triggeredBy->getTransform()->move(0.0,speed*deltaY);
     }
-    if(event.script.compare("key_input[move_right]")==0)
-    {
-        event.triggeredBy->getTransform()->move(speed,0.0);
-    }
-    if(event.script.compare("key_input[move_up]")==0)
-    {
-        event.triggeredBy->getTransform()->move(0.0,-speed);
-    }
-    if(event.script.compare("key_input[move_left]")==0)
-    {
-        event.triggeredBy->getTransform()->move(-speed,0.0);
-    }
-    if(event.script.compare("key_input[move_down]")==0)
-    {
-        event.triggeredBy->getTransform()->move(0.0,speed);
+}
+
+void EventEngine::resolveLocally(Event& event)
+{
+    //just temporary code until I can get this working, should be handled with polymorphic behaviour components
+
+    for(unsigned int i=0; i<gameLogics.size(); i++){
+        if(gameLogics[i].getParent() == event.triggeredBy)
+        {
+            gameLogics[i].addEvent(event.script,event.triggeredBy);
+            toUpdate.push_back(i);
+            break;
+        }
     }
 }
 
 void EventEngine::resolve(Event& event)
 {
-    resolveGlobally(event.script);
+    resolveGlobally(event);
     resolveLocally(event);
 }
 

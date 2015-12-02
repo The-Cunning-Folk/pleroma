@@ -35,7 +35,7 @@ public:
 
     GameObject *getParent() const;
 
-private:
+protected:
 
     GameObject* parent; //shouldn't always need this, but very useful for some things
 

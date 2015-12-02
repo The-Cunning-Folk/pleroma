@@ -3,6 +3,7 @@
 
 #include <engine.h>
 #include <event.h>
+#include <gamelogic.h>
 
  //this is a global event aggregator and manager for handling triggered events.
 //it is where the beast that will eat my beautiful, efficient engine has slouched to be born
@@ -13,6 +14,11 @@ public:
     EventEngine();
 
     std::vector<Event> events;
+    std::vector<int> toUpdate;
+
+    std::vector<GameLogic> gameLogics;
+
+    GameLogic* addGameLogic();
 
     void run();
 
@@ -20,7 +26,7 @@ public:
 
     std::map<std::string,std::string> parseEvent(std::string);
 
-    void resolveGlobally(std::string); //check for a global script call
+    void resolveGlobally(Event&); //check for a global script call
     void resolveLocally(Event&); //use the triggeredBy's behaviour component
     void resolve(Event&);
 
