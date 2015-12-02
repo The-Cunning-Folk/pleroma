@@ -8,6 +8,8 @@
 
 #include<factory.h>
 
+#include<playerbehaviours.h>
+
 namespace BQ{
 class GameObjectFactory : public Factory
 {

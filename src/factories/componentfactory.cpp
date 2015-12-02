@@ -37,6 +37,18 @@ PlayerInput *ComponentFactory::newPlayerInput(std::string name)
     return(input);
 }
 
+GameLogic *ComponentFactory::newGameLogic()
+{
+    return eventEngine->addGameLogic();
+}
+
+GameLogic *ComponentFactory::newGameLogic(std::string name)
+{
+    GameLogic* gameLogic = newGameLogic();
+    gameLogic->setName(name);
+    return(gameLogic);
+}
+
 TransformEngine *ComponentFactory::getTransformEngine() const
 {
     return transformEngine;
@@ -55,4 +67,14 @@ InputEngine *ComponentFactory::getInputEngine() const
 void ComponentFactory::setInputEngine(InputEngine *value)
 {
     inputEngine = value;
+}
+
+EventEngine *ComponentFactory::getEventEngine() const
+{
+    return eventEngine;
+}
+
+void ComponentFactory::setEventEngine(EventEngine *value)
+{
+    eventEngine = value;
 }

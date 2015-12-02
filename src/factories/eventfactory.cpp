@@ -9,7 +9,9 @@ EventFactory::EventFactory()
 
 void EventFactory::createEvent(std::string script, GameObject * object)
 {
-    Event event(script,object);
+    Event event;
+    event.script = script;
+    event.triggeredBy = object;
     eventEngine->pushEvent(event);
 }
 

@@ -4,6 +4,7 @@
 #include<transform.h>
 
 #include<component.h>
+#include<gamelogic.h>
 #include <iostream>
 #include <vector>
 #include<functional>

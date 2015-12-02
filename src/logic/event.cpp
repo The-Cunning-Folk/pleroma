@@ -1,5 +1,7 @@
 #include "event.h"
 
+#include <gameobject.h>
+
 using namespace BQ;
 
 Event::Event()

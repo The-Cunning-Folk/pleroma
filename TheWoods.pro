@@ -17,7 +17,8 @@ INCLUDEPATH += "SFML/include" \
     "$$SRCDIR/factories" \
     "$$SRCDIR/engines" \
     "$$SRCDIR/shapes" \
-    "$$SRCDIR/logic"
+    "$$SRCDIR/logic" \
+    "$$SRCDIR/logic/behaviours"
 
 HEADERS += $$SRCDIR/window/gamewindow.h \
     src/window/windowmanager.h \
@@ -52,7 +53,10 @@ HEADERS += $$SRCDIR/window/gamewindow.h \
     src/input/buttoninput.h \
     src/factories/inputfactory.h \
     src/input/controller.h \
-    src/input/joystickinput.h
+    src/input/joystickinput.h \
+    src/logic/behaviours/behaviour.h \
+    src/logic/behaviours/playerbehaviours.h \
+    src/components/gamelogic.h
 
 SOURCES += src/main.cpp $$SRCDIR/window/gamewindow.cpp \
     src/window/windowmanager.cpp \
@@ -86,7 +90,10 @@ SOURCES += src/main.cpp $$SRCDIR/window/gamewindow.cpp \
     src/input/buttoninput.cpp \
     src/factories/inputfactory.cpp \
     src/input/controller.cpp \
-    src/input/joystickinput.cpp
+    src/input/joystickinput.cpp \
+    src/logic/behaviours/behaviour.cpp \
+    src/logic/behaviours/playerbehaviours.cpp \
+    src/components/gamelogic.cpp
 
 LIBS += -L"$$PWD/SFML/lib"
 

@@ -4,7 +4,7 @@ using namespace BQ;
 
 PlayerInput::PlayerInput()
 {
-
+    typeId = "input";
 }
 
 void PlayerInput::update()

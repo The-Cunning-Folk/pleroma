@@ -39,6 +39,9 @@ GameObject* GameObjectFactory::newPlayerObject() //builds behaviours for the pla
     input->inputMap.setKeyInput("move_left",sf::Keyboard::A);
     input->inputMap.setKeyInput("move_right",sf::Keyboard::D);
     input->inputMap.setKeyInput("move_down",sf::Keyboard::S);
+    GameLogic* logic = componentFactory->newGameLogic();
+    player->addComponent("logic",logic);
+    logic->addBehaviour(new PlayerBehaviours);
     return player;
 }
 

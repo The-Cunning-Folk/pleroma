@@ -105,6 +105,7 @@ void Game::initialiseInjections()
    componentFactory.setDebug(debug);
    componentFactory.setTransformEngine(&transformEngine);
    componentFactory.setInputEngine(&inputEngine);
+   componentFactory.setEventEngine(&eventEngine);
 
    gameObjectFactory.setStack(&gameObjects);
    gameObjectFactory.setDebug(debug);
