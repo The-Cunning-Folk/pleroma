@@ -4,7 +4,7 @@
 #include <component.h>
 #include <transform.h>
 
-
+namespace BQ{
 class Collidable : public Component
 {
 public:
@@ -27,5 +27,6 @@ private:
 
     }
 };
+}
 
 #endif // COLLIDABLE_H

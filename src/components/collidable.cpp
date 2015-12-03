@@ -1,5 +1,7 @@
 #include "collidable.h"
 
+using namespace BQ;
+
 Collidable::Collidable()
 {
     typeId = "collidable";

@@ -4,7 +4,7 @@
 #include <engine.h>
 #include <circularcollidable.h>
 
-
+namespace BQ{
 class CollisionEngine : public Engine
 {
 public:
@@ -16,5 +16,6 @@ protected:
 
     std::vector<CircularCollidable> circles;
 };
+}
 
 #endif // COLLISIONENGINE_H
