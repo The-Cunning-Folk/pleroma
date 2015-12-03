@@ -4,6 +4,7 @@
 #include <engine.h>
 #include <event.h>
 #include <gamelogic.h>
+#include <playerinput.h>
 
  //this is a global event aggregator and manager for handling triggered events.
 //it is where the beast that will eat my beautiful, efficient engine has slouched to be born

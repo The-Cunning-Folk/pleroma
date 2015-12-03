@@ -40,8 +40,8 @@ void EventEngine::pushEvent(Event event)
 
 std::map<std::string,std::string> EventEngine::parseEvent(std::string event)
 {
-    int openSq = event.find("[");
-    int closeSq = event.find("]");
+    int openSq = event.find("{");
+    int closeSq = event.find("}");
 
     std::string type = event.substr(0,openSq);
     std::string script = event.substr(openSq+1,closeSq-openSq-1);
@@ -67,27 +67,17 @@ std::map<std::string,std::string> EventEngine::parseEvent(std::string event)
 void EventEngine::resolveGlobally(Event& event)
 {
     float speed = delta*200.0;
-    std::map<std::string,std::string> parsed = parseEvent(event.script);
-    if(parsed["action"].compare("X")==0)
-    {
-        float deltaX = std::stof(parsed["val"])*0.01;
-        event.triggeredBy->getTransform()->move(speed*deltaX,0.0);
-    }
-    if(parsed["action"].compare("Y")==0)
-    {
-        float deltaY = std::stof(parsed["val"])*0.01;
-        event.triggeredBy->getTransform()->move(0.0,speed*deltaY);
-    }
+    event.parsedScript = parseEvent(event.script);
+
 }
 
 void EventEngine::resolveLocally(Event& event)
 {
-    //just temporary code until I can get this working, should be handled with polymorphic behaviour components
 
     for(unsigned int i=0; i<gameLogics.size(); i++){
         if(gameLogics[i].getParent() == event.triggeredBy)
         {
-            gameLogics[i].addEvent(event.script,event.triggeredBy);
+            gameLogics[i].addEvent(event.script,event.triggeredBy,event.parsedScript);
             toUpdate.push_back(i);
             break;
         }

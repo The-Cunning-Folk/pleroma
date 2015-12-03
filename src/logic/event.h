@@ -14,6 +14,7 @@ public:
 
     GameObject* triggeredBy;
     std::string script;
+    std::map<std::string,std::string> parsedScript;
 
 };
 }

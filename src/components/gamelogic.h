@@ -17,7 +17,7 @@ public:
 
     void addBehaviour(Behaviour*);
 
-    void addEvent(std::string,GameObject*);
+    void addEvent(std::string,GameObject*,std::map<std::string,std::string>);
 
     void setDelta(float);
 

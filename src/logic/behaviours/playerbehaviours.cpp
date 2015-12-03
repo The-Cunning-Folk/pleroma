@@ -17,21 +17,31 @@ void PlayerBehaviours::resolveEvents()
 
         Event event = events[i];
 
-        if(event.script.compare("key_input[move_right]")==0)
+        if(event.parsedScript["action"].compare("move_right")==0)
         {
             event.triggeredBy->getTransform()->move(speed,0.0);
         }
-        if(event.script.compare("key_input[move_up]")==0)
+        if(event.parsedScript["action"].compare("move_up")==0)
         {
             event.triggeredBy->getTransform()->move(0.0,-speed);
         }
-        if(event.script.compare("key_input[move_left]")==0)
+        if(event.parsedScript["action"].compare("move_left")==0)
         {
             event.triggeredBy->getTransform()->move(-speed,0.0);
         }
-        if(event.script.compare("key_input[move_down]")==0)
+        if(event.parsedScript["action"].compare("move_down")==0)
         {
             event.triggeredBy->getTransform()->move(0.0,speed);
+        }
+        if(event.parsedScript["action"].compare("X")==0)
+        {
+            float deltaX = std::stof(event.parsedScript["val"])*0.01;
+            event.triggeredBy->getTransform()->move(speed*deltaX,0.0);
+        }
+        if(event.parsedScript["action"].compare("Y")==0)
+        {
+            float deltaY = std::stof(event.parsedScript["val"])*0.01;
+            event.triggeredBy->getTransform()->move(0.0,speed*deltaY);
         }
     }
 }
