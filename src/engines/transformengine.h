@@ -3,6 +3,7 @@
 
 #include <engine.h>
 #include <transform.h>
+#include <grid.h>
 
 namespace BQ{
 
@@ -11,6 +12,8 @@ class TransformEngine : public Engine
 public:
     TransformEngine();
 
+    Grid* grid;
+
     void run();
     void drawDebug();
 
@@ -18,6 +21,8 @@ public:
 
     Transform* addTransform();
 
+    Grid *getGrid() const;
+    void setGrid(Grid *value);
 };
 }
 

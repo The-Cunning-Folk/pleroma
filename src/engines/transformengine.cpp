@@ -9,12 +9,23 @@ TransformEngine::TransformEngine()
 
 }
 
+Grid *TransformEngine::getGrid() const
+{
+    return grid;
+}
+
+void TransformEngine::setGrid(Grid *value)
+{
+    grid = value;
+}
+
 void TransformEngine::run()
 {
     for(unsigned int i=0; i<transforms.size(); i++)
     {
         //update all the transforms!
         transforms[i].update();
+        transforms[i].setGridPosition(grid->getGridPosition(transforms[i].getPosition()));
     }
 }
 

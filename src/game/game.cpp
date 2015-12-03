@@ -121,6 +121,8 @@ void Game::initialiseInjections()
    inputEngine.setGameWindow(gameWindow);
    transformEngine.setGameWindow(gameWindow);
 
+   transformEngine.setGrid(&grid);
+
    inputEngine.setEventFactory(&eventFactory);
 
    grid.setDebug(debug);
