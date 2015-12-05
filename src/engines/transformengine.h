@@ -3,6 +3,7 @@
 
 #include <engine.h>
 #include <transform.h>
+#include <grid.h>
 
 namespace BQ{
 
@@ -11,6 +12,11 @@ class TransformEngine : public Engine
 public:
     TransformEngine();
 
+    Grid* grid;
+
+    bool wrapAround;
+    sf::IntRect bounds;
+
     void run();
     void drawDebug();
 
@@ -18,6 +24,14 @@ public:
 
     Transform* addTransform();
 
+    Grid *getGrid() const;
+    void setGrid(Grid *value);
+    bool getWrapAround() const;
+    void setWrapAround(bool value);
+    sf::IntRect getBounds() const;
+    void setBounds(const sf::IntRect &value);
+
+    Transform & getTransform(int);
 };
 }
 

@@ -8,11 +8,10 @@
 
 typedef std::shared_ptr<BQ::GameWindow> window_ptr;
 
-
-
 namespace BQ{
 
 class EventFactory;
+class ComponentLoader;
 
 class Engine
 {
@@ -20,8 +19,12 @@ public:
     Engine();
 
     EventFactory* eventFactory;
+    ComponentLoader* componentLoader;
 
     DebugUtils* debug;
+
+    std::string placeholder;
+    int currentId;
 
     virtual void run(){
         if(debug != NULL){
@@ -44,6 +47,9 @@ public:
 
     EventFactory *getEventFactory() const;
     void setEventFactory(EventFactory *value);
+
+    ComponentLoader *getComponentLoader() const;
+    void setComponentLoader(ComponentLoader *value);
 
 protected:
     window_ptr gameWindow;

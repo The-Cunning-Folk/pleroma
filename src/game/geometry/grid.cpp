@@ -5,7 +5,7 @@ using namespace BQ;
 Grid::Grid()
 {
     setOrigin(0,0); //can't see myself ever wanting this to not be 0,0
-    setScale(0);
+    setScale(16);
 }
 
 
@@ -46,11 +46,10 @@ sf::Vector2i BQ::Grid::getGridPosition(sf::Vector2f position)
     int x = (int) ceil(position.x);
     int y = (int) ceil(position.y);
 
-    int gridx = x<<power;
-    int gridy = y<<power;
+    int gridx = x>>power;
+    int gridy = y>>power;
 
     sf::Vector2i gridPosition(gridx + origin.x,gridy + origin.y);
-
     return(gridPosition);
 }
 
@@ -67,6 +66,7 @@ sf::Vector2f BQ::Grid::getCentre(sf::Vector2i gridPosition)
     float centreX = 0.5*scale*gridPosFx;
     float centreY = 0.5*scale*gridPosFy;
     sf::Vector2f centre(centreX,centreY);
+
     return(centre);
 }
 

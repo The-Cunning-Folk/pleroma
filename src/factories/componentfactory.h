@@ -9,6 +9,9 @@
 #include <transformengine.h>
 #include <inputengine.h>
 #include <eventengine.h>
+#include <collisionengine.h>
+
+#include <componentloader.h>
 
 using namespace BQ;
 
@@ -16,6 +19,8 @@ class ComponentFactory : public Factory
 {
 public:
     ComponentFactory();
+
+    ComponentLoader* componentLoader;
 
     Transform* newTransform();
     Transform* newTransform(std::string);
@@ -27,6 +32,9 @@ public:
     GameLogic* newGameLogic();
     GameLogic* newGameLogic(std::string);
 
+    Collidable* newCollidable();
+    Collidable* newCollidable(std::string);
+
     TransformEngine *getTransformEngine() const;
     void setTransformEngine(TransformEngine *value);
 
@@ -36,11 +44,18 @@ public:
     EventEngine *getEventEngine() const;
     void setEventEngine(EventEngine *value);
 
+    CollisionEngine *getCollisionEngine() const;
+    void setCollisionEngine(CollisionEngine *value);
+
+    ComponentLoader *getComponentLoader() const;
+    void setComponentLoader(ComponentLoader *value);
+
 private:
 
     TransformEngine* transformEngine;
     InputEngine* inputEngine;
     EventEngine* eventEngine;
+    CollisionEngine* collisionEngine;
 };
 
 #endif // COMPONENTFACTORY_H

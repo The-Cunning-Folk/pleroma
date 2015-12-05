@@ -5,6 +5,16 @@ ComponentFactory::ComponentFactory()
 
 }
 
+ComponentLoader *ComponentFactory::getComponentLoader() const
+{
+    return componentLoader;
+}
+
+void ComponentFactory::setComponentLoader(ComponentLoader *value)
+{
+    componentLoader = value;
+}
+
 
 BQ::Transform *ComponentFactory::newTransform()
 {
@@ -46,7 +56,20 @@ GameLogic *ComponentFactory::newGameLogic(std::string name)
 {
     GameLogic* gameLogic = newGameLogic();
     gameLogic->setName(name);
+    gameLogic->setComponentLoader(componentLoader);
     return(gameLogic);
+}
+
+Collidable *ComponentFactory::newCollidable()
+{
+    return collisionEngine->addCollidable();
+}
+
+Collidable *ComponentFactory::newCollidable(std::string name)
+{
+    Collidable* collidable = collisionEngine->addCollidable();
+    collidable->name = name;
+    return(collidable);
 }
 
 TransformEngine *ComponentFactory::getTransformEngine() const
@@ -77,4 +100,14 @@ EventEngine *ComponentFactory::getEventEngine() const
 void ComponentFactory::setEventEngine(EventEngine *value)
 {
     eventEngine = value;
+}
+
+CollisionEngine *ComponentFactory::getCollisionEngine() const
+{
+    return collisionEngine;
+}
+
+void ComponentFactory::setCollisionEngine(CollisionEngine *value)
+{
+    collisionEngine = value;
 }

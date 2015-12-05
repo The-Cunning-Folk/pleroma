@@ -1,6 +1,7 @@
 #include "gamelogic.h"
 
 #include<behaviour.h>
+#include <componentloader.h>
 
 using namespace BQ;
 
@@ -12,12 +13,14 @@ GameLogic::GameLogic()
 void GameLogic::addBehaviour(Behaviour* logic)
 {
     logic->parent = parent;
+    logic->setComponentLoader(componentLoader);
     behaviours.push_back(std::shared_ptr<Behaviour>(logic));
 }
 
-void GameLogic::addEvent(std::string script, GameObject* triggered)
+void GameLogic::addEvent(std::string script, GameObject* triggered,std::map<std::string,std::string> parsed)
 {
     Event event(script,triggered);
+    event.parsedScript = parsed;
     for(unsigned int i = 0; i<behaviours.size(); i++)
     {
         behaviours[i]->addEvent(event);

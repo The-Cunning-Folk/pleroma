@@ -1,12 +1,23 @@
 #include "component.h"
 
 #include <gameobject.h>
+#include <componentloader.h>
 
 using namespace BQ;
 
 Component::Component()
 {
 
+}
+
+ComponentLoader *Component::getComponentLoader() const
+{
+    return componentLoader;
+}
+
+void Component::setComponentLoader(ComponentLoader *value)
+{
+    componentLoader = value;
 }
 
 DebugUtils *Component::getDebug() const

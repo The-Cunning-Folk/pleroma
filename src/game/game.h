@@ -18,6 +18,9 @@
 
 #include<transformengine.h>
 #include<eventengine.h>
+#include<collisionengine.h>
+
+#include<componentloader.h>
 
 typedef std::shared_ptr<BQ::GameWindow> window_ptr;
 
@@ -54,6 +57,9 @@ public:
 
 private:
 
+    //loaders
+    ComponentLoader componentLoader;
+
     //factories
     GameObjectFactory gameObjectFactory;
     ComponentFactory componentFactory;
@@ -64,7 +70,7 @@ private:
     TransformEngine transformEngine;
     InputEngine inputEngine;
     EventEngine eventEngine;
-
+    CollisionEngine collisionEngine;
 
     //inherited properties
     DebugUtils* debug;

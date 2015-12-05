@@ -1,12 +1,13 @@
 #include "inputengine.h"
 
 #include<eventfactory.h>
+#include<componentloader.h>
 
 using namespace BQ;
 
-InputEngine::InputEngine()
+InputEngine::InputEngine() : Engine()
 {
-
+    placeholder = "auto_input_";
 }
 
 void InputEngine::run()
@@ -27,19 +28,19 @@ void InputEngine::run()
         if(activeInputs.size() > 0){
             for(unsigned int j = 0; j<activeInputs.size();j++)
             {
-                eventFactory->createEvent("key_input[" + activeInputs[j] + "]",inputs[i].getParent());
+                eventFactory->createEvent("key_input{" + activeInputs[j] + "}",inputs[i].getParent());
             }
         }
         if(activeButtons.size() > 0){
             for(unsigned int j = 0; j<activeButtons.size();j++)
             {
-                eventFactory->createEvent("button_input[" + activeButtons[j] + "]",inputs[i].getParent());
+                eventFactory->createEvent("button_input{" + activeButtons[j] + "}",inputs[i].getParent());
             }
         }
         if(activeAxes.size() > 0){
             for(unsigned int j = 0; j<activeAxes.size(); j++)
             {
-                eventFactory->createEvent("joystick_input[" +activeAxes[j] + "]",inputs[i].getParent());
+                eventFactory->createEvent("joystick_input{" +activeAxes[j] + "}",inputs[i].getParent());
             }
         }
     }
@@ -70,12 +71,10 @@ PlayerInput *InputEngine::addPlayerInput()
     if(debug != NULL){
         inputs.back().setDebug(debug);
     }
-    inputs.back().index = inputs.size();
-    debug->println(std::to_string(controllers.size()));
+    inputs.back().index = inputs.size()-1;
     if(controllers.size() > 0){
         for(unsigned int i = 0; i<controllers.size(); i++)
         {
-            debug->println(std::to_string(controllers[i].isBound()));
             if(!controllers[i].isBound())
             {
                 debug->println("adding controller!");

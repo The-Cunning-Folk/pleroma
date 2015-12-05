@@ -8,6 +8,7 @@
 
 namespace BQ{
 class GameObject;
+class ComponentLoader;
 
 class Component : public sf::Drawable
 {
@@ -15,6 +16,7 @@ public:
     Component();
 
     DebugUtils* debug;
+    ComponentLoader* componentLoader;
 
     std::string name; //name of the component. All components should be named
     std::string typeId; //what type of component am I?
@@ -34,6 +36,9 @@ public:
     void setDebug(DebugUtils *value);
 
     GameObject *getParent() const;
+
+    ComponentLoader *getComponentLoader() const;
+    void setComponentLoader(ComponentLoader *value);
 
 protected:
 

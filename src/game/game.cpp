@@ -11,19 +11,22 @@ void Game::runTests()
 {
     //add temporary stuff here for testing and debugging so the loop doesn't get too cluttered
     if(input.keyToggled("addObject"))
-        gameObjectFactory.newObject();
+        gameObjectFactory.newCollisionObject();
 
-
-
-
+    //for testing only
+    transformEngine.setWrapAround(true);
+    transformEngine.setBounds(sf::IntRect(0,0,ceil(gameWindow->getWidth()/grid.getScale()),ceil(gameWindow->getHeight()/grid.getScale())));
+    //remove later!
 }
 
 void Game::runEngines()
 {
-    float logicTime = debug->time.getSeconds("logicTime");
+
     inputEngine.run();
     transformEngine.run();
+    collisionEngine.run();
 
+    float logicTime = debug->time.getSeconds("logicTime");
     eventEngine.setDelta(logicTime);
     eventEngine.run();
 }
@@ -49,7 +52,7 @@ void Game::run()
 
     initialisePlayers();
 
-
+    debug->println("starting game loop");
 
     //end temporary behaviours
 
@@ -84,6 +87,8 @@ void Game::run()
         //drawing here
 
         transformEngine.drawDebug();
+        collisionEngine.drawDebug();
+
 
         //end drawing
 
@@ -94,6 +99,7 @@ void Game::run()
         stabiliseFrameRate(frameTime);
         frameTime = debug->time.getSecondsAndRestart("frameTime");
         float fps = 1.0/frameTime;
+        debug->printVal("fps",fps);
         //end framerate stuff
 
     }
@@ -101,11 +107,19 @@ void Game::run()
 
 void Game::initialiseInjections()
 {
+   debug->println("injecting dependencies");
+
+
+
+   componentLoader.setTransformEngine(&transformEngine);
+   componentFactory.setCollisionEngine(&collisionEngine);
 
    componentFactory.setDebug(debug);
    componentFactory.setTransformEngine(&transformEngine);
    componentFactory.setInputEngine(&inputEngine);
    componentFactory.setEventEngine(&eventEngine);
+   componentFactory.setCollisionEngine(&collisionEngine);
+   componentFactory.setComponentLoader(&componentLoader);
 
    gameObjectFactory.setStack(&gameObjects);
    gameObjectFactory.setDebug(debug);
@@ -120,8 +134,22 @@ void Game::initialiseInjections()
    eventEngine.setGameWindow(gameWindow);
    inputEngine.setGameWindow(gameWindow);
    transformEngine.setGameWindow(gameWindow);
+   collisionEngine.setGameWindow(gameWindow);
+
+   eventEngine.setDebug(debug);
+   inputEngine.setDebug(debug);
+   transformEngine.setDebug(debug);
+   collisionEngine.setDebug(debug);
+
+   eventEngine.setComponentLoader(&componentLoader);
+   collisionEngine.setComponentLoader(&componentLoader);
+
+   transformEngine.setGrid(&grid);
 
    inputEngine.setEventFactory(&eventFactory);
+   collisionEngine.setEventFactory(&eventFactory);
+
+   gameObjects.setComponentLoader(&componentLoader);
 
    grid.setDebug(debug);
 }
@@ -134,6 +162,7 @@ void Game::initialiseClocks()
 
 void Game::initialiseInput()
 {
+    debug->println("initialising global inputs");
     input.setKeyInput("menu",sf::Keyboard::Escape);
     input.setKeyInput("debug",sf::Keyboard::F3);
 
@@ -141,13 +170,22 @@ void Game::initialiseInput()
 
 void Game::initialiseTests()
 {
+    debug->println("setting up tests");
     input.setKeyInput("addObject",sf::Keyboard::F8);
-    inputFactory.detectControllers();
+
+    for(int i=0; i<10; i++)
+    {
+        GameObject* coll = gameObjectFactory.newCollisionObject();
+        coll->loadTransform().setPosition(sf::Vector2f(i*16 + 16,120));
+    }
 }
 
 void Game::initialisePlayers()
 {
+    inputFactory.detectControllers();
+    debug->println("adding players");
     gameObjectFactory.newPlayerObject();
+
 }
 
 void Game::stabiliseFrameRate(float currentFrameDuration)

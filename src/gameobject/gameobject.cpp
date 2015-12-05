@@ -7,15 +7,34 @@ GameObject::GameObject()
 
 }
 
-Transform *GameObject::getTransform() const
+ComponentLoader *GameObject::getComponentLoader() const
+{
+    return componentLoader;
+}
+
+void GameObject::setComponentLoader(ComponentLoader *value)
+{
+    componentLoader = value;
+}
+
+int GameObject::getTransform() const
 {
     return transform;
 }
 
-void GameObject::setTransform(Transform *value)
+void GameObject::setTransform(int value)
 {
-    value->setParent(this);
     transform = value;
+}
+
+void GameObject::setPosition(sf::Vector2f pos)
+{
+    //    transform->setPosition(pos);
+}
+
+Transform &GameObject::loadTransform()
+{
+    return componentLoader->getTransform(transform);
 }
 
 void GameObject::addComponent(Component* component)
@@ -28,31 +47,13 @@ void GameObject::addComponent(Component* component)
     addComponent(name,component);
 }
 
+void GameObject::addComponent(std::string name, Component * component)
+{
+    component->setParent(this);
+    components[component->typeId][component->name] = component->index;
+}
+
 void GameObject::update()
 {
 
 }
-
-void BQ::GameObject::addComponent(std::string name, BQ::Component * component)
-{
-    component->setParent(this);
-    components[component->typeId][name] = component;
-}
-
-Component *GameObject::getComponentByName(std::string name)
-{
-    std::map<std::string,std::map<std::string,Component*>>::iterator it;
-    for(it = components.begin(); it != components.end(); it++) {
-        std::map<std::string,Component*>& types = it->second;
-        if(types[name] != NULL){
-            return types[name];
-        }
-    }
-    return NULL;
-}
-
-std::map<std::string, Component *> GameObject::getComponentsByType(std::string type)
-{
-    return components[type];
-}
-

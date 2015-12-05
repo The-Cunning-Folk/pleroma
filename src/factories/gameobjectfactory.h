@@ -23,6 +23,10 @@ public:
     ComponentFactory* componentFactory;
 
     GameObject* newObject();
+    GameObject* newObject(std::string);
+
+    GameObject* newCollisionObject();
+
     GameObject* newPlayerObject();
 
     ComponentFactory *getComponentFactory() const;

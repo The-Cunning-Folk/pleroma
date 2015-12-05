@@ -17,6 +17,9 @@ public:
     sf::Vector2i gridPosition; //the position of the object on the grid
 
     sf::Vector2f position; //this is the position that we do work on so that we can scale things nicely
+    sf::Vector2f size;
+
+    sf::FloatRect getBBox();
 
     std::vector <Transform*> children; //transforms that are bound to this one
 
@@ -36,6 +39,9 @@ public:
     void setWindowPosition(const sf::Vector2i &value);
 
     void setPosition(const sf::Vector2f &value);
+
+    sf::Vector2f getSize() const;
+    void setSize(const sf::Vector2f &value);
 
 private:
 
