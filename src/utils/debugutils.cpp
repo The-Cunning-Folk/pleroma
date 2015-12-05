@@ -33,6 +33,18 @@ void DebugUtils::printinfo(std::string output)
     }
 }
 
+void DebugUtils::printVal(float val)
+{
+    std::string outString = std::to_string(val);
+    println(outString);
+}
+
+void DebugUtils::printVal(int val)
+{
+    std::string outString = std::to_string(val);
+    println(outString);
+}
+
 void DebugUtils::printVal(std::string name, std::string val)
 {
     std::string outString = name + " : " + val;
@@ -50,16 +62,3 @@ void DebugUtils::printVal(std::string name, int val)
     std::string asString = std::to_string(val);
     printVal(name,asString);
 }
-
-void DebugUtils::printVal(std::string name, long val)
-{
-    std::string asString = std::to_string(val);
-    printVal(name,asString);
-}
-
-void DebugUtils::printVal(std::string name, double val)
-{
-    std::string asString = std::to_string(val);
-    printVal(name,asString);
-}
-

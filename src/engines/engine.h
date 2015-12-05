@@ -23,6 +23,9 @@ public:
 
     DebugUtils* debug;
 
+    std::string placeholder;
+    int currentId;
+
     virtual void run(){
         if(debug != NULL){
             debug->printerr("undefined engine.run()");

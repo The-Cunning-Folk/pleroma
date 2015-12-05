@@ -32,6 +32,8 @@ public:
     Transform *getTransform() const;
     void setTransform(Transform *value);
 
+    void setPosition(sf::Vector2f);
+
 private:
 
     std::map<std::string,std::map<std::string,Component*>> components;

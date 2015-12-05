@@ -4,9 +4,9 @@
 
 using namespace BQ;
 
-InputEngine::InputEngine()
+InputEngine::InputEngine() : Engine()
 {
-
+    placeholder = "auto_input_";
 }
 
 void InputEngine::run()

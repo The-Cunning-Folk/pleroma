@@ -4,9 +4,9 @@
 
 using namespace BQ;
 
-EventEngine::EventEngine()
+EventEngine::EventEngine() : Engine()
 {
-
+    placeholder = "event_";
 }
 
 GameLogic *EventEngine::addGameLogic()

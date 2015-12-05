@@ -6,7 +6,8 @@ using namespace BQ;
 
 Engine::Engine()
 {
-
+    placeholder = "auto_generic_";
+    currentId = 0;
 }
 
 EventFactory *Engine::getEventFactory() const

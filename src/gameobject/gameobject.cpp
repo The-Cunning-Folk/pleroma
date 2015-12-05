@@ -18,6 +18,11 @@ void GameObject::setTransform(Transform *value)
     transform = value;
 }
 
+void GameObject::setPosition(sf::Vector2f pos)
+{
+    transform->setPosition(pos);
+}
+
 void GameObject::addComponent(Component* component)
 {
     std::string name = component->name;

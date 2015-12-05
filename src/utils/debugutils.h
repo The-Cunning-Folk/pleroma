@@ -27,11 +27,13 @@ public:
     void printerr(std::string);
     void printwarn(std::string);
     void printinfo(std::string);
+    void printVal(float);
+    void printVal(int);
+    void printVal(unsigned int);
     void printVal(std::string, std::string);
     void printVal(std::string, float);
     void printVal(std::string, int);
-    void printVal(std::string, long);
-    void printVal(std::string, double);
+    void printVal(std::string, unsigned int);
 
 private:
 

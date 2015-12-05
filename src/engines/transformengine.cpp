@@ -4,10 +4,11 @@
 
 using namespace BQ;
 
-TransformEngine::TransformEngine()
+TransformEngine::TransformEngine() : Engine()
 {
     wrapAround = false;
     bounds = sf::IntRect(0,0,0,0);
+    placeholder = "auto_transform_";
 }
 
 sf::IntRect TransformEngine::getBounds() const
@@ -101,5 +102,7 @@ Transform *TransformEngine::addTransform()
         transforms.back().setDebug(debug);
     }
     transforms.back().index = transforms.size();
+    transforms.back().name = placeholder + std::to_string(currentId);
+    currentId++;
     return(&transforms.back());
 }

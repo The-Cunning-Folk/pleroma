@@ -11,7 +11,7 @@ void Game::runTests()
 {
     //add temporary stuff here for testing and debugging so the loop doesn't get too cluttered
     if(input.keyToggled("addObject"))
-        gameObjectFactory.newObject();
+        gameObjectFactory.newCollisionObject();
 
     //for testing only
     transformEngine.setWrapAround(true);
@@ -160,13 +160,20 @@ void Game::initialiseTests()
 {
     debug->println("setting up tests");
     input.setKeyInput("addObject",sf::Keyboard::F8);
-    inputFactory.detectControllers();
+
+    for(int i=0; i<10; i++)
+    {
+        GameObject* coll = gameObjectFactory.newCollisionObject();
+        coll->setPosition(sf::Vector2f(i*16 + 16,120));
+    }
 }
 
 void Game::initialisePlayers()
 {
+    inputFactory.detectControllers();
     debug->println("adding players");
     gameObjectFactory.newPlayerObject();
+
 }
 
 void Game::stabiliseFrameRate(float currentFrameDuration)

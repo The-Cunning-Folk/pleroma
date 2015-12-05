@@ -2,9 +2,9 @@
 
 using namespace BQ;
 
-CollisionEngine::CollisionEngine()
+CollisionEngine::CollisionEngine() : Engine()
 {
-
+    placeholder = "auto_coll_";
 }
 
 Collidable *CollisionEngine::addCollidable()

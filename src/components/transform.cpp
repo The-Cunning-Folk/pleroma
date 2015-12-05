@@ -65,7 +65,7 @@ void Transform::setGridPosition(const sf::Vector2i &value)
 
 void Transform::move(sf::Vector2f value)
 {
-    position = position + value;
+    setPosition(position + value);
 }
 
 void Transform::move(sf::Vector2i value)

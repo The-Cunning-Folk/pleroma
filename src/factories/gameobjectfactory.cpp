@@ -38,6 +38,17 @@ GameObject *GameObjectFactory::newObject(std::string name)
     return object;
 }
 
+GameObject *GameObjectFactory::newCollisionObject()
+{
+    GameObject* collisionObj = newObject();
+    Collidable* hitbox = componentFactory->newCollidable();
+    hitbox->setTransform(collisionObj->getTransform());
+    collisionObj->addComponent("hitbox",hitbox);
+    collisionObj->getTransform()->update();
+    hitbox->update();
+    return collisionObj;
+}
+
 GameObject* GameObjectFactory::newPlayerObject() //builds behaviours for the player
 {
     GameObject* player = newObject("player_1");
@@ -61,7 +72,7 @@ GameObject* GameObjectFactory::newPlayerObject() //builds behaviours for the pla
 
     //collidable
     hitbox->setTransform(player->getTransform());
-    hitbox->setBBox(sf::FloatRect(-10,-10,20,20));
+    //hitbox->setBBox(sf::FloatRect(-10,-10,20,20));
 
     return player;
 }
