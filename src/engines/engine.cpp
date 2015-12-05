@@ -1,6 +1,7 @@
 #include "engine.h"
 
 #include<eventfactory.h>
+#include<componentloader.h>
 
 using namespace BQ;
 
@@ -8,6 +9,16 @@ Engine::Engine()
 {
     placeholder = "auto_generic_";
     currentId = 0;
+}
+
+ComponentLoader *Engine::getComponentLoader() const
+{
+    return componentLoader;
+}
+
+void Engine::setComponentLoader(ComponentLoader *value)
+{
+    componentLoader = value;
 }
 
 EventFactory *Engine::getEventFactory() const

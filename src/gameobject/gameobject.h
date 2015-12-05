@@ -17,26 +17,25 @@ class GameObject
 public:
     GameObject();
 
-    Transform* transform;
+    int transform;
 
     std::string name;
     int uniqueId;
 
     void addComponent(Component*);
     void addComponent(std::string,Component*);
-    Component* getComponentByName(std::string);
-    std::map<std::string,Component*> getComponentsByType(std::string);
 
     void update();
 
-    Transform *getTransform() const;
-    void setTransform(Transform *value);
 
     void setPosition(sf::Vector2f);
 
+    int getTransform() const;
+    void setTransform(int value);
+
 private:
 
-    std::map<std::string,std::map<std::string,Component*>> components;
+    std::map<std::string,std::map<std::string,int>> components;
 
 };
 }

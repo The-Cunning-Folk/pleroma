@@ -11,12 +11,16 @@
 #include <eventengine.h>
 #include <collisionengine.h>
 
+#include <componentloader.h>
+
 using namespace BQ;
 
 class ComponentFactory : public Factory
 {
 public:
     ComponentFactory();
+
+    ComponentLoader* componentLoader;
 
     Transform* newTransform();
     Transform* newTransform(std::string);
@@ -42,6 +46,9 @@ public:
 
     CollisionEngine *getCollisionEngine() const;
     void setCollisionEngine(CollisionEngine *value);
+
+    ComponentLoader *getComponentLoader() const;
+    void setComponentLoader(ComponentLoader *value);
 
 private:
 

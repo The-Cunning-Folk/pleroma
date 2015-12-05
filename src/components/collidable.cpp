@@ -1,5 +1,7 @@
 #include "collidable.h"
 
+#include <componentloader.h>
+
 using namespace BQ;
 
 Collidable::Collidable()
@@ -10,15 +12,14 @@ Collidable::Collidable()
     rectShape.setOutlineColor(sf::Color::Red);
 }
 
-Transform *Collidable::getTransform() const
+int Collidable::getTransform() const
 {
     return transform;
 }
 
-void Collidable::setTransform(Transform *value)
+void Collidable::setTransform(int value)
 {
     transform = value;
-
 }
 
 void Collidable::setBBoxRectColor(sf::Color color)
@@ -38,18 +39,6 @@ void Collidable::setBBox(const sf::FloatRect &value)
 
 void Collidable::update()
 {
-
-    if(transform != NULL)
-    {
-        //update positions
-        std::cout<< transform->getGridPosition().x << std::endl;
-        bBox = transform->getBBox();
-
-    }
-    if(transform == NULL)
-    {
-        std::cout << "no transform..." << std::endl;
-    }
     rectShape.setOutlineColor(sf::Color::Red);
     rectShape.setPosition(bBox.left,bBox.top);
     rectShape.setSize(sf::Vector2f(bBox.width,bBox.height));

@@ -5,6 +5,16 @@ ComponentFactory::ComponentFactory()
 
 }
 
+ComponentLoader *ComponentFactory::getComponentLoader() const
+{
+    return componentLoader;
+}
+
+void ComponentFactory::setComponentLoader(ComponentLoader *value)
+{
+    componentLoader = value;
+}
+
 
 BQ::Transform *ComponentFactory::newTransform()
 {
@@ -46,6 +56,7 @@ GameLogic *ComponentFactory::newGameLogic(std::string name)
 {
     GameLogic* gameLogic = newGameLogic();
     gameLogic->setName(name);
+    gameLogic->setComponentLoader(componentLoader);
     return(gameLogic);
 }
 

@@ -10,10 +10,7 @@ class Collidable : public Component
 public:
     Collidable();
 
-    Transform* transform;
-
-    Transform *getTransform() const;
-    void setTransform(Transform *value);
+    int transform;
 
     sf::RectangleShape rectShape;
 
@@ -25,6 +22,9 @@ public:
     void setBBox(const sf::FloatRect &value);
 
     void update();
+
+    int getTransform() const;
+    void setTransform(int value);
 
 private:
 

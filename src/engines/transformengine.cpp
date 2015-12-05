@@ -1,6 +1,7 @@
 #include "transformengine.h"
 
 #include<eventfactory.h>
+#include<componentloader.h>
 
 using namespace BQ;
 
@@ -19,6 +20,11 @@ sf::IntRect TransformEngine::getBounds() const
 void TransformEngine::setBounds(const sf::IntRect &value)
 {
     bounds = value;
+}
+
+Transform & TransformEngine::getTransform(int index)
+{
+    return transforms[index];
 }
 
 bool TransformEngine::getWrapAround() const
@@ -101,7 +107,7 @@ Transform *TransformEngine::addTransform()
     if(debug != NULL){
         transforms.back().setDebug(debug);
     }
-    transforms.back().index = transforms.size();
+    transforms.back().index = transforms.size()-1;
     transforms.back().name = placeholder + std::to_string(currentId);
     currentId++;
     return(&transforms.back());

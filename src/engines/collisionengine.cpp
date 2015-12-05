@@ -1,5 +1,8 @@
 #include "collisionengine.h"
 
+#include<eventfactory.h>
+#include<componentloader.h>
+
 using namespace BQ;
 
 CollisionEngine::CollisionEngine() : Engine()
@@ -27,6 +30,7 @@ void CollisionEngine::run()
 {
     for(unsigned int i=0; i<collidables.size(); i++)
     {
+        collidables[i].setBBox(componentLoader->getTransform(collidables[i].getTransform()).getBBox());
         collidables[i].update();
     }
     for(unsigned int i=0; i<collidables.size(); i++)

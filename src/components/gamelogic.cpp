@@ -1,6 +1,7 @@
 #include "gamelogic.h"
 
 #include<behaviour.h>
+#include <componentloader.h>
 
 using namespace BQ;
 
@@ -12,6 +13,7 @@ GameLogic::GameLogic()
 void GameLogic::addBehaviour(Behaviour* logic)
 {
     logic->parent = parent;
+    logic->setComponentLoader(componentLoader);
     behaviours.push_back(std::shared_ptr<Behaviour>(logic));
 }
 

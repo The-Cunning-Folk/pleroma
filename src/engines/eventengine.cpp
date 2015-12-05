@@ -1,6 +1,7 @@
 #include "eventengine.h"
 
 #include<eventfactory.h>
+#include<componentloader.h>
 
 using namespace BQ;
 
@@ -76,6 +77,7 @@ void EventEngine::resolveLocally(Event& event)
     for(unsigned int i=0; i<gameLogics.size(); i++){
         if(gameLogics[i].getParent() == event.triggeredBy) //todo: dynamic cast this instead
         {
+
             gameLogics[i].addEvent(event.script,event.triggeredBy,event.parsedScript);
             toUpdate.push_back(i);
             break;

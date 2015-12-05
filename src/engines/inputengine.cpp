@@ -1,6 +1,7 @@
 #include "inputengine.h"
 
 #include<eventfactory.h>
+#include<componentloader.h>
 
 using namespace BQ;
 
@@ -70,7 +71,7 @@ PlayerInput *InputEngine::addPlayerInput()
     if(debug != NULL){
         inputs.back().setDebug(debug);
     }
-    inputs.back().index = inputs.size();
+    inputs.back().index = inputs.size()-1;
     if(controllers.size() > 0){
         for(unsigned int i = 0; i<controllers.size(); i++)
         {

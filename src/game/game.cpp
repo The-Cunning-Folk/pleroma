@@ -108,11 +108,15 @@ void Game::initialiseInjections()
 {
    debug->println("injecting dependencies");
 
+   componentLoader.setTransformEngine(&transformEngine);
+   componentFactory.setCollisionEngine(&collisionEngine);
+
    componentFactory.setDebug(debug);
    componentFactory.setTransformEngine(&transformEngine);
    componentFactory.setInputEngine(&inputEngine);
    componentFactory.setEventEngine(&eventEngine);
    componentFactory.setCollisionEngine(&collisionEngine);
+   componentFactory.setComponentLoader(&componentLoader);
 
    gameObjectFactory.setStack(&gameObjects);
    gameObjectFactory.setDebug(debug);
@@ -133,6 +137,9 @@ void Game::initialiseInjections()
    inputEngine.setDebug(debug);
    transformEngine.setDebug(debug);
    collisionEngine.setDebug(debug);
+
+   eventEngine.setComponentLoader(&componentLoader);
+   collisionEngine.setComponentLoader(&componentLoader);
 
    transformEngine.setGrid(&grid);
 
@@ -164,7 +171,7 @@ void Game::initialiseTests()
     for(int i=0; i<10; i++)
     {
         GameObject* coll = gameObjectFactory.newCollisionObject();
-        coll->setPosition(sf::Vector2f(i*16 + 16,120));
+        componentLoader.getTransform(coll->transform).setPosition(sf::Vector2f(i*16 + 16,120));
     }
 }
 

@@ -1,4 +1,5 @@
 #include "playerinput.h"
+#include <componentloader.h>
 
 using namespace BQ;
 

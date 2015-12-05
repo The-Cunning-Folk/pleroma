@@ -8,6 +8,16 @@ Behaviour::Behaviour()
 
 }
 
+ComponentLoader *Behaviour::getComponentLoader() const
+{
+    return componentLoader;
+}
+
+void Behaviour::setComponentLoader(ComponentLoader *value)
+{
+    componentLoader = value;
+}
+
 float Behaviour::getDelta() const
 {
     return delta;

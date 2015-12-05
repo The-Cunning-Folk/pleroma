@@ -4,6 +4,7 @@
 #include<vector>
 #include<string>
 #include<event.h>
+#include<componentloader.h>
 
 namespace BQ{
 
@@ -13,6 +14,8 @@ class Behaviour
 {
 public:
     Behaviour();
+
+    ComponentLoader* componentLoader;
 
     float delta;
 
@@ -30,6 +33,8 @@ public:
 
     float getDelta() const;
     void setDelta(float value);
+    ComponentLoader *getComponentLoader() const;
+    void setComponentLoader(ComponentLoader *value);
 };
 }
 

@@ -30,6 +30,8 @@ public:
     void setWrapAround(bool value);
     sf::IntRect getBounds() const;
     void setBounds(const sf::IntRect &value);
+
+    Transform & getTransform(int);
 };
 }
 

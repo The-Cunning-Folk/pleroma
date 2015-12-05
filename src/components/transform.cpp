@@ -1,4 +1,5 @@
 #include "transform.h"
+#include <componentloader.h>
 
 using namespace BQ;
 

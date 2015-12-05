@@ -20,6 +20,8 @@
 #include<eventengine.h>
 #include<collisionengine.h>
 
+#include<componentloader.h>
+
 typedef std::shared_ptr<BQ::GameWindow> window_ptr;
 
 namespace BQ
@@ -54,6 +56,9 @@ public:
 
 
 private:
+
+    //loaders
+    ComponentLoader componentLoader;
 
     //factories
     GameObjectFactory gameObjectFactory;
