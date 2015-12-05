@@ -20,10 +20,12 @@ void Game::runTests()
 
 void Game::runEngines()
 {
-    float logicTime = debug->time.getSeconds("logicTime");
+
     inputEngine.run();
     transformEngine.run();
+    collisionEngine.run();
 
+    float logicTime = debug->time.getSeconds("logicTime");
     eventEngine.setDelta(logicTime);
     eventEngine.run();
 }
@@ -49,7 +51,7 @@ void Game::run()
 
     initialisePlayers();
 
-
+    debug->println("starting game loop");
 
     //end temporary behaviours
 
@@ -84,6 +86,8 @@ void Game::run()
         //drawing here
 
         transformEngine.drawDebug();
+        collisionEngine.drawDebug();
+
 
         //end drawing
 
@@ -101,11 +105,13 @@ void Game::run()
 
 void Game::initialiseInjections()
 {
+   debug->println("injecting dependencies");
 
    componentFactory.setDebug(debug);
    componentFactory.setTransformEngine(&transformEngine);
    componentFactory.setInputEngine(&inputEngine);
    componentFactory.setEventEngine(&eventEngine);
+   componentFactory.setCollisionEngine(&collisionEngine);
 
    gameObjectFactory.setStack(&gameObjects);
    gameObjectFactory.setDebug(debug);
@@ -120,10 +126,17 @@ void Game::initialiseInjections()
    eventEngine.setGameWindow(gameWindow);
    inputEngine.setGameWindow(gameWindow);
    transformEngine.setGameWindow(gameWindow);
+   collisionEngine.setGameWindow(gameWindow);
+
+   eventEngine.setDebug(debug);
+   inputEngine.setDebug(debug);
+   transformEngine.setDebug(debug);
+   collisionEngine.setDebug(debug);
 
    transformEngine.setGrid(&grid);
 
    inputEngine.setEventFactory(&eventFactory);
+   collisionEngine.setEventFactory(&eventFactory);
 
    grid.setDebug(debug);
 }
@@ -136,6 +149,7 @@ void Game::initialiseClocks()
 
 void Game::initialiseInput()
 {
+    debug->println("initialising global inputs");
     input.setKeyInput("menu",sf::Keyboard::Escape);
     input.setKeyInput("debug",sf::Keyboard::F3);
 
@@ -143,12 +157,14 @@ void Game::initialiseInput()
 
 void Game::initialiseTests()
 {
+    debug->println("setting up tests");
     input.setKeyInput("addObject",sf::Keyboard::F8);
     inputFactory.detectControllers();
 }
 
 void Game::initialisePlayers()
 {
+    debug->println("adding players");
     gameObjectFactory.newPlayerObject();
 }
 

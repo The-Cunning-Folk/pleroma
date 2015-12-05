@@ -59,7 +59,6 @@ HEADERS += $$SRCDIR/window/gamewindow.h \
     src/logic/behaviours/playerbehaviours.h \
     src/components/gamelogic.h \
     src/components/collidable.h \
-    src/components/collidables/circularcollidable.h \
     src/engines/collisionengine.h
 
 SOURCES += src/main.cpp $$SRCDIR/window/gamewindow.cpp \
@@ -99,7 +98,6 @@ SOURCES += src/main.cpp $$SRCDIR/window/gamewindow.cpp \
     src/logic/behaviours/playerbehaviours.cpp \
     src/components/gamelogic.cpp \
     src/components/collidable.cpp \
-    src/components/collidables/circularcollidable.cpp \
     src/engines/collisionengine.cpp
 
 LIBS += -L"$$PWD/SFML/lib"

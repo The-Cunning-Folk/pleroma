@@ -9,6 +9,7 @@
 #include <transformengine.h>
 #include <inputengine.h>
 #include <eventengine.h>
+#include <collisionengine.h>
 
 using namespace BQ;
 
@@ -27,6 +28,9 @@ public:
     GameLogic* newGameLogic();
     GameLogic* newGameLogic(std::string);
 
+    Collidable* newCollidable();
+    Collidable* newCollidable(std::string);
+
     TransformEngine *getTransformEngine() const;
     void setTransformEngine(TransformEngine *value);
 
@@ -36,11 +40,15 @@ public:
     EventEngine *getEventEngine() const;
     void setEventEngine(EventEngine *value);
 
+    CollisionEngine *getCollisionEngine() const;
+    void setCollisionEngine(CollisionEngine *value);
+
 private:
 
     TransformEngine* transformEngine;
     InputEngine* inputEngine;
     EventEngine* eventEngine;
+    CollisionEngine* collisionEngine;
 };
 
 #endif // COMPONENTFACTORY_H

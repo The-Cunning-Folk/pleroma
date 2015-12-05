@@ -49,6 +49,18 @@ GameLogic *ComponentFactory::newGameLogic(std::string name)
     return(gameLogic);
 }
 
+Collidable *ComponentFactory::newCollidable()
+{
+    return collisionEngine->addCollidable();
+}
+
+Collidable *ComponentFactory::newCollidable(std::string name)
+{
+    Collidable* collidable = collisionEngine->addCollidable();
+    collidable->name = name;
+    return(collidable);
+}
+
 TransformEngine *ComponentFactory::getTransformEngine() const
 {
     return transformEngine;
@@ -77,4 +89,14 @@ EventEngine *ComponentFactory::getEventEngine() const
 void ComponentFactory::setEventEngine(EventEngine *value)
 {
     eventEngine = value;
+}
+
+CollisionEngine *ComponentFactory::getCollisionEngine() const
+{
+    return collisionEngine;
+}
+
+void ComponentFactory::setCollisionEngine(CollisionEngine *value)
+{
+    collisionEngine = value;
 }

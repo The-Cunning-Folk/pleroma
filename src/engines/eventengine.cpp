@@ -12,7 +12,6 @@ EventEngine::EventEngine()
 GameLogic *EventEngine::addGameLogic()
 {
     gameLogics.resize(gameLogics.size() + 1);
-    debug->println("added logic");
     return &gameLogics.back();
 }
 

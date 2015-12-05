@@ -2,7 +2,7 @@
 #define COLLISIONENGINE_H
 
 #include <engine.h>
-#include <circularcollidable.h>
+#include <collidable.h>
 
 namespace BQ{
 class CollisionEngine : public Engine
@@ -10,11 +10,14 @@ class CollisionEngine : public Engine
 public:
     CollisionEngine();
 
-    CircularCollidable* addCircle();
+    Collidable* addCollidable();
+
+    void run();
+    void drawDebug();
 
 protected:
 
-    std::vector<CircularCollidable> circles;
+    std::vector<Collidable> collidables;
 };
 }
 

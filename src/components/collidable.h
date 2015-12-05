@@ -15,16 +15,20 @@ public:
     Transform *getTransform() const;
     void setTransform(Transform *value);
 
-    sf::Rect bBox;
+    sf::RectangleShape rectShape;
 
-    sf::Rect getBBox() const;
-    void setBBox(const sf::Rect &value);
+    sf::FloatRect bBox;
+
+    sf::FloatRect getBBox() const;
+    void setBBox(const sf::FloatRect &value);
+
+    void update();
 
 private:
 
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const
     {
-
+        target.draw(rectShape);
     }
 };
 }

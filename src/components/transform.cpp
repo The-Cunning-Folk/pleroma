@@ -7,6 +7,23 @@ Transform::Transform()
     typeId = "transform";
     position.x = 0;
     position.y = 0;
+    size.x = 10;
+    size.y = 10;
+}
+
+sf::FloatRect Transform::getBBox()
+{
+    return sf::FloatRect(position.x-0.5*size.x,position.y-0.5*size.y,size.x,size.y);
+}
+
+sf::Vector2f Transform::getSize() const
+{
+    return size;
+}
+
+void Transform::setSize(const sf::Vector2f &value)
+{
+    size = value;
 }
 
 void Transform::setPosition(const sf::Vector2f &value)

@@ -18,6 +18,7 @@
 
 #include<transformengine.h>
 #include<eventengine.h>
+#include<collisionengine.h>
 
 typedef std::shared_ptr<BQ::GameWindow> window_ptr;
 
@@ -64,7 +65,7 @@ private:
     TransformEngine transformEngine;
     InputEngine inputEngine;
     EventEngine eventEngine;
-
+    CollisionEngine collisionEngine;
 
     //inherited properties
     DebugUtils* debug;

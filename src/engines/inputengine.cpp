@@ -71,11 +71,9 @@ PlayerInput *InputEngine::addPlayerInput()
         inputs.back().setDebug(debug);
     }
     inputs.back().index = inputs.size();
-    debug->println(std::to_string(controllers.size()));
     if(controllers.size() > 0){
         for(unsigned int i = 0; i<controllers.size(); i++)
         {
-            debug->println(std::to_string(controllers[i].isBound()));
             if(!controllers[i].isBound())
             {
                 debug->println("adding controller!");
