@@ -99,6 +99,7 @@ void Game::run()
         stabiliseFrameRate(frameTime);
         frameTime = debug->time.getSecondsAndRestart("frameTime");
         float fps = 1.0/frameTime;
+        debug->printVal("fps",fps);
         //end framerate stuff
 
     }
@@ -107,6 +108,8 @@ void Game::run()
 void Game::initialiseInjections()
 {
    debug->println("injecting dependencies");
+
+
 
    componentLoader.setTransformEngine(&transformEngine);
    componentFactory.setCollisionEngine(&collisionEngine);
@@ -146,6 +149,8 @@ void Game::initialiseInjections()
    inputEngine.setEventFactory(&eventFactory);
    collisionEngine.setEventFactory(&eventFactory);
 
+   gameObjects.setComponentLoader(&componentLoader);
+
    grid.setDebug(debug);
 }
 
@@ -171,7 +176,7 @@ void Game::initialiseTests()
     for(int i=0; i<10; i++)
     {
         GameObject* coll = gameObjectFactory.newCollisionObject();
-        componentLoader.getTransform(coll->transform).setPosition(sf::Vector2f(i*16 + 16,120));
+        coll->loadTransform().setPosition(sf::Vector2f(i*16 + 16,120));
     }
 }
 

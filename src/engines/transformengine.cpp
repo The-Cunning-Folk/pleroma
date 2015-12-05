@@ -67,6 +67,7 @@ void TransformEngine::run()
                     sf::Vector2f pos = transforms[i].getPosition();
                     if(pos.x > rightEdge)
                     {
+                        debug->println("out of bounds");
                         transforms[i].setPosition(sf::Vector2f(leftEdge,pos.y));
                     }
                     if(pos.x < leftEdge)

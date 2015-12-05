@@ -4,6 +4,7 @@
 #include<transform.h>
 
 #include<component.h>
+#include<componentloader.h>
 #include<gamelogic.h>
 #include <iostream>
 #include <vector>
@@ -19,6 +20,8 @@ public:
 
     int transform;
 
+    ComponentLoader * componentLoader;
+
     std::string name;
     int uniqueId;
 
@@ -30,8 +33,12 @@ public:
 
     void setPosition(sf::Vector2f);
 
+    Transform & loadTransform();
     int getTransform() const;
     void setTransform(int value);
+
+    ComponentLoader *getComponentLoader() const;
+    void setComponentLoader(ComponentLoader *value);
 
 private:
 

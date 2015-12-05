@@ -7,6 +7,16 @@ GameObject::GameObject()
 
 }
 
+ComponentLoader *GameObject::getComponentLoader() const
+{
+    return componentLoader;
+}
+
+void GameObject::setComponentLoader(ComponentLoader *value)
+{
+    componentLoader = value;
+}
+
 int GameObject::getTransform() const
 {
     return transform;
@@ -19,7 +29,12 @@ void GameObject::setTransform(int value)
 
 void GameObject::setPosition(sf::Vector2f pos)
 {
-//    transform->setPosition(pos);
+    //    transform->setPosition(pos);
+}
+
+Transform &GameObject::loadTransform()
+{
+    return componentLoader->getTransform(transform);
 }
 
 void GameObject::addComponent(Component* component)

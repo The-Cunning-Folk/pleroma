@@ -16,7 +16,7 @@ void PlayerBehaviours::resolveEvents()
     {
 
         Event event = events[i];
-        Transform & transform = componentLoader->getTransform(event.triggeredBy->getTransform());
+        Transform & transform = event.triggeredBy->loadTransform();
 
         if(event.parsedScript["action"].compare("move_right")==0)
         {
