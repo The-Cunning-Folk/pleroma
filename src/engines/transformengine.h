@@ -14,6 +14,9 @@ public:
 
     Grid* grid;
 
+    bool wrapAround;
+    sf::IntRect bounds;
+
     void run();
     void drawDebug();
 
@@ -23,6 +26,10 @@ public:
 
     Grid *getGrid() const;
     void setGrid(Grid *value);
+    bool getWrapAround() const;
+    void setWrapAround(bool value);
+    sf::IntRect getBounds() const;
+    void setBounds(const sf::IntRect &value);
 };
 }
 

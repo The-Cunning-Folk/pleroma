@@ -19,6 +19,8 @@ public:
 
     sf::FloatRect bBox;
 
+    void setBBoxRectColor(sf::Color);
+
     sf::FloatRect getBBox() const;
     void setBBox(const sf::FloatRect &value);
 

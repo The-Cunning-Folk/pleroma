@@ -12,6 +12,8 @@ public:
 
     Collidable* addCollidable();
 
+    bool checkCollision(Collidable &,Collidable &);
+
     void run();
     void drawDebug();
 

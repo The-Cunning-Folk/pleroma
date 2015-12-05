@@ -20,6 +20,11 @@ void Collidable::setTransform(Transform *value)
     transform = value;
 }
 
+void Collidable::setBBoxRectColor(sf::Color color)
+{
+    rectShape.setOutlineColor(color);
+}
+
 sf::FloatRect Collidable::getBBox() const
 {
     return bBox;
@@ -37,6 +42,7 @@ void Collidable::update()
         //update positions
         bBox = transform->getBBox();
     }
+    rectShape.setOutlineColor(sf::Color::Red);
     rectShape.setPosition(bBox.left,bBox.top);
     rectShape.setSize(sf::Vector2f(bBox.width,bBox.height));
 }

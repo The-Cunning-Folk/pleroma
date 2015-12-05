@@ -13,9 +13,10 @@ void Game::runTests()
     if(input.keyToggled("addObject"))
         gameObjectFactory.newObject();
 
-
-
-
+    //for testing only
+    transformEngine.setWrapAround(true);
+    transformEngine.setBounds(sf::IntRect(0,0,ceil(gameWindow->getWidth()/grid.getScale()),ceil(gameWindow->getHeight()/grid.getScale())));
+    //remove later!
 }
 
 void Game::runEngines()
