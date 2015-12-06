@@ -44,3 +44,8 @@ void Collidable::update()
     rectShape.setSize(sf::Vector2f(bBox.width,bBox.height));
 }
 
+Transform & Collidable::loadTransform()
+{
+    return componentLoader->getTransform(transform);
+}
+

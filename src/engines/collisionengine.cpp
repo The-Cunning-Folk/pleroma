@@ -28,11 +28,15 @@ bool CollisionEngine::checkCollision(Collidable & a,Collidable & b)
 
 void CollisionEngine::run()
 {
+    quadtree.setRegion(sf::FloatRect(0,0,480,270));
+    quadtree.clear();
     for(unsigned int i=0; i<collidables.size(); i++)
     {
         collidables[i].setBBox(componentLoader->getTransform(collidables[i].getTransform()).getBBox());
         collidables[i].update();
+        quadtree.addObject(&collidables[i]);
     }
+
     for(unsigned int i=0; i<collidables.size(); i++)
     {
         for(unsigned int j=i+1; j<collidables.size(); j++)

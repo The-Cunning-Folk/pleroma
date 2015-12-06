@@ -8,7 +8,6 @@ ComponentLoader::ComponentLoader()
 
 Transform & ComponentLoader::getTransform(int index)
 {
-
     return transformEngine->getTransform(index);
 }
 

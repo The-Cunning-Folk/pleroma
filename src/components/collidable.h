@@ -12,6 +12,8 @@ public:
 
     int transform;
 
+    int quadtreeLevel;
+
     sf::RectangleShape rectShape;
 
     sf::FloatRect bBox;
@@ -23,6 +25,7 @@ public:
 
     void update();
 
+    Transform & loadTransform();
     int getTransform() const;
     void setTransform(int value);
 

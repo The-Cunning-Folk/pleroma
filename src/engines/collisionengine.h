@@ -3,6 +3,7 @@
 
 #include <engine.h>
 #include <collidable.h>
+#include <quadtree.h>
 
 namespace BQ{
 class CollisionEngine : public Engine
@@ -13,6 +14,8 @@ public:
     Collidable* addCollidable();
 
     bool checkCollision(Collidable &,Collidable &);
+
+    Quadtree quadtree;
 
     void run();
     void drawDebug();
