@@ -20,7 +20,8 @@ INCLUDEPATH += "SFML/include" \
     "$$SRCDIR/logic" \
     "$$SRCDIR/logic/behaviours" \
     "$$SRCDIR/components/collidables"\
-    "$$SRCDIR/loaders"
+    "$$SRCDIR/loaders" \
+    "$$SRCDIR/structures"
 
 HEADERS += $$SRCDIR/window/gamewindow.h \
     src/window/windowmanager.h \
@@ -61,7 +62,9 @@ HEADERS += $$SRCDIR/window/gamewindow.h \
     src/components/gamelogic.h \
     src/components/collidable.h \
     src/engines/collisionengine.h \
-    src/loaders/componentloader.h
+    src/loaders/componentloader.h \
+    src/structures/quadtreenode.h \
+    src/structures/quadtree.h
 
 SOURCES += src/main.cpp $$SRCDIR/window/gamewindow.cpp \
     src/window/windowmanager.cpp \
@@ -101,7 +104,9 @@ SOURCES += src/main.cpp $$SRCDIR/window/gamewindow.cpp \
     src/components/gamelogic.cpp \
     src/components/collidable.cpp \
     src/engines/collisionengine.cpp \
-    src/loaders/componentloader.cpp
+    src/loaders/componentloader.cpp \
+    src/structures/quadtreenode.cpp \
+    src/structures/quadtree.cpp
 
 LIBS += -L"$$PWD/SFML/lib"
 

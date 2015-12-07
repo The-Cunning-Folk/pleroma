@@ -13,10 +13,7 @@ void Game::runTests()
     if(input.keyToggled("addObject"))
         gameObjectFactory.newCollisionObject();
 
-    //for testing only
-    transformEngine.setWrapAround(true);
-    transformEngine.setBounds(sf::IntRect(0,0,ceil(gameWindow->getWidth()/grid.getScale()),ceil(gameWindow->getHeight()/grid.getScale())));
-    //remove later!
+
 }
 
 void Game::runEngines()
@@ -109,8 +106,6 @@ void Game::initialiseInjections()
 {
    debug->println("injecting dependencies");
 
-
-
    componentLoader.setTransformEngine(&transformEngine);
    componentFactory.setCollisionEngine(&collisionEngine);
 
@@ -173,10 +168,18 @@ void Game::initialiseTests()
     debug->println("setting up tests");
     input.setKeyInput("addObject",sf::Keyboard::F8);
 
-    for(int i=0; i<10; i++)
+    //for testing only
+    transformEngine.setWrapAround(true);
+    transformEngine.setBounds(sf::IntRect(0,0,ceil(gameWindow->getWidth()/grid.getScale()),ceil(gameWindow->getHeight()/grid.getScale())));
+    //remove later!
+
+    for(int i=0; i<15; i++)
     {
-        GameObject* coll = gameObjectFactory.newCollisionObject();
-        coll->loadTransform().setPosition(sf::Vector2f(i*16 + 16,120));
+        for(int j=0; j<8; j++)
+        {
+            GameObject* coll = gameObjectFactory.newCollisionObject();
+            coll->loadTransform().setPosition(sf::Vector2f(i*16*2 + 16,j*16*2+16));
+        }
     }
 }
 
