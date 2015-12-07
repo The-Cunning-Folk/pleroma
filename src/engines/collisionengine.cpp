@@ -66,7 +66,6 @@ void CollisionEngine::drawDebug()
         {
             gameWindow->draw(collidables[i]);
         }
-        gameWindow->draw(quadtree);
     }
 }
 

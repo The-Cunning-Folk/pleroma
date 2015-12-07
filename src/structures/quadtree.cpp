@@ -35,7 +35,7 @@ sf::FloatRect Quadtree::getRegion() const
 void Quadtree::setRegion(const sf::FloatRect &value)
 {
     region = value;
-    parentNode.bounds = value;
+    parentNode.setBounds(value);
 }
 
 void Quadtree::addObject(Collidable * c)
@@ -67,11 +67,4 @@ void Quadtree::build()
     buildNode(parentNode);
 }
 
-void Quadtree::draw(sf::RenderTarget &target, sf::RenderStates states) const
-{
-    for(int i=0; i<flatNodes.size();i++)
-    {
-        target.draw(flatNodes[i]);
-    }
-}
 

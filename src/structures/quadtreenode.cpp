@@ -13,6 +13,12 @@ void QuadtreeNode::addObject(Collidable * c)
     objects.push_back(c);
 }
 
+void QuadtreeNode::setBounds(sf::FloatRect bounds)
+{
+    this->bounds = bounds;
+
+}
+
 void QuadtreeNode::split()
 {
     nodes.resize(4);
@@ -21,7 +27,7 @@ void QuadtreeNode::split()
         for(unsigned int j=0; j<2; j++)
         {
             sf::FloatRect nodeBounds(bounds.left + (0.5*bounds.width)*i,bounds.top + (0.5*bounds.height)*j,0.5*bounds.width,0.5*bounds.height);
-            nodes[i*2+j].bounds = nodeBounds;
+            nodes[i*2+j].setBounds(nodeBounds);
             nodes[i*2+j].level = level+1;
         }
     }

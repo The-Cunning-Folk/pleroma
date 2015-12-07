@@ -4,7 +4,7 @@
 #include <quadtreenode.h>
 
 namespace BQ{
-class Quadtree : public sf::Drawable
+class Quadtree
 {
 public:
     Quadtree();
@@ -35,7 +35,6 @@ public:
 
 private:
 
-    virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 };
 }
 #endif // QUADTREE_H
