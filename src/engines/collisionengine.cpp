@@ -8,6 +8,8 @@ using namespace BQ;
 CollisionEngine::CollisionEngine() : Engine()
 {
     placeholder = "auto_coll_";
+    quadtree.setRegion(sf::FloatRect(0,0,480,270));
+    quadtree.initialise();
 }
 
 Collidable *CollisionEngine::addCollidable()
@@ -28,7 +30,7 @@ bool CollisionEngine::checkCollision(Collidable & a,Collidable & b)
 
 void CollisionEngine::run()
 {
-    quadtree.setRegion(sf::FloatRect(0,0,480,270));
+
     quadtree.clear();
     for(unsigned int i=0; i<collidables.size(); i++)
     {
@@ -37,11 +39,21 @@ void CollisionEngine::run()
         quadtree.addObject(&collidables[i]);
     }
 
-    for(unsigned int i=0; i<collidables.size(); i++)
+    quadtree.build();
+
+    for(unsigned int i=0; i<quadtree.flatNodes.size(); i++)
     {
-        for(unsigned int j=i+1; j<collidables.size(); j++)
+        QuadtreeNode & node = quadtree.flatNodes[i];
+        for(unsigned int j=0; j<node.objects.size();j++)
         {
-            checkCollision(collidables[i],collidables[j]);
+            if(node.objects[j]->quadtreeLevel == node.level) //primary nodes only fool
+            {
+                for(unsigned int k=0; k<node.objects.size();k++)
+                {
+                    if(k==j){continue;}
+                    checkCollision(*node.objects[j],*node.objects[k]);
+                }
+            }
         }
     }
 
@@ -54,6 +66,7 @@ void CollisionEngine::drawDebug()
         {
             gameWindow->draw(collidables[i]);
         }
+        gameWindow->draw(quadtree);
     }
 }
 

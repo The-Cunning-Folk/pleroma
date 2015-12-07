@@ -13,10 +13,7 @@ void Game::runTests()
     if(input.keyToggled("addObject"))
         gameObjectFactory.newCollisionObject();
 
-    //for testing only
-    transformEngine.setWrapAround(true);
-    transformEngine.setBounds(sf::IntRect(0,0,ceil(gameWindow->getWidth()/grid.getScale()),ceil(gameWindow->getHeight()/grid.getScale())));
-    //remove later!
+
 }
 
 void Game::runEngines()
@@ -99,7 +96,7 @@ void Game::run()
         stabiliseFrameRate(frameTime);
         frameTime = debug->time.getSecondsAndRestart("frameTime");
         float fps = 1.0/frameTime;
-        //debug->printVal("fps",fps);
+        debug->printVal("fps",fps);
         //end framerate stuff
 
     }
@@ -171,12 +168,17 @@ void Game::initialiseTests()
     debug->println("setting up tests");
     input.setKeyInput("addObject",sf::Keyboard::F8);
 
-    for(int i=0; i<29; i++)
+    //for testing only
+    transformEngine.setWrapAround(true);
+    transformEngine.setBounds(sf::IntRect(0,0,ceil(gameWindow->getWidth()/grid.getScale()),ceil(gameWindow->getHeight()/grid.getScale())));
+    //remove later!
+
+    for(int i=0; i<15; i++)
     {
-        for(int j=0; j<16; j++)
+        for(int j=0; j<8; j++)
         {
             GameObject* coll = gameObjectFactory.newCollisionObject();
-            coll->loadTransform().setPosition(sf::Vector2f(i*16 + 16,j*16+16));
+            coll->loadTransform().setPosition(sf::Vector2f(i*16*2 + 16,j*16*2+16));
         }
     }
 }

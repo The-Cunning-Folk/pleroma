@@ -4,7 +4,27 @@ using namespace BQ;
 
 Quadtree::Quadtree()
 {
+    parentNode.level = 0;
+    maxLevels = 4;
+    maxObjects = 6;
+    flatNodes.resize(0);
+}
 
+void Quadtree::initialise()
+{
+    initialiseNode(parentNode);
+}
+
+void Quadtree::initialiseNode(QuadtreeNode & node)
+{
+    node.split();
+    if(node.level <= maxLevels)
+    {
+        for(int i=0; i<node.nodes.size();i++)
+        {
+            initialiseNode(node.nodes[i]);
+        }
+    }
 }
 
 sf::FloatRect Quadtree::getRegion() const
@@ -25,12 +45,33 @@ void Quadtree::addObject(Collidable * c)
 
 void Quadtree::clear()
 {
-    parentNode.nodes.clear();
-    parentNode.objects.clear();
+    parentNode.clear();
+    flatNodes.clear();
+}
+
+void Quadtree::buildNode(QuadtreeNode & node)
+{
+    if(node.objects.size() >= maxObjects)
+    {
+        node.subdivide();
+        for(int i=0; i<node.nodes.size(); i++)
+        {
+            buildNode(node.nodes[i]);
+        }
+    }
+    flatNodes.push_back(node);
 }
 
 void Quadtree::build()
 {
+    buildNode(parentNode);
+}
 
+void Quadtree::draw(sf::RenderTarget &target, sf::RenderStates states) const
+{
+    for(int i=0; i<flatNodes.size();i++)
+    {
+        target.draw(flatNodes[i]);
+    }
 }
 
