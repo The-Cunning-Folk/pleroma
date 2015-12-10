@@ -12,7 +12,7 @@ public:
 
     Transform();
 
-    CrossShape cross;
+    //CrossShape cross;
 
     sf::Vector2i gridPosition; //the position of the object on the grid
 
@@ -47,10 +47,6 @@ private:
 
     sf::Vector2i windowPosition; //this is the actual position of the object to avoid sprite tearing
 
-    virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const
-    {
-        target.draw(cross);
-    }
 };
 
 }

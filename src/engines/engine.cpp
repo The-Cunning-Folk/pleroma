@@ -2,6 +2,7 @@
 
 #include<eventfactory.h>
 #include<componentloader.h>
+#include<game.h>
 
 using namespace BQ;
 
@@ -9,6 +10,16 @@ Engine::Engine()
 {
     placeholder = "auto_generic_";
     currentId = 0;
+}
+
+void Engine::setGame(Game *value)
+{
+    game = value;
+}
+
+Game *Engine::getGame() const
+{
+    return game;
 }
 
 ComponentLoader *Engine::getComponentLoader() const

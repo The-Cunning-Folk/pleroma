@@ -10,6 +10,7 @@ typedef std::shared_ptr<BQ::GameWindow> window_ptr;
 
 namespace BQ{
 
+class Game;
 class EventFactory;
 class ComponentLoader;
 
@@ -20,6 +21,8 @@ public:
 
     EventFactory* eventFactory;
     ComponentLoader* componentLoader;
+
+    Game* game;
 
     DebugUtils* debug;
 
@@ -50,6 +53,10 @@ public:
 
     ComponentLoader *getComponentLoader() const;
     void setComponentLoader(ComponentLoader *value);
+
+    Game *getGame() const;
+
+    void setGame(Game *value);
 
 protected:
     window_ptr gameWindow;

@@ -2,6 +2,7 @@
 
 #include<eventfactory.h>
 #include<componentloader.h>
+#include<game.h>
 
 using namespace BQ;
 
@@ -10,6 +11,8 @@ CollisionEngine::CollisionEngine() : Engine()
     placeholder = "auto_coll_";
     quadtree.setRegion(sf::FloatRect(0,0,480,270));
     quadtree.initialise();
+    rectShape.setOutlineThickness(1.0);
+    rectShape.setFillColor(sf::Color::Transparent);
 }
 
 Collidable *CollisionEngine::addCollidable()
@@ -22,6 +25,8 @@ bool CollisionEngine::checkCollision(Collidable & a,Collidable & b)
 {
     if(a.bBox.intersects(b.bBox))
     {
+        a.colliding = true;
+        b.colliding = true;
         a.setBBoxRectColor(sf::Color::Cyan);
         b.setBBoxRectColor(sf::Color::Cyan);
         return true;
@@ -62,9 +67,20 @@ void CollisionEngine::run()
 void CollisionEngine::drawDebug()
 {
     if(gameWindow != NULL){
+        GameWindow& window = *gameWindow;
+
         for(unsigned int i=0; i<collidables.size(); i++)
         {
-            gameWindow->draw(collidables[i]);
+            sf::FloatRect bBox = collidables[i].getBBox();
+            rectShape.setOutlineColor(sf::Color::Red);
+            rectShape.setPosition(bBox.left,bBox.top);
+            rectShape.setSize(sf::Vector2f(bBox.width,bBox.height));
+            if(collidables[i].colliding)
+            {
+                rectShape.setOutlineColor(sf::Color::Cyan);
+            }
+            window.draw(rectShape);
+            //gameWindow->draw(collidables[i]);
         }
     }
 }

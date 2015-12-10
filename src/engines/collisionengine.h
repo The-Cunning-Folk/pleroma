@@ -15,6 +15,8 @@ public:
 
     bool checkCollision(Collidable &,Collidable &);
 
+    sf::RectangleShape rectShape;
+
     Quadtree quadtree;
 
     void run();
