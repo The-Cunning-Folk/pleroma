@@ -37,9 +37,10 @@ void CollisionEngine::run()
 {
 
     quadtree.clear();
+    ComponentLoader& components = *componentLoader;
     for(unsigned int i=0; i<collidables.size(); i++)
     {
-        collidables[i].setBBox(componentLoader->getTransform(collidables[i].getTransform()).getBBox());
+        collidables[i].setBBox(components.getTransform(collidables[i].getTransform()).getBBox());
         collidables[i].update();
         quadtree.addObject(&collidables[i]);
     }

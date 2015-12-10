@@ -21,12 +21,13 @@ void Game::runEngines()
 
     inputEngine.run();
     transformEngine.run();
-    collisionEngine.run();
+
 
     //float logicTime = debug->time.getSeconds("logicTime");
     //eventEngine.setDelta(logicTime);
     eventEngine.run();
 
+    collisionEngine.run();
     debugDisplayEngine.run();
 }
 
