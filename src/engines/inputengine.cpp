@@ -20,6 +20,8 @@ void InputEngine::run()
 
     }
 
+    EventFactory& eFactory = game->eventFactory;
+
     for(unsigned int i = 0; i<inputs.size(); i++)
     {
         inputs[i].update();
@@ -29,19 +31,19 @@ void InputEngine::run()
         if(activeInputs.size() > 0){
             for(unsigned int j = 0; j<activeInputs.size();j++)
             {
-                game->eventFactory.createEvent("key_input{" + activeInputs[j] + "}",inputs[i].getParent());
+                eFactory.createEvent("key_input{" + activeInputs[j] + "}",inputs[i].getParent());
             }
         }
         if(activeButtons.size() > 0){
             for(unsigned int j = 0; j<activeButtons.size();j++)
             {
-                game->eventFactory.createEvent("button_input{" + activeButtons[j] + "}",inputs[i].getParent());
+                eFactory.createEvent("button_input{" + activeButtons[j] + "}",inputs[i].getParent());
             }
         }
         if(activeAxes.size() > 0){
             for(unsigned int j = 0; j<activeAxes.size(); j++)
             {
-                game->eventFactory.createEvent("joystick_input{" +activeAxes[j] + "}",inputs[i].getParent());
+                eFactory.createEvent("joystick_input{" +activeAxes[j] + "}",inputs[i].getParent());
             }
         }
     }

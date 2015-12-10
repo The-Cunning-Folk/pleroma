@@ -19,10 +19,12 @@ GameLogic *EventEngine::addGameLogic()
 
 void EventEngine::run()
 {
+    TimeUtils& time = (debug->time);
     for(int i=0; i<events.size();i++)
     {
         resolve(events[i]);
     }
+    delta = time.getSeconds("logicTime");
     for(unsigned int i=0; i<toUpdate.size();i++)
     {
         int j = toUpdate[i];
