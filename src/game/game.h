@@ -19,6 +19,7 @@
 #include<transformengine.h>
 #include<eventengine.h>
 #include<collisionengine.h>
+#include<debugdisplayengine.h>
 
 #include<componentloader.h>
 
@@ -54,23 +55,28 @@ public:
 
     GameObjectStack gameObjects;
 
-
-private:
-
     //loaders
     ComponentLoader componentLoader;
 
-    //factories
     GameObjectFactory gameObjectFactory;
     ComponentFactory componentFactory;
     EventFactory eventFactory;
     InputFactory inputFactory;
+
+
+private:
+
+
+
+    //factories
+
 
     //engines
     TransformEngine transformEngine;
     InputEngine inputEngine;
     EventEngine eventEngine;
     CollisionEngine collisionEngine;
+    DebugDisplayEngine debugDisplayEngine;
 
     //inherited properties
     DebugUtils* debug;

@@ -35,8 +35,8 @@ void Transform::setPosition(const sf::Vector2f &value)
 
 void Transform::update()
 {
-    cross.setPosition(position);
-    cross.update();
+    //cross.setPosition(position);
+    //cross.update();
 }
 
 sf::Vector2i Transform::getWindowPosition() const

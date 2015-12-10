@@ -12,6 +12,8 @@ class TransformEngine : public Engine
 public:
     TransformEngine();
 
+    CrossShape cross;
+
     Grid* grid;
 
     bool wrapAround;

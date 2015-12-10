@@ -10,7 +10,7 @@ namespace BQ{
 class GameObject;
 class ComponentLoader;
 
-class Component : public sf::Drawable
+class Component
 {
 public:
     Component();

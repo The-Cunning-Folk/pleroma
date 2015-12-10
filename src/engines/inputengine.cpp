@@ -2,6 +2,7 @@
 
 #include<eventfactory.h>
 #include<componentloader.h>
+#include<game.h>
 
 using namespace BQ;
 
@@ -28,19 +29,19 @@ void InputEngine::run()
         if(activeInputs.size() > 0){
             for(unsigned int j = 0; j<activeInputs.size();j++)
             {
-                eventFactory->createEvent("key_input{" + activeInputs[j] + "}",inputs[i].getParent());
+                game->eventFactory.createEvent("key_input{" + activeInputs[j] + "}",inputs[i].getParent());
             }
         }
         if(activeButtons.size() > 0){
             for(unsigned int j = 0; j<activeButtons.size();j++)
             {
-                eventFactory->createEvent("button_input{" + activeButtons[j] + "}",inputs[i].getParent());
+                game->eventFactory.createEvent("button_input{" + activeButtons[j] + "}",inputs[i].getParent());
             }
         }
         if(activeAxes.size() > 0){
             for(unsigned int j = 0; j<activeAxes.size(); j++)
             {
-                eventFactory->createEvent("joystick_input{" +activeAxes[j] + "}",inputs[i].getParent());
+                game->eventFactory.createEvent("joystick_input{" +activeAxes[j] + "}",inputs[i].getParent());
             }
         }
     }

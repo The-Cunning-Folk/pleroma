@@ -26,6 +26,8 @@ void Game::runEngines()
     float logicTime = debug->time.getSeconds("logicTime");
     eventEngine.setDelta(logicTime);
     eventEngine.run();
+
+    debugDisplayEngine.run();
 }
 
 void Game::run()
@@ -49,15 +51,20 @@ void Game::run()
 
     initialisePlayers();
 
-    debug->println("starting game loop");
+    DebugUtils& print = *debug;
+
+    print.println("starting game loop");
+
+    GameWindow& window = *gameWindow;
+
 
     //end temporary behaviours
 
-    while(gameWindow->isOpen()){
+    while(window.isOpen()){
         //game loop goes here
 
-        gameWindow->updateEvents();
-        gameWindow->clear();
+        window.updateEvents();
+        window.clear();
 
         //get time since last window.clear call
         //logictime is for calculating how long it's been since the engines were last updated
@@ -68,7 +75,7 @@ void Game::run()
         input.update();
 
         if(input.keyToggled("debug"))
-            debug->println("display debug");
+            print.println("display debug");
 
         //temporary behaviours
 
@@ -79,24 +86,25 @@ void Game::run()
         //end logic
 
         //restart the logic timer
-        debug->time.restartClock("logicTime");
+        print.time.restartClock("logicTime");
 
         //drawing here
 
         transformEngine.drawDebug();
         collisionEngine.drawDebug();
+        debugDisplayEngine.drawDebug();
 
 
         //end drawing
 
-        gameWindow->display();
+        window.display();
 
         //framerate stuff
-        float frameTime = debug->time.getSeconds("frameTime");
+        float frameTime = print.time.getSeconds("frameTime");
         stabiliseFrameRate(frameTime);
-        frameTime = debug->time.getSecondsAndRestart("frameTime");
+        frameTime = print.time.getSecondsAndRestart("frameTime");
         float fps = 1.0/frameTime;
-        debug->printVal("fps",fps);
+        //print.printVal("fps",fps);
         //end framerate stuff
 
     }
@@ -126,23 +134,28 @@ void Game::initialiseInjections()
    inputFactory.setInputEngine(&inputEngine);
    inputFactory.setDebug(debug);
 
+   eventEngine.setGame(this);
+   inputEngine.setGame(this);
+   transformEngine.setGame(this);
+   collisionEngine.setGame(this);
+   debugDisplayEngine.setGame(this);
+
    eventEngine.setGameWindow(gameWindow);
    inputEngine.setGameWindow(gameWindow);
    transformEngine.setGameWindow(gameWindow);
    collisionEngine.setGameWindow(gameWindow);
+   debugDisplayEngine.setGameWindow(gameWindow);
 
    eventEngine.setDebug(debug);
    inputEngine.setDebug(debug);
    transformEngine.setDebug(debug);
    collisionEngine.setDebug(debug);
+   debugDisplayEngine.setDebug(debug);
 
    eventEngine.setComponentLoader(&componentLoader);
    collisionEngine.setComponentLoader(&componentLoader);
 
    transformEngine.setGrid(&grid);
-
-   inputEngine.setEventFactory(&eventFactory);
-   collisionEngine.setEventFactory(&eventFactory);
 
    gameObjects.setComponentLoader(&componentLoader);
 
@@ -173,12 +186,12 @@ void Game::initialiseTests()
     transformEngine.setBounds(sf::IntRect(0,0,ceil(gameWindow->getWidth()/grid.getScale()),ceil(gameWindow->getHeight()/grid.getScale())));
     //remove later!
 
-    for(int i=0; i<15; i++)
+    for(int i=0; i<5; i++)
     {
-        for(int j=0; j<8; j++)
+        for(int j=0; j<5; j++)
         {
             GameObject* coll = gameObjectFactory.newCollisionObject();
-            coll->loadTransform().setPosition(sf::Vector2f(i*16*2 + 16,j*16*2+16));
+            coll->loadTransform().setPosition(sf::Vector2f(i*16 + 16,j*16+16));
         }
     }
 }

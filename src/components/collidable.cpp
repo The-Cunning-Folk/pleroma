@@ -7,9 +7,7 @@ using namespace BQ;
 Collidable::Collidable()
 {
     typeId = "collidable";
-    rectShape.setOutlineThickness(1.0);
-    rectShape.setFillColor(sf::Color::Transparent);
-    rectShape.setOutlineColor(sf::Color::Red);
+
 }
 
 int Collidable::getTransform() const
@@ -24,7 +22,7 @@ void Collidable::setTransform(int value)
 
 void Collidable::setBBoxRectColor(sf::Color color)
 {
-    rectShape.setOutlineColor(color);
+    //rectShape.setOutlineColor(color);
 }
 
 sf::FloatRect Collidable::getBBox() const
@@ -39,9 +37,7 @@ void Collidable::setBBox(const sf::FloatRect &value)
 
 void Collidable::update()
 {
-    rectShape.setOutlineColor(sf::Color::Red);
-    rectShape.setPosition(bBox.left,bBox.top);
-    rectShape.setSize(sf::Vector2f(bBox.width,bBox.height));
+    colliding = false;
 }
 
 Transform & Collidable::loadTransform()

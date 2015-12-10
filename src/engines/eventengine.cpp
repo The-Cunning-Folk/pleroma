@@ -2,6 +2,7 @@
 
 #include<eventfactory.h>
 #include<componentloader.h>
+#include<game.h>
 
 using namespace BQ;
 

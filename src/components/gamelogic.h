@@ -26,11 +26,6 @@ public:
 private:
 
     std::vector<logic_ptr> behaviours;
-
-    virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const
-    {
-
-    }
 };
 }
 

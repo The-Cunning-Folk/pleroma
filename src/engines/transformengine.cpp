@@ -2,6 +2,7 @@
 
 #include<eventfactory.h>
 #include<componentloader.h>
+#include<game.h>
 
 using namespace BQ;
 
@@ -95,10 +96,14 @@ void TransformEngine::run()
 
 void TransformEngine::drawDebug()
 {
+    GameWindow& window = *gameWindow;
     for(unsigned int i=0; i<transforms.size(); i++)
     {
+        cross.setPosition(transforms[i].getPosition());
+        cross.update();
+        window.draw(cross);
         //draw all the transforms!
-        gameWindow->draw(transforms[i]);
+        //gameWindow->draw(transforms[i]);
     }
 }
 
