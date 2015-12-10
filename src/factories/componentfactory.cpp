@@ -16,59 +16,59 @@ void ComponentFactory::setComponentLoader(ComponentLoader *value)
 }
 
 
-BQ::Transform *ComponentFactory::newTransform()
+BQ::Transform & ComponentFactory::newTransform()
 {
     return transformEngine->addTransform();
 }
 
-Transform *ComponentFactory::newTransform(std::string name)
+Transform &ComponentFactory::newTransform(std::string name)
 {
-    Transform* transform = newTransform();
-    transform->setName(name);
+    Transform & transform = newTransform();
+    transform.setName(name);
     return(transform);
 }
 
-Transform *ComponentFactory::newChildTransform(Transform* parent)
+Transform &ComponentFactory::newChildTransform(Transform& parent)
 {
-    Transform* transform = newTransform();
-    parent->children.push_back(transform);
+    Transform & transform = newTransform();
+    parent.children.push_back(transform.index);
     return(transform);
 }
 
-PlayerInput *ComponentFactory::newPlayerInput()
+PlayerInput &ComponentFactory::newPlayerInput()
 {
     return inputEngine->addPlayerInput();
 }
 
-PlayerInput *ComponentFactory::newPlayerInput(std::string name)
+PlayerInput &ComponentFactory::newPlayerInput(std::string name)
 {
-    PlayerInput* input = newPlayerInput();
-    input->setName(name);
+    PlayerInput & input = newPlayerInput();
+    input.setName(name);
     return(input);
 }
 
-GameLogic *ComponentFactory::newGameLogic()
+GameLogic &ComponentFactory::newGameLogic()
 {
     return eventEngine->addGameLogic();
 }
 
-GameLogic *ComponentFactory::newGameLogic(std::string name)
+GameLogic &ComponentFactory::newGameLogic(std::string name)
 {
-    GameLogic* gameLogic = newGameLogic();
-    gameLogic->setName(name);
-    gameLogic->setComponentLoader(componentLoader);
+    GameLogic& gameLogic = newGameLogic();
+    gameLogic.setName(name);
+    gameLogic.setComponentLoader(componentLoader);
     return(gameLogic);
 }
 
-Collidable *ComponentFactory::newCollidable()
+Collidable & ComponentFactory::newCollidable()
 {
     return collisionEngine->addCollidable();
 }
 
-Collidable *ComponentFactory::newCollidable(std::string name)
+Collidable & ComponentFactory::newCollidable(std::string name)
 {
-    Collidable* collidable = collisionEngine->addCollidable();
-    collidable->name = name;
+    Collidable & collidable = collisionEngine->addCollidable();
+    collidable.name = name;
     return(collidable);
 }
 

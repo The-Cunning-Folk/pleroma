@@ -68,7 +68,7 @@ void InputEngine::run()
 }
 
 
-PlayerInput *InputEngine::addPlayerInput()
+PlayerInput &InputEngine::addPlayerInput()
 {
     inputs.resize(inputs.size() + 1);
     if(debug != NULL){
@@ -85,7 +85,7 @@ PlayerInput *InputEngine::addPlayerInput()
             }
         }
     }
-    return(&inputs.back());
+    return(inputs.back());
 }
 
 Controller *InputEngine::addController(Controller ctrl)

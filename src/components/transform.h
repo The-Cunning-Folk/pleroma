@@ -21,7 +21,7 @@ public:
 
     sf::FloatRect getBBox();
 
-    std::vector <Transform*> children; //transforms that are bound to this one
+    std::vector <int> children; //transforms that are bound to this one
 
     void move(sf::Vector2f);
     void move(sf::Vector2i);

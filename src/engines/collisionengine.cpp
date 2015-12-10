@@ -15,10 +15,10 @@ CollisionEngine::CollisionEngine() : Engine()
     rectShape.setFillColor(sf::Color::Transparent);
 }
 
-Collidable *CollisionEngine::addCollidable()
+Collidable & CollisionEngine::addCollidable()
 {
     collidables.resize(collidables.size()+1);
-    return & collidables.back();
+    return collidables.back();
 }
 
 bool CollisionEngine::checkCollision(Collidable & a,Collidable & b)

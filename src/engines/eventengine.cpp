@@ -11,10 +11,10 @@ EventEngine::EventEngine() : Engine()
     placeholder = "event_";
 }
 
-GameLogic *EventEngine::addGameLogic()
+GameLogic &EventEngine::addGameLogic()
 {
     gameLogics.resize(gameLogics.size() + 1);
-    return &gameLogics.back();
+    return gameLogics.back();
 }
 
 void EventEngine::run()
