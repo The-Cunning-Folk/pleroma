@@ -107,7 +107,7 @@ void TransformEngine::drawDebug()
     }
 }
 
-Transform *TransformEngine::addTransform()
+Transform &TransformEngine::addTransform()
 {
     transforms.resize(transforms.size() + 1);
     if(debug != NULL){
@@ -116,5 +116,5 @@ Transform *TransformEngine::addTransform()
     transforms.back().index = transforms.size()-1;
     transforms.back().name = placeholder + std::to_string(currentId);
     currentId++;
-    return(&transforms.back());
+    return(transforms.back());
 }

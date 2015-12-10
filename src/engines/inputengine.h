@@ -16,7 +16,7 @@ public:
 
     std::vector<PlayerInput> inputs;
 
-    PlayerInput* addPlayerInput();
+    PlayerInput& addPlayerInput();
 
     Controller* addController(Controller);
 

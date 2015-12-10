@@ -25,8 +25,8 @@ public:
     std::string name;
     int uniqueId;
 
-    void addComponent(Component*);
-    void addComponent(std::string,Component*);
+    void addComponent(Component&);
+    void addComponent(std::string,Component&);
 
     void update();
 

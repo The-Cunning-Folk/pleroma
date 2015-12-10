@@ -11,18 +11,20 @@ EventEngine::EventEngine() : Engine()
     placeholder = "event_";
 }
 
-GameLogic *EventEngine::addGameLogic()
+GameLogic &EventEngine::addGameLogic()
 {
     gameLogics.resize(gameLogics.size() + 1);
-    return &gameLogics.back();
+    return gameLogics.back();
 }
 
 void EventEngine::run()
 {
+    TimeUtils& time = (debug->time);
     for(int i=0; i<events.size();i++)
     {
         resolve(events[i]);
     }
+    delta = time.getSeconds("logicTime");
     for(unsigned int i=0; i<toUpdate.size();i++)
     {
         int j = toUpdate[i];

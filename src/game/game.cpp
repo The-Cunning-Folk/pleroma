@@ -21,12 +21,13 @@ void Game::runEngines()
 
     inputEngine.run();
     transformEngine.run();
-    collisionEngine.run();
 
-    float logicTime = debug->time.getSeconds("logicTime");
-    eventEngine.setDelta(logicTime);
+
+    //float logicTime = debug->time.getSeconds("logicTime");
+    //eventEngine.setDelta(logicTime);
     eventEngine.run();
 
+    collisionEngine.run();
     debugDisplayEngine.run();
 }
 
@@ -64,11 +65,9 @@ void Game::run()
         //game loop goes here
 
         window.updateEvents();
-        window.clear();
 
         //get time since last window.clear call
         //logictime is for calculating how long it's been since the engines were last updated
-
 
         //logic here
 
@@ -87,6 +86,8 @@ void Game::run()
 
         //restart the logic timer
         print.time.restartClock("logicTime");
+
+        window.clear();
 
         //drawing here
 

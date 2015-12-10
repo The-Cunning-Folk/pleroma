@@ -22,18 +22,18 @@ public:
 
     ComponentLoader* componentLoader;
 
-    Transform* newTransform();
-    Transform* newTransform(std::string);
-    Transform* newChildTransform(Transform*);
+    Transform& newTransform();
+    Transform& newTransform(std::string);
+    Transform& newChildTransform(Transform&);
 
-    PlayerInput* newPlayerInput();
-    PlayerInput* newPlayerInput(std::string);
+    PlayerInput& newPlayerInput();
+    PlayerInput& newPlayerInput(std::string);
 
-    GameLogic* newGameLogic();
-    GameLogic* newGameLogic(std::string);
+    GameLogic& newGameLogic();
+    GameLogic& newGameLogic(std::string);
 
-    Collidable* newCollidable();
-    Collidable* newCollidable(std::string);
+    Collidable& newCollidable();
+    Collidable& newCollidable(std::string);
 
     TransformEngine *getTransformEngine() const;
     void setTransformEngine(TransformEngine *value);

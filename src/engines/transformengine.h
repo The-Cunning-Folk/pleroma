@@ -24,7 +24,7 @@ public:
 
     std::vector<Transform> transforms;
 
-    Transform* addTransform();
+    Transform& addTransform();
 
     Grid *getGrid() const;
     void setGrid(Grid *value);

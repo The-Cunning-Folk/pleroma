@@ -37,20 +37,20 @@ Transform &GameObject::loadTransform()
     return componentLoader->getTransform(transform);
 }
 
-void GameObject::addComponent(Component* component)
+void GameObject::addComponent(Component& component)
 {
-    std::string name = component->name;
+    std::string name = component.name;
     if(name.compare("") != 0) //empty string safety
     {
-        name = component->typeId + std::to_string(component->uniqueId);
+        name = component.typeId + std::to_string(component.uniqueId);
     }
     addComponent(name,component);
 }
 
-void GameObject::addComponent(std::string name, Component * component)
+void GameObject::addComponent(std::string name, Component & component)
 {
-    component->setParent(this);
-    components[component->typeId][component->name] = component->index;
+    component.setParent(this);
+    components[component.typeId][component.name] = component.index;
 }
 
 void GameObject::update()
