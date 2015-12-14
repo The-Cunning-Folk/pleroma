@@ -56,6 +56,7 @@ void TransformEngine::run()
     float topEdge =(float)  bounds.top*scale;
     float bottomEdge =(float)  (bounds.top + bounds.height)*scale;
 
+
     for(unsigned int i=0; i<transforms.size(); i++)
     {
         //update all the transforms!
@@ -63,12 +64,13 @@ void TransformEngine::run()
         {
             if(bounds.height>0 && bounds.width > 0)
             {
-                if(!bounds.contains(transforms[i].getGridPosition()))
+                sf::Vector2f gpos = transforms[i].getPosition();
+                if(leftEdge > gpos.x || rightEdge < gpos.x || topEdge > gpos.y || topEdge < gpos.y )
                 {
+                   //debug->println("out of bounds");
                     sf::Vector2f pos = transforms[i].getPosition();
                     if(pos.x > rightEdge)
                     {
-                        debug->println("out of bounds");
                         transforms[i].setPosition(sf::Vector2f(leftEdge,pos.y));
                     }
                     if(pos.x < leftEdge)
@@ -90,6 +92,7 @@ void TransformEngine::run()
 
 
         transforms[i].update();
+        transforms[i].move(delta*(transforms[i].step));
         transforms[i].setGridPosition(grid->getGridPosition(transforms[i].getPosition()));
     }
 }
@@ -97,6 +100,8 @@ void TransformEngine::run()
 void TransformEngine::drawDebug()
 {
     GameWindow& window = *gameWindow;
+
+
     for(unsigned int i=0; i<transforms.size(); i++)
     {
         cross.setPosition(transforms[i].getPosition());

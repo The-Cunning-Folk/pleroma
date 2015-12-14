@@ -22,6 +22,8 @@ public:
     EventFactory* eventFactory;
     ComponentLoader* componentLoader;
 
+    float delta;
+
     Game* game;
 
     DebugUtils* debug;
@@ -57,6 +59,9 @@ public:
     Game *getGame() const;
 
     void setGame(Game *value);
+
+    float getDelta() const;
+    void setDelta(float value);
 
 protected:
     window_ptr gameWindow;

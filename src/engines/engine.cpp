@@ -12,6 +12,16 @@ Engine::Engine()
     currentId = 0;
 }
 
+float Engine::getDelta() const
+{
+    return delta;
+}
+
+void Engine::setDelta(float value)
+{
+    delta = value;
+}
+
 void Engine::setGame(Game *value)
 {
     game = value;

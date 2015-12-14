@@ -12,6 +12,16 @@ void GameObjectFactory::setStack(GameObjectStack * stack)
     gameObjects = stack;
 }
 
+MathsUtils *GameObjectFactory::getMath() const
+{
+    return math;
+}
+
+void GameObjectFactory::setMath(MathsUtils *value)
+{
+    math = value;
+}
+
 ComponentFactory *GameObjectFactory::getComponentFactory() const
 {
     return componentFactory;
@@ -26,7 +36,7 @@ GameObject* GameObjectFactory::newObject()
 {
     GameObject* object = gameObjects->addObject();
     object->setTransform(componentFactory->newTransform().index);
-    debug->println("generated object: " + object->name);
+    //debug->println("generated object: " + object->name);
     return object;
 }
 
@@ -34,15 +44,19 @@ GameObject *GameObjectFactory::newObject(std::string name)
 {
     GameObject* object = gameObjects->addObject(name);
     object->setTransform(componentFactory->newTransform().index);
-    debug->println("generated object: " + object->name);
+    //debug->println("generated object: " + object->name);
     return object;
 }
 
 GameObject *GameObjectFactory::newCollisionObject()
 {
     GameObject* collisionObj = newObject();
+
+    collisionObj->loadTransform().setVelocity(sf::Vector2f(math->randomFloat(-100,100),math->randomFloat(-100,100)));
+
     Collidable & hitbox = componentFactory->newCollidable();
     hitbox.setTransform(collisionObj->getTransform());
+
     collisionObj->addComponent("hitbox",hitbox);
     hitbox.update();
     return collisionObj;

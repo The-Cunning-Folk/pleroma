@@ -10,6 +10,18 @@ Transform::Transform()
     position.y = 0;
     size.x = 10;
     size.y = 10;
+    velocity.x = 0;
+    velocity.y = 0;
+}
+
+sf::Vector2f Transform::getVelocity() const
+{
+    return velocity;
+}
+
+void Transform::setVelocity(const sf::Vector2f &value)
+{
+    velocity = value;
 }
 
 sf::FloatRect Transform::getBBox()
@@ -35,8 +47,8 @@ void Transform::setPosition(const sf::Vector2f &value)
 
 void Transform::update()
 {
-    //cross.setPosition(position);
-    //cross.update();
+    step = velocity;
+    //set velocity to 0
 }
 
 sf::Vector2i Transform::getWindowPosition() const

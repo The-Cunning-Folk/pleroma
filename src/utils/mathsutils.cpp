@@ -4,7 +4,21 @@ using namespace BQ;
 
 MathsUtils::MathsUtils()
 {
+    twister.seed(time(0));
+}
 
+int MathsUtils::randomInt(int l_bound, int u_bound)
+{
+    std::uniform_int_distribution<int> distribution(l_bound,u_bound);
+
+    return distribution(twister);
+}
+
+float MathsUtils::randomFloat(float l_bound, float u_bound)
+{
+    std::uniform_real_distribution<float> distribution(l_bound,u_bound);
+
+    return distribution(twister);
 }
 
 int MathsUtils::nxtPow2(int x)
