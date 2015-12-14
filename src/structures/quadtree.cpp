@@ -5,8 +5,8 @@ using namespace BQ;
 Quadtree::Quadtree()
 {
     parentNode.level = 0;
-    maxLevels = 4;
-    maxObjects = 6;
+    maxLevels = 3;
+    maxObjects = 3;
     flatNodes.resize(0);
 }
 
@@ -51,7 +51,7 @@ void Quadtree::clear()
 
 void Quadtree::buildNode(QuadtreeNode & node)
 {
-    if(node.objects.size() >= maxObjects)
+    if(node.objects.size() >= maxObjects && node.level <= maxLevels)
     {
         node.subdivide();
         for(int i=0; i<node.nodes.size(); i++)

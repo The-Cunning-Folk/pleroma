@@ -18,6 +18,8 @@ public:
     GameObjectFactory();
     void setStack(GameObjectStack*);
 
+    MathsUtils* math;
+
     //ridiculous number of add functions go here, need some way to generate archetypes for items from file
 
     ComponentFactory* componentFactory;
@@ -31,6 +33,9 @@ public:
 
     ComponentFactory *getComponentFactory() const;
     void setComponentFactory(ComponentFactory *value);
+
+    MathsUtils *getMath() const;
+    void setMath(MathsUtils *value);
 
 private:
 

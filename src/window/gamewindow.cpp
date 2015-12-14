@@ -11,6 +11,8 @@ GameWindow::GameWindow()
 GameWindow::GameWindow(int width, int height, std::string name)
 {
    window.create(sf::VideoMode(width, height), name);
+   this->width = width;
+   this->height = height;
 }
 
 GameWindow::GameWindow(GameWindow & gameWindow)

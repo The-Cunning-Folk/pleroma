@@ -20,6 +20,7 @@ void Game::runEngines()
 {
 
     inputEngine.run();
+    transformEngine.setDelta(debug->time.getSeconds("logicTime"));
     transformEngine.run();
 
 
@@ -128,6 +129,7 @@ void Game::initialiseInjections()
    gameObjectFactory.setStack(&gameObjects);
    gameObjectFactory.setDebug(debug);
    gameObjectFactory.setComponentFactory(&componentFactory);
+   gameObjectFactory.setMath(&math);
 
    eventFactory.setEventEngine(&eventEngine);
    eventFactory.setDebug(debug);
@@ -184,12 +186,13 @@ void Game::initialiseTests()
 
     //for testing only
     transformEngine.setWrapAround(true);
+    debug->println(std::to_string(gameWindow->getWidth()));
     transformEngine.setBounds(sf::IntRect(0,0,ceil(gameWindow->getWidth()/grid.getScale()),ceil(gameWindow->getHeight()/grid.getScale())));
     //remove later!
 
-    for(int i=0; i<5; i++)
+    for(int i=0; i<15; i++)
     {
-        for(int j=0; j<5; j++)
+        for(int j=0; j<15; j++)
         {
             GameObject* coll = gameObjectFactory.newCollisionObject();
             coll->loadTransform().setPosition(sf::Vector2f(i*16 + 16,j*16+16));

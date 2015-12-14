@@ -69,20 +69,30 @@ void CollisionEngine::drawDebug()
 {
     if(gameWindow != NULL){
         GameWindow& window = *gameWindow;
-
+        rectShape.setOutlineThickness(1.0);
+        for(unsigned int i=0; i<quadtree.flatNodes.size(); i++)
+        {
+            sf::FloatRect bBox = quadtree.flatNodes[i].bounds;
+            rectShape.setOutlineColor(sf::Color::Cyan);
+            rectShape.setPosition(bBox.left+1,bBox.top+1);
+            rectShape.setSize(sf::Vector2f(bBox.width-1,bBox.height-1));
+            window.draw(rectShape);
+        }
+        rectShape.setOutlineThickness(1.0);
         for(unsigned int i=0; i<collidables.size(); i++)
         {
             sf::FloatRect bBox = collidables[i].getBBox();
             rectShape.setOutlineColor(sf::Color::Red);
-            rectShape.setPosition(bBox.left,bBox.top);
-            rectShape.setSize(sf::Vector2f(bBox.width,bBox.height));
+            rectShape.setPosition(bBox.left+1,bBox.top+1);
+            rectShape.setSize(sf::Vector2f(bBox.width-2,bBox.height-2));
             if(collidables[i].colliding)
             {
-                rectShape.setOutlineColor(sf::Color::Cyan);
+                rectShape.setOutlineColor(sf::Color::Green);
             }
             window.draw(rectShape);
-            //gameWindow->draw(collidables[i]);
         }
+
+
     }
 }
 

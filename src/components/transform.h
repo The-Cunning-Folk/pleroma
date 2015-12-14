@@ -18,6 +18,8 @@ public:
 
     sf::Vector2f position; //this is the position that we do work on so that we can scale things nicely
     sf::Vector2f size;
+    sf::Vector2f velocity;
+
 
     sf::FloatRect getBBox();
 
@@ -42,6 +44,11 @@ public:
 
     sf::Vector2f getSize() const;
     void setSize(const sf::Vector2f &value);
+
+    sf::Vector2f getVelocity() const;
+    void setVelocity(const sf::Vector2f &value);
+
+    sf::Vector2f step;
 
 private:
 

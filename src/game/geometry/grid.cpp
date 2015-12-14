@@ -21,7 +21,13 @@ void Grid::setScale(int value)
     if(value <= 0){
         value = 2;
     }
-    scale = math.nxtPow2(value);
+    debug->println(std::to_string(value));
+    if(value%2 != 0){
+        scale = math.nxtPow2(value);
+    }
+    else{
+        scale = value;
+    }
     power = math.getPow2(scale);
 }
 
