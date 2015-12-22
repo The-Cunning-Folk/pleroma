@@ -75,7 +75,7 @@ void CollisionEngine::drawDebug()
             sf::FloatRect bBox = quadtree.flatNodes[i].bounds;
             rectShape.setOutlineColor(sf::Color::Cyan);
             rectShape.setPosition(bBox.left+1,bBox.top+1);
-            rectShape.setSize(sf::Vector2f(bBox.width-1,bBox.height-1));
+            rectShape.setSize(sf::Vector2f(bBox.width-2,bBox.height-2));
             window.draw(rectShape);
         }
         rectShape.setOutlineThickness(1.0);
