@@ -50,15 +50,20 @@ void CollisionEngine::run()
     for(unsigned int i=0; i<quadtree.flatNodes.size(); i++)
     {
         QuadtreeNode & node = quadtree.flatNodes[i];
+        int indexChecked = 0;
         for(unsigned int j=0; j<node.objects.size();j++)
         {
+            int jLevel = node.objects[j]->quadtreeLevel;
             if(node.objects[j]->quadtreeLevel == node.level) //primary nodes only fool
             {
                 for(unsigned int k=0; k<node.objects.size();k++)
                 {
                     if(k==j){continue;}
+                    int kLevel = node.objects[k]->quadtreeLevel;
+                    if(kLevel == jLevel && k < indexChecked) {continue;}
                     checkCollision(*node.objects[j],*node.objects[k]);
                 }
+                indexChecked = j;
             }
         }
     }
