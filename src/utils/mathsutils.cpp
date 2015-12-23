@@ -5,6 +5,21 @@ using namespace BQ;
 MathsUtils::MathsUtils()
 {
     twister.seed(time(0));
+    trigPrecision = 3600;
+    float fI;
+    degToRad = 3.141/180.0;
+    radToDeg = 1.0/degToRad;
+    sinTable.resize(0);
+    cosTable.resize(0);
+    tanTable.resize(0);
+    float prefact = degToRad/10;
+    for(int i=0; i<trigPrecision; i++)
+    {
+        fI = ((float) i)*prefact;
+        sinTable.push_back(sin(fI));
+        cosTable.push_back(cos(fI));
+        tanTable.push_back(tan(fI));
+    }
 }
 
 int MathsUtils::randomInt(int l_bound, int u_bound)
@@ -19,6 +34,71 @@ float MathsUtils::randomFloat(float l_bound, float u_bound)
     std::uniform_real_distribution<float> distribution(l_bound,u_bound);
 
     return distribution(twister);
+}
+
+float MathsUtils::fsin(float x)
+{
+    return sinTable[intDegRad(x)];
+}
+
+float MathsUtils::fcos(float x)
+{
+    return cosTable[intDegRad(x)];
+}
+
+float MathsUtils::ftan(float x)
+{
+    return tanTable[intDegRad(x)];
+}
+
+float MathsUtils::fsinDeg(float x)
+{
+    return sinTable[intDegDeg(x)];
+}
+
+float MathsUtils::fcosDeg(float x)
+{
+    return cosTable[intDegDeg(x)];
+}
+
+float MathsUtils::ftanDeg(float x)
+{
+    return tanTable[intDegDeg(x)];
+}
+
+int MathsUtils::intDegRad(float x)
+{
+    return intDegDeg(x*radToDeg);
+}
+
+int MathsUtils::intDegDeg(float x)
+{
+    int iX = roundAndCast(x*10);
+    while(iX >= 3600)
+    {
+        iX-=3600;
+    }
+    while(iX<0)
+    {
+        iX+= 3600;
+    }
+    return iX;
+}
+
+float MathsUtils::round(float x)
+{
+    float ceilX = ceil(x);
+    float floorX = floor(x);
+    float difC = ceilX - x;
+    float difF = x - floorX;
+    if(difF < difC) {return floorX;}
+    else {return ceilX;}
+}
+
+int MathsUtils::roundAndCast(float x)
+{
+    float fR = round(x);
+    return (int) fR;
 }
 
 int MathsUtils::nxtPow2(int x)
