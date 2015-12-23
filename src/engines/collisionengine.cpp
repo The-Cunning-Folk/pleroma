@@ -40,8 +40,11 @@ void CollisionEngine::run()
     ComponentLoader& components = *componentLoader;
     for(unsigned int i=0; i<collidables.size(); i++)
     {
-        collidables[i].setBBox(components.getTransform(collidables[i].getTransform()).getBBox());
+        Transform & t = components.getTransform(collidables[i].getTransform());
+        ConvexPolygon& p = collidables[i].polygon;
+        p.setPosition(t.getPosition());
         collidables[i].update();
+        collidables[i].setBBox(p.bBox);
         quadtree.addObject(&collidables[i]);
     }
 
@@ -95,6 +98,24 @@ void CollisionEngine::drawDebug()
                 rectShape.setOutlineColor(sf::Color::Green);
             }
             window.draw(rectShape);
+        }
+
+        for(unsigned int i=0; i<collidables.size(); i++)
+        {
+            sf::ConvexShape shape;
+            ConvexPolygon& p = collidables[i].polygon;
+            shape.setPointCount(p.points.size());
+            for(unsigned int j=0; j<p.points.size(); j++)
+            {
+                shape.setPoint(j,p.points[j]);
+            }
+            shape.setPosition(p.position);
+            shape.setFillColor(sf::Color::White);
+            if(collidables[i].colliding)
+            {
+                shape.setFillColor(sf::Color::Green);
+            }
+            window.draw(shape);
         }
 
 

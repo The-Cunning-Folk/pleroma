@@ -62,14 +62,27 @@ GameLogic &ComponentFactory::newGameLogic(std::string name)
 
 Collidable & ComponentFactory::newCollidable()
 {
-    return collisionEngine->addCollidable();
+    Collidable& collidable = collisionEngine->addCollidable();
+    return collidable;
 }
 
 Collidable & ComponentFactory::newCollidable(std::string name)
 {
-    Collidable & collidable = collisionEngine->addCollidable();
+    Collidable & collidable = newCollidable();
     collidable.name = name;
     return(collidable);
+}
+
+Collidable &ComponentFactory::newRandomCollidable()
+{
+    Collidable & collidable = newCollidable();
+
+    collidable.polygon.addPoint(sf::Vector2f(-5,5));
+    collidable.polygon.addPoint(sf::Vector2f(5,5));
+    collidable.polygon.addPoint(sf::Vector2f(5,-5));
+    collidable.polygon.addPoint(sf::Vector2f(-5,-5));
+
+    return collidable;
 }
 
 TransformEngine *ComponentFactory::getTransformEngine() const

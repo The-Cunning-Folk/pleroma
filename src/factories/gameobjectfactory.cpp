@@ -12,15 +12,6 @@ void GameObjectFactory::setStack(GameObjectStack * stack)
     gameObjects = stack;
 }
 
-MathsUtils *GameObjectFactory::getMath() const
-{
-    return math;
-}
-
-void GameObjectFactory::setMath(MathsUtils *value)
-{
-    math = value;
-}
 
 ComponentFactory *GameObjectFactory::getComponentFactory() const
 {
@@ -52,9 +43,9 @@ GameObject *GameObjectFactory::newCollisionObject()
 {
     GameObject* collisionObj = newObject();
 
-    collisionObj->loadTransform().setVelocity(sf::Vector2f(math->randomFloat(-10,10),math->randomFloat(-10,10)));
+    collisionObj->loadTransform().setVelocity(sf::Vector2f(maths->randomFloat(-100,100),maths->randomFloat(-100,100)));
 
-    Collidable & hitbox = componentFactory->newCollidable();
+    Collidable & hitbox = componentFactory->newRandomCollidable();
     hitbox.setTransform(collisionObj->getTransform());
 
     collisionObj->addComponent("hitbox",hitbox);

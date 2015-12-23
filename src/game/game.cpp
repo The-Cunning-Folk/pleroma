@@ -125,11 +125,12 @@ void Game::initialiseInjections()
    componentFactory.setEventEngine(&eventEngine);
    componentFactory.setCollisionEngine(&collisionEngine);
    componentFactory.setComponentLoader(&componentLoader);
+   componentFactory.setMaths(&math);
 
    gameObjectFactory.setStack(&gameObjects);
    gameObjectFactory.setDebug(debug);
    gameObjectFactory.setComponentFactory(&componentFactory);
-   gameObjectFactory.setMath(&math);
+   gameObjectFactory.setMaths(&math);
 
    eventFactory.setEventEngine(&eventEngine);
    eventFactory.setDebug(debug);
