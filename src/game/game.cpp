@@ -156,6 +156,8 @@ void Game::initialiseInjections()
    collisionEngine.setDebug(debug);
    debugDisplayEngine.setDebug(debug);
 
+   collisionEngine.setMaths(&math);
+
    eventEngine.setComponentLoader(&componentLoader);
    collisionEngine.setComponentLoader(&componentLoader);
 

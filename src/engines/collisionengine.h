@@ -14,6 +14,7 @@ public:
     Collidable& addCollidable();
 
     bool checkCollision(Collidable &,Collidable &);
+    bool separatingAxisCheck(ConvexPolygon &, ConvexPolygon &);
 
     sf::RectangleShape rectShape;
 

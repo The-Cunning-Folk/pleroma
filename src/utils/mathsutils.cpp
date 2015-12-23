@@ -85,6 +85,19 @@ int MathsUtils::intDegDeg(float x)
     return iX;
 }
 
+float MathsUtils::fSqrt(float x)
+{
+
+    unsigned int i = *(unsigned int*) &x;
+
+  // adjust bias
+  i  += 127 << 23;
+  // approximation of square root
+  i >>= 1;
+
+  return *(float*) &i;
+}
+
 float MathsUtils::round(float x)
 {
     float ceilX = ceil(x);
@@ -126,6 +139,29 @@ int MathsUtils::getPow2(int x)
        x >>= 1;
        pow ++;
     }
-     return(pow);
+    return(pow);
+}
+
+float MathsUtils::mag(sf::Vector2f v)
+{
+    float sqMag = v.x*v.x + v.y*v.y;
+    return fSqrt(sqMag);
+}
+
+sf::Vector2f MathsUtils::normal(sf::Vector2f v)
+{
+    return(sf::Vector2f(-v.y,v.x));
+}
+
+sf::Vector2f MathsUtils::unit(sf::Vector2f v)
+{
+    float vmag = mag(v);
+    float rMag = 1/vmag;
+    return(sf::Vector2f(v.x*rMag,v.y*rMag));
+}
+
+sf::Vector2f MathsUtils::unitNormal(sf::Vector2f v)
+{
+    return(unit(normal(v)));
 }
 

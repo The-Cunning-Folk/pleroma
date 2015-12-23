@@ -7,6 +7,7 @@
 #include<memory>
 #include<iostream>
 #include<math.h>
+#include<SFML/Graphics.hpp>
 
 namespace BQ{
 class MathsUtils
@@ -36,6 +37,8 @@ public:
     int intDegRad(float x);
     int intDegDeg(float x);
 
+    float fSqrt(float);
+
     float degToRad;
     float radToDeg;
 
@@ -44,6 +47,12 @@ public:
 
     int nxtPow2(int);
     int getPow2(int);
+
+    float mag(sf::Vector2f);
+    sf::Vector2f normal(sf::Vector2f);
+    sf::Vector2f unit(sf::Vector2f);
+    sf::Vector2f unitNormal(sf::Vector2f);
+
 };
 }
 

@@ -4,6 +4,7 @@
 #include<memory>
 #include<vector>
 #include<debugutils.h>
+#include<mathsutils.h>
 #include<gamewindow.h>
 
 typedef std::shared_ptr<BQ::GameWindow> window_ptr;
@@ -27,6 +28,7 @@ public:
     Game* game;
 
     DebugUtils* debug;
+    MathsUtils* maths;
 
     std::string placeholder;
     int currentId;
@@ -62,6 +64,9 @@ public:
 
     float getDelta() const;
     void setDelta(float value);
+
+    MathsUtils *getMaths() const;
+    void setMaths(MathsUtils *value);
 
 protected:
     window_ptr gameWindow;

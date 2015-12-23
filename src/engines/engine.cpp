@@ -12,6 +12,16 @@ Engine::Engine()
     currentId = 0;
 }
 
+MathsUtils *Engine::getMaths() const
+{
+    return maths;
+}
+
+void Engine::setMaths(MathsUtils *value)
+{
+    maths = value;
+}
+
 float Engine::getDelta() const
 {
     return delta;

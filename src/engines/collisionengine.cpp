@@ -25,11 +25,23 @@ bool CollisionEngine::checkCollision(Collidable & a,Collidable & b)
 {
     if(a.bBox.intersects(b.bBox))
     {
+        //SAT HERE
         a.colliding = true;
         b.colliding = true;
-        a.setBBoxRectColor(sf::Color::Cyan);
-        b.setBBoxRectColor(sf::Color::Cyan);
         return true;
+    }
+}
+
+bool CollisionEngine::separatingAxisCheck(ConvexPolygon & a, ConvexPolygon & b)
+{
+    //first poly
+    for(int i=1; i<a.points.size();i++)
+    {
+        //get difference
+        sf::Vector2f diff = a.points[i] - a.points[i-1];
+        //find normal vector
+        sf::Vector2f normU = maths->unitNormal(diff);
+        //project vertices along normal
     }
 }
 
