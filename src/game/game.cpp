@@ -193,12 +193,12 @@ void Game::initialiseTests()
     transformEngine.setBounds(sf::IntRect(0,0,ceil(gameWindow->getWidth()/grid.getScale()),ceil(gameWindow->getHeight()/grid.getScale())));
     //remove later!
 
-    for(int i=1; i<6; i++)
+    for(int i=1; i<15; i++)
     {
-        for(int j=1; j<6; j++)
+        for(int j=1; j<15; j++)
         {
             GameObject* coll = gameObjectFactory.newCollisionObject();
-            coll->loadTransform().setPosition(sf::Vector2f(i*2*16 + 16,j*2*16+16));
+            coll->loadTransform().setPosition(sf::Vector2f(i*16 + 16,j*16+16));
         }
     }
 }
