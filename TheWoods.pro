@@ -66,7 +66,8 @@ HEADERS += $$SRCDIR/window/gamewindow.h \
     src/structures/quadtreenode.h \
     src/structures/quadtree.h \
     src/engines/debugdisplayengine.h \
-    src/structures/convexpolygon.h
+    src/structures/convexpolygon.h \
+    src/structures/projection.h
 
 SOURCES += src/main.cpp $$SRCDIR/window/gamewindow.cpp \
     src/window/windowmanager.cpp \
@@ -110,7 +111,8 @@ SOURCES += src/main.cpp $$SRCDIR/window/gamewindow.cpp \
     src/structures/quadtreenode.cpp \
     src/structures/quadtree.cpp \
     src/engines/debugdisplayengine.cpp \
-    src/structures/convexpolygon.cpp
+    src/structures/convexpolygon.cpp \
+    src/structures/projection.cpp
 
 LIBS += -L"$$PWD/SFML/lib"
 

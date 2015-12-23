@@ -15,6 +15,7 @@ CollisionEngine::CollisionEngine() : Engine()
     rectShape.setFillColor(sf::Color::Transparent);
 }
 
+
 Collidable & CollisionEngine::addCollidable()
 {
     collidables.resize(collidables.size()+1);
@@ -35,14 +36,51 @@ bool CollisionEngine::checkCollision(Collidable & a,Collidable & b)
 bool CollisionEngine::separatingAxisCheck(ConvexPolygon & a, ConvexPolygon & b)
 {
     //first poly
+    std::vector<sf::Vector2f> axes;
+    if(a.points.size() < 1 || b.points.size() < 1) {return false;}
     for(int i=1; i<a.points.size();i++)
     {
         //get difference
-        sf::Vector2f diff = a.points[i] - a.points[i-1];
+        sf::Vector2f axis = a.points[i] - a.points[i-1];
         //find normal vector
-        sf::Vector2f normU = maths->unitNormal(diff);
-        //project vertices along normal
+        sf::Vector2f normAxis = maths->unitNormal(axis);
+        axes.push_back(normAxis);
     }
+    for(int i=1; i<b.points.size();i++)
+    {
+        //get difference
+        sf::Vector2f axis = b.points[i] - b.points[i-1];
+        //find normal vector
+        sf::Vector2f normAxis = maths->unitNormal(axis);
+        axes.push_back(normAxis);
+    }
+    for(int i=0; i<axes.size(); i++)
+    {
+        Projection pA = projection(a,axes[i]);
+        Projection pB = projection(a,axes[i]);
+
+        if(!pA.overlaps(pB)) {return false;}
+    }
+    return true;
+}
+
+Projection CollisionEngine::projection(ConvexPolygon & shape, sf::Vector2f axis)
+{
+    float min = maths->dot(shape.points[0],axis);
+    float max = min;
+    for(int i=0; i<shape.points.size(); i++)
+    {
+        sf::Vector2f& p = shape.points[i];
+        float dot = maths->dot(p,axis);
+        if(dot < min)
+        {
+            min = dot;
+        } else if (dot > max)
+        {
+            max = dot;
+        }
+    }
+    return (Projection(min,max));
 }
 
 void CollisionEngine::run()

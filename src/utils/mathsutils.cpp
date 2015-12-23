@@ -165,3 +165,8 @@ sf::Vector2f MathsUtils::unitNormal(sf::Vector2f v)
     return(unit(normal(v)));
 }
 
+float MathsUtils::dot(sf::Vector2f a, sf::Vector2f b)
+{
+    return(a.x*b.x+a.y*b.y);
+}
+

@@ -52,6 +52,7 @@ public:
     sf::Vector2f normal(sf::Vector2f);
     sf::Vector2f unit(sf::Vector2f);
     sf::Vector2f unitNormal(sf::Vector2f);
+    float dot(sf::Vector2f,sf::Vector2f);
 
 };
 }
