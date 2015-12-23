@@ -34,6 +34,7 @@ public:
 
     Collidable& newCollidable();
     Collidable& newCollidable(std::string);
+    Collidable& newRandomCollidable();
 
     TransformEngine *getTransformEngine() const;
     void setTransformEngine(TransformEngine *value);

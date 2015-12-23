@@ -4,6 +4,7 @@
 #include <engine.h>
 #include <collidable.h>
 #include <quadtree.h>
+#include <projection.h>
 
 namespace BQ{
 class CollisionEngine : public Engine
@@ -14,6 +15,8 @@ public:
     Collidable& addCollidable();
 
     bool checkCollision(Collidable &,Collidable &);
+    bool separatingAxisCheck(ConvexPolygon &, ConvexPolygon &);
+    Projection projection(ConvexPolygon &, sf::Vector2f);
 
     sf::RectangleShape rectShape;
 

@@ -3,6 +3,7 @@
 
 #include <component.h>
 #include <transform.h>
+#include <convexpolygon.h>
 
 namespace BQ{
 class Collidable : public Component
@@ -26,6 +27,8 @@ public:
     void update();
 
     bool colliding;
+
+    ConvexPolygon polygon;
 
     Transform & loadTransform();
     int getTransform() const;

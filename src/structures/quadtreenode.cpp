@@ -83,6 +83,7 @@ void QuadtreeNode::subdivide()
         else
         {
             //keep the object in this node
+            objects[i]->quadtreeLevel = level;
         }
 
     }

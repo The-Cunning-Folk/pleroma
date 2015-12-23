@@ -38,6 +38,7 @@ void Collidable::setBBox(const sf::FloatRect &value)
 void Collidable::update()
 {
     colliding = false;
+    polygon.update();
 }
 
 Transform & Collidable::loadTransform()

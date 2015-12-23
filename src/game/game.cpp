@@ -125,11 +125,12 @@ void Game::initialiseInjections()
    componentFactory.setEventEngine(&eventEngine);
    componentFactory.setCollisionEngine(&collisionEngine);
    componentFactory.setComponentLoader(&componentLoader);
+   componentFactory.setMaths(&math);
 
    gameObjectFactory.setStack(&gameObjects);
    gameObjectFactory.setDebug(debug);
    gameObjectFactory.setComponentFactory(&componentFactory);
-   gameObjectFactory.setMath(&math);
+   gameObjectFactory.setMaths(&math);
 
    eventFactory.setEventEngine(&eventEngine);
    eventFactory.setDebug(debug);
@@ -154,6 +155,8 @@ void Game::initialiseInjections()
    transformEngine.setDebug(debug);
    collisionEngine.setDebug(debug);
    debugDisplayEngine.setDebug(debug);
+
+   collisionEngine.setMaths(&math);
 
    eventEngine.setComponentLoader(&componentLoader);
    collisionEngine.setComponentLoader(&componentLoader);
@@ -190,9 +193,9 @@ void Game::initialiseTests()
     transformEngine.setBounds(sf::IntRect(0,0,ceil(gameWindow->getWidth()/grid.getScale()),ceil(gameWindow->getHeight()/grid.getScale())));
     //remove later!
 
-    for(int i=0; i<15; i++)
+    for(int i=1; i<15; i++)
     {
-        for(int j=0; j<15; j++)
+        for(int j=1; j<15; j++)
         {
             GameObject* coll = gameObjectFactory.newCollisionObject();
             coll->loadTransform().setPosition(sf::Vector2f(i*16 + 16,j*16+16));
@@ -217,7 +220,7 @@ void Game::stabiliseFrameRate(float currentFrameDuration)
         std::string currentString = std::to_string(currentFrameDuration);
 
         std::string warning = "frame duration exceeded target";
-        debug->printwarn(warning);
+        //debug->printwarn(warning);
     }
     sf::sleep(sleepTime);
 }

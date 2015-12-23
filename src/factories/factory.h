@@ -2,6 +2,7 @@
 #define FACTORY_H
 
 #include <debugutils.h>
+#include <mathsutils.h>
 
 #include<iostream>
 #include<vector>
@@ -18,8 +19,11 @@ public:
 
     DebugUtils* debug;
 
+    MathsUtils* maths;
+
     void setDebug(DebugUtils *value);
 
+    void setMaths(MathsUtils *value);
 };
 
 }
