@@ -191,12 +191,12 @@ void Game::initialiseTests()
     transformEngine.setBounds(sf::IntRect(0,0,ceil(gameWindow->getWidth()/grid.getScale()),ceil(gameWindow->getHeight()/grid.getScale())));
     //remove later!
 
-    for(int i=0; i<15; i++)
+    for(int i=0; i<10; i++)
     {
-        for(int j=0; j<15; j++)
+        for(int j=0; j<10; j++)
         {
             GameObject* coll = gameObjectFactory.newCollisionObject();
-            coll->loadTransform().setPosition(sf::Vector2f(i*16 + 16,j*16+16));
+            coll->loadTransform().setPosition(sf::Vector2f(i*2*16 + 16,j*2*16+16));
         }
     }
 }
@@ -218,7 +218,7 @@ void Game::stabiliseFrameRate(float currentFrameDuration)
         std::string currentString = std::to_string(currentFrameDuration);
 
         std::string warning = "frame duration exceeded target";
-        debug->printwarn(warning);
+        //debug->printwarn(warning);
     }
     sf::sleep(sleepTime);
 }

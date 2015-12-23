@@ -77,10 +77,17 @@ Collidable &ComponentFactory::newRandomCollidable()
 {
     Collidable & collidable = newCollidable();
 
-    collidable.polygon.addPoint(sf::Vector2f(-5,5));
-    collidable.polygon.addPoint(sf::Vector2f(5,5));
-    collidable.polygon.addPoint(sf::Vector2f(5,-5));
-    collidable.polygon.addPoint(sf::Vector2f(-5,-5));
+    float r = maths->randomFloat(4,12);
+    sf::Vector2f point;
+    float a = 0.0;
+
+    while(a<360.0)
+    {
+        point.x = r*maths->fcosDeg(a);
+        point.y = r*maths->fsinDeg(a);
+        collidable.polygon.addPoint(point);
+        a += maths->randomFloat(10,80);
+    }
 
     return collidable;
 }
