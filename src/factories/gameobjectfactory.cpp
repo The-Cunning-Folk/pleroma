@@ -43,7 +43,7 @@ GameObject *GameObjectFactory::newCollisionObject()
 {
     GameObject* collisionObj = newObject();
 
-    collisionObj->loadTransform().setVelocity(sf::Vector2f(maths->randomFloat(-100,100),maths->randomFloat(-100,100)));
+    collisionObj->loadTransform().setVelocity(sf::Vector2f(maths->randomFloat(-10,10),maths->randomFloat(-10,10)));
 
     Collidable & hitbox = componentFactory->newRandomCollidable();
     hitbox.setTransform(collisionObj->getTransform());
@@ -58,7 +58,7 @@ GameObject* GameObjectFactory::newPlayerObject() //builds behaviours for the pla
     GameObject* player = newObject("player_1");
     PlayerInput& input = componentFactory->newPlayerInput("player_input");
     GameLogic& logic = componentFactory->newGameLogic("player_logic");
-    Collidable & hitbox = componentFactory->newCollidable("player_hitbox");
+    Collidable & hitbox = componentFactory->newRandomCollidable(/*"player_hitbox"*/);
 
     //add components
     player->addComponent("input",input);

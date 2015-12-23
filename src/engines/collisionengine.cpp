@@ -27,9 +27,15 @@ bool CollisionEngine::checkCollision(Collidable & a,Collidable & b)
     if(a.bBox.intersects(b.bBox))
     {
         //SAT HERE
-        a.colliding = true;
-        b.colliding = true;
-        return true;
+        if(separatingAxisCheck(a.polygon,b.polygon))
+        {
+            a.colliding = true;
+            b.colliding = true;
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 }
 
@@ -57,7 +63,7 @@ bool CollisionEngine::separatingAxisCheck(ConvexPolygon & a, ConvexPolygon & b)
     for(int i=0; i<axes.size(); i++)
     {
         Projection pA = projection(a,axes[i]);
-        Projection pB = projection(a,axes[i]);
+        Projection pB = projection(b,axes[i]);
 
         if(!pA.overlaps(pB)) {return false;}
     }
@@ -66,11 +72,11 @@ bool CollisionEngine::separatingAxisCheck(ConvexPolygon & a, ConvexPolygon & b)
 
 Projection CollisionEngine::projection(ConvexPolygon & shape, sf::Vector2f axis)
 {
-    float min = maths->dot(shape.points[0],axis);
+    float min = maths->dot(shape.position + shape.points[0],axis);
     float max = min;
     for(int i=0; i<shape.points.size(); i++)
     {
-        sf::Vector2f& p = shape.points[i];
+        sf::Vector2f p = shape.position + shape.points[i];
         float dot = maths->dot(p,axis);
         if(dot < min)
         {

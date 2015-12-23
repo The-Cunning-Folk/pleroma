@@ -15,6 +15,6 @@ Projection::Projection(float min, float max)
 
 bool Projection::overlaps(const Projection & p)
 {
-    return(max > p.min & min < p.max);
+    return(max > p.min && min < p.max);
 }
 

@@ -69,7 +69,8 @@ HEADERS += $$SRCDIR/window/gamewindow.h \
     src/structures/convexpolygon.h \
     src/structures/projection.h
 
-SOURCES += src/main.cpp $$SRCDIR/window/gamewindow.cpp \
+SOURCES += src/main.cpp \
+    $$SRCDIR/window/gamewindow.cpp \
     src/window/windowmanager.cpp \
     src/utils/debugutils.cpp \
     src/application/app.cpp \
