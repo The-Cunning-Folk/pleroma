@@ -1,6 +1,8 @@
 #ifndef PROJECTION_H
 #define PROJECTION_H
 
+#include<math.h>
+
 namespace BQ{
 class Projection
 {
@@ -12,6 +14,7 @@ public:
     float min;
 
     bool overlaps(const Projection &);
+    float getOverlap(const Projection &);
 
 };
 }

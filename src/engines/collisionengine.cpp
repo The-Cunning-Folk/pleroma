@@ -19,18 +19,43 @@ CollisionEngine::CollisionEngine() : Engine()
 Collidable & CollisionEngine::addCollidable()
 {
     collidables.resize(collidables.size()+1);
+    collidables.back().index = collidables.size();
     return collidables.back();
 }
 
 bool CollisionEngine::checkCollision(Collidable & a,Collidable & b)
 {
+
+    for(int i=0; i<a.collidingWith.size();i++)
+    {
+        if(a.collidingWith[i] == b.index)
+        {
+            return true;
+        }
+    }
+
     if(a.bBox.intersects(b.bBox))
     {
         //SAT HERE
-        if(separatingAxisCheck(a.polygon,b.polygon))
+        sf::Vector2f overlap = separatingAxisCheck(a.polygon,b.polygon);
+        if(maths->mag(overlap) > 0.01)
         {
             a.colliding = true;
             b.colliding = true;
+
+            a.collidingWith.push_back(b.index);
+            b.collidingWith.push_back(a.index);
+
+            Transform & tA = componentLoader->getTransform(a.getTransform());
+            Transform & tB = componentLoader->getTransform(b.getTransform());
+
+            sf::Vector2f halfOverlap(0.5*overlap.x,0.5*overlap.y);
+
+//            tA.step += -halfOverlap;
+//            tB.step += halfOverlap;
+            tA.move(-halfOverlap);
+            tB.move(halfOverlap);
+
             return true;
         }
         else {
@@ -39,17 +64,19 @@ bool CollisionEngine::checkCollision(Collidable & a,Collidable & b)
     }
 }
 
-bool CollisionEngine::separatingAxisCheck(ConvexPolygon & a, ConvexPolygon & b)
+sf::Vector2f CollisionEngine::separatingAxisCheck(ConvexPolygon & a, ConvexPolygon & b)
 {
     //first poly
     std::vector<sf::Vector2f> axes;
-    if(a.points.size() < 1 || b.points.size() < 1) {return false;}
+    MTV mtv;
+    if(a.points.size() < 1 || b.points.size() < 1) {return sf::Vector2f(0,0);}
     for(int i=1; i<a.points.size();i++)
     {
         //get difference
         sf::Vector2f axis = a.points[i] - a.points[i-1];
         //find normal vector
         sf::Vector2f normAxis = maths->unitNormal(axis);
+        if(maths->dot(a.points[i],normAxis) < 0) {normAxis = -normAxis;}
         axes.push_back(normAxis);
     }
     for(int i=1; i<b.points.size();i++)
@@ -65,9 +92,19 @@ bool CollisionEngine::separatingAxisCheck(ConvexPolygon & a, ConvexPolygon & b)
         Projection pA = projection(a,axes[i]);
         Projection pB = projection(b,axes[i]);
 
-        if(!pA.overlaps(pB)) {return false;}
+        float o = pA.getOverlap(pB);
+
+        if(o < mtv.overlap)
+        {
+            mtv.overlap = o;
+            mtv.direction = axes[i];
+        }
+
+        if(!pA.overlaps(pB)) {return sf::Vector2f(0,0);}
     }
-    return true;
+
+    sf::Vector2f mtvVector = mtv.overlap*mtv.direction;
+    return mtvVector;
 }
 
 Projection CollisionEngine::projection(ConvexPolygon & shape, sf::Vector2f axis)

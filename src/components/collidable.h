@@ -30,6 +30,8 @@ public:
 
     ConvexPolygon polygon;
 
+    std::vector<int> collidingWith;
+
     Transform & loadTransform();
     int getTransform() const;
     void setTransform(int value);

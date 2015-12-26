@@ -7,6 +7,7 @@ using namespace BQ;
 Collidable::Collidable()
 {
     typeId = "collidable";
+    collidingWith.resize(0);
 
 }
 
@@ -38,6 +39,7 @@ void Collidable::setBBox(const sf::FloatRect &value)
 void Collidable::update()
 {
     colliding = false;
+    collidingWith.resize(0);
     polygon.update();
 }
 

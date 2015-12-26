@@ -69,7 +69,8 @@ HEADERS += $$SRCDIR/window/gamewindow.h \
     src/structures/convexpolygon.h \
     src/structures/projection.h \
     src/loaders/resourceloader.h \
-    src/structures/indexedboundingbox.h
+    src/structures/indexedboundingbox.h \
+    src/structures/mtv.h
 
 SOURCES += src/main.cpp \
     $$SRCDIR/window/gamewindow.cpp \
@@ -117,7 +118,8 @@ SOURCES += src/main.cpp \
     src/structures/convexpolygon.cpp \
     src/structures/projection.cpp \
     src/loaders/resourceloader.cpp \
-    src/structures/indexedboundingbox.cpp
+    src/structures/indexedboundingbox.cpp \
+    src/structures/mtv.cpp
 
 LIBS += -L"$$PWD/SFML/lib"
 
