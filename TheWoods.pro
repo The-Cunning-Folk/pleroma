@@ -127,6 +127,10 @@ export(copydata.commands)
 QMAKE_EXTRA_TARGETS += first copydata
 
 
+OBJECTS_DIR=obj #Intermediate object files directory
+MOC_DIR=obj #Intermediate moc files directory
+
+
 CONFIG(release, debug|release): LIBS += -lsfml-audio -lsfml-graphics -lsfml-network -lsfml-window -lsfml-system
 CONFIG(debug, debug|release): LIBS += -lsfml-audio-d -lsfml-graphics-d -lsfml-network-d -lsfml-window-d -lsfml-system-d
 
