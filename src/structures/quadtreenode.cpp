@@ -8,9 +8,18 @@ QuadtreeNode::QuadtreeNode()
     objects.resize(0);
 }
 
-void QuadtreeNode::addObject(Collidable * c)
+void QuadtreeNode::addObject(const Collidable & c,int index)
 {
-    objects.push_back(c);
+    IndexedBoundingBox b;
+    b.init(c,index);
+    b.quadtreeLevel = level;
+    objects.push_back(b);
+}
+
+void QuadtreeNode::addObject(IndexedBoundingBox b)
+{
+    b.quadtreeLevel = level;
+    objects.push_back(b);
 }
 
 void QuadtreeNode::setBounds(sf::FloatRect bounds)
@@ -51,39 +60,39 @@ void QuadtreeNode::subdivide()
     {
 
         bool tl,tr,bl,br;
-        tl = nodes[0].bounds.intersects(objects[i]->bBox);
-        bl = nodes[1].bounds.intersects(objects[i]->bBox);
-        tr = nodes[2].bounds.intersects(objects[i]->bBox);
-        br = nodes[3].bounds.intersects(objects[i]->bBox);
+        tl = nodes[0].bounds.intersects(objects[i].bBox);
+        bl = nodes[1].bounds.intersects(objects[i].bBox);
+        tr = nodes[2].bounds.intersects(objects[i].bBox);
+        br = nodes[3].bounds.intersects(objects[i].bBox);
 
         if(tl && !bl && !tr && !br)
         {
             //I'm in the top left
             nodes[0].addObject(objects[i]);
-            objects[i]->quadtreeLevel = level+1;
+            objects[i].quadtreeLevel = level+1;
         }
         else if(!tl && bl && !tr && !br)
         {
             //I'm in the bottom left
             nodes[1].addObject(objects[i]);
-            objects[i]->quadtreeLevel = level+1;
+            objects[i].quadtreeLevel = level+1;
         }
         else if(!tl && !bl && tr && !br)
         {
             //I'm in the top right
             nodes[2].addObject(objects[i]);
-            objects[i]->quadtreeLevel = level+1;
+            objects[i].quadtreeLevel = level+1;
         }
         else if(!tl && !bl && !tr && br)
         {
             //I'm in the bottom right
             nodes[3].addObject(objects[i]);
-            objects[i]->quadtreeLevel = level+1;
+            objects[i].quadtreeLevel = level+1;
         }
         else
         {
             //keep the object in this node
-            objects[i]->quadtreeLevel = level;
+            objects[i].quadtreeLevel = level;
         }
 
     }

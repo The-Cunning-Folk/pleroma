@@ -24,7 +24,7 @@ public:
     sf::FloatRect getRegion() const;
     void setRegion(const sf::FloatRect &value);
 
-    void addObject(Collidable*);
+    void addObject(const Collidable &, int index);
 
     void clear();
 

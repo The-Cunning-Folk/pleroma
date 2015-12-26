@@ -101,7 +101,7 @@ void CollisionEngine::run()
         p.setPosition(t.getPosition());
         collidables[i].update();
         collidables[i].setBBox(p.bBox);
-        quadtree.addObject(&collidables[i]);
+        quadtree.addObject(collidables[i],i);
     }
 
     quadtree.build();
@@ -112,15 +112,16 @@ void CollisionEngine::run()
         int indexChecked = 0;
         for(unsigned int j=0; j<node.objects.size();j++)
         {
-            int jLevel = node.objects[j]->quadtreeLevel;
-            if(node.objects[j]->quadtreeLevel == node.level) //primary nodes only fool
+            int jLevel = node.objects[j].quadtreeLevel;
+            if(node.objects[j].quadtreeLevel == node.level) //primary nodes only fool
             {
+                int jIndex = node.objects[j].cIndex;
                 for(unsigned int k=0; k<node.objects.size();k++)
                 {
                     if(k==j){continue;}
-                    int kLevel = node.objects[k]->quadtreeLevel;
-                    if(kLevel == jLevel && k < indexChecked) {continue;}
-                    checkCollision(*node.objects[j],*node.objects[k]);
+                    int kIndex = node.objects[k].cIndex;
+                    int kLevel = node.objects[k].quadtreeLevel;
+                    checkCollision(collidables[jIndex],collidables[kIndex]);
                 }
                 indexChecked = j;
             }
