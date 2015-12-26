@@ -38,7 +38,9 @@ bool CollisionEngine::checkCollision(Collidable & a,Collidable & b)
     {
         //SAT HERE
         sf::Vector2f overlap = separatingAxisCheck(a.polygon,b.polygon);
-        if(maths->mag(overlap) > 0.01)
+        float oMag = maths->mag(overlap);
+
+        if(oMag > 0.001) //allow for a 0.1% floating point error
         {
             a.colliding = true;
             b.colliding = true;
@@ -49,12 +51,21 @@ bool CollisionEngine::checkCollision(Collidable & a,Collidable & b)
             Transform & tA = componentLoader->getTransform(a.getTransform());
             Transform & tB = componentLoader->getTransform(b.getTransform());
 
+            if((maths->dot(tA.position - tB.position,overlap)) > 0)
+            {
+                overlap = -overlap;
+            }
+
             sf::Vector2f halfOverlap(0.5*overlap.x,0.5*overlap.y);
 
 //            tA.step += -halfOverlap;
 //            tB.step += halfOverlap;
+
+
+
             tA.move(-halfOverlap);
-            tB.move(halfOverlap);
+            tB.move(halfOverlap); //this should be handled by the physics engine
+
 
             return true;
         }
@@ -92,7 +103,11 @@ sf::Vector2f CollisionEngine::separatingAxisCheck(ConvexPolygon & a, ConvexPolyg
         Projection pA = projection(a,axes[i]);
         Projection pB = projection(b,axes[i]);
 
+        if(!pA.overlaps(pB)) {return sf::Vector2f(0,0);}
+
         float o = pA.getOverlap(pB);
+
+
 
         if(o < mtv.overlap)
         {
@@ -100,7 +115,6 @@ sf::Vector2f CollisionEngine::separatingAxisCheck(ConvexPolygon & a, ConvexPolyg
             mtv.direction = axes[i];
         }
 
-        if(!pA.overlaps(pB)) {return sf::Vector2f(0,0);}
     }
 
     sf::Vector2f mtvVector = mtv.overlap*mtv.direction;
