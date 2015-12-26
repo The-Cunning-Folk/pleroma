@@ -38,9 +38,9 @@ void Quadtree::setRegion(const sf::FloatRect &value)
     parentNode.setBounds(value);
 }
 
-void Quadtree::addObject(Collidable * c)
+void Quadtree::addObject(const Collidable & c, int index)
 {
-    parentNode.addObject(c);
+    parentNode.addObject(c,index);
 }
 
 void Quadtree::clear()

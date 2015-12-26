@@ -67,7 +67,10 @@ HEADERS += $$SRCDIR/window/gamewindow.h \
     src/structures/quadtree.h \
     src/engines/debugdisplayengine.h \
     src/structures/convexpolygon.h \
-    src/structures/projection.h
+    src/structures/projection.h \
+    src/loaders/resourceloader.h \
+    src/structures/indexedboundingbox.h \
+    src/structures/mtv.h
 
 SOURCES += src/main.cpp \
     $$SRCDIR/window/gamewindow.cpp \
@@ -113,9 +116,24 @@ SOURCES += src/main.cpp \
     src/structures/quadtree.cpp \
     src/engines/debugdisplayengine.cpp \
     src/structures/convexpolygon.cpp \
-    src/structures/projection.cpp
+    src/structures/projection.cpp \
+    src/loaders/resourceloader.cpp \
+    src/structures/indexedboundingbox.cpp \
+    src/structures/mtv.cpp
 
 LIBS += -L"$$PWD/SFML/lib"
+
+# Copies the given files to the destination directory
+copydata.commands = $(COPY_DIR) $$PWD/var $$OUT_PWD
+first.depends = $(first) copydata
+export(first.depends)
+export(copydata.commands)
+QMAKE_EXTRA_TARGETS += first copydata
+
+
+OBJECTS_DIR=obj #Intermediate object files directory
+MOC_DIR=obj #Intermediate moc files directory
+
 
 CONFIG(release, debug|release): LIBS += -lsfml-audio -lsfml-graphics -lsfml-network -lsfml-window -lsfml-system
 CONFIG(debug, debug|release): LIBS += -lsfml-audio-d -lsfml-graphics-d -lsfml-network-d -lsfml-window-d -lsfml-system-d

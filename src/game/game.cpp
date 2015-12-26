@@ -59,6 +59,11 @@ void Game::run()
 
     GameWindow& window = *gameWindow;
 
+    sf::Text fpsDisplay;
+    fpsDisplay.setPosition(15,15);
+    fpsDisplay.setCharacterSize(20);
+    fpsDisplay.setFont(resourceLoader.getFont("8bit16.ttf"));
+
 
     //end temporary behaviours
 
@@ -99,15 +104,21 @@ void Game::run()
 
         //end drawing
 
-        window.display();
-
         //framerate stuff
         float frameTime = print.time.getSeconds("frameTime");
         stabiliseFrameRate(frameTime);
         frameTime = print.time.getSecondsAndRestart("frameTime");
         float fps = 1.0/frameTime;
-        //print.printVal("fps",fps);
+
+        fpsDisplay.setString(std::to_string(math.roundAndCast(fps)));
+
         //end framerate stuff
+
+        window.draw(fpsDisplay);
+
+        window.display();
+
+
 
     }
 }
@@ -115,6 +126,8 @@ void Game::run()
 void Game::initialiseInjections()
 {
    debug->println("injecting dependencies");
+
+   resourceLoader.setDebug(debug);
 
    componentLoader.setTransformEngine(&transformEngine);
    componentFactory.setCollisionEngine(&collisionEngine);
@@ -193,12 +206,13 @@ void Game::initialiseTests()
     transformEngine.setBounds(sf::IntRect(0,0,ceil(gameWindow->getWidth()/grid.getScale()),ceil(gameWindow->getHeight()/grid.getScale())));
     //remove later!
 
-    for(int i=1; i<15; i++)
+
+    for(int i=1; i<=15; i++)
     {
-        for(int j=1; j<15; j++)
+        for(int j=1; j<=5; j++)
         {
             GameObject* coll = gameObjectFactory.newCollisionObject();
-            coll->loadTransform().setPosition(sf::Vector2f(i*16 + 16,j*16+16));
+            coll->loadTransform().setPosition(sf::Vector2f(i*16 + 200,j*16+120));
         }
     }
 }
