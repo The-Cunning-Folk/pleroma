@@ -67,7 +67,8 @@ HEADERS += $$SRCDIR/window/gamewindow.h \
     src/structures/quadtree.h \
     src/engines/debugdisplayengine.h \
     src/structures/convexpolygon.h \
-    src/structures/projection.h
+    src/structures/projection.h \
+    src/loaders/resourceloader.h
 
 SOURCES += src/main.cpp \
     $$SRCDIR/window/gamewindow.cpp \
@@ -113,9 +114,18 @@ SOURCES += src/main.cpp \
     src/structures/quadtree.cpp \
     src/engines/debugdisplayengine.cpp \
     src/structures/convexpolygon.cpp \
-    src/structures/projection.cpp
+    src/structures/projection.cpp \
+    src/loaders/resourceloader.cpp
 
 LIBS += -L"$$PWD/SFML/lib"
+
+# Copies the given files to the destination directory
+copydata.commands = $(COPY_DIR) $$PWD/var $$OUT_PWD
+first.depends = $(first) copydata
+export(first.depends)
+export(copydata.commands)
+QMAKE_EXTRA_TARGETS += first copydata
+
 
 CONFIG(release, debug|release): LIBS += -lsfml-audio -lsfml-graphics -lsfml-network -lsfml-window -lsfml-system
 CONFIG(debug, debug|release): LIBS += -lsfml-audio-d -lsfml-graphics-d -lsfml-network-d -lsfml-window-d -lsfml-system-d

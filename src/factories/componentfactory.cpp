@@ -77,7 +77,7 @@ Collidable &ComponentFactory::newRandomCollidable()
 {
     Collidable & collidable = newCollidable();
 
-    float r = maths->randomFloat(4,12);
+    float r = maths->randomFloat(3,6);
     sf::Vector2f point;
     float a = 0.0;
 

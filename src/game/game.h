@@ -22,6 +22,7 @@
 #include<debugdisplayengine.h>
 
 #include<componentloader.h>
+#include<resourceloader.h>
 
 typedef std::shared_ptr<BQ::GameWindow> window_ptr;
 
@@ -57,6 +58,7 @@ public:
 
     //loaders
     ComponentLoader componentLoader;
+    ResourceLoader resourceLoader;
 
     GameObjectFactory gameObjectFactory;
     ComponentFactory componentFactory;
@@ -92,7 +94,6 @@ private:
     //variables
     float frameRate;
     float targetFrameDuration;
-
 
 
 };
