@@ -43,7 +43,7 @@ GameObject *GameObjectFactory::newCollisionObject()
 {
     GameObject* collisionObj = newObject();
 
-    collisionObj->loadTransform().setVelocity(sf::Vector2f(maths->randomFloat(-50,50),maths->randomFloat(-50,50)));
+    //collisionObj->loadTransform().setVelocity(sf::Vector2f(maths->randomFloat(-20,20),maths->randomFloat(-20,20)));
 
     Collidable & hitbox = componentFactory->newRandomCollidable();
     hitbox.setTransform(collisionObj->getTransform());
