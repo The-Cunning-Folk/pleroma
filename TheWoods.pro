@@ -123,16 +123,29 @@ SOURCES += src/main.cpp \
 
 LIBS += -L"$$PWD/SFML/lib"
 
+
+unix {
 # Copies the given files to the destination directory
 copydata.commands = $(COPY_DIR) $$PWD/var $$OUT_PWD
+}
+
+win32 {
+# Copies the given files to the destination directory
+PWD_WIN = $${PWD}
+PWD_WIN ~= s,/,\\,g
+
+OUT_WIN = $${OUT_PWD}
+OUT_WIN ~= s,/,\\,g
+copydata.commands = $(COPY_DIR) $$PWD_WIN\var $$OUT_WIN\var
+}
+
 first.depends = $(first) copydata
 export(first.depends)
 export(copydata.commands)
 QMAKE_EXTRA_TARGETS += first copydata
 
-
 OBJECTS_DIR=obj #Intermediate object files directory
-MOC_DIR=obj #Intermediate moc files directory
+MOC_DIR=moc #Intermediate moc files directory
 
 
 CONFIG(release, debug|release): LIBS += -lsfml-audio -lsfml-graphics -lsfml-network -lsfml-window -lsfml-system
