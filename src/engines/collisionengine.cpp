@@ -56,17 +56,24 @@ bool CollisionEngine::checkCollision(Collidable & a,Collidable & b)
                 overlap = -overlap;
             }
 
-            sf::Vector2f halfOverlap(0.5*overlap.x,0.5*overlap.y);
+            if(a.solid && b.solid)
+            {
+                if(!a.immovable && !b.immovable)
+                {
+                    sf::Vector2f halfOverlap(0.5*overlap.x,0.5*overlap.y);
+                    tA.move(-halfOverlap);
+                    tB.move(halfOverlap);
+                }
+                else if(a.immovable && !b.immovable)
+                {
+                    tB.move(overlap);
+                }
+                else if(!a.immovable && b.immovable)
+                {
+                    tA.move(overlap);
+                }
 
-//            tA.step += -halfOverlap;
-//            tB.step += halfOverlap;
-
-
-
-            tA.move(-halfOverlap);
-            tB.move(halfOverlap); //this should be handled by the physics engine
-
-
+            }
             return true;
         }
         else {
@@ -199,8 +206,8 @@ void CollisionEngine::drawDebug()
         {
             sf::FloatRect bBox = collidables[i].getBBox();
             rectShape.setOutlineColor(sf::Color::Red);
-            rectShape.setPosition(bBox.left+1,bBox.top+1);
-            rectShape.setSize(sf::Vector2f(bBox.width-2,bBox.height-2));
+            rectShape.setPosition(bBox.left+1,bBox.top);
+            rectShape.setSize(sf::Vector2f(bBox.width-1,bBox.height));
             if(collidables[i].colliding)
             {
                 rectShape.setOutlineColor(sf::Color::Green);

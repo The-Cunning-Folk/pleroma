@@ -58,7 +58,19 @@ GameObject* GameObjectFactory::newPlayerObject() //builds behaviours for the pla
     GameObject* player = newObject("player_1");
     PlayerInput& input = componentFactory->newPlayerInput("player_input");
     GameLogic& logic = componentFactory->newGameLogic("player_logic");
-    Collidable & hitbox = componentFactory->newRandomCollidable(/*"player_hitbox"*/);
+    Collidable & hitbox = componentFactory->newCollidable("player_hitbox");
+
+    float corners = 3;
+    float size = 8;
+
+    hitbox.polygon.addPoint(sf::Vector2f(size-corners,size));
+    hitbox.polygon.addPoint(sf::Vector2f(size,size-corners));
+    hitbox.polygon.addPoint(sf::Vector2f(size,-size+corners));
+    hitbox.polygon.addPoint(sf::Vector2f(size-corners,-size));
+    hitbox.polygon.addPoint(sf::Vector2f(-size+corners,-size));
+    hitbox.polygon.addPoint(sf::Vector2f(-size,-size+corners));
+    hitbox.polygon.addPoint(sf::Vector2f(-size,size-corners));
+    hitbox.polygon.addPoint(sf::Vector2f(-size+corners,size));
 
     //add components
     player->addComponent("input",input);
