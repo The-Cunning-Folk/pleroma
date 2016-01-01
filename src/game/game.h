@@ -20,9 +20,11 @@
 #include<eventengine.h>
 #include<collisionengine.h>
 #include<debugdisplayengine.h>
+#include<physicsengine.h>
 
 #include<componentloader.h>
 #include<resourceloader.h>
+#include<gameobjectloader.h>
 
 typedef std::shared_ptr<BQ::GameWindow> window_ptr;
 
@@ -59,12 +61,20 @@ public:
     //loaders
     ComponentLoader componentLoader;
     ResourceLoader resourceLoader;
+    GameObjectLoader gameObjectLoader;
 
     GameObjectFactory gameObjectFactory;
     ComponentFactory componentFactory;
     EventFactory eventFactory;
     InputFactory inputFactory;
 
+
+    //inherited properties
+    DebugUtils* debug;
+    window_ptr gameWindow;
+
+    //utilities owned by game
+    MathsUtils math;
 
 private:
 
@@ -79,13 +89,9 @@ private:
     EventEngine eventEngine;
     CollisionEngine collisionEngine;
     DebugDisplayEngine debugDisplayEngine;
+    PhysicsEngine physicsEngine;
 
-    //inherited properties
-    DebugUtils* debug;
-    window_ptr gameWindow;
 
-    //utilities owned by game
-    MathsUtils math;
 
     //global properties
     Grid grid;

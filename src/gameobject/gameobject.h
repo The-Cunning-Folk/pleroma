@@ -24,6 +24,7 @@ public:
 
     std::string name;
     int uniqueId;
+    int index;
 
     void addComponent(Component&);
     void addComponent(std::string,Component&);
@@ -40,9 +41,13 @@ public:
     ComponentLoader *getComponentLoader() const;
     void setComponentLoader(ComponentLoader *value);
 
-private:
+    std::map<std::string, std::map<std::string, int> > getComponents() const;
 
     std::map<std::string,std::map<std::string,int>> components;
+
+private:
+
+
 
 };
 }

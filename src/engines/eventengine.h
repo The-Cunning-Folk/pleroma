@@ -15,9 +15,11 @@ public:
     EventEngine();
 
     std::vector<Event> events;
+    std::vector<Collision> collisions;
     std::vector<int> toUpdate;
 
     std::vector<GameLogic> gameLogics;
+
 
     GameLogic& addGameLogic();
 

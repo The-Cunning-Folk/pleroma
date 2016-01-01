@@ -17,6 +17,11 @@ void GameObject::setComponentLoader(ComponentLoader *value)
     componentLoader = value;
 }
 
+std::map<std::string, std::map<std::string, int> > GameObject::getComponents() const
+{
+    return components;
+}
+
 int GameObject::getTransform() const
 {
     return transform;

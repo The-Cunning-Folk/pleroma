@@ -2,6 +2,7 @@
 #define GAMELOGIC_H
 
 #include <component.h>
+#include <collidable.h>
 
 namespace BQ{
 
@@ -18,6 +19,8 @@ public:
     void addBehaviour(Behaviour*);
 
     void addEvent(std::string,GameObject*,std::map<std::string,std::string>);
+
+    void collisionWith(const GameObject&,const Collidable &,const Collidable&);
 
     void setDelta(float);
 

@@ -2,6 +2,7 @@
 
 #include<eventfactory.h>
 #include<componentloader.h>
+#include<gameobjectloader.h>
 #include<game.h>
 
 using namespace BQ;
@@ -10,6 +11,16 @@ Engine::Engine()
 {
     placeholder = "auto_generic_";
     currentId = 0;
+}
+
+GameObjectLoader *Engine::getGameObjectLoader() const
+{
+    return gameObjectLoader;
+}
+
+void Engine::setGameObjectLoader(GameObjectLoader *value)
+{
+    gameObjectLoader = value;
 }
 
 MathsUtils *Engine::getMaths() const
@@ -35,6 +46,12 @@ void Engine::setDelta(float value)
 void Engine::setGame(Game *value)
 {
     game = value;
+    debug = (game->debug);
+    gameWindow = (game->gameWindow);
+    componentLoader = &(game->componentLoader);
+    gameObjectLoader = &(game->gameObjectLoader);
+    maths = &(game->math);
+    eventFactory = &(game->eventFactory);
 }
 
 Game *Engine::getGame() const

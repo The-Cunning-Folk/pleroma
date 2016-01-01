@@ -2,7 +2,9 @@
 
 #include<eventfactory.h>
 #include<componentloader.h>
+#include<gameobjectloader.h>
 #include<game.h>
+
 
 using namespace BQ;
 
@@ -20,18 +22,54 @@ GameLogic &EventEngine::addGameLogic()
 void EventEngine::run()
 {
     TimeUtils& time = (debug->time);
+    for(int i=0; i<collisions.size(); i++)
+    {
+        //collision logic here
+        Collision & c = collisions[i];
+        GameObject & A = gameObjectLoader->loadGameObject(c.objectA);
+        GameObject & B = gameObjectLoader->loadGameObject(c.objectB);
+
+        Collidable & cA = componentLoader->getCollidable(c.collidableA);
+        Collidable & cB = componentLoader->getCollidable(c.collidableB);
+
+        //check for components and do behaviours
+        std::vector<int> logicA = componentLoader->getGameLogicsFromObject(A);
+        std::vector<int> logicB = componentLoader->getGameLogicsFromObject(B);
+
+        for(int j=0; j<logicA.size(); j++)
+        {
+            int index = logicA[j];
+            gameLogics[index].collisionWith(B,cA,cB);
+            toUpdate.push_back(index);
+        }
+
+        for(int j=0; j<logicB.size(); j++)
+        {
+            int index = logicB[j];
+            gameLogics[index].collisionWith(A,cB,cA);
+            toUpdate.push_back(index);
+        }
+
+    }
     for(int i=0; i<events.size();i++)
     {
         resolve(events[i]);
     }
     delta = time.getSeconds("logicTime");
-    for(unsigned int i=0; i<toUpdate.size();i++)
+//    for(unsigned int i=0; i<toUpdate.size();i++)
+//    {
+//        int j = toUpdate[i];
+//        gameLogics[j].setDelta(delta);
+//        gameLogics[j].update();
+//    }
+
+    for(int i=0; i<gameLogics.size(); i++)
     {
-        int j = toUpdate[i];
-        gameLogics[j].setDelta(delta);
-        gameLogics[j].update();
+        gameLogics[i].setDelta(delta);
+        gameLogics[i].update();
     }
     events.clear();
+    collisions.clear();
     toUpdate.clear();
 }
 
@@ -69,22 +107,16 @@ std::map<std::string,std::string> EventEngine::parseEvent(std::string event)
 
 void EventEngine::resolveGlobally(Event& event)
 {
-    float speed = delta*200.0;
     event.parsedScript = parseEvent(event.script);
-
 }
 
 void EventEngine::resolveLocally(Event& event)
 {
-
-    for(unsigned int i=0; i<gameLogics.size(); i++){
-        if(gameLogics[i].getParent() == event.triggeredBy) //todo: dynamic cast this instead
-        {
-
-            gameLogics[i].addEvent(event.script,event.triggeredBy,event.parsedScript);
-            toUpdate.push_back(i);
-            break;
-        }
+    std::vector<int> logicIndices = componentLoader->getGameLogicsFromObject(*(event.triggeredBy));
+    for(unsigned int i=0; i<logicIndices.size(); i++){
+        int index = logicIndices[i];
+        gameLogics[index].addEvent(event.script,event.triggeredBy,event.parsedScript);
+        toUpdate.push_back(index);
     }
 }
 

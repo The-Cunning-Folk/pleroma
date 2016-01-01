@@ -2,7 +2,9 @@
 
 #include<eventfactory.h>
 #include<componentloader.h>
+#include<gameobjectloader.h>
 #include<game.h>
+
 
 using namespace BQ;
 
@@ -15,18 +17,32 @@ CollisionEngine::CollisionEngine() : Engine()
     rectShape.setFillColor(sf::Color::Transparent);
 }
 
+Collidable &CollisionEngine::getCollidable(int index)
+{
+    if(index < collidables.size() && index >= 0)
+    {
+        return(collidables[index]);
+    }
+    else
+    {
+        debug->printerr("requested collidable out of bounds");
+        return collidables[0];
+    }
+
+}
+
 
 Collidable & CollisionEngine::addCollidable()
 {
     collidables.resize(collidables.size()+1);
-    collidables.back().index = collidables.size();
+    collidables.back().index = collidables.size()-1;
     return collidables.back();
 }
 
 bool CollisionEngine::checkCollision(Collidable & a,Collidable & b)
 {
 
-    for(int i=0; i<a.collidingWith.size();i++)
+    for(int i=0; i<a.collidingWith.size();i++) //avoid sending the same collision to the event engine twice!
     {
         if(a.collidingWith[i] == b.index)
         {
@@ -74,6 +90,15 @@ bool CollisionEngine::checkCollision(Collidable & a,Collidable & b)
                 }
 
             }
+
+            Collision c;
+            c.objectA = a.getParent()->name;
+            c.objectB = b.getParent()->name;
+            c.collidableA = a.index;
+            c.collidableB = b.index;
+            c.overlap = overlap;
+            collisions.push_back(c);
+
             return true;
         }
         else {
@@ -149,7 +174,7 @@ Projection CollisionEngine::projection(ConvexPolygon & shape, sf::Vector2f axis)
 
 void CollisionEngine::run()
 {
-
+    collisions.clear();
     quadtree.clear();
     ComponentLoader& components = *componentLoader;
     for(unsigned int i=0; i<collidables.size(); i++)
@@ -179,11 +204,21 @@ void CollisionEngine::run()
                     if(k==j){continue;}
                     int kIndex = node.objects[k].cIndex;
                     int kLevel = node.objects[k].quadtreeLevel;
-                    checkCollision(collidables[jIndex],collidables[kIndex]);
+                    Collidable & A = collidables[jIndex];
+                    Collidable & B = collidables[kIndex];
+                    if(checkCollision(A,B))
+                    {
+
+                    }
                 }
                 indexChecked = j;
             }
         }
+    }
+
+    for(int i=0; i<collisions.size(); i++)
+    {
+        eventFactory->createCollision(collisions[i]);
     }
 
 }
