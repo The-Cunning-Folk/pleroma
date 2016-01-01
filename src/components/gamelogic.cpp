@@ -29,7 +29,7 @@ void GameLogic::addEvent(std::string script, GameObject* triggered,std::map<std:
 
 void GameLogic::collisionWith(const GameObject & o, const Collidable & a, const Collidable & b)
 {
-
+    //todo: make collisions trigger events
 }
 
 void GameLogic::setDelta(float delta)

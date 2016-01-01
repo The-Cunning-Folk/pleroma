@@ -43,6 +43,12 @@ void EventEngine::run()
             toUpdate.push_back(index);
         }
 
+        for(int j=0; j<logicB.size(); j++)
+        {
+            int index = logicB[j];
+            gameLogics[index].collisionWith(A,cB,cA);
+            toUpdate.push_back(index);
+        }
 
     }
     for(int i=0; i<events.size();i++)
@@ -50,11 +56,17 @@ void EventEngine::run()
         resolve(events[i]);
     }
     delta = time.getSeconds("logicTime");
-    for(unsigned int i=0; i<toUpdate.size();i++)
+//    for(unsigned int i=0; i<toUpdate.size();i++)
+//    {
+//        int j = toUpdate[i];
+//        gameLogics[j].setDelta(delta);
+//        gameLogics[j].update();
+//    }
+
+    for(int i=0; i<gameLogics.size(); i++)
     {
-        int j = toUpdate[i];
-        gameLogics[j].setDelta(delta);
-        gameLogics[j].update();
+        gameLogics[i].setDelta(delta);
+        gameLogics[i].update();
     }
     events.clear();
     collisions.clear();

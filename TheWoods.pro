@@ -72,7 +72,8 @@ HEADERS += $$SRCDIR/window/gamewindow.h \
     src/structures/indexedboundingbox.h \
     src/structures/mtv.h \
     src/logic/collision.h \
-    src/loaders/gameobjectloader.h
+    src/loaders/gameobjectloader.h \
+    src/components/rigidbody.h
 
 SOURCES += src/main.cpp \
     $$SRCDIR/window/gamewindow.cpp \
@@ -123,7 +124,8 @@ SOURCES += src/main.cpp \
     src/structures/indexedboundingbox.cpp \
     src/structures/mtv.cpp \
     src/logic/collision.cpp \
-    src/loaders/gameobjectloader.cpp
+    src/loaders/gameobjectloader.cpp \
+    src/components/rigidbody.cpp
 
 LIBS += -L"$$PWD/SFML/lib"
 
