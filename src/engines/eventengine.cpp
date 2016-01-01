@@ -20,6 +20,10 @@ GameLogic &EventEngine::addGameLogic()
 void EventEngine::run()
 {
     TimeUtils& time = (debug->time);
+    for(int i=0; i<collisions.size(); i++)
+    {
+        //collision logic here
+    }
     for(int i=0; i<events.size();i++)
     {
         resolve(events[i]);
@@ -32,6 +36,7 @@ void EventEngine::run()
         gameLogics[j].update();
     }
     events.clear();
+    collisions.clear();
     toUpdate.clear();
 }
 

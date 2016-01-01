@@ -15,6 +15,11 @@ void EventFactory::createEvent(std::string script, GameObject * object)
     eventEngine->pushEvent(event);
 }
 
+void EventFactory::createCollision(Collision c)
+{
+    eventEngine->collisions.push_back(c);
+}
+
 EventEngine *EventFactory::getEventEngine() const
 {
     return eventEngine;

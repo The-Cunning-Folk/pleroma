@@ -174,6 +174,8 @@ void Game::initialiseInjections()
    eventEngine.setComponentLoader(&componentLoader);
    collisionEngine.setComponentLoader(&componentLoader);
 
+   collisionEngine.setEventFactory(&eventFactory);
+
    transformEngine.setGrid(&grid);
 
    gameObjects.setComponentLoader(&componentLoader);

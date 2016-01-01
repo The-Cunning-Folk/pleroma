@@ -24,6 +24,7 @@ public:
 
     std::string name;
     int uniqueId;
+    int index;
 
     void addComponent(Component&);
     void addComponent(std::string,Component&);

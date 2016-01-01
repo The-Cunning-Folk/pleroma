@@ -74,6 +74,13 @@ bool CollisionEngine::checkCollision(Collidable & a,Collidable & b)
                 }
 
             }
+
+            Collision c;
+            c.objectA = a.getParent()->name;
+            c.objectB = b.getParent()->name;
+            c.overlap = overlap;
+            collisions.push_back(c);
+
             return true;
         }
         else {
@@ -149,7 +156,7 @@ Projection CollisionEngine::projection(ConvexPolygon & shape, sf::Vector2f axis)
 
 void CollisionEngine::run()
 {
-
+    collisions.clear();
     quadtree.clear();
     ComponentLoader& components = *componentLoader;
     for(unsigned int i=0; i<collidables.size(); i++)
@@ -179,11 +186,21 @@ void CollisionEngine::run()
                     if(k==j){continue;}
                     int kIndex = node.objects[k].cIndex;
                     int kLevel = node.objects[k].quadtreeLevel;
-                    checkCollision(collidables[jIndex],collidables[kIndex]);
+                    Collidable & A = collidables[jIndex];
+                    Collidable & B = collidables[kIndex];
+                    if(checkCollision(A,B))
+                    {
+
+                    }
                 }
                 indexChecked = j;
             }
         }
+    }
+
+    for(int i=0; i<collisions.size(); i++)
+    {
+        eventFactory->createCollision(collisions[i]);
     }
 
 }

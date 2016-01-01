@@ -13,6 +13,7 @@ public:
     EventEngine* eventEngine;
 
     void createEvent(std::string,GameObject*);
+    void createCollision(Collision);
 
     EventEngine *getEventEngine() const;
     void setEventEngine(EventEngine *value);
