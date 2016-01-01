@@ -31,7 +31,7 @@ void EventEngine::run()
 
         //check for components and do behaviours
 
-        componentLoader->getGameLogicsFromObject(B);
+
 
     }
     for(int i=0; i<events.size();i++)
@@ -84,9 +84,7 @@ std::map<std::string,std::string> EventEngine::parseEvent(std::string event)
 
 void EventEngine::resolveGlobally(Event& event)
 {
-    float speed = delta*200.0;
     event.parsedScript = parseEvent(event.script);
-
 }
 
 void EventEngine::resolveLocally(Event& event)

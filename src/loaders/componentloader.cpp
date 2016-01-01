@@ -13,6 +13,11 @@ Transform & ComponentLoader::getTransform(int index)
     return transformEngine->getTransform(index);
 }
 
+Collidable &ComponentLoader::getCollidable(int index)
+{
+    return collisionEngine->getCollidable(index);
+}
+
 std::vector<int> ComponentLoader::getIndicesFromMap(std::map<std::string, int> cs)
 {
     std::vector<int> indices;
@@ -32,6 +37,12 @@ std::vector<int> ComponentLoader::getCollidablesFromObject(GameObject & o)
 std::vector<int> ComponentLoader::getGameLogicsFromObject(GameObject & o)
 {
     std::map<std::string,int> cs = o.components["gamelogic"];
+    return getIndicesFromMap(cs);
+}
+
+std::vector<int> ComponentLoader::getInputsFromObject(GameObject & o)
+{
+    std::map<std::string,int> cs = o.components["input"];
     return getIndicesFromMap(cs);
 }
 

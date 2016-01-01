@@ -13,6 +13,9 @@ public:
     std::string objectA;
     std::string objectB;
 
+    int collidableA;
+    int collidableB;
+
     sf::Vector2f overlap;
 
 };

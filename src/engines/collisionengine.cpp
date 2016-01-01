@@ -17,6 +17,19 @@ CollisionEngine::CollisionEngine() : Engine()
     rectShape.setFillColor(sf::Color::Transparent);
 }
 
+Collidable &CollisionEngine::getCollidable(int index)
+{
+    if(index < collidables.size() && index >= 0)
+    {
+        return(collidables[index]);
+    }
+    else
+    {
+        debug->printerr("requested collidable out of bounds");
+        return collidables[0];
+    }
+}
+
 
 Collidable & CollisionEngine::addCollidable()
 {
@@ -80,6 +93,8 @@ bool CollisionEngine::checkCollision(Collidable & a,Collidable & b)
             Collision c;
             c.objectA = a.getParent()->name;
             c.objectB = b.getParent()->name;
+            c.collidableA = a.index;
+            c.collidableB = b.index;
             c.overlap = overlap;
             collisions.push_back(c);
 

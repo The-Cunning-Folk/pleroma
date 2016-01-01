@@ -14,9 +14,11 @@ public:
     ComponentLoader();
 
     Transform & getTransform(int);
+    Collidable & getCollidable(int);
 
     std::vector<int> getCollidablesFromObject(GameObject & );
     std::vector<int> getGameLogicsFromObject(GameObject & );
+    std::vector<int> getInputsFromObject(GameObject & );
 
     std::vector<int> getIndicesFromMap(std::map<std::string,int>);
 

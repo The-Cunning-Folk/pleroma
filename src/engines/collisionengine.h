@@ -14,6 +14,8 @@ class CollisionEngine : public Engine
 public:
     CollisionEngine();
 
+    Collidable & getCollidable(int);
+
     Collidable& addCollidable();
 
     bool checkCollision(Collidable &,Collidable &);
