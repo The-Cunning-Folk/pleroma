@@ -23,6 +23,7 @@
 
 #include<componentloader.h>
 #include<resourceloader.h>
+#include<gameobjectloader.h>
 
 typedef std::shared_ptr<BQ::GameWindow> window_ptr;
 
@@ -59,6 +60,7 @@ public:
     //loaders
     ComponentLoader componentLoader;
     ResourceLoader resourceLoader;
+    GameObjectLoader gameObjectLoader;
 
     GameObjectFactory gameObjectFactory;
     ComponentFactory componentFactory;

@@ -2,7 +2,9 @@
 
 #include<eventfactory.h>
 #include<componentloader.h>
+#include<gameobjectloader.h>
 #include<game.h>
+
 
 using namespace BQ;
 
@@ -23,6 +25,12 @@ void EventEngine::run()
     for(int i=0; i<collisions.size(); i++)
     {
         //collision logic here
+        Collision & c = collisions[i];
+        GameObject & A = gameObjectLoader->loadGameObject(c.objectA);
+        GameObject & B = gameObjectLoader->loadGameObject(c.objectB);
+
+        //check for components and do behaviours
+
     }
     for(int i=0; i<events.size();i++)
     {
