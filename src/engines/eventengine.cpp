@@ -31,6 +31,8 @@ void EventEngine::run()
 
         //check for components and do behaviours
 
+        componentLoader->getGameLogicsFromObject(B);
+
     }
     for(int i=0; i<events.size();i++)
     {
@@ -89,15 +91,11 @@ void EventEngine::resolveGlobally(Event& event)
 
 void EventEngine::resolveLocally(Event& event)
 {
-
-    for(unsigned int i=0; i<gameLogics.size(); i++){
-        if(gameLogics[i].getParent() == event.triggeredBy) //todo: dynamic cast this instead
-        {
-
-            gameLogics[i].addEvent(event.script,event.triggeredBy,event.parsedScript);
-            toUpdate.push_back(i);
-            break;
-        }
+    std::vector<int> logicIndices = componentLoader->getGameLogicsFromObject(*(event.triggeredBy));
+    for(unsigned int i=0; i<logicIndices.size(); i++){
+        int index = logicIndices[i];
+        gameLogics[index].addEvent(event.script,event.triggeredBy,event.parsedScript);
+        toUpdate.push_back(index);
     }
 }
 

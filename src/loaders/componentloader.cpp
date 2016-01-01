@@ -1,5 +1,7 @@
 #include "componentloader.h"
 
+#include <gameobject.h>
+
 using namespace BQ;
 ComponentLoader::ComponentLoader()
 {
@@ -9,6 +11,28 @@ ComponentLoader::ComponentLoader()
 Transform & ComponentLoader::getTransform(int index)
 {
     return transformEngine->getTransform(index);
+}
+
+std::vector<int> ComponentLoader::getIndicesFromMap(std::map<std::string, int> cs)
+{
+    std::vector<int> indices;
+    indices.resize(0);
+    for(it iterator = cs.begin(); iterator != cs.end(); iterator++) {
+        indices.push_back(iterator->second);
+    }
+    return indices;
+}
+
+std::vector<int> ComponentLoader::getCollidablesFromObject(GameObject & o)
+{
+    std::map<std::string,int> cs = o.components["collidable"];
+    return getIndicesFromMap(cs);
+}
+
+std::vector<int> ComponentLoader::getGameLogicsFromObject(GameObject & o)
+{
+    std::map<std::string,int> cs = o.components["gamelogic"];
+    return getIndicesFromMap(cs);
 }
 
 CollisionEngine *ComponentLoader::getCollisionEngine() const
