@@ -29,8 +29,19 @@ void EventEngine::run()
         GameObject & A = gameObjectLoader->loadGameObject(c.objectA);
         GameObject & B = gameObjectLoader->loadGameObject(c.objectB);
 
-        //check for components and do behaviours
+        Collidable & cA = componentLoader->getCollidable(c.collidableA);
+        Collidable & cB = componentLoader->getCollidable(c.collidableB);
 
+        //check for components and do behaviours
+        std::vector<int> logicA = componentLoader->getGameLogicsFromObject(A);
+        std::vector<int> logicB = componentLoader->getGameLogicsFromObject(B);
+
+        for(int j=0; j<logicA.size(); j++)
+        {
+            int index = logicA[j];
+            gameLogics[index].collisionWith(B,cA,cB);
+            toUpdate.push_back(index);
+        }
 
 
     }

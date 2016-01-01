@@ -28,20 +28,21 @@ Collidable &CollisionEngine::getCollidable(int index)
         debug->printerr("requested collidable out of bounds");
         return collidables[0];
     }
+
 }
 
 
 Collidable & CollisionEngine::addCollidable()
 {
     collidables.resize(collidables.size()+1);
-    collidables.back().index = collidables.size();
+    collidables.back().index = collidables.size()-1;
     return collidables.back();
 }
 
 bool CollisionEngine::checkCollision(Collidable & a,Collidable & b)
 {
 
-    for(int i=0; i<a.collidingWith.size();i++)
+    for(int i=0; i<a.collidingWith.size();i++) //avoid sending the same collision to the event engine twice!
     {
         if(a.collidingWith[i] == b.index)
         {

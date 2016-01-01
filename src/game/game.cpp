@@ -132,6 +132,8 @@ void Game::initialiseInjections()
    gameObjectLoader.setGameObjects(&gameObjects);
 
    componentLoader.setTransformEngine(&transformEngine);
+   componentLoader.setCollisionEngine(&collisionEngine);
+
    componentFactory.setCollisionEngine(&collisionEngine);
 
    componentFactory.setDebug(debug);
