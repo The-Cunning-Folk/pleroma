@@ -18,15 +18,17 @@ void Game::runTests()
 
 void Game::runEngines()
 {
-
     inputEngine.run();
+    eventEngine.run();
+
+
     transformEngine.setDelta(debug->time.getSeconds("logicTime"));
     transformEngine.run();
 
 
     //float logicTime = debug->time.getSeconds("logicTime");
     //eventEngine.setDelta(logicTime);
-    eventEngine.run();
+
 
     collisionEngine.run();
     physicsEngine.run();

@@ -221,6 +221,14 @@ void CollisionEngine::run()
         eventFactory->createCollision(collisions[i]);
     }
 
+    for(unsigned int i=0; i<collidables.size(); i++)
+    {
+        Transform & t = components.getTransform(collidables[i].getTransform());
+        ConvexPolygon& p = collidables[i].polygon;
+        p.setPosition(t.getPosition());
+        collidables[i].setBBox(p.bBox);
+    }
+
 }
 
 void CollisionEngine::drawDebug()
