@@ -8,6 +8,8 @@ Collidable::Collidable()
 {
     typeId = "collidable";
     collidingWith.resize(0);
+    solid = true;
+    immovable = false;
 
 }
 

@@ -26,6 +26,9 @@ public:
 
     void update();
 
+    bool solid;
+    bool immovable;
+
     bool colliding;
 
     ConvexPolygon polygon;
