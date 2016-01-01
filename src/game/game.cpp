@@ -29,6 +29,7 @@ void Game::runEngines()
     eventEngine.run();
 
     collisionEngine.run();
+    physicsEngine.run();
     debugDisplayEngine.run();
 }
 
@@ -160,26 +161,7 @@ void Game::initialiseInjections()
    transformEngine.setGame(this);
    collisionEngine.setGame(this);
    debugDisplayEngine.setGame(this);
-
-   eventEngine.setGameWindow(gameWindow);
-   inputEngine.setGameWindow(gameWindow);
-   transformEngine.setGameWindow(gameWindow);
-   collisionEngine.setGameWindow(gameWindow);
-   debugDisplayEngine.setGameWindow(gameWindow);
-
-   eventEngine.setDebug(debug);
-   inputEngine.setDebug(debug);
-   transformEngine.setDebug(debug);
-   collisionEngine.setDebug(debug);
-   debugDisplayEngine.setDebug(debug);
-
-   collisionEngine.setMaths(&math);
-
-   eventEngine.setComponentLoader(&componentLoader);
-   collisionEngine.setComponentLoader(&componentLoader);
-
-   collisionEngine.setEventFactory(&eventFactory);
-   eventEngine.setGameObjectLoader(&gameObjectLoader);
+   physicsEngine.setGame(this);
 
    transformEngine.setGrid(&grid);
 

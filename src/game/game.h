@@ -20,6 +20,7 @@
 #include<eventengine.h>
 #include<collisionengine.h>
 #include<debugdisplayengine.h>
+#include<physicsengine.h>
 
 #include<componentloader.h>
 #include<resourceloader.h>
@@ -68,6 +69,13 @@ public:
     InputFactory inputFactory;
 
 
+    //inherited properties
+    DebugUtils* debug;
+    window_ptr gameWindow;
+
+    //utilities owned by game
+    MathsUtils math;
+
 private:
 
 
@@ -81,13 +89,9 @@ private:
     EventEngine eventEngine;
     CollisionEngine collisionEngine;
     DebugDisplayEngine debugDisplayEngine;
+    PhysicsEngine physicsEngine;
 
-    //inherited properties
-    DebugUtils* debug;
-    window_ptr gameWindow;
 
-    //utilities owned by game
-    MathsUtils math;
 
     //global properties
     Grid grid;

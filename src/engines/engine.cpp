@@ -46,6 +46,12 @@ void Engine::setDelta(float value)
 void Engine::setGame(Game *value)
 {
     game = value;
+    debug = (game->debug);
+    gameWindow = (game->gameWindow);
+    componentLoader = &(game->componentLoader);
+    gameObjectLoader = &(game->gameObjectLoader);
+    maths = &(game->math);
+    eventFactory = &(game->eventFactory);
 }
 
 Game *Engine::getGame() const
