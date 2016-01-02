@@ -32,9 +32,10 @@ void GameLogic::addEvent(std::string script, std::string triggered,std::map<std:
     }
 }
 
-void GameLogic::collisionWith(const GameObject & o, const Collidable & a, const Collidable & b)
+void GameLogic::collisionWith(GameObject & o, const Collidable & a, const Collidable & b)
 {
     //todo: make collisions trigger events
+
 }
 
 void GameLogic::setDelta(float delta)

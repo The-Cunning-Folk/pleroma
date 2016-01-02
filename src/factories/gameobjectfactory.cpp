@@ -51,6 +51,9 @@ GameObject *GameObjectFactory::newCollisionObject()
     hitbox.setTransform(collisionObj->getTransform());
 
     RigidBody & body = componentFactory->newRigidBody();
+    body.restitution = maths->randomFloat(0.5,0.999);
+    //body.friction = maths->randomFloat(0,1E-11);
+    body.momentum = sf::Vector2f(maths->randomFloat(-500,500),maths->randomFloat(-500,500));
     body.setTransform(collisionObj->getTransform());
 
     collisionObj->addComponent("hitbox",hitbox);

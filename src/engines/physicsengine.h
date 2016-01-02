@@ -13,6 +13,8 @@ public:
 
     void run();
 
+    float grav;
+
     std::vector<RigidBody> rigidbodies;
 
     void addCollision(const PhysicalCollision &);

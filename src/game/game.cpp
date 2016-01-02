@@ -21,8 +21,8 @@ void Game::runEngines()
     inputEngine.run();
     eventEngine.run();
 
-
-    transformEngine.setDelta(debug->time.getSeconds("logicTime"));
+    float deltaT = debug->time.getSeconds("logicTime");
+    transformEngine.setDelta(deltaT);
     transformEngine.run();
 
 
@@ -31,6 +31,7 @@ void Game::runEngines()
 
 
     collisionEngine.run();
+    physicsEngine.setDelta(deltaT);
     physicsEngine.run();
     debugDisplayEngine.run();
 }
@@ -204,9 +205,9 @@ void Game::initialiseTests()
     //remove later!
 
 
-    for(int i=1; i<=3; i++)
+    for(int i=1; i<=15; i++)
     {
-        for(int j=1; j<=3; j++)
+        for(int j=1; j<=10; j++)
         {
             GameObject* coll = gameObjectFactory.newCollisionObject();
             coll->loadTransform().setPosition(sf::Vector2f(i*16 + 32,j*16+32));

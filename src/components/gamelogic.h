@@ -16,7 +16,7 @@ public:
 
     void addEvent(std::string,std::string,std::map<std::string,std::string>);
 
-    void collisionWith(const GameObject&,const Collidable &,const Collidable&);
+    void collisionWith(GameObject&,const Collidable &,const Collidable&);
 
     void setDelta(float);
 
