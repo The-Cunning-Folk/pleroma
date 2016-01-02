@@ -1,5 +1,7 @@
 #include "gameobjectfactory.h"
 
+#include <game.h>
+
 using namespace BQ;
 
 GameObjectFactory::GameObjectFactory()

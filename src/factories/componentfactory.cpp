@@ -1,5 +1,7 @@
 #include "componentfactory.h"
 
+#include <game.h>
+
 ComponentFactory::ComponentFactory()
 {
 

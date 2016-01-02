@@ -1,8 +1,5 @@
 #include "eventengine.h"
 
-#include<eventfactory.h>
-#include<componentloader.h>
-#include<gameobjectloader.h>
 #include<game.h>
 
 
@@ -55,11 +52,18 @@ void EventEngine::run()
 
         for(int j=0; j<physA.size(); j++)
         {
-            RigidBody & rA = componentLoader->getRigidBody(physA[j]);
+            int iA = physA[j];
             for(int k=0; k<physB.size(); k++)
             {
-                RigidBody & rB = componentLoader->getRigidBody(physB[k]);
-
+                int iB = physB[k];
+                PhysicalCollision p;
+                p.gameObjectA = c.objectA;
+                p.gameObjectB = c.objectB;
+                p.collidableA = c.collidableA;
+                p.collidableB = c.collidableB;
+                p.rigidBodyA = iA;
+                p.rigidBodyB = iB;
+                physicsEventFactory->newCollision(p);
             }
         }
 

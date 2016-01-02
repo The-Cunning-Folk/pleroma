@@ -12,10 +12,14 @@
 
 namespace BQ {
 
+class Game;
+
 class Factory
 {
 public:
     Factory();
+
+    Game* game;
 
     DebugUtils* debug;
 
@@ -24,6 +28,8 @@ public:
     void setDebug(DebugUtils *value);
 
     void setMaths(MathsUtils *value);
+    Game *getGame() const;
+    void setGame(Game *value);
 };
 
 }

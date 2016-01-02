@@ -1,5 +1,7 @@
 #include "eventfactory.h"
 
+#include <game.h>
+
 
 using namespace BQ;
 EventFactory::EventFactory()

@@ -1,5 +1,7 @@
 #include "inputfactory.h"
 
+#include <game.h>
+
 using namespace BQ;
 
 InputFactory::InputFactory()

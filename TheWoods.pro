@@ -74,7 +74,9 @@ HEADERS += $$SRCDIR/window/gamewindow.h \
     src/logic/collision.h \
     src/loaders/gameobjectloader.h \
     src/components/rigidbody.h \
-    src/engines/physicsengine.h
+    src/engines/physicsengine.h \
+    src/factories/physicseventfactory.h \
+    src/logic/physicalcollision.h
 
 SOURCES += src/main.cpp \
     $$SRCDIR/window/gamewindow.cpp \
@@ -127,7 +129,9 @@ SOURCES += src/main.cpp \
     src/logic/collision.cpp \
     src/loaders/gameobjectloader.cpp \
     src/components/rigidbody.cpp \
-    src/engines/physicsengine.cpp
+    src/engines/physicsengine.cpp \
+    src/factories/physicseventfactory.cpp \
+    src/logic/physicalcollision.cpp
 
 LIBS += -L"$$PWD/SFML/lib"
 

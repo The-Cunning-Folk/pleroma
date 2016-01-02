@@ -1,8 +1,5 @@
 #include "engine.h"
 
-#include<eventfactory.h>
-#include<componentloader.h>
-#include<gameobjectloader.h>
 #include<game.h>
 
 using namespace BQ;
@@ -11,6 +8,16 @@ Engine::Engine()
 {
     placeholder = "auto_generic_";
     currentId = 0;
+}
+
+PhysicsEventFactory *Engine::getPhysicsEventFactory() const
+{
+    return physicsEventFactory;
+}
+
+void Engine::setPhysicsEventFactory(PhysicsEventFactory *value)
+{
+    physicsEventFactory = value;
 }
 
 GameObjectLoader *Engine::getGameObjectLoader() const
@@ -52,6 +59,7 @@ void Engine::setGame(Game *value)
     gameObjectLoader = &(game->gameObjectLoader);
     maths = &(game->math);
     eventFactory = &(game->eventFactory);
+    physicsEventFactory = &(game->physicsEventFactory);
 }
 
 Game *Engine::getGame() const

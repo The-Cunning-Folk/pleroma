@@ -3,6 +3,7 @@
 
 #include <engine.h>
 #include <rigidbody.h>
+#include <physicalcollision.h>
 
 namespace BQ{
 class PhysicsEngine : public Engine
@@ -13,6 +14,10 @@ public:
     void run();
 
     std::vector<RigidBody> rigidbodies;
+
+    void addCollision(const PhysicalCollision &);
+
+    std::vector<PhysicalCollision> collisions;
 
     RigidBody & addRigidBody();
     RigidBody & getRigidBody(int);

@@ -9,6 +9,9 @@
  //this is a global event aggregator and manager for handling triggered events.
 //it is where the beast that will eat my beautiful, efficient engine has slouched to be born
 namespace BQ {
+
+
+
 class EventEngine : public Engine
 {
 public:
@@ -17,6 +20,8 @@ public:
     std::vector<Event> events;
     std::vector<Collision> collisions;
     std::vector<int> toUpdate;
+
+    PhysicsEventFactory* physicsEventFactory;
 
     std::vector<GameLogic> gameLogics;
 
@@ -34,6 +39,7 @@ public:
 
     float getDelta() const;
     void setDelta(float value);
+
 
 protected:
 

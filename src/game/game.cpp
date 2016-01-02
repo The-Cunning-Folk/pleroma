@@ -130,6 +130,8 @@ void Game::initialiseInjections()
 {
    debug->println("injecting dependencies");
 
+
+
    resourceLoader.setDebug(debug);
 
    gameObjectLoader.setGameObjects(&gameObjects);
@@ -139,39 +141,38 @@ void Game::initialiseInjections()
    componentLoader.setPhysicsEngine(&physicsEngine);
 
    componentFactory.setCollisionEngine(&collisionEngine);
-
-   componentFactory.setDebug(debug);
    componentFactory.setTransformEngine(&transformEngine);
    componentFactory.setInputEngine(&inputEngine);
    componentFactory.setEventEngine(&eventEngine);
    componentFactory.setCollisionEngine(&collisionEngine);
    componentFactory.setPhysicsEngine(&physicsEngine);
    componentFactory.setComponentLoader(&componentLoader);
-   componentFactory.setMaths(&math);
 
    gameObjectFactory.setStack(&gameObjects);
-   gameObjectFactory.setDebug(debug);
    gameObjectFactory.setComponentFactory(&componentFactory);
-   gameObjectFactory.setMaths(&math);
 
+   physicsEventFactory.setPhysicsEngine(&physicsEngine);
    eventFactory.setEventEngine(&eventEngine);
-   eventFactory.setDebug(debug);
-
    inputFactory.setInputEngine(&inputEngine);
-   inputFactory.setDebug(debug);
-
-   eventEngine.setGame(this);
-   inputEngine.setGame(this);
-   transformEngine.setGame(this);
-   collisionEngine.setGame(this);
-   debugDisplayEngine.setGame(this);
-   physicsEngine.setGame(this);
 
    transformEngine.setGrid(&grid);
 
    gameObjects.setComponentLoader(&componentLoader);
 
    grid.setDebug(debug);
+
+   physicsEngine.setGame(this);
+   eventEngine.setGame(this);
+   inputEngine.setGame(this);
+   transformEngine.setGame(this);
+   collisionEngine.setGame(this);
+   debugDisplayEngine.setGame(this);
+
+   componentFactory.setGame(this);
+   gameObjectFactory.setGame(this);
+   eventFactory.setGame(this);
+   inputFactory.setGame(this);
+   physicsEventFactory.setGame(this);
 }
 
 void Game::initialiseClocks()

@@ -21,6 +21,11 @@ void PhysicsEngine::run()
     }
 }
 
+void PhysicsEngine::addCollision(const PhysicalCollision & c)
+{
+    collisions.push_back(c);
+}
+
 RigidBody &PhysicsEngine::addRigidBody()
 {
     rigidbodies.resize(rigidbodies.size()+1);
