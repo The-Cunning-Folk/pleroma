@@ -18,10 +18,10 @@ void PhysicsEngine::run()
     {
         PhysicalCollision & p = collisions[i];
 
-        debug->println(std::to_string(p.overlap.x));
-
         RigidBody & rA = rigidbodies[p.rigidBodyA];
         RigidBody & rB = rigidbodies[p.rigidBodyB];
+
+        //do momentum transfer here
 
         rA.momentum -= p.overlap;
         rB.momentum += p.overlap;

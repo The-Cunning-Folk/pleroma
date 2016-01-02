@@ -16,9 +16,9 @@ class GameLogic : public Component
 public:
     GameLogic();
 
-    void addBehaviour(Behaviour*);
+    void addBehaviour(std::shared_ptr<Behaviour>);
 
-    void addEvent(std::string,GameObject*,std::map<std::string,std::string>);
+    void addEvent(std::string,std::string,std::map<std::string,std::string>);
 
     void collisionWith(const GameObject&,const Collidable &,const Collidable&);
 

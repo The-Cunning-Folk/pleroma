@@ -10,9 +10,10 @@ class Event
 {
 public:
     Event();
-    Event(std::string,GameObject*);
+    Event(std::string,std::string);
+    Event(std::string,GameObject &);
 
-    GameObject* triggeredBy;
+    std::string triggeredBy;
     std::string script;
     std::map<std::string,std::string> parsedScript;
 

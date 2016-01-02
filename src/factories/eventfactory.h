@@ -12,7 +12,8 @@ public:
 
     EventEngine* eventEngine;
 
-    void createEvent(std::string,GameObject*);
+    void createEvent(std::string,std::string);
+    void createEvent(std::string,GameObject&);
     void createCollision(Collision);
 
     EventEngine *getEventEngine() const;

@@ -91,7 +91,7 @@ GameObject* GameObjectFactory::newPlayerObject() //builds behaviours for the pla
     input.inputMap.setKeyInput("move_down",sf::Keyboard::S);
 
     //behaviours
-    logic.addBehaviour(new PlayerBehaviours);
+    logic.addBehaviour(std::shared_ptr<Behaviour>(new PlayerBehaviours));
 
     //collidable
     hitbox.setTransform(player->getTransform());

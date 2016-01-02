@@ -5,6 +5,7 @@
 #include<string>
 #include<event.h>
 #include<componentloader.h>
+#include<gameobjectloader.h>
 
 namespace BQ{
 
@@ -16,10 +17,11 @@ public:
     Behaviour();
 
     ComponentLoader* componentLoader;
+    GameObjectLoader* gameObjectLoader;
 
     float delta;
 
-    GameObject* parent;
+    std::string parent;
 
     std::vector<Event> events;
 
@@ -35,6 +37,8 @@ public:
     void setDelta(float value);
     ComponentLoader *getComponentLoader() const;
     void setComponentLoader(ComponentLoader *value);
+    GameObjectLoader *getGameObjectLoader() const;
+    void setGameObjectLoader(GameObjectLoader *value);
 };
 }
 

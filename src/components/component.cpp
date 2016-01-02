@@ -2,12 +2,23 @@
 
 #include <gameobject.h>
 #include <componentloader.h>
+#include <gameobjectloader.h>
 
 using namespace BQ;
 
 Component::Component()
 {
 
+}
+
+GameObjectLoader *Component::getGameObjectLoader() const
+{
+    return gameObjectLoader;
+}
+
+void Component::setGameObjectLoader(GameObjectLoader *value)
+{
+    gameObjectLoader = value;
 }
 
 ComponentLoader *Component::getComponentLoader() const
@@ -20,6 +31,16 @@ void Component::setComponentLoader(ComponentLoader *value)
     componentLoader = value;
 }
 
+std::string Component::getParent() const
+{
+    return parent;
+}
+
+void Component::setParent(const std::string &value)
+{
+    parent = value;
+}
+
 DebugUtils *Component::getDebug() const
 {
     return debug;
@@ -30,16 +51,6 @@ void Component::setDebug(DebugUtils *value)
     debug = value;
 }
 
-GameObject *Component::getParent() const
-{
-    return parent;
-}
-
-
-void Component::setParent(GameObject * gameObject)
-{
-    parent = gameObject;
-}
 
 void Component::setName(std::string value)
 {

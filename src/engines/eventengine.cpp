@@ -71,6 +71,7 @@ void EventEngine::run()
     }
     for(int i=0; i<events.size();i++)
     {
+        debug->println(events[i].script);
         resolve(events[i]);
     }
     delta = time.getSeconds("logicTime");
@@ -130,7 +131,9 @@ void EventEngine::resolveGlobally(Event& event)
 
 void EventEngine::resolveLocally(Event& event)
 {
-    std::vector<int> logicIndices = componentLoader->getGameLogicsFromObject(*(event.triggeredBy));
+    GameObject & g = gameObjectLoader->loadGameObject(event.triggeredBy);
+    debug->println(g.name);
+    std::vector<int> logicIndices = game->componentLoader.getGameLogicsFromObject(g);
     for(unsigned int i=0; i<logicIndices.size(); i++){
         int index = logicIndices[i];
         gameLogics[index].addEvent(event.script,event.triggeredBy,event.parsedScript);

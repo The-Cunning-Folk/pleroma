@@ -95,8 +95,8 @@ bool CollisionEngine::checkCollision(Collidable & a,Collidable & b)
             }
 
             Collision c;
-            c.objectA = a.getParent()->name;
-            c.objectB = b.getParent()->name;
+            c.objectA = a.getParent();
+            c.objectB = b.getParent();
             c.collidableA = a.index;
             c.collidableB = b.index;
             c.overlap = overlap;

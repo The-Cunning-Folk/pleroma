@@ -8,6 +8,16 @@ Behaviour::Behaviour()
 
 }
 
+GameObjectLoader *Behaviour::getGameObjectLoader() const
+{
+    return gameObjectLoader;
+}
+
+void Behaviour::setGameObjectLoader(GameObjectLoader *value)
+{
+    gameObjectLoader = value;
+}
+
 ComponentLoader *Behaviour::getComponentLoader() const
 {
     return componentLoader;

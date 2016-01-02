@@ -9,12 +9,17 @@ EventFactory::EventFactory()
 
 }
 
-void EventFactory::createEvent(std::string script, GameObject * object)
+void EventFactory::createEvent(std::string script, std::string name)
 {
     Event event;
     event.script = script;
-    event.triggeredBy = object;
+    event.triggeredBy = name;
     eventEngine->pushEvent(event);
+}
+
+void EventFactory::createEvent(std::string script, GameObject & object)
+{
+    createEvent(script,object.name);
 }
 
 void EventFactory::createCollision(Collision c)
