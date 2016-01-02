@@ -50,6 +50,19 @@ void EventEngine::run()
             toUpdate.push_back(index);
         }
 
+        std::vector<int> physA = componentLoader->getRigidBodiesFromObject(A);
+        std::vector<int> physB = componentLoader->getRigidBodiesFromObject(B);
+
+        for(int j=0; j<physA.size(); j++)
+        {
+            RigidBody & rA = componentLoader->getRigidBody(physA[j]);
+            for(int k=0; k<physB.size(); k++)
+            {
+                RigidBody & rB = componentLoader->getRigidBody(physB[k]);
+
+            }
+        }
+
     }
     for(int i=0; i<events.size();i++)
     {

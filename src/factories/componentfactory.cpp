@@ -15,6 +15,16 @@ void ComponentFactory::setComponentLoader(ComponentLoader *value)
     componentLoader = value;
 }
 
+PhysicsEngine *ComponentFactory::getPhysicsEngine() const
+{
+    return physicsEngine;
+}
+
+void ComponentFactory::setPhysicsEngine(PhysicsEngine *value)
+{
+    physicsEngine = value;
+}
+
 
 BQ::Transform & ComponentFactory::newTransform()
 {
@@ -49,14 +59,15 @@ PlayerInput &ComponentFactory::newPlayerInput(std::string name)
 
 GameLogic &ComponentFactory::newGameLogic()
 {
-    return eventEngine->addGameLogic();
+    GameLogic& gameLogic = eventEngine->addGameLogic();
+    gameLogic.setComponentLoader(componentLoader);
+    return gameLogic;
 }
 
 GameLogic &ComponentFactory::newGameLogic(std::string name)
 {
     GameLogic& gameLogic = newGameLogic();
     gameLogic.setName(name);
-    gameLogic.setComponentLoader(componentLoader);
     return(gameLogic);
 }
 
@@ -90,6 +101,20 @@ Collidable &ComponentFactory::newRandomCollidable()
     }
 
     return collidable;
+}
+
+RigidBody &ComponentFactory::newRigidBody()
+{
+    RigidBody & rigidBody = physicsEngine->addRigidBody();
+    rigidBody.setComponentLoader(componentLoader);
+    return rigidBody;
+}
+
+RigidBody &ComponentFactory::newRigidBody(std::string name)
+{
+    RigidBody & rigidBody = physicsEngine->addRigidBody();
+    rigidBody.setName(name);
+    return rigidBody;
 }
 
 TransformEngine *ComponentFactory::getTransformEngine() const

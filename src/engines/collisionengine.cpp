@@ -34,9 +34,12 @@ Collidable &CollisionEngine::getCollidable(int index)
 
 Collidable & CollisionEngine::addCollidable()
 {
-    collidables.resize(collidables.size()+1);
-    collidables.back().index = collidables.size()-1;
-    return collidables.back();
+    int currentSize = collidables.size();
+    collidables.resize(currentSize+1);
+    Collidable & c = collidables.back();
+    c.index = currentSize;
+    c.name = placeholder + std::to_string(currentSize);
+    return c;
 }
 
 bool CollisionEngine::checkCollision(Collidable & a,Collidable & b)

@@ -136,6 +136,7 @@ void Game::initialiseInjections()
 
    componentLoader.setTransformEngine(&transformEngine);
    componentLoader.setCollisionEngine(&collisionEngine);
+   componentLoader.setPhysicsEngine(&physicsEngine);
 
    componentFactory.setCollisionEngine(&collisionEngine);
 
@@ -144,6 +145,7 @@ void Game::initialiseInjections()
    componentFactory.setInputEngine(&inputEngine);
    componentFactory.setEventEngine(&eventEngine);
    componentFactory.setCollisionEngine(&collisionEngine);
+   componentFactory.setPhysicsEngine(&physicsEngine);
    componentFactory.setComponentLoader(&componentLoader);
    componentFactory.setMaths(&math);
 

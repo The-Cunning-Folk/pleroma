@@ -48,7 +48,12 @@ GameObject *GameObjectFactory::newCollisionObject()
     Collidable & hitbox = componentFactory->newRandomCollidable();
     hitbox.setTransform(collisionObj->getTransform());
 
+    RigidBody & body = componentFactory->newRigidBody();
+    body.setTransform(collisionObj->getTransform());
+
     collisionObj->addComponent("hitbox",hitbox);
+    collisionObj->addComponent("body",body);
+
     hitbox.update();
     return collisionObj;
 }

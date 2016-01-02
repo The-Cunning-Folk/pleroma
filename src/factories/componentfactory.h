@@ -10,6 +10,7 @@
 #include <inputengine.h>
 #include <eventengine.h>
 #include <collisionengine.h>
+#include <physicsengine.h>
 
 #include <componentloader.h>
 
@@ -36,6 +37,9 @@ public:
     Collidable& newCollidable(std::string);
     Collidable& newRandomCollidable();
 
+    RigidBody& newRigidBody();
+    RigidBody& newRigidBody(std::string);
+
     TransformEngine *getTransformEngine() const;
     void setTransformEngine(TransformEngine *value);
 
@@ -51,12 +55,16 @@ public:
     ComponentLoader *getComponentLoader() const;
     void setComponentLoader(ComponentLoader *value);
 
+    PhysicsEngine *getPhysicsEngine() const;
+    void setPhysicsEngine(PhysicsEngine *value);
+
 private:
 
     TransformEngine* transformEngine;
     InputEngine* inputEngine;
     EventEngine* eventEngine;
     CollisionEngine* collisionEngine;
+    PhysicsEngine* physicsEngine;
 };
 
 #endif // COMPONENTFACTORY_H

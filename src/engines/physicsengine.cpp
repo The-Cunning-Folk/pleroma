@@ -14,7 +14,11 @@ PhysicsEngine::PhysicsEngine()
 
 void PhysicsEngine::run()
 {
-
+    for(int i=0; i<rigidbodies.size(); i++)
+    {
+        RigidBody& r = rigidbodies[i];
+        r.loadTransform().setVelocity(r.getInvmass()*r.momentum);
+    }
 }
 
 RigidBody &PhysicsEngine::addRigidBody()
@@ -22,4 +26,9 @@ RigidBody &PhysicsEngine::addRigidBody()
     rigidbodies.resize(rigidbodies.size()+1);
     rigidbodies.back().index = rigidbodies.size()-1;
     return rigidbodies.back();
+}
+
+RigidBody &PhysicsEngine::getRigidBody(int index)
+{
+    return rigidbodies[index];
 }

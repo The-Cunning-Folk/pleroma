@@ -20,7 +20,6 @@ public:
 
     std::vector<GameLogic> gameLogics;
 
-
     GameLogic& addGameLogic();
 
     void run();

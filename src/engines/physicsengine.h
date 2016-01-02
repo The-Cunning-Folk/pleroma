@@ -15,6 +15,7 @@ public:
     std::vector<RigidBody> rigidbodies;
 
     RigidBody & addRigidBody();
+    RigidBody & getRigidBody(int);
 };
 }
 
