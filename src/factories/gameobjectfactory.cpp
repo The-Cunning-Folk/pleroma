@@ -1,5 +1,7 @@
 #include "gameobjectfactory.h"
 
+#include <game.h>
+
 using namespace BQ;
 
 GameObjectFactory::GameObjectFactory()
@@ -48,7 +50,15 @@ GameObject *GameObjectFactory::newCollisionObject()
     Collidable & hitbox = componentFactory->newRandomCollidable();
     hitbox.setTransform(collisionObj->getTransform());
 
+    RigidBody & body = componentFactory->newRigidBody();
+    body.restitution = maths->randomFloat(0.5,0.999);
+    //body.friction = maths->randomFloat(0,1E-11);
+    body.momentum = sf::Vector2f(maths->randomFloat(-500,500),maths->randomFloat(-500,500));
+    body.setTransform(collisionObj->getTransform());
+
     collisionObj->addComponent("hitbox",hitbox);
+    collisionObj->addComponent("body",body);
+
     hitbox.update();
     return collisionObj;
 }
@@ -84,7 +94,7 @@ GameObject* GameObjectFactory::newPlayerObject() //builds behaviours for the pla
     input.inputMap.setKeyInput("move_down",sf::Keyboard::S);
 
     //behaviours
-    logic.addBehaviour(new PlayerBehaviours);
+    logic.addBehaviour(std::shared_ptr<Behaviour>((Behaviour*) new PlayerBehaviours));
 
     //collidable
     hitbox.setTransform(player->getTransform());

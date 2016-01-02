@@ -9,6 +9,7 @@
 namespace BQ{
 class GameObject;
 class ComponentLoader;
+class GameObjectLoader;
 
 class Component
 {
@@ -17,13 +18,13 @@ public:
 
     DebugUtils* debug;
     ComponentLoader* componentLoader;
+    GameObjectLoader* gameObjectLoader;
 
     std::string name; //name of the component. All components should be named
     std::string typeId; //what type of component am I?
     int uniqueId; //a unique component id... not sure how I'll track this but we'll try
     int index;
 
-    void setParent(GameObject*);
     void setName(std::string);
 
     virtual void update()
@@ -35,14 +36,19 @@ public:
     DebugUtils *getDebug() const;
     void setDebug(DebugUtils *value);
 
-    GameObject *getParent() const;
 
     ComponentLoader *getComponentLoader() const;
     void setComponentLoader(ComponentLoader *value);
 
+    std::string getParent() const;
+    void setParent(const std::string &value);
+
+    GameObjectLoader *getGameObjectLoader() const;
+    void setGameObjectLoader(GameObjectLoader *value);
+
 protected:
 
-    GameObject* parent; //shouldn't always need this, but very useful for some things
+    std::string parent; //shouldn't always need this, but very useful for some things
 
 };
 }

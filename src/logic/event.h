@@ -2,7 +2,8 @@
 #define EVENT_H
 
 #include<string>
-#include<gameobject.h>
+#include<memory.h>
+#include<map>
 
 namespace BQ{
 
@@ -10,9 +11,9 @@ class Event
 {
 public:
     Event();
-    Event(std::string,GameObject*);
+    Event(std::string,std::string);
 
-    GameObject* triggeredBy;
+    std::string triggeredBy;
     std::string script;
     std::map<std::string,std::string> parsedScript;
 

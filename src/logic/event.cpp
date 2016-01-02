@@ -9,9 +9,9 @@ Event::Event()
 
 }
 
-Event::Event(std::string script, GameObject * object)
+Event::Event(std::string s, std::string triggerer)
 {
-    this->script = script;
-    triggeredBy = object;
+    script = s;
+    triggeredBy = triggerer;
 }
 

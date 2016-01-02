@@ -3,12 +3,16 @@
 
 #include <engine.h>
 #include <event.h>
+#include <collision.h>
 #include <gamelogic.h>
 #include <playerinput.h>
 
  //this is a global event aggregator and manager for handling triggered events.
 //it is where the beast that will eat my beautiful, efficient engine has slouched to be born
 namespace BQ {
+
+
+
 class EventEngine : public Engine
 {
 public:
@@ -18,10 +22,12 @@ public:
     std::vector<Collision> collisions;
     std::vector<int> toUpdate;
 
+    PhysicsEventFactory* physicsEventFactory;
+
     std::vector<GameLogic> gameLogics;
 
-
     GameLogic& addGameLogic();
+    GameLogic& getGameLogic(int);
 
     void run();
 
@@ -35,6 +41,7 @@ public:
 
     float getDelta() const;
     void setDelta(float value);
+
 
 protected:
 

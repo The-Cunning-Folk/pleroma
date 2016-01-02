@@ -1,11 +1,24 @@
 #include "behaviour.h"
 
 #include<gameobject.h>
+#include<componentloader.h>
+#include<gameobjectloader.h>
+
 using namespace BQ;
 
 Behaviour::Behaviour()
 {
 
+}
+
+GameObjectLoader *Behaviour::getGameObjectLoader() const
+{
+    return gameObjectLoader;
+}
+
+void Behaviour::setGameObjectLoader(GameObjectLoader *value)
+{
+    gameObjectLoader = value;
 }
 
 ComponentLoader *Behaviour::getComponentLoader() const

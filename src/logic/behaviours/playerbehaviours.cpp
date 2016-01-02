@@ -1,6 +1,8 @@
 #include "playerbehaviours.h"
 
 #include <gameobject.h>
+#include<componentloader.h>
+#include<gameobjectloader.h>
 
 using namespace BQ;
 
@@ -12,11 +14,12 @@ PlayerBehaviours::PlayerBehaviours()
 void PlayerBehaviours::resolveEvents()
 {
     float speed = delta*200.0;
+
     for(unsigned int i=0; i<events.size(); i++)
     {
 
-        Event event = events[i];
-        Transform & transform = event.triggeredBy->loadTransform();
+        Event & event = events[i];
+        Transform & transform = gameObjectLoader->loadGameObject(event.triggeredBy).loadTransform();
 
         if(event.parsedScript["action"].compare("move_right")==0)
         {

@@ -1,6 +1,7 @@
 #include "componentloader.h"
 
 #include <gameobject.h>
+#include <eventengine.h>
 
 using namespace BQ;
 ComponentLoader::ComponentLoader()
@@ -16,6 +17,16 @@ Transform & ComponentLoader::getTransform(int index)
 Collidable &ComponentLoader::getCollidable(int index)
 {
     return collisionEngine->getCollidable(index);
+}
+
+RigidBody &ComponentLoader::getRigidBody(int index)
+{
+    return physicsEngine->getRigidBody(index);
+}
+
+GameLogic &ComponentLoader::getGameLogic(int index)
+{
+    return eventEngine->getGameLogic(index);
 }
 
 std::vector<int> ComponentLoader::getIndicesFromMap(std::map<std::string, int> cs)
@@ -43,6 +54,12 @@ std::vector<int> ComponentLoader::getGameLogicsFromObject(GameObject & o)
 std::vector<int> ComponentLoader::getInputsFromObject(GameObject & o)
 {
     std::map<std::string,int> cs = o.components["input"];
+    return getIndicesFromMap(cs);
+}
+
+std::vector<int> ComponentLoader::getRigidBodiesFromObject(GameObject & o)
+{
+    std::map<std::string,int> cs = o.components["rigidbody"];
     return getIndicesFromMap(cs);
 }
 
@@ -74,5 +91,25 @@ TransformEngine *ComponentLoader::getTransformEngine() const
 void ComponentLoader::setTransformEngine(TransformEngine *value)
 {
     transformEngine = value;
+}
+
+PhysicsEngine *ComponentLoader::getPhysicsEngine() const
+{
+    return physicsEngine;
+}
+
+void ComponentLoader::setPhysicsEngine(PhysicsEngine *value)
+{
+    physicsEngine = value;
+}
+
+EventEngine *ComponentLoader::getEventEngine() const
+{
+    return eventEngine;
+}
+
+void ComponentLoader::setEventEngine(EventEngine *value)
+{
+    eventEngine = value;
 }
 

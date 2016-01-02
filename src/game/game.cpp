@@ -18,17 +18,20 @@ void Game::runTests()
 
 void Game::runEngines()
 {
-
     inputEngine.run();
-    transformEngine.setDelta(debug->time.getSeconds("logicTime"));
+    eventEngine.run();
+
+    float deltaT = debug->time.getSeconds("logicTime");
+    transformEngine.setDelta(deltaT);
     transformEngine.run();
 
 
     //float logicTime = debug->time.getSeconds("logicTime");
     //eventEngine.setDelta(logicTime);
-    eventEngine.run();
+
 
     collisionEngine.run();
+    physicsEngine.setDelta(deltaT);
     physicsEngine.run();
     debugDisplayEngine.run();
 }
@@ -66,10 +69,12 @@ void Game::run()
     fpsDisplay.setFont(resourceLoader.getFont("8bit16.ttf"));
 
 
+
     //end temporary behaviours
 
     while(window.isOpen()){
         //game loop goes here
+
 
         window.updateEvents();
 
@@ -128,46 +133,50 @@ void Game::initialiseInjections()
 {
    debug->println("injecting dependencies");
 
+
+
    resourceLoader.setDebug(debug);
 
    gameObjectLoader.setGameObjects(&gameObjects);
 
    componentLoader.setTransformEngine(&transformEngine);
    componentLoader.setCollisionEngine(&collisionEngine);
+   componentLoader.setPhysicsEngine(&physicsEngine);
+   componentLoader.setEventEngine(&eventEngine);
 
    componentFactory.setCollisionEngine(&collisionEngine);
-
-   componentFactory.setDebug(debug);
    componentFactory.setTransformEngine(&transformEngine);
    componentFactory.setInputEngine(&inputEngine);
    componentFactory.setEventEngine(&eventEngine);
    componentFactory.setCollisionEngine(&collisionEngine);
+   componentFactory.setPhysicsEngine(&physicsEngine);
    componentFactory.setComponentLoader(&componentLoader);
-   componentFactory.setMaths(&math);
 
    gameObjectFactory.setStack(&gameObjects);
-   gameObjectFactory.setDebug(debug);
    gameObjectFactory.setComponentFactory(&componentFactory);
-   gameObjectFactory.setMaths(&math);
 
+   physicsEventFactory.setPhysicsEngine(&physicsEngine);
    eventFactory.setEventEngine(&eventEngine);
-   eventFactory.setDebug(debug);
-
    inputFactory.setInputEngine(&inputEngine);
-   inputFactory.setDebug(debug);
-
-   eventEngine.setGame(this);
-   inputEngine.setGame(this);
-   transformEngine.setGame(this);
-   collisionEngine.setGame(this);
-   debugDisplayEngine.setGame(this);
-   physicsEngine.setGame(this);
 
    transformEngine.setGrid(&grid);
 
    gameObjects.setComponentLoader(&componentLoader);
 
    grid.setDebug(debug);
+
+   physicsEngine.setGame(this);
+   eventEngine.setGame(this);
+   inputEngine.setGame(this);
+   transformEngine.setGame(this);
+   collisionEngine.setGame(this);
+   debugDisplayEngine.setGame(this);
+
+   componentFactory.setGame(this);
+   gameObjectFactory.setGame(this);
+   eventFactory.setGame(this);
+   inputFactory.setGame(this);
+   physicsEventFactory.setGame(this);
 }
 
 void Game::initialiseClocks()
@@ -196,12 +205,12 @@ void Game::initialiseTests()
     //remove later!
 
 
-    for(int i=1; i<=10; i++)
+    for(int i=1; i<=15; i++)
     {
-        for(int j=1; j<=5; j++)
+        for(int j=1; j<=10; j++)
         {
             GameObject* coll = gameObjectFactory.newCollisionObject();
-            coll->loadTransform().setPosition(sf::Vector2f(i*16 + 200,j*16+120));
+            coll->loadTransform().setPosition(sf::Vector2f(i*16 + 32,j*16+32));
         }
     }
 }

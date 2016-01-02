@@ -34,9 +34,12 @@ Collidable &CollisionEngine::getCollidable(int index)
 
 Collidable & CollisionEngine::addCollidable()
 {
-    collidables.resize(collidables.size()+1);
-    collidables.back().index = collidables.size()-1;
-    return collidables.back();
+    int currentSize = collidables.size();
+    collidables.resize(currentSize+1);
+    Collidable & c = collidables.back();
+    c.index = currentSize;
+    c.name = placeholder + std::to_string(currentSize);
+    return c;
 }
 
 bool CollisionEngine::checkCollision(Collidable & a,Collidable & b)
@@ -92,8 +95,8 @@ bool CollisionEngine::checkCollision(Collidable & a,Collidable & b)
             }
 
             Collision c;
-            c.objectA = a.getParent()->name;
-            c.objectB = b.getParent()->name;
+            c.objectA = a.getParent();
+            c.objectB = b.getParent();
             c.collidableA = a.index;
             c.collidableB = b.index;
             c.overlap = overlap;
@@ -219,6 +222,14 @@ void CollisionEngine::run()
     for(int i=0; i<collisions.size(); i++)
     {
         eventFactory->createCollision(collisions[i]);
+    }
+
+    for(unsigned int i=0; i<collidables.size(); i++)
+    {
+        Transform & t = components.getTransform(collidables[i].getTransform());
+        ConvexPolygon& p = collidables[i].polygon;
+        p.setPosition(t.getPosition());
+        collidables[i].setBBox(p.bBox);
     }
 
 }

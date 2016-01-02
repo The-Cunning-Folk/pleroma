@@ -15,6 +15,7 @@
 #include<eventfactory.h>
 #include<componentfactory.h>
 #include<inputfactory.h>
+#include<physicseventfactory.h>
 
 #include<transformengine.h>
 #include<eventengine.h>
@@ -67,6 +68,7 @@ public:
     ComponentFactory componentFactory;
     EventFactory eventFactory;
     InputFactory inputFactory;
+    PhysicsEventFactory physicsEventFactory;
 
 
     //inherited properties

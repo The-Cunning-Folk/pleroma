@@ -13,6 +13,7 @@ namespace BQ{
 
 class Game;
 class EventFactory;
+class PhysicsEventFactory;
 class ComponentLoader;
 class GameObjectLoader;
 
@@ -24,6 +25,8 @@ public:
     EventFactory* eventFactory;
     ComponentLoader* componentLoader;
     GameObjectLoader* gameObjectLoader;
+
+    PhysicsEventFactory* physicsEventFactory;
 
     float delta;
 
@@ -72,6 +75,9 @@ public:
 
     GameObjectLoader *getGameObjectLoader() const;
     void setGameObjectLoader(GameObjectLoader *value);
+
+    PhysicsEventFactory *getPhysicsEventFactory() const;
+    void setPhysicsEventFactory(PhysicsEventFactory *value);
 
 protected:
     window_ptr gameWindow;

@@ -1,8 +1,5 @@
 #include "eventengine.h"
 
-#include<eventfactory.h>
-#include<componentloader.h>
-#include<gameobjectloader.h>
 #include<game.h>
 
 
@@ -16,7 +13,13 @@ EventEngine::EventEngine() : Engine()
 GameLogic &EventEngine::addGameLogic()
 {
     gameLogics.resize(gameLogics.size() + 1);
+    gameLogics.back().index = gameLogics.size()-1;
     return gameLogics.back();
+}
+
+GameLogic &EventEngine::getGameLogic(int index)
+{
+    return gameLogics[index];
 }
 
 void EventEngine::run()
@@ -48,6 +51,27 @@ void EventEngine::run()
             int index = logicB[j];
             gameLogics[index].collisionWith(A,cB,cA);
             toUpdate.push_back(index);
+        }
+
+        std::vector<int> physA = componentLoader->getRigidBodiesFromObject(A);
+        std::vector<int> physB = componentLoader->getRigidBodiesFromObject(B);
+
+        for(int j=0; j<physA.size(); j++)
+        {
+            int iA = physA[j];
+            for(int k=0; k<physB.size(); k++)
+            {
+                int iB = physB[k];
+                PhysicalCollision p;
+                p.gameObjectA = c.objectA;
+                p.gameObjectB = c.objectB;
+                p.collidableA = c.collidableA;
+                p.collidableB = c.collidableB;
+                p.rigidBodyA = iA;
+                p.rigidBodyB = iB;
+                p.overlap = c.overlap;
+                game->physicsEventFactory.newCollision(p);
+            }
         }
 
     }
@@ -112,11 +136,13 @@ void EventEngine::resolveGlobally(Event& event)
 
 void EventEngine::resolveLocally(Event& event)
 {
-    std::vector<int> logicIndices = componentLoader->getGameLogicsFromObject(*(event.triggeredBy));
-    for(unsigned int i=0; i<logicIndices.size(); i++){
+    GameObject & g = game->gameObjectLoader.loadGameObject(event.triggeredBy);
+    std::vector<int> logicIndices = game->componentLoader.getGameLogicsFromObject(g);
+    for(unsigned int i=0; i<logicIndices.size(); i++)
+    {
         int index = logicIndices[i];
-        gameLogics[index].addEvent(event.script,event.triggeredBy,event.parsedScript);
-        toUpdate.push_back(index);
+        GameLogic & l = game->componentLoader.getGameLogic(index);
+        l.addEvent(event.script,event.triggeredBy,event.parsedScript);
     }
 }
 
