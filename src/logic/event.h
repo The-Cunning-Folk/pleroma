@@ -2,7 +2,8 @@
 #define EVENT_H
 
 #include<string>
-#include<gameobject.h>
+#include<memory.h>
+#include<map>
 
 namespace BQ{
 
@@ -11,7 +12,6 @@ class Event
 public:
     Event();
     Event(std::string,std::string);
-    Event(std::string,GameObject &);
 
     std::string triggeredBy;
     std::string script;

@@ -7,6 +7,9 @@
 #include<physicsengine.h>
 namespace BQ{
 
+class EventEngine;
+class GameLogic;
+
 typedef std::map<std::string, int>::iterator it;
 
 class ComponentLoader
@@ -17,6 +20,7 @@ public:
     Transform & getTransform(int);
     Collidable & getCollidable(int);
     RigidBody & getRigidBody(int);
+    GameLogic & getGameLogic(int);
 
     std::vector<int> getCollidablesFromObject(GameObject & );
     std::vector<int> getGameLogicsFromObject(GameObject & );
@@ -37,12 +41,16 @@ public:
     PhysicsEngine *getPhysicsEngine() const;
     void setPhysicsEngine(PhysicsEngine *value);
 
+    EventEngine *getEventEngine() const;
+    void setEventEngine(EventEngine *value);
+
 private:
 
     CollisionEngine* collisionEngine;
     InputEngine* inputEngine;
     TransformEngine* transformEngine;
     PhysicsEngine* physicsEngine;
+    EventEngine* eventEngine;
 };
 }
 

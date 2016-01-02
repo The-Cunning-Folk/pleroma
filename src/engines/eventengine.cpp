@@ -13,7 +13,13 @@ EventEngine::EventEngine() : Engine()
 GameLogic &EventEngine::addGameLogic()
 {
     gameLogics.resize(gameLogics.size() + 1);
+    gameLogics.back().index = gameLogics.size()-1;
     return gameLogics.back();
+}
+
+GameLogic &EventEngine::getGameLogic(int index)
+{
+    return gameLogics[index];
 }
 
 void EventEngine::run()
@@ -71,7 +77,6 @@ void EventEngine::run()
     }
     for(int i=0; i<events.size();i++)
     {
-        debug->println(events[i].script);
         resolve(events[i]);
     }
     delta = time.getSeconds("logicTime");
@@ -131,13 +136,13 @@ void EventEngine::resolveGlobally(Event& event)
 
 void EventEngine::resolveLocally(Event& event)
 {
-    GameObject & g = gameObjectLoader->loadGameObject(event.triggeredBy);
-    debug->println(g.name);
+    GameObject & g = game->gameObjectLoader.loadGameObject(event.triggeredBy);
     std::vector<int> logicIndices = game->componentLoader.getGameLogicsFromObject(g);
-    for(unsigned int i=0; i<logicIndices.size(); i++){
+    for(unsigned int i=0; i<logicIndices.size(); i++)
+    {
         int index = logicIndices[i];
-        gameLogics[index].addEvent(event.script,event.triggeredBy,event.parsedScript);
-        toUpdate.push_back(index);
+        GameLogic & l = game->componentLoader.getGameLogic(index);
+        l.addEvent(event.script,event.triggeredBy,event.parsedScript);
     }
 }
 

@@ -3,13 +3,9 @@
 
 #include <component.h>
 #include <collidable.h>
+#include <behaviour.h>
 
 namespace BQ{
-
-class Behaviour;
-
-typedef std::shared_ptr<Behaviour> logic_ptr;
-
 
 class GameLogic : public Component
 {
@@ -26,9 +22,11 @@ public:
 
     void update();
 
+     std::vector<std::shared_ptr<Behaviour>> behaviours;
+
 private:
 
-    std::vector<logic_ptr> behaviours;
+
 };
 }
 

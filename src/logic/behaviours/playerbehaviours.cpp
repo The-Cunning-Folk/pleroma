@@ -1,6 +1,8 @@
 #include "playerbehaviours.h"
 
 #include <gameobject.h>
+#include<componentloader.h>
+#include<gameobjectloader.h>
 
 using namespace BQ;
 
@@ -15,7 +17,6 @@ void PlayerBehaviours::resolveEvents()
 
     for(unsigned int i=0; i<events.size(); i++)
     {
-        std::cout << "resolving" << std::endl;
 
         Event & event = events[i];
         Transform & transform = gameObjectLoader->loadGameObject(event.triggeredBy).loadTransform();

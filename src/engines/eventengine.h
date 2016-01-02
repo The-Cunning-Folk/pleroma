@@ -3,6 +3,7 @@
 
 #include <engine.h>
 #include <event.h>
+#include <collision.h>
 #include <gamelogic.h>
 #include <playerinput.h>
 
@@ -26,6 +27,7 @@ public:
     std::vector<GameLogic> gameLogics;
 
     GameLogic& addGameLogic();
+    GameLogic& getGameLogic(int);
 
     void run();
 

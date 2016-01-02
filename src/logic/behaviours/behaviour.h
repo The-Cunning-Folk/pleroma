@@ -4,12 +4,13 @@
 #include<vector>
 #include<string>
 #include<event.h>
-#include<componentloader.h>
-#include<gameobjectloader.h>
+
 
 namespace BQ{
 
 class GameObject;
+class GameObjectLoader;
+class ComponentLoader;
 
 class Behaviour
 {

@@ -15,9 +15,3 @@ Event::Event(std::string s, std::string triggerer)
     triggeredBy = triggerer;
 }
 
-Event::Event(std::string script, GameObject & object)
-{
-    this->script = script;
-    triggeredBy = object.name;
-}
-
