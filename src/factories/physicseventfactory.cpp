@@ -11,7 +11,7 @@ PhysicsEventFactory::PhysicsEventFactory()
 
 void PhysicsEventFactory::newCollision(PhysicalCollision c)
 {
-    //debug->println("hoi");
+   physicsEngine->addCollision(c);
 }
 
 PhysicsEngine *PhysicsEventFactory::getPhysicsEngine() const

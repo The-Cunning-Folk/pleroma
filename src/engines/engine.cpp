@@ -59,7 +59,6 @@ void Engine::setGame(Game *value)
     gameObjectLoader = &(game->gameObjectLoader);
     maths = &(game->math);
     eventFactory = &(game->eventFactory);
-    physicsEventFactory = &(game->physicsEventFactory);
 }
 
 Game *Engine::getGame() const

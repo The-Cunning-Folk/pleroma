@@ -63,7 +63,8 @@ void EventEngine::run()
                 p.collidableB = c.collidableB;
                 p.rigidBodyA = iA;
                 p.rigidBodyB = iB;
-                physicsEventFactory->newCollision(p);
+                p.overlap = c.overlap;
+                game->physicsEventFactory.newCollision(p);
             }
         }
 

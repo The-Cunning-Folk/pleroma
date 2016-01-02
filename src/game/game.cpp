@@ -68,10 +68,12 @@ void Game::run()
     fpsDisplay.setFont(resourceLoader.getFont("8bit16.ttf"));
 
 
+
     //end temporary behaviours
 
     while(window.isOpen()){
         //game loop goes here
+
 
         window.updateEvents();
 
