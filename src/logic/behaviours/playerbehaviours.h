@@ -9,7 +9,12 @@ class PlayerBehaviours : public Behaviour
 public:
     PlayerBehaviours();
 
+    float dx;
+    float dy;
+    float speed;
+
     void resolveEvents();
+    void update();
 };
 }
 

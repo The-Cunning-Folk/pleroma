@@ -22,12 +22,12 @@ public:
 
     ComponentFactory* componentFactory;
 
-    GameObject* newObject();
-    GameObject* newObject(std::string);
+    GameObject& newObject();
+    GameObject& newObject(std::string);
 
-    GameObject* newCollisionObject();
+    GameObject& newCollisionObject();
 
-    GameObject* newPlayerObject();
+    GameObject& newPlayerObject();
 
     ComponentFactory *getComponentFactory() const;
     void setComponentFactory(ComponentFactory *value);

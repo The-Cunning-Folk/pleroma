@@ -17,8 +17,8 @@ public:
 
     ComponentLoader* componentLoader;
 
-    GameObject* addObject();
-    GameObject* addObject(std::string);
+    GameObject& addObject();
+    GameObject& addObject(std::string);
 
     std::map<std::string,GameObject> objects;
 
@@ -28,7 +28,7 @@ public:
 
 private:
 
-    GameObject* generateObject(std::string);
+    GameObject& generateObject(std::string);
 
     std::string placeholder;
     int currentId;

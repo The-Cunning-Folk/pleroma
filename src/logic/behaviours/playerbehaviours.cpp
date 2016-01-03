@@ -13,40 +13,55 @@ PlayerBehaviours::PlayerBehaviours()
 
 void PlayerBehaviours::resolveEvents()
 {
-    float speed = delta*200.0;
+    speed = delta*200.0;
+    dx = 0;
+    dy = 0;
 
     for(unsigned int i=0; i<events.size(); i++)
     {
 
         Event & event = events[i];
-        Transform & transform = gameObjectLoader->loadGameObject(event.triggeredBy).loadTransform();
 
-        if(event.parsedScript["action"].compare("move_right")==0)
+        std::string action = event.parsedScript["action"];
+
+        if(compare(action,"move_right"))
         {
-            transform.move(speed,0.0);
+            dx += 1;
         }
-        if(event.parsedScript["action"].compare("move_up")==0)
+        else if(compare(action,"move_up"))
         {
-            transform.move(0.0,-speed);
+            dy -= 1;
         }
-        if(event.parsedScript["action"].compare("move_left")==0)
+        else if(compare(action,"move_left"))
         {
-            transform.move(-speed,0.0);
+            dx -= 1;
         }
-        if(event.parsedScript["action"].compare("move_down")==0)
+        else if(compare(action,"move_down"))
         {
-            transform.move(0.0,speed);
+            dy += 1;
         }
-        if(event.parsedScript["action"].compare("X")==0)
+        else if(compare(action,"attack"))
+        {
+            std::cout << "attack" << std::endl;
+        }
+        else if(compare(action,"X"))
         {
             float deltaX = std::stof(event.parsedScript["val"])*0.01;
-            transform.move(speed*deltaX,0.0);
+            dx += deltaX;
         }
-        if(event.parsedScript["action"].compare("Y")==0)
+        else if(compare(action,"Y"))
         {
             float deltaY = std::stof(event.parsedScript["val"])*0.01;
-            transform.move(0.0,speed*deltaY);
+            dy += deltaY;
         }
     }
+}
+
+void PlayerBehaviours::update()
+{
+    Transform & transform = gameObjectLoader->loadGameObject(parent).loadTransform();
+    sf::Vector2f direction(dx,dy);
+    sf::Vector2f velocity = speed*direction;
+    transform.move(velocity);
 }
 

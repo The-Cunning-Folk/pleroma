@@ -32,11 +32,6 @@ void GameObject::setTransform(int value)
     transform = value;
 }
 
-void GameObject::setPosition(sf::Vector2f pos)
-{
-    //    transform->setPosition(pos);
-}
-
 Transform &GameObject::loadTransform()
 {
     return componentLoader->getTransform(transform);
@@ -56,9 +51,4 @@ void GameObject::addComponent(std::string name, Component & component)
 {
     component.setParent(this->name);
     components[component.typeId][component.name] = component.index;
-}
-
-void GameObject::update()
-{
-
 }

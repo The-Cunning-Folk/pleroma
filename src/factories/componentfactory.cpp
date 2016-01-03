@@ -115,7 +115,7 @@ RigidBody &ComponentFactory::newRigidBody()
 
 RigidBody &ComponentFactory::newRigidBody(std::string name)
 {
-    RigidBody & rigidBody = physicsEngine->addRigidBody();
+    RigidBody & rigidBody = newRigidBody();
     rigidBody.setName(name);
     return rigidBody;
 }

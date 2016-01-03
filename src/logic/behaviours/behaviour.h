@@ -32,7 +32,9 @@ public:
 
     void clearEvents();
 
-    void update();
+    virtual void update();
+
+    bool compare(std::string,std::string);
 
     float getDelta() const;
     void setDelta(float value);

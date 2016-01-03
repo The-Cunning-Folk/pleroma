@@ -19,18 +19,18 @@ void GameObjectStack::setComponentLoader(ComponentLoader *value)
 }
 
 
-GameObject * GameObjectStack::addObject()
+GameObject & GameObjectStack::addObject()
 {
     std::string name = placeholder + std::to_string(currentId);
     return addObject(name);
 }
 
-GameObject * GameObjectStack::addObject(std::string name)
+GameObject & GameObjectStack::addObject(std::string name)
 {
     return generateObject(name);
 }
 
-GameObject* GameObjectStack::generateObject(std::string name)
+GameObject& GameObjectStack::generateObject(std::string name)
 {
     GameObject object;
     object.setComponentLoader(componentLoader);
@@ -38,6 +38,6 @@ GameObject* GameObjectStack::generateObject(std::string name)
     object.uniqueId = currentId;
     objects[object.name] = object;
     currentId++;
-    return(&objects[name]);
+    return(objects[name]);
 }
 

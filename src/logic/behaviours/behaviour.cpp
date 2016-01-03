@@ -58,7 +58,11 @@ void Behaviour::clearEvents()
 
 void Behaviour::update()
 {
-    resolveEvents();
-    clearEvents();
+
+}
+
+bool Behaviour::compare(std::string big_s, std::string sub_s)
+{
+    return big_s.compare(sub_s)==0;
 }
 

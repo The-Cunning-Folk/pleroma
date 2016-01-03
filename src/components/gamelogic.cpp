@@ -51,6 +51,7 @@ void GameLogic::update()
     for(unsigned int i = 0; i<behaviours.size(); i++)
     {
         behaviours[i]->resolveEvents();
+        behaviours[i]->update();
         behaviours[i]->clearEvents();
     }
 }

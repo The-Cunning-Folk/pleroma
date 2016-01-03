@@ -24,15 +24,9 @@ public:
 
     std::string name;
     int uniqueId;
-    int index;
 
     void addComponent(Component&);
     void addComponent(std::string,Component&);
-
-    void update();
-
-
-    void setPosition(sf::Vector2f);
 
     Transform & loadTransform();
     int getTransform() const;
