@@ -72,6 +72,7 @@ GameObject& GameObjectFactory::newPlayerObject() //builds behaviours for the pla
     PlayerInput& input = componentFactory->newPlayerInput("player_input");
     GameLogic& logic = componentFactory->newGameLogic("player_logic");
     Collidable & hitbox = componentFactory->newCollidable("player_hitbox");
+    Collidable & attack = componentFactory->newCollidable("player_attack");
     RigidBody & body = componentFactory->newRigidBody("player_rigidbody");
 
     float corners = 3;
@@ -86,10 +87,18 @@ GameObject& GameObjectFactory::newPlayerObject() //builds behaviours for the pla
     hitbox.polygon.addPoint(sf::Vector2f(-size,size-corners));
     hitbox.polygon.addPoint(sf::Vector2f(-size+corners,size));
 
+
+    hitbox.setTransform(player.getTransform());
+    body.setTransform(player.getTransform());
+    attack.setTransform(player.getTransform());
+
+    attack.solid = false;
+
     //add components
     player.addComponent("input",input);
     player.addComponent("logic",logic);
     player.addComponent("hitbox",hitbox);
+    player.addComponent("attack",attack);
     player.addComponent("body",body);
 
     //input
@@ -104,12 +113,8 @@ GameObject& GameObjectFactory::newPlayerObject() //builds behaviours for the pla
     logic.addBehaviour(std::shared_ptr<Behaviour>((Behaviour*) new PlayerBehaviours));
 
     //collidable
-    hitbox.setTransform(player.getTransform());
-
-    body.setTransform(player.getTransform());
     body.friction = 0.1;
     body.setMass(3);
-    //hitbox->setBBox(sf::FloatRect(-10,-10,20,20));
 
     return player;
 }

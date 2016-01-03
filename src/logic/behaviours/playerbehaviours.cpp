@@ -13,8 +13,9 @@ PlayerBehaviours::PlayerBehaviours()
     startRoll = false;
     rolling = false;
     rollCooled = true;
-    rollDuration = 0.2;
-    rollCooldown = 0.4;
+    rollDuration = 0.25;
+    rollCooldown = 0.5;
+    rollBoost = 2.5;
 }
 
 std::string PlayerBehaviours::getFacing(float dx, float dy)
@@ -101,7 +102,7 @@ void PlayerBehaviours::resolveEvents()
         {
             dy += 1;
         }
-        else if(compare(action,"attack"))
+        else if(compare(action,"attack") || compare(action,"pad_X"))
         {
             std::cout << "attack" << std::endl;
         }
@@ -146,7 +147,7 @@ void PlayerBehaviours::update()
     }
     if(rolling)
     {
-        velocity = 2*speed*rollDirection;
+        velocity = rollBoost*speed*rollDirection;
         if(rollTimer.asSeconds() >= rollDuration)
         {
             rolling = false;

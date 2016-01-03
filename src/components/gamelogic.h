@@ -3,10 +3,9 @@
 
 #include <component.h>
 #include <collidable.h>
-#include <behaviour.h>
 
 namespace BQ{
-
+class Behaviour;
 class GameLogic : public Component
 {
 public:

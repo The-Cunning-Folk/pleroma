@@ -23,6 +23,7 @@ public:
     sf::Vector2f rollDirection;
     float rollDuration;
     float rollCooldown;
+    float rollBoost;
 
     std::string getFacing(float,float);
 
