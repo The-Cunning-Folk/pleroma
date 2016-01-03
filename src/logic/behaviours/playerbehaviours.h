@@ -15,6 +15,15 @@ public:
     float baseSpeed;
     std::string facing;
 
+    bool startRoll;
+    bool rolling;
+    bool rollCooled;
+    sf::Time rollTimer;
+    sf::Clock rollClock;
+    sf::Vector2f rollDirection;
+    float rollDuration;
+    float rollCooldown;
+
     std::string getFacing(float,float);
 
     void resolveEvents();

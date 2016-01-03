@@ -10,6 +10,11 @@ PlayerBehaviours::PlayerBehaviours()
 {
     baseSpeed = 200.0;
     facing = "d";
+    startRoll = false;
+    rolling = false;
+    rollCooled = true;
+    rollDuration = 0.2;
+    rollCooldown = 0.4;
 }
 
 std::string PlayerBehaviours::getFacing(float dx, float dy)
@@ -102,7 +107,12 @@ void PlayerBehaviours::resolveEvents()
         }
         else if(compare(action,"roll") || compare(action,"pad_A"))
         {
-            std::cout << facing << std::endl;
+            if(rollCooled)
+            {
+                startRoll = true;
+                rollCooled = false;
+                rollClock.restart();
+            }
         }
         else if(compare(action,"X"))
         {
@@ -125,8 +135,31 @@ void PlayerBehaviours::update()
     {
         direction = maths->unit(direction);
     }
-    facing = getFacing(direction.x,direction.y);
     sf::Vector2f velocity = speed*direction;
+    facing = getFacing(direction.x,direction.y);
+    rollTimer = rollClock.getElapsedTime();
+    if(startRoll)
+    {
+        rolling = true;
+        startRoll = false;
+        rollDirection = direction;
+    }
+    if(rolling)
+    {
+        velocity = 2*speed*rollDirection;
+        if(rollTimer.asSeconds() >= rollDuration)
+        {
+            rolling = false;
+        }
+    }
+    if(!rolling && !rollCooled)
+    {
+        if(rollTimer.asSeconds() > rollDuration + rollCooldown)
+        {
+            rollCooled = true;
+        }
+    }
+
     transform.move(velocity);
 }
 
