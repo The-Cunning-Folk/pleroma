@@ -8,12 +8,67 @@ using namespace BQ;
 
 PlayerBehaviours::PlayerBehaviours()
 {
+    baseSpeed = 200.0;
+    facing = "d";
+}
 
+std::string PlayerBehaviours::getFacing(float dx, float dy)
+{
+    sf::Vector2f direction(dx,dy);
+    if(direction.x == 0) {
+        if(direction.y < 0){
+            facing = "u";
+        }
+        else if (direction.y > 0)
+        {
+            facing = "d";
+        }
+    }
+    else
+    {
+        float dirRatio = direction.y/direction.x;
+        float absRatio = fabs(dirRatio);
+
+        if(absRatio <= 0.41)
+        {
+            if(direction.x > 0)
+            {
+                facing = "r";
+            }
+            else
+            {
+                facing = "l";
+            }
+        }
+        else if(absRatio > 0.41 && absRatio <= 2.41)
+        {
+            facing = "";
+
+            if(direction.y > 0)
+            {
+                facing += "d";
+            }
+            else
+            {
+                facing += "u";
+            }
+
+            if(direction.x > 0)
+            {
+                facing += "r";
+            }
+            else
+            {
+                facing += "l";
+            }
+        }
+    }
+    return facing;
 }
 
 void PlayerBehaviours::resolveEvents()
 {
-    speed = delta*200.0;
+    speed = delta*baseSpeed;
     dx = 0;
     dy = 0;
 
@@ -21,6 +76,7 @@ void PlayerBehaviours::resolveEvents()
     {
 
         Event & event = events[i];
+
 
         std::string action = event.parsedScript["action"];
 
@@ -44,6 +100,10 @@ void PlayerBehaviours::resolveEvents()
         {
             std::cout << "attack" << std::endl;
         }
+        else if(compare(action,"roll") || compare(action,"pad_A"))
+        {
+            std::cout << facing << std::endl;
+        }
         else if(compare(action,"X"))
         {
             float deltaX = std::stof(event.parsedScript["val"])*0.01;
@@ -65,6 +125,7 @@ void PlayerBehaviours::update()
     {
         direction = maths->unit(direction);
     }
+    facing = getFacing(direction.x,direction.y);
     sf::Vector2f velocity = speed*direction;
     transform.move(velocity);
 }

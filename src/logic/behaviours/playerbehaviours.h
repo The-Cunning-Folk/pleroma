@@ -12,6 +12,10 @@ public:
     float dx;
     float dy;
     float speed;
+    float baseSpeed;
+    std::string facing;
+
+    std::string getFacing(float,float);
 
     void resolveEvents();
     void update();

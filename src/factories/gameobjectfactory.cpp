@@ -98,6 +98,7 @@ GameObject& GameObjectFactory::newPlayerObject() //builds behaviours for the pla
     input.inputMap.setKeyInput("move_right",sf::Keyboard::D);
     input.inputMap.setKeyInput("move_down",sf::Keyboard::S);
     input.inputMap.setKeyInput("attack",sf::Keyboard::RShift);
+    input.inputMap.setKeyInput("roll",sf::Keyboard::Space);
 
     //behaviours
     logic.addBehaviour(std::shared_ptr<Behaviour>((Behaviour*) new PlayerBehaviours));

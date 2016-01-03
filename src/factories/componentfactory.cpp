@@ -79,6 +79,10 @@ GameLogic &ComponentFactory::newGameLogic(std::string name)
 Collidable & ComponentFactory::newCollidable()
 {
     Collidable& collidable = collisionEngine->addCollidable();
+    collidable.setComponentLoader(componentLoader);
+    collidable.setGameObjectLoader(&(game->gameObjectLoader));
+    collidable.setMaths(maths);
+    collidable.setDebug(debug);
     return collidable;
 }
 
