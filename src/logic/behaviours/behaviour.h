@@ -4,6 +4,8 @@
 #include<vector>
 #include<string>
 #include<event.h>
+#include<mathsutils.h>
+#include<debugutils.h>
 
 
 namespace BQ{
@@ -19,6 +21,9 @@ public:
 
     ComponentLoader* componentLoader;
     GameObjectLoader* gameObjectLoader;
+    MathsUtils* maths;
+    DebugUtils* debug;
+
 
     float delta;
 
@@ -42,6 +47,10 @@ public:
     void setComponentLoader(ComponentLoader *value);
     GameObjectLoader *getGameObjectLoader() const;
     void setGameObjectLoader(GameObjectLoader *value);
+    MathsUtils *getMaths() const;
+    void setMaths(MathsUtils *value);
+    DebugUtils *getDebug() const;
+    void setDebug(DebugUtils *value);
 };
 }
 

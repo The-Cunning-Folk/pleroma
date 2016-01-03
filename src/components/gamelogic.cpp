@@ -20,6 +20,8 @@ void GameLogic::addBehaviour(std::shared_ptr<Behaviour> logic)
     behaviours.back()->parent = parent;
     behaviours.back()->setComponentLoader(componentLoader);
     behaviours.back()->setGameObjectLoader(gameObjectLoader);
+    behaviours.back()->setMaths(maths);
+    behaviours.back()->setDebug(debug);
 }
 
 void GameLogic::addEvent(std::string script, std::string triggered,std::map<std::string,std::string> parsed)

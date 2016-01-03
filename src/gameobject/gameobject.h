@@ -1,16 +1,10 @@
 #ifndef GAMEOBJECT_H
 #define GAMEOBJECT_H
 
-#include<transform.h>
-
-#include<component.h>
 #include<componentloader.h>
-#include<gamelogic.h>
-#include <iostream>
-#include <vector>
-#include<functional>
+#include<vector>
 #include<memory>
-#include <map>
+#include<map>
 
 namespace BQ{
 class GameObject

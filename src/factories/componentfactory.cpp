@@ -64,6 +64,8 @@ GameLogic &ComponentFactory::newGameLogic()
     GameLogic& gameLogic = eventEngine->addGameLogic();
     gameLogic.setComponentLoader(componentLoader);
     gameLogic.setGameObjectLoader(&(game->gameObjectLoader));
+    gameLogic.setMaths(maths);
+    gameLogic.setDebug(debug);
     return gameLogic;
 }
 

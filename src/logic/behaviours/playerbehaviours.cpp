@@ -61,6 +61,10 @@ void PlayerBehaviours::update()
 {
     Transform & transform = gameObjectLoader->loadGameObject(parent).loadTransform();
     sf::Vector2f direction(dx,dy);
+    if(maths->mag(direction) > 1.0)
+    {
+        direction = maths->unit(direction);
+    }
     sf::Vector2f velocity = speed*direction;
     transform.move(velocity);
 }
