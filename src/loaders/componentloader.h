@@ -9,6 +9,7 @@ namespace BQ{
 
 class EventEngine;
 class GameLogic;
+class GameObjectLoader;
 
 typedef std::map<std::string, int>::iterator it;
 
@@ -21,6 +22,8 @@ public:
     Collidable & getCollidable(int);
     RigidBody & getRigidBody(int);
     GameLogic & getGameLogic(int);
+
+    Collidable & getCollidableFromObject(GameObject&,std::string);
 
     std::vector<int> getCollidablesFromObject(GameObject & );
     std::vector<int> getGameLogicsFromObject(GameObject & );
@@ -44,7 +47,12 @@ public:
     EventEngine *getEventEngine() const;
     void setEventEngine(EventEngine *value);
 
+    GameObjectLoader *getGameObjectLoader() const;
+    void setGameObjectLoader(GameObjectLoader *value);
+
 private:
+
+    GameObjectLoader * gameObjectLoader;
 
     CollisionEngine* collisionEngine;
     InputEngine* inputEngine;

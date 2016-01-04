@@ -139,6 +139,7 @@ void Game::initialiseInjections()
 
    gameObjectLoader.setGameObjects(&gameObjects);
 
+   componentLoader.setGameObjectLoader(&gameObjectLoader);
    componentLoader.setTransformEngine(&transformEngine);
    componentLoader.setCollisionEngine(&collisionEngine);
    componentLoader.setPhysicsEngine(&physicsEngine);
