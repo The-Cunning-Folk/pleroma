@@ -64,6 +64,8 @@ GameLogic &ComponentFactory::newGameLogic()
     GameLogic& gameLogic = eventEngine->addGameLogic();
     gameLogic.setComponentLoader(componentLoader);
     gameLogic.setGameObjectLoader(&(game->gameObjectLoader));
+    gameLogic.setMaths(maths);
+    gameLogic.setDebug(debug);
     return gameLogic;
 }
 
@@ -77,6 +79,10 @@ GameLogic &ComponentFactory::newGameLogic(std::string name)
 Collidable & ComponentFactory::newCollidable()
 {
     Collidable& collidable = collisionEngine->addCollidable();
+    collidable.setComponentLoader(componentLoader);
+    collidable.setGameObjectLoader(&(game->gameObjectLoader));
+    collidable.setMaths(maths);
+    collidable.setDebug(debug);
     return collidable;
 }
 
@@ -115,7 +121,7 @@ RigidBody &ComponentFactory::newRigidBody()
 
 RigidBody &ComponentFactory::newRigidBody(std::string name)
 {
-    RigidBody & rigidBody = physicsEngine->addRigidBody();
+    RigidBody & rigidBody = newRigidBody();
     rigidBody.setName(name);
     return rigidBody;
 }

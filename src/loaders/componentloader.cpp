@@ -2,6 +2,7 @@
 
 #include <gameobject.h>
 #include <eventengine.h>
+#include <gameobjectloader.h>
 
 using namespace BQ;
 ComponentLoader::ComponentLoader()
@@ -27,6 +28,12 @@ RigidBody &ComponentLoader::getRigidBody(int index)
 GameLogic &ComponentLoader::getGameLogic(int index)
 {
     return eventEngine->getGameLogic(index);
+}
+
+Collidable &ComponentLoader::getCollidableFromObject(GameObject & o, std::string name)
+{
+    Collidable & c = getCollidable(o.components["collidable"][name]);
+    return c;
 }
 
 std::vector<int> ComponentLoader::getIndicesFromMap(std::map<std::string, int> cs)
@@ -111,5 +118,15 @@ EventEngine *ComponentLoader::getEventEngine() const
 void ComponentLoader::setEventEngine(EventEngine *value)
 {
     eventEngine = value;
+}
+
+GameObjectLoader *ComponentLoader::getGameObjectLoader() const
+{
+    return gameObjectLoader;
+}
+
+void ComponentLoader::setGameObjectLoader(GameObjectLoader *value)
+{
+    gameObjectLoader = value;
 }
 

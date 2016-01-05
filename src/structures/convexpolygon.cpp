@@ -16,6 +16,11 @@ void ConvexPolygon::addPoint(sf::Vector2f v)
     points.push_back(v);
 }
 
+void ConvexPolygon::clearPoints()
+{
+    points.clear();
+}
+
 void ConvexPolygon::update()
 {
     if(points.size() >= 1)

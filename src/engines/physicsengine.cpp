@@ -10,13 +10,14 @@ using namespace BQ;
 PhysicsEngine::PhysicsEngine()
 {
     placeholder = "auto_phys_";
-    grav = 10;
+    grav = 1;
 }
 
 void PhysicsEngine::run()
 {
     for(int i=0; i<collisions.size(); i++)
     {
+
         PhysicalCollision & p = collisions[i];
 
         RigidBody & rA = rigidbodies[p.rigidBodyA];
@@ -53,8 +54,9 @@ void PhysicsEngine::run()
         if(r.friction > 1E-12) //floating point inprecision check
         {
             float fric = delta*r.friction*r.getMass()*grav;
+
             float mMom = maths->mag(r.momentum);
-            if(fric > mMom)
+            if(fric > mMom && mMom > 0)
             {
                sf::Vector2f uMom = maths->unit(r.momentum);
                r.momentum -= fric*uMom;

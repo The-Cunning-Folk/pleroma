@@ -11,6 +11,16 @@ Component::Component()
 
 }
 
+MathsUtils *Component::getMaths() const
+{
+    return maths;
+}
+
+void Component::setMaths(MathsUtils *value)
+{
+    maths = value;
+}
+
 GameObjectLoader *Component::getGameObjectLoader() const
 {
     return gameObjectLoader;

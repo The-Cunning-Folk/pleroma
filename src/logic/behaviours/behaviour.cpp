@@ -11,6 +11,26 @@ Behaviour::Behaviour()
 
 }
 
+DebugUtils *Behaviour::getDebug() const
+{
+    return debug;
+}
+
+void Behaviour::setDebug(DebugUtils *value)
+{
+    debug = value;
+}
+
+MathsUtils *Behaviour::getMaths() const
+{
+    return maths;
+}
+
+void Behaviour::setMaths(MathsUtils *value)
+{
+    maths = value;
+}
+
 GameObjectLoader *Behaviour::getGameObjectLoader() const
 {
     return gameObjectLoader;
@@ -58,7 +78,11 @@ void Behaviour::clearEvents()
 
 void Behaviour::update()
 {
-    resolveEvents();
-    clearEvents();
+
+}
+
+bool Behaviour::compare(std::string big_s, std::string sub_s)
+{
+    return big_s.compare(sub_s)==0;
 }
 

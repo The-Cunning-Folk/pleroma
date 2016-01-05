@@ -16,6 +16,7 @@ class Component
 public:
     Component();
 
+    MathsUtils* maths;
     DebugUtils* debug;
     ComponentLoader* componentLoader;
     GameObjectLoader* gameObjectLoader;
@@ -45,6 +46,9 @@ public:
 
     GameObjectLoader *getGameObjectLoader() const;
     void setGameObjectLoader(GameObjectLoader *value);
+
+    MathsUtils *getMaths() const;
+    void setMaths(MathsUtils *value);
 
 protected:
 
