@@ -22,6 +22,7 @@ PlayerBehaviours::PlayerBehaviours()
     startAttack = false;
     attackCooled = false;
     attacking = false;
+    attackMom = 2000;
 }
 
 std::string PlayerBehaviours::getFacing(float dx, float dy)
@@ -164,6 +165,19 @@ void PlayerBehaviours::checkInputLogic()
     }
 }
 
+void PlayerBehaviours::collisionWith(GameObject &o, std::string me, std::string them)
+{
+    if(compare(me,"attack"))
+    {
+        std::vector<int> rs = componentLoader->getRigidBodiesFromObject(o);
+        for(int i=0; i<rs.size(); i++)
+        {
+            RigidBody & r = componentLoader->getRigidBody(rs[i]);
+            r.momentum += attackMom*attackDirection;
+        }
+    }
+}
+
 void PlayerBehaviours::resolveEvents()
 {
     speed = delta*baseSpeed;
@@ -250,11 +264,13 @@ void PlayerBehaviours::update()
         velocity.y = 0;
         Collidable & attack = componentLoader->getCollidableFromObject(gameObjectLoader->loadGameObject(parent),"attack");
         attack.polygon.clearPoints();
-        sf::Vector2f p1 = (maths->rotateAntiClockwise(attackDirection,0.7));
-        sf::Vector2f p2 = (maths->rotateClockwise(attackDirection,0.7));
-        p1 = 30.0F*p1;
-        p2 = 30.0F*p2;
-        attack.polygon.addPoint(sf::Vector2f(0,0));
+        float attackMag = 35;
+        sf::Vector2f p1 = (maths->rotateAntiClockwise(attackDirection,0.6));
+        sf::Vector2f p2 = (maths->rotateClockwise(attackDirection,0.6));
+        sf::Vector2f p0 = (15.0F*attackDirection);
+        p1 = attackMag*p1;
+        p2 = attackMag*p2;
+        attack.polygon.addPoint(p0);
         attack.polygon.addPoint(p1);
         attack.polygon.addPoint(p2);
     }

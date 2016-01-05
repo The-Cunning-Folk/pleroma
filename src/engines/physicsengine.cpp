@@ -18,33 +18,37 @@ void PhysicsEngine::run()
     for(int i=0; i<collisions.size(); i++)
     {
 
+
+
         PhysicalCollision & p = collisions[i];
 
-        RigidBody & rA = rigidbodies[p.rigidBodyA];
-        RigidBody & rB = rigidbodies[p.rigidBodyB];
 
-        sf::Vector2f uOver = maths->unit(p.overlap);
+            RigidBody & rA = rigidbodies[p.rigidBodyA];
+            RigidBody & rB = rigidbodies[p.rigidBodyB];
 
-        //do momentum transfer here
+            sf::Vector2f uOver = maths->unit(p.overlap);
 
-        sf::Vector2f mA = rA.momentum;
-        sf::Vector2f mB = rB.momentum;
-        sf::Vector2f vA = rA.getInvmass()*rA.momentum;
-        sf::Vector2f vB = rB.getInvmass()*rB.momentum;
-        float massA = rA.getMass();
-        float massB = rB.getMass();
-        float restA =rA.restitution*rB.restitution*massB;
-        float restB = rB.restitution*rA.restitution*massA;
+            //do momentum transfer here
 
-        sf::Vector2f tA1 = (mA + mB);
-        sf::Vector2f tA2 = restA*(vB - vA);
+            sf::Vector2f mA = rA.momentum;
+            sf::Vector2f mB = rB.momentum;
+            sf::Vector2f vA = rA.getInvmass()*rA.momentum;
+            sf::Vector2f vB = rB.getInvmass()*rB.momentum;
+            float massA = rA.getMass();
+            float massB = rB.getMass();
+            float restA =rA.restitution*rB.restitution*massB;
+            float restB = rB.restitution*rA.restitution*massA;
 
-        sf::Vector2f tB1 = (mA + mB);
-        sf::Vector2f tB2 = restB*(vA - vB);
+            sf::Vector2f tA1 = (mA + mB);
+            sf::Vector2f tA2 = restA*(vB - vA);
 
-        rA.momentum = (massA/(massA + massB))*(tA1+tA2);
+            sf::Vector2f tB1 = (mA + mB);
+            sf::Vector2f tB2 = restB*(vA - vB);
 
-        rB.momentum = (massB/(massA + massB))*(tB1+tB2);
+            rA.momentum = (massA/(massA + massB))*(tA1+tA2);
+
+            rB.momentum = (massB/(massA + massB))*(tB1+tB2);
+
 
     }
     for(int i=0; i<rigidbodies.size(); i++)

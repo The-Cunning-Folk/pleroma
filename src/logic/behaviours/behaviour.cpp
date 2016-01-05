@@ -81,6 +81,11 @@ void Behaviour::update()
 
 }
 
+void Behaviour::collisionWith(GameObject & o, std::string me, std::string them)
+{
+
+}
+
 bool Behaviour::compare(std::string big_s, std::string sub_s)
 {
     return big_s.compare(sub_s)==0;

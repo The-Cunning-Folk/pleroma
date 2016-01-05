@@ -37,10 +37,13 @@ public:
     bool attackCooled;
     float attackDuration;
     float attackCooldown;
+    float attackMom;
 
     std::string getFacing(float,float);
     sf::Vector2f getOctDirection();
     void checkInputLogic();
+
+    void collisionWith(GameObject &, std::string, std::string);
 
     void resolveEvents();
     void update();
