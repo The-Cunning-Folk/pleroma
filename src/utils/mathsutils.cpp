@@ -7,6 +7,8 @@ MathsUtils::MathsUtils()
     twister.seed(time(0));
     trigPrecision = 3600;
     float fI;
+    pi = 3.141;
+    tau = pi*2.0;
     degToRad = 3.141/180.0;
     radToDeg = 1.0/degToRad;
     sinTable.resize(0);
@@ -163,6 +165,26 @@ sf::Vector2f MathsUtils::unit(sf::Vector2f v)
 sf::Vector2f MathsUtils::unitNormal(sf::Vector2f v)
 {
     return(unit(normal(v)));
+}
+
+sf::Vector2f MathsUtils::rotateClockwise(sf::Vector2f v, float rads)
+{
+    sf::Vector2f v2;
+    float c = fcos(rads);
+    float s = fsin(rads);
+    v2.x = c*v.x + s*v.y;
+    v2.y = -s*v.x + c*v.y;
+    return(v2);
+}
+
+sf::Vector2f MathsUtils::rotateAntiClockwise(sf::Vector2f v, float rads)
+{
+    sf::Vector2f v2;
+    float c = fcos(rads);
+    float s = fsin(rads);
+    v2.x = c*v.x - s*v.y;
+    v2.y = s*v.x + c*v.y;
+    return(v2);
 }
 
 float MathsUtils::dot(sf::Vector2f a, sf::Vector2f b)

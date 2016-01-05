@@ -17,8 +17,8 @@ PlayerBehaviours::PlayerBehaviours()
     rollCooldown = 0.5;
     rollBoost = 2.5;
 
-    attackDuration = 1.0;
-    attackCooldown = 0.2;
+    attackDuration = 0.25;
+    attackCooldown = 0.05;
     startAttack = false;
     attackCooled = false;
     attacking = false;
@@ -79,6 +79,45 @@ std::string PlayerBehaviours::getFacing(float dx, float dy)
     return facing;
 }
 
+sf::Vector2f PlayerBehaviours::getOctDirection()
+{
+    sf::Vector2f octDir;
+    if(compare(facing,"l"))
+    {
+        octDir = sf::Vector2f(-1,0);
+    }
+    else if(compare(facing,"ul"))
+    {
+        octDir = sf::Vector2f(-1,-1);
+    }
+    else if(compare(facing,"u"))
+    {
+        octDir = sf::Vector2f(0,-1);
+    }
+    else if(compare(facing,"ur"))
+    {
+        octDir = sf::Vector2f(1,-1);
+    }
+    else if(compare(facing,"r"))
+    {
+        octDir = sf::Vector2f(1,0);
+    }
+    else if(compare(facing,"dr"))
+    {
+        octDir = sf::Vector2f(1,1);
+    }
+    else if(compare(facing,"d"))
+    {
+        octDir = sf::Vector2f(0,1);
+    }
+    else if(compare(facing,"dl"))
+    {
+        octDir = sf::Vector2f(-1,1);
+    }
+    octDir = maths->unit(octDir);
+    return octDir;
+}
+
 void PlayerBehaviours::checkInputLogic()
 {
     if(startRoll && !attacking)
@@ -107,7 +146,7 @@ void PlayerBehaviours::checkInputLogic()
     {
         attacking = true;
         startAttack = false;
-        attackDirection = direction;
+        attackDirection = getOctDirection();
     }
     if(attacking)
     {
@@ -207,11 +246,17 @@ void PlayerBehaviours::update()
     }
     if(attacking)
     {
+        velocity.x = 0;
+        velocity.y = 0;
         Collidable & attack = componentLoader->getCollidableFromObject(gameObjectLoader->loadGameObject(parent),"attack");
         attack.polygon.clearPoints();
+        sf::Vector2f p1 = (maths->rotateAntiClockwise(attackDirection,0.7));
+        sf::Vector2f p2 = (maths->rotateClockwise(attackDirection,0.7));
+        p1 = 30.0F*p1;
+        p2 = 30.0F*p2;
         attack.polygon.addPoint(sf::Vector2f(0,0));
-        attack.polygon.addPoint(sf::Vector2f(20,20));
-        attack.polygon.addPoint(sf::Vector2f(20,-20));
+        attack.polygon.addPoint(p1);
+        attack.polygon.addPoint(p2);
     }
     else
     {

@@ -39,6 +39,7 @@ public:
     float attackCooldown;
 
     std::string getFacing(float,float);
+    sf::Vector2f getOctDirection();
     void checkInputLogic();
 
     void resolveEvents();

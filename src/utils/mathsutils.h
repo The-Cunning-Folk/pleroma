@@ -41,6 +41,8 @@ public:
 
     float degToRad;
     float radToDeg;
+    float pi;
+    float tau;
 
     float round(float);
     int roundAndCast(float);
@@ -52,6 +54,8 @@ public:
     sf::Vector2f normal(sf::Vector2f);
     sf::Vector2f unit(sf::Vector2f);
     sf::Vector2f unitNormal(sf::Vector2f);
+    sf::Vector2f rotateClockwise(sf::Vector2f,float);
+    sf::Vector2f rotateAntiClockwise(sf::Vector2f,float);
     float dot(sf::Vector2f,sf::Vector2f);
 
 };
