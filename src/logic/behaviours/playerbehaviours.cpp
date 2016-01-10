@@ -36,23 +36,23 @@ PlayerBehaviours::PlayerBehaviours()
 
     c.addPoint(10,-8);
     c.addPoint(25,-20);
-    c.addPoint(30,-5);
+    c.addPoint(30,0);
     c.addPoint(12,0);
 
     attackFrames.push_back(c);
     c.clearPoints();
 
     c.addPoint(12,0);
-    c.addPoint(30,-5);
-    c.addPoint(30,15);
+    c.addPoint(30,0);
+    c.addPoint(25,20);
     c.addPoint(10,8);
 
     attackFrames.push_back(c);
     c.clearPoints();
 
     c.addPoint(10,8);
-    c.addPoint(30,15);
-    c.addPoint(25,30);
+    c.addPoint(25,20);
+    c.addPoint(20,30);
     c.addPoint(6,12);
 
 
