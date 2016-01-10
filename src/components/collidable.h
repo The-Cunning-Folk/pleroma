@@ -28,6 +28,7 @@ public:
 
     bool solid;
     bool immovable;
+    bool physical;
 
     bool colliding;
 

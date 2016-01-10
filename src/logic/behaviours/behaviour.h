@@ -38,6 +38,7 @@ public:
     void clearEvents();
 
     virtual void update();
+    virtual void collisionWith(GameObject &, std::string, std::string);
 
     bool compare(std::string,std::string);
 

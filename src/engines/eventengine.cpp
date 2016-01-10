@@ -56,21 +56,26 @@ void EventEngine::run()
         std::vector<int> physA = componentLoader->getRigidBodiesFromObject(A);
         std::vector<int> physB = componentLoader->getRigidBodiesFromObject(B);
 
-        for(int j=0; j<physA.size(); j++)
+        if(cA.physical && cB.physical)
         {
-            int iA = physA[j];
-            for(int k=0; k<physB.size(); k++)
+            for(int j=0; j<physA.size(); j++)
             {
-                int iB = physB[k];
-                PhysicalCollision p;
-                p.gameObjectA = c.objectA;
-                p.gameObjectB = c.objectB;
-                p.collidableA = c.collidableA;
-                p.collidableB = c.collidableB;
-                p.rigidBodyA = iA;
-                p.rigidBodyB = iB;
-                p.overlap = c.overlap;
-                game->physicsEventFactory.newCollision(p);
+                int iA = physA[j];
+                for(int k=0; k<physB.size(); k++)
+                {
+
+                    int iB = physB[k];
+                    PhysicalCollision p;
+                    p.gameObjectA = c.objectA;
+                    p.gameObjectB = c.objectB;
+                    p.collidableA = c.collidableA;
+                    p.collidableB = c.collidableB;
+                    p.rigidBodyA = iA;
+                    p.rigidBodyB = iB;
+                    p.overlap = c.overlap;
+                    game->physicsEventFactory.newCollision(p);
+
+                }
             }
         }
 

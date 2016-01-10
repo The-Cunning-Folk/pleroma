@@ -10,6 +10,9 @@ PlayerBehaviours::PlayerBehaviours()
 {
     baseSpeed = 200.0;
     facing = "d";
+
+    //roll properties
+
     startRoll = false;
     rolling = false;
     rollCooled = true;
@@ -17,11 +20,53 @@ PlayerBehaviours::PlayerBehaviours()
     rollCooldown = 0.5;
     rollBoost = 2.5;
 
-    attackDuration = 0.25;
+    //set the attack area polygons
+
+    attackScaleFactor = 2.0F;
+
+    ConvexPolygon c;
+
+    c.addPoint(6,-12);
+    c.addPoint(20,-30);
+    c.addPoint(25,-20);
+    c.addPoint(10,-8);
+
+    attackFrames.push_back(c);
+    c.clearPoints();
+
+    c.addPoint(10,-8);
+    c.addPoint(25,-20);
+    c.addPoint(30,-5);
+    c.addPoint(12,0);
+
+    attackFrames.push_back(c);
+    c.clearPoints();
+
+    c.addPoint(12,0);
+    c.addPoint(30,-5);
+    c.addPoint(30,15);
+    c.addPoint(10,8);
+
+    attackFrames.push_back(c);
+    c.clearPoints();
+
+    c.addPoint(10,8);
+    c.addPoint(30,15);
+    c.addPoint(25,30);
+    c.addPoint(6,12);
+
+
+    attackFrames.push_back(c);
+    c.clearPoints();
+
+    //set the attack properties
+
+    attackDuration = 0.15;
     attackCooldown = 0.05;
     startAttack = false;
     attackCooled = false;
     attacking = false;
+    attackMom = 2000;
 }
 
 std::string PlayerBehaviours::getFacing(float dx, float dy)
@@ -164,6 +209,19 @@ void PlayerBehaviours::checkInputLogic()
     }
 }
 
+void PlayerBehaviours::collisionWith(GameObject &o, std::string me, std::string them)
+{
+    if(compare(me,"attack"))
+    {
+        std::vector<int> rs = componentLoader->getRigidBodiesFromObject(o);
+        for(int i=0; i<rs.size(); i++)
+        {
+            RigidBody & r = componentLoader->getRigidBody(rs[i]);
+            r.momentum += attackMom*attackDirection;
+        }
+    }
+}
+
 void PlayerBehaviours::resolveEvents()
 {
     speed = delta*baseSpeed;
@@ -246,17 +304,14 @@ void PlayerBehaviours::update()
     }
     if(attacking)
     {
+        attackFrame = (int) floor((attackFrames.size())*(attackTimer.asSeconds()/attackDuration));
+        if(attackFrame < 0) {attackFrame = 0;}
+        if(attackFrame >= attackFrames.size()) {attackFrame = attackFrames.size()-1;}
         velocity.x = 0;
         velocity.y = 0;
         Collidable & attack = componentLoader->getCollidableFromObject(gameObjectLoader->loadGameObject(parent),"attack");
-        attack.polygon.clearPoints();
-        sf::Vector2f p1 = (maths->rotateAntiClockwise(attackDirection,0.7));
-        sf::Vector2f p2 = (maths->rotateClockwise(attackDirection,0.7));
-        p1 = 30.0F*p1;
-        p2 = 30.0F*p2;
-        attack.polygon.addPoint(sf::Vector2f(0,0));
-        attack.polygon.addPoint(p1);
-        attack.polygon.addPoint(p2);
+        attack.polygon = maths->rotateClockwise(maths->scale(attackFrames[attackFrame],attackScaleFactor),maths->getBearing(attackDirection));
+
     }
     else
     {

@@ -45,6 +45,11 @@ Collidable & CollisionEngine::addCollidable()
 bool CollisionEngine::checkCollision(Collidable & a,Collidable & b)
 {
 
+    if(a.getParent() == b.getParent())
+    {
+        return false;
+    }
+
     for(int i=0; i<a.collidingWith.size();i++) //avoid sending the same collision to the event engine twice!
     {
         if(a.collidingWith[i] == b.index)

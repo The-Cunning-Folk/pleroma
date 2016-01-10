@@ -16,6 +16,11 @@ void ConvexPolygon::addPoint(sf::Vector2f v)
     points.push_back(v);
 }
 
+void ConvexPolygon::addPoint(float x, float y)
+{
+    addPoint(sf::Vector2f(x,y));
+}
+
 void ConvexPolygon::clearPoints()
 {
     points.clear();
@@ -54,6 +59,10 @@ void ConvexPolygon::update()
         bBox.top = position.y + top;
         bBox.width = right - left;
         bBox.height = bottom - top;
+    }
+    else
+    {
+        bBox = sf::FloatRect(0,0,0,0);
     }
 }
 

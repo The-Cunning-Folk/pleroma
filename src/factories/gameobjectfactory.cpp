@@ -52,7 +52,7 @@ GameObject &GameObjectFactory::newCollisionObject()
 
     RigidBody & body = componentFactory->newRigidBody();
     body.restitution = maths->randomFloat(0.5,0.999);
-    body.friction = maths->randomFloat(1E-10,0.1);
+    body.friction = 1E-10;
     body.setMass(maths->randomFloat(5,50));
     float momR = body.getMass()*500;
     body.momentum = sf::Vector2f(maths->randomFloat(-momR,momR),maths->randomFloat(-momR,momR));
@@ -86,6 +86,8 @@ GameObject& GameObjectFactory::newPlayerObject() //builds behaviours for the pla
     hitbox.polygon.addPoint(sf::Vector2f(-size,-size+corners));
     hitbox.polygon.addPoint(sf::Vector2f(-size,size-corners));
     hitbox.polygon.addPoint(sf::Vector2f(-size+corners,size));
+
+    attack.physical = false;
 
 
     hitbox.setTransform(player.getTransform());
