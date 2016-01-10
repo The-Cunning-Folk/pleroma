@@ -28,7 +28,7 @@ public:
 
     bool solid;
     bool immovable;
-    bool momTransfer;
+    bool physical;
 
     bool colliding;
 

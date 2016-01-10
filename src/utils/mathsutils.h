@@ -66,6 +66,8 @@ public:
 
     float dot(sf::Vector2f,sf::Vector2f);
 
+    ConvexPolygon scale(ConvexPolygon&,float);
+
 };
 }
 

@@ -56,7 +56,7 @@ void EventEngine::run()
         std::vector<int> physA = componentLoader->getRigidBodiesFromObject(A);
         std::vector<int> physB = componentLoader->getRigidBodiesFromObject(B);
 
-        if(cA.momTransfer && cB.momTransfer)
+        if(cA.physical && cB.physical)
         {
             for(int j=0; j<physA.size(); j++)
             {

@@ -10,6 +10,9 @@ PlayerBehaviours::PlayerBehaviours()
 {
     baseSpeed = 200.0;
     facing = "d";
+
+    //roll properties
+
     startRoll = false;
     rolling = false;
     rollCooled = true;
@@ -17,22 +20,48 @@ PlayerBehaviours::PlayerBehaviours()
     rollCooldown = 0.5;
     rollBoost = 2.5;
 
+    //set the attack area polygons
+
+    attackScaleFactor = 2.0F;
+
     ConvexPolygon c;
 
-    c.addPoint(15,0);
-    c.addPoint(25,-10);
-    c.addPoint(25,0);
+    c.addPoint(6,-12);
+    c.addPoint(20,-30);
+    c.addPoint(25,-20);
+    c.addPoint(10,-8);
 
     attackFrames.push_back(c);
-
     c.clearPoints();
-    c.addPoint(15,0);
-    c.addPoint(25,0);
-    c.addPoint(25,10);
+
+    c.addPoint(10,-8);
+    c.addPoint(25,-20);
+    c.addPoint(30,-5);
+    c.addPoint(12,0);
 
     attackFrames.push_back(c);
+    c.clearPoints();
 
-    attackDuration = 0.25;
+    c.addPoint(12,0);
+    c.addPoint(30,-5);
+    c.addPoint(30,15);
+    c.addPoint(10,8);
+
+    attackFrames.push_back(c);
+    c.clearPoints();
+
+    c.addPoint(10,8);
+    c.addPoint(30,15);
+    c.addPoint(25,30);
+    c.addPoint(6,12);
+
+
+    attackFrames.push_back(c);
+    c.clearPoints();
+
+    //set the attack properties
+
+    attackDuration = 0.15;
     attackCooldown = 0.05;
     startAttack = false;
     attackCooled = false;
@@ -275,13 +304,13 @@ void PlayerBehaviours::update()
     }
     if(attacking)
     {
-        attackFrame = maths->roundAndCast((attackFrames.size()-1)*(attackTimer.asSeconds()/attackDuration));
+        attackFrame = (int) floor((attackFrames.size())*(attackTimer.asSeconds()/attackDuration));
         if(attackFrame < 0) {attackFrame = 0;}
         if(attackFrame >= attackFrames.size()) {attackFrame = attackFrames.size()-1;}
         velocity.x = 0;
         velocity.y = 0;
         Collidable & attack = componentLoader->getCollidableFromObject(gameObjectLoader->loadGameObject(parent),"attack");
-        attack.polygon = maths->rotateClockwise(attackFrames[attackFrame],maths->getBearing(attackDirection));
+        attack.polygon = maths->rotateClockwise(maths->scale(attackFrames[attackFrame],attackScaleFactor),maths->getBearing(attackDirection));
 
     }
     else

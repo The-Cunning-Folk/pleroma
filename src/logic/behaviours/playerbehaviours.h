@@ -39,6 +39,7 @@ public:
     float attackDuration;
     float attackCooldown;
     float attackMom;
+    float attackScaleFactor;
 
     float attackFrameLength;
     int attackFrame;

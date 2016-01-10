@@ -87,7 +87,7 @@ GameObject& GameObjectFactory::newPlayerObject() //builds behaviours for the pla
     hitbox.polygon.addPoint(sf::Vector2f(-size,size-corners));
     hitbox.polygon.addPoint(sf::Vector2f(-size+corners,size));
 
-    attack.momTransfer = false;
+    attack.physical = false;
 
 
     hitbox.setTransform(player.getTransform());

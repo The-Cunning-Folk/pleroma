@@ -221,3 +221,15 @@ float MathsUtils::dot(sf::Vector2f a, sf::Vector2f b)
     return(a.x*b.x+a.y*b.y);
 }
 
+ConvexPolygon MathsUtils::scale(ConvexPolygon & c, float factor)
+{
+    std::vector<sf::Vector2f> points = c.getPoints();
+    ConvexPolygon nc;
+    for(int i = 0; i<points.size(); i++)
+    {
+        sf::Vector2f p = factor*points[i];
+        nc.addPoint(p);
+    }
+    return nc;
+}
+

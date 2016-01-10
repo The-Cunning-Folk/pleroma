@@ -60,6 +60,10 @@ void ConvexPolygon::update()
         bBox.width = right - left;
         bBox.height = bottom - top;
     }
+    else
+    {
+        bBox = sf::FloatRect(0,0,0,0);
+    }
 }
 
 std::vector<sf::Vector2f> ConvexPolygon::getPoints() const
