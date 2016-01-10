@@ -2,6 +2,7 @@
 #define PLAYERBEHAVIOURS_H
 
 #include<behaviour.h>
+#include <convexpolygon.h>
 
 namespace BQ{
 class PlayerBehaviours : public Behaviour
@@ -38,6 +39,10 @@ public:
     float attackDuration;
     float attackCooldown;
     float attackMom;
+
+    float attackFrameLength;
+    int attackFrame;
+    std::vector <ConvexPolygon> attackFrames;
 
     std::string getFacing(float,float);
     sf::Vector2f getOctDirection();

@@ -167,6 +167,11 @@ sf::Vector2f MathsUtils::unitNormal(sf::Vector2f v)
     return(unit(normal(v)));
 }
 
+float MathsUtils::getBearing(sf::Vector2f v)
+{
+    return atan2(-v.y,v.x); //from nvidia library
+}
+
 sf::Vector2f MathsUtils::rotateClockwise(sf::Vector2f v, float rads)
 {
     sf::Vector2f v2;
@@ -177,6 +182,18 @@ sf::Vector2f MathsUtils::rotateClockwise(sf::Vector2f v, float rads)
     return(v2);
 }
 
+ConvexPolygon MathsUtils::rotateClockwise(ConvexPolygon & c,float rads)
+{
+    std::vector<sf::Vector2f> points = c.getPoints();
+    ConvexPolygon nc;
+    for(int i = 0; i<points.size(); i++)
+    {
+        sf::Vector2f p = rotateClockwise(points[i],rads);
+        nc.addPoint(p);
+    }
+    return nc;
+}
+
 sf::Vector2f MathsUtils::rotateAntiClockwise(sf::Vector2f v, float rads)
 {
     sf::Vector2f v2;
@@ -185,6 +202,18 @@ sf::Vector2f MathsUtils::rotateAntiClockwise(sf::Vector2f v, float rads)
     v2.x = c*v.x - s*v.y;
     v2.y = s*v.x + c*v.y;
     return(v2);
+}
+
+ConvexPolygon MathsUtils::rotateAntiClockwise(ConvexPolygon & c, float rads)
+{
+    std::vector<sf::Vector2f> points = c.getPoints();
+    ConvexPolygon nc;
+    for(int i = 0; i<points.size(); i++)
+    {
+        sf::Vector2f p = rotateAntiClockwise(points[i],rads);
+        nc.addPoint(p);
+    }
+    return nc;
 }
 
 float MathsUtils::dot(sf::Vector2f a, sf::Vector2f b)

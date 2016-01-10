@@ -16,6 +16,11 @@ void ConvexPolygon::addPoint(sf::Vector2f v)
     points.push_back(v);
 }
 
+void ConvexPolygon::addPoint(float x, float y)
+{
+    addPoint(sf::Vector2f(x,y));
+}
+
 void ConvexPolygon::clearPoints()
 {
     points.clear();

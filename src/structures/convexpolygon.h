@@ -17,6 +17,7 @@ public:
     sf::FloatRect bBox;
 
     void addPoint(sf::Vector2f);
+    void addPoint(float,float);
     void clearPoints();
 
     void update();

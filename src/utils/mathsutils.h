@@ -8,6 +8,7 @@
 #include<iostream>
 #include<math.h>
 #include<SFML/Graphics.hpp>
+#include<convexpolygon.h>
 
 namespace BQ{
 class MathsUtils
@@ -54,8 +55,15 @@ public:
     sf::Vector2f normal(sf::Vector2f);
     sf::Vector2f unit(sf::Vector2f);
     sf::Vector2f unitNormal(sf::Vector2f);
+
+    float getBearing(sf::Vector2f);
+
     sf::Vector2f rotateClockwise(sf::Vector2f,float);
+    ConvexPolygon rotateClockwise(ConvexPolygon &,float);
+
     sf::Vector2f rotateAntiClockwise(sf::Vector2f,float);
+    ConvexPolygon rotateAntiClockwise(ConvexPolygon &,float);
+
     float dot(sf::Vector2f,sf::Vector2f);
 
 };

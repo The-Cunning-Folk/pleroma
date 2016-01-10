@@ -17,6 +17,21 @@ PlayerBehaviours::PlayerBehaviours()
     rollCooldown = 0.5;
     rollBoost = 2.5;
 
+    ConvexPolygon c;
+
+    c.addPoint(15,0);
+    c.addPoint(25,-10);
+    c.addPoint(25,0);
+
+    attackFrames.push_back(c);
+
+    c.clearPoints();
+    c.addPoint(15,0);
+    c.addPoint(25,0);
+    c.addPoint(25,10);
+
+    attackFrames.push_back(c);
+
     attackDuration = 0.25;
     attackCooldown = 0.05;
     startAttack = false;
@@ -260,19 +275,14 @@ void PlayerBehaviours::update()
     }
     if(attacking)
     {
+        attackFrame = maths->roundAndCast((attackFrames.size()-1)*(attackTimer.asSeconds()/attackDuration));
+        if(attackFrame < 0) {attackFrame = 0;}
+        if(attackFrame >= attackFrames.size()) {attackFrame = attackFrames.size()-1;}
         velocity.x = 0;
         velocity.y = 0;
         Collidable & attack = componentLoader->getCollidableFromObject(gameObjectLoader->loadGameObject(parent),"attack");
-        attack.polygon.clearPoints();
-        float attackMag = 35;
-        sf::Vector2f p1 = (maths->rotateAntiClockwise(attackDirection,0.6));
-        sf::Vector2f p2 = (maths->rotateClockwise(attackDirection,0.6));
-        sf::Vector2f p0 = (15.0F*attackDirection);
-        p1 = attackMag*p1;
-        p2 = attackMag*p2;
-        attack.polygon.addPoint(p0);
-        attack.polygon.addPoint(p1);
-        attack.polygon.addPoint(p2);
+        attack.polygon = maths->rotateClockwise(attackFrames[attackFrame],maths->getBearing(attackDirection));
+
     }
     else
     {
