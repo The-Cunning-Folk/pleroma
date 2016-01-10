@@ -64,6 +64,9 @@ public:
     sf::Vector2f rotateAntiClockwise(sf::Vector2f,float);
     ConvexPolygon rotateAntiClockwise(ConvexPolygon &,float);
 
+    sf::Vector2i roundAndCast(sf::Vector2f);
+    sf::Vector2f round(sf::Vector2f);
+
     float dot(sf::Vector2f,sf::Vector2f);
 
     ConvexPolygon scale(ConvexPolygon&,float);

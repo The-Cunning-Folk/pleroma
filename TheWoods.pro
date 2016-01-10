@@ -19,7 +19,6 @@ INCLUDEPATH += "SFML/include" \
     "$$SRCDIR/shapes" \
     "$$SRCDIR/logic" \
     "$$SRCDIR/logic/behaviours" \
-    "$$SRCDIR/components/collidables"\
     "$$SRCDIR/loaders" \
     "$$SRCDIR/structures"
 
@@ -76,7 +75,8 @@ HEADERS += $$SRCDIR/window/gamewindow.h \
     src/components/rigidbody.h \
     src/engines/physicsengine.h \
     src/factories/physicseventfactory.h \
-    src/logic/physicalcollision.h
+    src/logic/physicalcollision.h \
+    src/window/viewport.h
 
 SOURCES += src/main.cpp \
     $$SRCDIR/window/gamewindow.cpp \
@@ -131,7 +131,8 @@ SOURCES += src/main.cpp \
     src/components/rigidbody.cpp \
     src/engines/physicsengine.cpp \
     src/factories/physicseventfactory.cpp \
-    src/logic/physicalcollision.cpp
+    src/logic/physicalcollision.cpp \
+    src/window/viewport.cpp
 
 LIBS += -L"$$PWD/SFML/lib"
 

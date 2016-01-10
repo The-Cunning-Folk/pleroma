@@ -216,6 +216,18 @@ ConvexPolygon MathsUtils::rotateAntiClockwise(ConvexPolygon & c, float rads)
     return nc;
 }
 
+sf::Vector2i MathsUtils::roundAndCast(sf::Vector2f v)
+{
+    sf::Vector2i vi = sf::Vector2i(roundAndCast(v.x),roundAndCast(v.y));
+    return vi;
+}
+
+sf::Vector2f MathsUtils::round(sf::Vector2f v)
+{
+    sf::Vector2f vf = sf::Vector2f(round(v.x),round(v.y));
+    return vf;
+}
+
 float MathsUtils::dot(sf::Vector2f a, sf::Vector2f b)
 {
     return(a.x*b.x+a.y*b.y);

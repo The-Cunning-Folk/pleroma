@@ -6,8 +6,10 @@
 #include <gamewindow.h>
 #include <debugutils.h>
 #include <mathsutils.h>
-#include <grid.h>
+
+#include<grid.h>
 #include<inputmap.h>
+#include<viewport.h>
 
 #include<gameobjectstack.h>
 
@@ -98,6 +100,7 @@ private:
     //global properties
     Grid grid;
     InputMap input;
+    ViewPort viewPort;
 
     //variables
     float frameRate;
