@@ -20,7 +20,8 @@ INCLUDEPATH += "SFML/include" \
     "$$SRCDIR/logic" \
     "$$SRCDIR/logic/behaviours" \
     "$$SRCDIR/loaders" \
-    "$$SRCDIR/structures"
+    "$$SRCDIR/structures"\
+    "$$SRCDIR/managers"
 
 HEADERS += $$SRCDIR/window/gamewindow.h \
     src/window/windowmanager.h \
@@ -76,7 +77,8 @@ HEADERS += $$SRCDIR/window/gamewindow.h \
     src/engines/physicsengine.h \
     src/factories/physicseventfactory.h \
     src/logic/physicalcollision.h \
-    src/window/viewport.h
+    src/window/viewport.h \
+    src/managers/occlusionmanager.h
 
 SOURCES += src/main.cpp \
     $$SRCDIR/window/gamewindow.cpp \
@@ -132,7 +134,8 @@ SOURCES += src/main.cpp \
     src/engines/physicsengine.cpp \
     src/factories/physicseventfactory.cpp \
     src/logic/physicalcollision.cpp \
-    src/window/viewport.cpp
+    src/window/viewport.cpp \
+    src/managers/occlusionmanager.cpp
 
 LIBS += -L"$$PWD/SFML/lib"
 

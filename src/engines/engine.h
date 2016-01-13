@@ -22,6 +22,8 @@ class Engine
 public:
     Engine();
 
+    std::vector<int> activeComponents;
+
     EventFactory* eventFactory;
     ComponentLoader* componentLoader;
     GameObjectLoader* gameObjectLoader;
@@ -78,6 +80,9 @@ public:
 
     PhysicsEventFactory *getPhysicsEventFactory() const;
     void setPhysicsEventFactory(PhysicsEventFactory *value);
+
+    std::vector<int> getActiveComponents() const;
+    void setActiveComponents(const std::vector<int> &value);
 
 protected:
     window_ptr gameWindow;

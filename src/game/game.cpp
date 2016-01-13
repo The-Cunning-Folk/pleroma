@@ -144,6 +144,10 @@ void Game::initialiseInjections()
 {
    debug->println("injecting dependencies");
 
+   occlusionManager.setGame(this);
+   occlusionManager.setComponentLoader(&componentLoader);
+   occlusionManager.setGameObjectLoader(&gameObjectLoader);
+
    viewPort.setComponentLoader(&componentLoader);
    viewPort.setMaths(&math);
 
@@ -254,6 +258,76 @@ void Game::stabiliseFrameRate(float currentFrameDuration)
 void Game::setDebug(DebugUtils *value)
 {
     debug = value;
+}
+
+TransformEngine Game::getTransformEngine() const
+{
+    return transformEngine;
+}
+
+void Game::setTransformEngine(const TransformEngine &value)
+{
+    transformEngine = value;
+}
+
+InputEngine Game::getInputEngine() const
+{
+    return inputEngine;
+}
+
+void Game::setInputEngine(const InputEngine &value)
+{
+    inputEngine = value;
+}
+
+EventEngine Game::getEventEngine() const
+{
+    return eventEngine;
+}
+
+void Game::setEventEngine(const EventEngine &value)
+{
+    eventEngine = value;
+}
+
+CollisionEngine Game::getCollisionEngine() const
+{
+    return collisionEngine;
+}
+
+void Game::setCollisionEngine(const CollisionEngine &value)
+{
+    collisionEngine = value;
+}
+
+DebugDisplayEngine Game::getDebugDisplayEngine() const
+{
+    return debugDisplayEngine;
+}
+
+void Game::setDebugDisplayEngine(const DebugDisplayEngine &value)
+{
+    debugDisplayEngine = value;
+}
+
+PhysicsEngine Game::getPhysicsEngine() const
+{
+    return physicsEngine;
+}
+
+void Game::setPhysicsEngine(const PhysicsEngine &value)
+{
+    physicsEngine = value;
+}
+
+OcclusionManager Game::getOcclusionManager() const
+{
+    return occlusionManager;
+}
+
+void Game::setOcclusionManager(const OcclusionManager &value)
+{
+    occlusionManager = value;
 }
 
 void Game::setGameWindow(window_ptr window)
