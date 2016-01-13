@@ -24,6 +24,8 @@ public:
     void run();
     void drawDebug();
 
+    void updatePositions();
+
     std::vector<Transform> transforms;
 
     Transform& addTransform();

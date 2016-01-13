@@ -17,7 +17,7 @@ void App::run(){
 
     window_ptr gameWindow = windowManager.addWindow("game",480,270,"Dev Build");
 
-    game.setFrameRate(120);
+    game.setFrameRate(400);
 
     game.setGameWindow(gameWindow);
 
