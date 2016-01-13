@@ -231,12 +231,12 @@ void Game::initialiseTests()
     //remove later!
 
 
-    for(int i=1; i<=10; i++)
+    for(int i=1; i<=100; i++)
     {
-        for(int j=1; j<=10; j++)
+        for(int j=1; j<=100; j++)
         {
             GameObject& coll = gameObjectFactory.newCollisionObject();
-            coll.loadTransform().setPosition(sf::Vector2f(i*24 + 32,j*24+32));
+            coll.loadTransform().setPosition(sf::Vector2f(i*100 + 32,j*100+32));
 
         }
     }

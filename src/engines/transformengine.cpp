@@ -146,8 +146,8 @@ void TransformEngine::updatePositions()
     {
         int j = activeComponents[i];
         transforms[j].update();
-        transforms[j].move(delta*(transforms[i].step));
-        transforms[j].setGridPosition(grid->getGridPosition(transforms[i].getPosition()));
+        transforms[j].move(delta*(transforms[j].step));
+        transforms[j].setGridPosition(grid->getGridPosition(transforms[j].getPosition()));
     }
 }
 

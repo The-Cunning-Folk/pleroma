@@ -213,6 +213,7 @@ void PlayerBehaviours::collisionWith(GameObject &o, std::string me, std::string 
 {
     if(compare(me,"attack"))
     {
+        componentLoader->getTransform(o.transform).setVelocity(sf::Vector2f(500,0));
         std::vector<int> rs = componentLoader->getRigidBodiesFromObject(o);
         for(int i=0; i<rs.size(); i++)
         {
