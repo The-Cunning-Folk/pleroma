@@ -22,10 +22,15 @@ void Game::runEngines()
     eventEngine.run();
 
     float deltaT = debug->time.getSeconds("logicTime");
+    viewPort.update();
+    transformEngine.setBounds(viewPort.renderRegion);
     transformEngine.setDelta(deltaT);
     transformEngine.run();
 
-    viewPort.update();
+    occlusionManager.setActiveObjects(transformEngine.getObjectsInRange());
+
+    collisionEngine.setActiveComponents(occlusionManager.getActiveComponents("collidable"));
+    physicsEngine.setActiveComponents(occlusionManager.getActiveComponents("rigidbody"));
 
     //float logicTime = debug->time.getSeconds("logicTime");
     //eventEngine.setDelta(logicTime);
@@ -218,7 +223,7 @@ void Game::initialiseTests()
     //for testing only
     transformEngine.setWrapAround(false);
     debug->println(std::to_string(gameWindow->getWidth()));
-    transformEngine.setBounds(sf::IntRect(0,0,ceil(gameWindow->getWidth()/grid.getScale()),ceil(gameWindow->getHeight()/grid.getScale())));
+
     //remove later!
 
 

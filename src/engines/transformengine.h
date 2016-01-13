@@ -16,8 +16,10 @@ public:
 
     Grid* grid;
 
+    std::vector<std::string> objectsInRange;
+
     bool wrapAround;
-    sf::IntRect bounds;
+    sf::FloatRect bounds;
 
     void run();
     void drawDebug();
@@ -30,10 +32,12 @@ public:
     void setGrid(Grid *value);
     bool getWrapAround() const;
     void setWrapAround(bool value);
-    sf::IntRect getBounds() const;
-    void setBounds(const sf::IntRect &value);
 
     Transform & getTransform(int);
+    sf::FloatRect getBounds() const;
+    void setBounds(const sf::FloatRect &value);
+    std::vector<std::string> getObjectsInRange() const;
+    void setObjectsInRange(const std::vector<std::string> &value);
 };
 }
 

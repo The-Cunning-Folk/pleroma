@@ -28,7 +28,9 @@ void GameObjectFactory::setComponentFactory(ComponentFactory *value)
 GameObject& GameObjectFactory::newObject()
 {
     GameObject& object = gameObjects->addObject();
-    object.setTransform(componentFactory->newTransform().index);
+    Transform & t = componentFactory->newTransform();
+    t.setParent(object.name);
+    object.setTransform(t.index);
     //debug->println("generated object: " + object->name);
     return object;
 }
@@ -36,7 +38,9 @@ GameObject& GameObjectFactory::newObject()
 GameObject &GameObjectFactory::newObject(std::string name)
 {
     GameObject& object = gameObjects->addObject(name);
-    object.setTransform(componentFactory->newTransform().index);
+    Transform & t = componentFactory->newTransform();
+    t.setParent(object.name);
+    object.setTransform(t.index);
     //debug->println("generated object: " + object->name);
     return object;
 }

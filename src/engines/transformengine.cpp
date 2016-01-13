@@ -11,16 +11,26 @@ using namespace BQ;
 TransformEngine::TransformEngine() : Engine()
 {
     wrapAround = false;
-    bounds = sf::IntRect(0,0,0,0);
+    bounds = sf::FloatRect(0,0,480,270);
     placeholder = "auto_transform_";
 }
 
-sf::IntRect TransformEngine::getBounds() const
+std::vector<std::string> TransformEngine::getObjectsInRange() const
+{
+    return objectsInRange;
+}
+
+void TransformEngine::setObjectsInRange(const std::vector<std::string> &value)
+{
+    objectsInRange = value;
+}
+
+sf::FloatRect TransformEngine::getBounds() const
 {
     return bounds;
 }
 
-void TransformEngine::setBounds(const sf::IntRect &value)
+void TransformEngine::setBounds(const sf::FloatRect &value)
 {
     bounds = value;
 }
@@ -58,15 +68,27 @@ void TransformEngine::run()
     float topEdge =(float)  bounds.top*scale;
     float bottomEdge =(float)  (bounds.top + bounds.height)*scale;
 
+    activeComponents.clear();
+    objectsInRange.clear();
+
 
     for(unsigned int i=0; i<transforms.size(); i++)
     {
         //update all the transforms!
+
+        sf::Vector2f & gpos = transforms[i].getPosition();
+        if(bounds.contains(gpos))
+        {
+            activeComponents.push_back(i);
+            objectsInRange.push_back(transforms[i].getParent());
+        }
+
+
         if(wrapAround)
         {
             if(bounds.height>0 && bounds.width > 0)
             {
-                sf::Vector2f gpos = transforms[i].getPosition();
+
                 if(leftEdge > gpos.x || rightEdge < gpos.x || topEdge > gpos.y || topEdge < gpos.y )
                 {
                    //debug->println("out of bounds");
@@ -93,10 +115,19 @@ void TransformEngine::run()
         }
 
 
-        transforms[i].update();
-        transforms[i].move(delta*(transforms[i].step));
-        transforms[i].setGridPosition(grid->getGridPosition(transforms[i].getPosition()));
+
+
+
     }
+
+    for(unsigned int i=0; i<activeComponents.size(); i++)
+    {
+        int j = activeComponents[i];
+        transforms[j].update();
+        transforms[j].move(delta*(transforms[i].step));
+        transforms[j].setGridPosition(grid->getGridPosition(transforms[i].getPosition()));
+    }
+
 }
 
 void TransformEngine::drawDebug()

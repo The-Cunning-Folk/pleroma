@@ -185,8 +185,9 @@ void CollisionEngine::run()
     collisions.clear();
     quadtree.clear();
     ComponentLoader& components = *componentLoader;
-    for(unsigned int i=0; i<collidables.size(); i++)
+    for(unsigned int j=0; j<activeComponents.size(); j++)
     {
+        int i=activeComponents[j];
         Transform & t = components.getTransform(collidables[i].getTransform());
         ConvexPolygon& p = collidables[i].polygon;
         p.setPosition(t.getPosition());

@@ -24,6 +24,8 @@ public:
 
     Game* game;
 
+    std::vector<int> getActiveComponents(std::string);
+
     Game *getGame() const;
     void setGame(Game *value);
     ComponentLoader *getComponentLoader() const;
