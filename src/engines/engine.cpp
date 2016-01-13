@@ -10,6 +10,16 @@ Engine::Engine()
     currentId = 0;
 }
 
+std::vector<int> Engine::getActiveComponents() const
+{
+    return activeComponents;
+}
+
+void Engine::setActiveComponents(const std::vector<int> &value)
+{
+    activeComponents = value;
+}
+
 PhysicsEventFactory *Engine::getPhysicsEventFactory() const
 {
     return physicsEventFactory;

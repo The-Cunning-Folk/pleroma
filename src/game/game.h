@@ -6,8 +6,10 @@
 #include <gamewindow.h>
 #include <debugutils.h>
 #include <mathsutils.h>
-#include <grid.h>
+
+#include<grid.h>
 #include<inputmap.h>
+#include<viewport.h>
 
 #include<gameobjectstack.h>
 
@@ -26,6 +28,8 @@
 #include<componentloader.h>
 #include<resourceloader.h>
 #include<gameobjectloader.h>
+
+#include<occlusionmanager.h>
 
 typedef std::shared_ptr<BQ::GameWindow> window_ptr;
 
@@ -78,9 +82,31 @@ public:
     //utilities owned by game
     MathsUtils math;
 
+    TransformEngine getTransformEngine() const;
+    void setTransformEngine(const TransformEngine &value);
+
+    InputEngine getInputEngine() const;
+    void setInputEngine(const InputEngine &value);
+
+    EventEngine getEventEngine() const;
+    void setEventEngine(const EventEngine &value);
+
+    CollisionEngine getCollisionEngine() const;
+    void setCollisionEngine(const CollisionEngine &value);
+
+    DebugDisplayEngine getDebugDisplayEngine() const;
+    void setDebugDisplayEngine(const DebugDisplayEngine &value);
+
+    PhysicsEngine getPhysicsEngine() const;
+    void setPhysicsEngine(const PhysicsEngine &value);
+
+    OcclusionManager getOcclusionManager() const;
+    void setOcclusionManager(const OcclusionManager &value);
+
 private:
 
-
+    //managers
+    OcclusionManager occlusionManager;
 
     //factories
 
@@ -98,6 +124,7 @@ private:
     //global properties
     Grid grid;
     InputMap input;
+    ViewPort viewPort;
 
     //variables
     float frameRate;

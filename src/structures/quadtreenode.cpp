@@ -56,6 +56,15 @@ void QuadtreeNode::subdivide()
     //nodes.resize(4);
     //std::vector<Collidable*> tempObj(0);
 
+    for(unsigned int i=0; i<2; i++)
+    {
+        for(unsigned int j=0; j<2; j++)
+        {
+        sf::FloatRect nodeBounds(bounds.left + (0.5*bounds.width)*i,bounds.top + (0.5*bounds.height)*j,0.5*bounds.width,0.5*bounds.height);
+        nodes[i+j*2].setBounds(nodeBounds);
+        }
+    }
+
     for(unsigned int i=0; i<objects.size(); i++)
     {
 

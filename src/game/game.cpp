@@ -22,18 +22,26 @@ void Game::runEngines()
     eventEngine.run();
 
     float deltaT = debug->time.getSeconds("logicTime");
+    viewPort.update();
+    transformEngine.setBounds(viewPort.renderRegion);
     transformEngine.setDelta(deltaT);
     transformEngine.run();
 
+    occlusionManager.setActiveObjects(transformEngine.getObjectsInRange());
+
+    collisionEngine.setActiveComponents(occlusionManager.getActiveComponents("collidable"));
+    physicsEngine.setActiveComponents(occlusionManager.getActiveComponents("rigidbody"));
 
     //float logicTime = debug->time.getSeconds("logicTime");
     //eventEngine.setDelta(logicTime);
 
-
+    collisionEngine.quadtree.setRegion(viewPort.renderRegion);
     collisionEngine.run();
     physicsEngine.setDelta(deltaT);
     physicsEngine.run();
     debugDisplayEngine.run();
+
+
 }
 
 void Game::run()
@@ -103,10 +111,18 @@ void Game::run()
 
         //drawing here
 
+        window.window.setView(viewPort.view);
+
         transformEngine.drawDebug();
         collisionEngine.drawDebug();
-        debugDisplayEngine.drawDebug();
 
+
+        //get the default viewport back
+        window.window.setView(window.window.getDefaultView());
+
+        //draw HUD stuff here
+
+        debugDisplayEngine.drawDebug();
 
         //end drawing
 
@@ -133,7 +149,12 @@ void Game::initialiseInjections()
 {
    debug->println("injecting dependencies");
 
+   occlusionManager.setGame(this);
+   occlusionManager.setComponentLoader(&componentLoader);
+   occlusionManager.setGameObjectLoader(&gameObjectLoader);
 
+   viewPort.setComponentLoader(&componentLoader);
+   viewPort.setMaths(&math);
 
    resourceLoader.setDebug(debug);
 
@@ -200,9 +221,9 @@ void Game::initialiseTests()
     input.setKeyInput("addObject",sf::Keyboard::F8);
 
     //for testing only
-    transformEngine.setWrapAround(true);
+    transformEngine.setWrapAround(false);
     debug->println(std::to_string(gameWindow->getWidth()));
-    transformEngine.setBounds(sf::IntRect(0,0,ceil(gameWindow->getWidth()/grid.getScale()),ceil(gameWindow->getHeight()/grid.getScale())));
+
     //remove later!
 
 
@@ -221,8 +242,8 @@ void Game::initialisePlayers()
 {
     inputFactory.detectControllers();
     debug->println("adding players");
-    gameObjectFactory.newPlayerObject();
-
+    GameObject& player = gameObjectFactory.newPlayerObject();
+    viewPort.focusedTransform =  player.getTransform();
 }
 
 void Game::stabiliseFrameRate(float currentFrameDuration)
@@ -242,6 +263,76 @@ void Game::stabiliseFrameRate(float currentFrameDuration)
 void Game::setDebug(DebugUtils *value)
 {
     debug = value;
+}
+
+TransformEngine Game::getTransformEngine() const
+{
+    return transformEngine;
+}
+
+void Game::setTransformEngine(const TransformEngine &value)
+{
+    transformEngine = value;
+}
+
+InputEngine Game::getInputEngine() const
+{
+    return inputEngine;
+}
+
+void Game::setInputEngine(const InputEngine &value)
+{
+    inputEngine = value;
+}
+
+EventEngine Game::getEventEngine() const
+{
+    return eventEngine;
+}
+
+void Game::setEventEngine(const EventEngine &value)
+{
+    eventEngine = value;
+}
+
+CollisionEngine Game::getCollisionEngine() const
+{
+    return collisionEngine;
+}
+
+void Game::setCollisionEngine(const CollisionEngine &value)
+{
+    collisionEngine = value;
+}
+
+DebugDisplayEngine Game::getDebugDisplayEngine() const
+{
+    return debugDisplayEngine;
+}
+
+void Game::setDebugDisplayEngine(const DebugDisplayEngine &value)
+{
+    debugDisplayEngine = value;
+}
+
+PhysicsEngine Game::getPhysicsEngine() const
+{
+    return physicsEngine;
+}
+
+void Game::setPhysicsEngine(const PhysicsEngine &value)
+{
+    physicsEngine = value;
+}
+
+OcclusionManager Game::getOcclusionManager() const
+{
+    return occlusionManager;
+}
+
+void Game::setOcclusionManager(const OcclusionManager &value)
+{
+    occlusionManager = value;
 }
 
 void Game::setGameWindow(window_ptr window)

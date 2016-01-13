@@ -57,8 +57,9 @@ void PhysicsEngine::run()
             }
 
     }
-    for(int i=0; i<rigidbodies.size(); i++)
+    for(unsigned int j=0; j<activeComponents.size(); j++)
     {
+        int i = activeComponents[j];
         RigidBody& r = rigidbodies[i];
         r.loadTransform().setVelocity(r.getInvmass()*r.momentum);
         if(r.friction > 1E-12) //floating point inprecision check
