@@ -120,13 +120,7 @@ void TransformEngine::run()
 
     }
 
-    for(unsigned int i=0; i<activeComponents.size(); i++)
-    {
-        int j = activeComponents[i];
-        transforms[j].update();
-        transforms[j].move(delta*(transforms[i].step));
-        transforms[j].setGridPosition(grid->getGridPosition(transforms[i].getPosition()));
-    }
+
 
 }
 
@@ -143,6 +137,17 @@ void TransformEngine::drawDebug()
         window.draw(cross);
         //draw all the transforms!
         //gameWindow->draw(transforms[i]);
+    }
+}
+
+void TransformEngine::updatePositions()
+{
+    for(unsigned int i=0; i<activeComponents.size(); i++)
+    {
+        int j = activeComponents[i];
+        transforms[j].update();
+        transforms[j].move(delta*(transforms[i].step));
+        transforms[j].setGridPosition(grid->getGridPosition(transforms[i].getPosition()));
     }
 }
 
