@@ -47,6 +47,13 @@ void ViewPort::update()
                                             windowSize.x,
                                             windowSize.y);
 
+    sf::FloatRect rendAbs = sf::FloatRect(view.getCenter().x-windowSize.x,
+                                          view.getCenter().y-windowSize.y,
+                                          2*windowSize.x,
+                                          2*windowSize.y);
+
+    renderRegion = rendAbs;
+
     drawRegion = windowAbs;
 }
 

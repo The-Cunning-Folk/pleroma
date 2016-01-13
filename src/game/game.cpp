@@ -30,7 +30,7 @@ void Game::runEngines()
     //float logicTime = debug->time.getSeconds("logicTime");
     //eventEngine.setDelta(logicTime);
 
-    collisionEngine.quadtree.setRegion(viewPort.drawRegion);
+    collisionEngine.quadtree.setRegion(viewPort.renderRegion);
     collisionEngine.run();
     physicsEngine.setDelta(deltaT);
     physicsEngine.run();
