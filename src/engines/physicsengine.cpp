@@ -17,9 +17,6 @@ void PhysicsEngine::run()
 {
     for(int i=0; i<collisions.size(); i++)
     {
-
-
-
         PhysicalCollision & p = collisions[i];
 
 

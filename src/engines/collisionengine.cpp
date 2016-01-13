@@ -230,8 +230,9 @@ void CollisionEngine::run()
         eventFactory->createCollision(collisions[i]);
     }
 
-    for(unsigned int i=0; i<collidables.size(); i++)
+    for(unsigned int j=0; j<activeComponents.size(); j++)
     {
+        int i=activeComponents[j];
         Transform & t = components.getTransform(collidables[i].getTransform());
         ConvexPolygon& p = collidables[i].polygon;
         p.setPosition(t.getPosition());
@@ -254,8 +255,9 @@ void CollisionEngine::drawDebug()
             window.draw(rectShape);
         }
         rectShape.setOutlineThickness(1.0);
-        for(unsigned int i=0; i<collidables.size(); i++)
+        for(unsigned int j=0; j<activeComponents.size(); j++)
         {
+            int i = activeComponents[j];
             sf::FloatRect bBox = collidables[i].getBBox();
             rectShape.setOutlineColor(sf::Color::Red);
             rectShape.setPosition(bBox.left+1,bBox.top);
@@ -267,14 +269,15 @@ void CollisionEngine::drawDebug()
             window.draw(rectShape);
         }
 
-        for(unsigned int i=0; i<collidables.size(); i++)
+        for(unsigned int j=0; j<activeComponents.size(); j++)
         {
+            int i=activeComponents[j];
             sf::ConvexShape shape;
             ConvexPolygon& p = collidables[i].polygon;
             shape.setPointCount(p.points.size());
-            for(unsigned int j=0; j<p.points.size(); j++)
+            for(unsigned int k=0; k<p.points.size(); k++)
             {
-                shape.setPoint(j,p.points[j]);
+                shape.setPoint(k,p.points[k]);
             }
             shape.setPosition(p.position);
             shape.setFillColor(sf::Color::White);

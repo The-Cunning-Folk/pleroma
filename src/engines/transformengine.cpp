@@ -135,8 +135,9 @@ void TransformEngine::drawDebug()
     GameWindow& window = *gameWindow;
 
 
-    for(unsigned int i=0; i<transforms.size(); i++)
+    for(unsigned int j=0; j<activeComponents.size(); j++)
     {
+        int i = activeComponents[j];
         cross.setPosition(transforms[i].getPosition());
         cross.update();
         window.draw(cross);
