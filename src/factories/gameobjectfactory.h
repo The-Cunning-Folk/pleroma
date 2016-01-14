@@ -27,6 +27,8 @@ public:
 
     GameObject& newCollisionObject();
 
+    GameObject & newImmovableObject();
+
     GameObject& newPlayerObject();
 
     ComponentFactory *getComponentFactory() const;

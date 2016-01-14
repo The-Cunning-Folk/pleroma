@@ -235,8 +235,11 @@ void Game::initialiseTests()
     {
         for(int j=1; j<=100; j++)
         {
-            GameObject& coll = gameObjectFactory.newCollisionObject();
-            coll.loadTransform().setPosition(sf::Vector2f(i*100 + 32,j*100+32));
+            if(math.randomInt(0,2) == 1)
+            {
+            GameObject& coll = gameObjectFactory.newImmovableObject();
+            coll.loadTransform().setPosition(sf::Vector2f(i*32 - 1280,j*32-1280));
+            }
 
         }
     }

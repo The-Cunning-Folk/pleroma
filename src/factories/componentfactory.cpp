@@ -93,6 +93,16 @@ Collidable & ComponentFactory::newCollidable(std::string name)
     return(collidable);
 }
 
+Collidable &ComponentFactory::newRectCollidable(sf::FloatRect r)
+{
+    Collidable & c = newCollidable();
+    c.polygon.addPoint(sf::Vector2f(r.left,r.top));
+    c.polygon.addPoint(sf::Vector2f(r.left + r.width, r.top));
+    c.polygon.addPoint(sf::Vector2f(r.left+r.width,r.top+r.height));
+    c.polygon.addPoint(sf::Vector2f(r.left, r.top+r.height));
+    return c;
+}
+
 Collidable &ComponentFactory::newRandomCollidable()
 {
     Collidable & collidable = newCollidable();

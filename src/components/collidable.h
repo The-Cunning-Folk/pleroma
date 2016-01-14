@@ -29,6 +29,7 @@ public:
     bool solid;
     bool immovable;
     bool physical;
+    bool diminutive;
 
     bool colliding;
 

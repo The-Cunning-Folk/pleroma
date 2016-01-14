@@ -82,17 +82,19 @@ bool CollisionEngine::checkCollision(Collidable & a,Collidable & b)
 
             if(a.solid && b.solid)
             {
-                if(!a.immovable && !b.immovable)
+                if((!a.immovable && !b.immovable)
+                        && ((!a.diminutive && !b.diminutive)
+                        || (a.diminutive && b.diminutive)))
                 {
                     sf::Vector2f halfOverlap(0.5*overlap.x,0.5*overlap.y);
                     tA.move(-halfOverlap);
                     tB.move(halfOverlap);
                 }
-                else if(a.immovable && !b.immovable)
+                else if((a.immovable && !b.immovable) || (!a.diminutive && b.diminutive))
                 {
                     tB.move(overlap);
                 }
-                else if(!a.immovable && b.immovable)
+                else if((!a.immovable && b.immovable)  || (a.diminutive && !b.diminutive))
                 {
                     tA.move(overlap);
                 }
