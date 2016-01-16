@@ -11,6 +11,26 @@ OcclusionManager::OcclusionManager()
 
 }
 
+sf::Vector2i OcclusionManager::getBr() const
+{
+    return br;
+}
+
+void OcclusionManager::setBr(const sf::Vector2i &value)
+{
+    br = value;
+}
+
+void OcclusionManager::setTl(const sf::Vector2i &value)
+{
+    tl = value;
+}
+
+sf::Vector2i OcclusionManager::getTl() const
+{
+    return tl;
+}
+
 std::vector<int> OcclusionManager::getActiveComponents(std::string tag)
 {
     std::vector<int> components;

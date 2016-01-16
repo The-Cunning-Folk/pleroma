@@ -36,6 +36,8 @@ public:
     sf::Vector2f getCentre(int,int);
     float getLayerMidPoint(int); // get the float for the halfway point of a layer
 
+    std::vector<sf::Vector2i> getBox(sf::Vector2i,sf::Vector2i); // get all the grid positions in a box
+
     void setDebug(DebugUtils *value);
 
 private:

@@ -71,6 +71,10 @@ void TransformEngine::run()
     activeComponents.clear();
     objectsInRange.clear();
 
+    activeGridLocations    = grid->getBox(grid->getGridPosition(bounds.left,bounds.top),
+                                          grid->getGridPosition(bounds.left + bounds.width,
+                                                                bounds.top + bounds.height));
+
 
     for(unsigned int i=0; i<transforms.size(); i++)
     {
@@ -149,6 +153,16 @@ void TransformEngine::updatePositions()
         transforms[j].move(delta*(transforms[j].step));
         transforms[j].setGridPosition(grid->getGridPosition(transforms[j].getPosition()));
     }
+}
+
+std::vector<sf::Vector2i> TransformEngine::getActiveGridLocations() const
+{
+    return activeGridLocations;
+}
+
+void TransformEngine::setActiveGridLocations(const std::vector<sf::Vector2i> &value)
+{
+    activeGridLocations = value;
 }
 
 Transform &TransformEngine::addTransform()

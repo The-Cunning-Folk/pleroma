@@ -27,6 +27,7 @@ public:
     void updatePositions();
 
     std::vector<Transform> transforms;
+    std::vector<sf::Vector2i> activeGridLocations;
 
     Transform& addTransform();
 
@@ -40,6 +41,8 @@ public:
     void setBounds(const sf::FloatRect &value);
     std::vector<std::string> getObjectsInRange() const;
     void setObjectsInRange(const std::vector<std::string> &value);
+    std::vector<sf::Vector2i> getActiveGridLocations() const;
+    void setActiveGridLocations(const std::vector<sf::Vector2i> &value);
 };
 }
 

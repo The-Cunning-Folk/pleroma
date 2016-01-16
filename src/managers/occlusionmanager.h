@@ -19,6 +19,9 @@ public:
     std::vector<std::string> activeObjects;
     std::vector<std::string> drawObjects;
 
+    sf::Vector2i tl;
+    sf::Vector2i br;
+
     ComponentLoader* componentLoader;
     GameObjectLoader* gameObjectLoader;
 
@@ -36,6 +39,10 @@ public:
     void setDrawObjects(const std::vector<std::string> &value);
     std::vector<std::string> getActiveObjects() const;
     void setActiveObjects(const std::vector<std::string> &value);
+    sf::Vector2i getTl() const;
+    void setTl(const sf::Vector2i &value);
+    sf::Vector2i getBr() const;
+    void setBr(const sf::Vector2i &value);
 };
 }
 

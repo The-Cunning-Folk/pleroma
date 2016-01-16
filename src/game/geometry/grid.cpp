@@ -82,6 +82,27 @@ sf::Vector2f Grid::getCentre(int x, int y)
     return(getCentre(pos));
 }
 
+std::vector<sf::Vector2i> Grid::getBox(sf::Vector2i tl, sf::Vector2i br)
+{
+    int l = tl.x;
+    int r = br.x;
+    int t = tl.y;
+    int b = br.y;
+
+    std::vector<sf::Vector2i> ps;
+
+
+    for(int j=t; j<=b; j++)
+    {
+        for(int i=l; i<=r; i++)
+        {
+            ps.push_back(sf::Vector2i(i,j));
+        }
+    }
+    return ps;
+
+}
+
 void Grid::setDebug(DebugUtils *value)
 {
     debug = value;
