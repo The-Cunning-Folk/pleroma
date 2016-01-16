@@ -76,7 +76,7 @@ void TransformEngine::run()
     {
         //update all the transforms!
 
-        sf::Vector2f & gpos = transforms[i].getPosition();
+        const sf::Vector2f & gpos = transforms[i].getPosition();
         if(bounds.contains(gpos))
         {
             activeComponents.push_back(i);

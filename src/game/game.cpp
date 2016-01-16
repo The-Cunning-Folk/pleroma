@@ -40,6 +40,8 @@ void Game::runEngines()
     physicsEngine.setDelta(deltaT);
     physicsEngine.run();
     debugDisplayEngine.run();
+
+    viewPort.update();
     deltaT = debug->time.getSeconds("logicTime");
     transformEngine.setDelta(deltaT);
     transformEngine.updatePositions();

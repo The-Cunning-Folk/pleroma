@@ -22,6 +22,8 @@ public:
     sf::FloatRect drawRegion;
     sf::FloatRect renderRegion;
 
+    sf::FloatRect walkBox;
+
     sf::FloatRect getDrawRegion() const;
     void setDrawRegion(const sf::FloatRect &value);
     sf::FloatRect getRenderRegion() const;
@@ -33,6 +35,8 @@ public:
     void setComponentLoader(ComponentLoader *value);
     MathsUtils *getMaths() const;
     void setMaths(MathsUtils *value);
+    sf::FloatRect getWalkBox() const;
+    void setWalkBox(const sf::FloatRect &value);
 };
 }
 

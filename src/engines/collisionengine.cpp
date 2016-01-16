@@ -149,12 +149,14 @@ sf::Vector2f CollisionEngine::separatingAxisCheck(ConvexPolygon & a, ConvexPolyg
 
         float o = pA.getOverlap(pB);
 
-
-
         if(o < mtv.overlap)
         {
-            mtv.overlap = o;
-            mtv.direction = axes[i];
+            if(maths->dot(a.position,axes[i])<0)
+            {
+                mtv.overlap = o;
+                mtv.direction = axes[i];
+            }
+
         }
 
     }
