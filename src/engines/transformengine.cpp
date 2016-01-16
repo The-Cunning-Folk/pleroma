@@ -149,13 +149,12 @@ void TransformEngine::drawDebug()
 
 
 
-    for(int i; i<activeGridLocations.size();i++)
+    for(unsigned int i =0; i<activeGridLocations.size();i++)
     {
         sf::Vector2i & column = activeGridLocations[i];
         sf::FloatRect f = grid->getGridSquare(column);
         r.setPosition(f.left,f.top);
         r.setSize(sf::Vector2f(f.width,f.height));
-
         window.draw(r);
     }
 }
