@@ -69,8 +69,8 @@ sf::Vector2f BQ::Grid::getCentre(sf::Vector2i gridPosition)
 {
     float gridPosFx = (float) gridPosition.x;
     float gridPosFy = (float) gridPosition.y;
-    float centreX = 0.5*scale*gridPosFx;
-    float centreY = 0.5*scale*gridPosFy;
+    float centreX = 0.5*scale + scale*gridPosFx;
+    float centreY = 0.5*scale + scale*gridPosFy;
     sf::Vector2f centre(centreX,centreY);
 
     return(centre);
@@ -91,16 +91,27 @@ std::vector<sf::Vector2i> Grid::getBox(sf::Vector2i tl, sf::Vector2i br)
 
     std::vector<sf::Vector2i> ps;
 
-
-    for(int j=t; j<=b; j++)
+    for(int i=l; i<=r; i++)
     {
-        for(int i=l; i<=r; i++)
+         for(int j=t; j<=b; j++)
         {
             ps.push_back(sf::Vector2i(i,j));
+            //debug->println("X: " + std::to_string(i) + " , Y: " + std::to_string(j) );
         }
     }
     return ps;
 
+}
+
+sf::FloatRect Grid::getGridSquare(sf::Vector2i g)
+{
+    sf::Vector2f centre = getCentre(g);
+    sf::FloatRect rect;
+    rect.left = centre.x - 0.5*scale;
+    rect.top = centre.y - 0.5*scale;
+    rect.width = scale;
+    rect.height = scale;
+    return rect;
 }
 
 void Grid::setDebug(DebugUtils *value)

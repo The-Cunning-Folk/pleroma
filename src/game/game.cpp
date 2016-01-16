@@ -29,10 +29,6 @@ void Game::runEngines()
 
     occlusionManager.setActiveObjects(transformEngine.getObjectsInRange());
 
-    occlusionManager.setTl(transformEngine.activeGridLocations.front());
-    occlusionManager.setBr(transformEngine.activeGridLocations.back());
-
-
     collisionEngine.setActiveComponents(occlusionManager.getActiveComponents("collidable"));
     physicsEngine.setActiveComponents(occlusionManager.getActiveComponents("rigidbody"));
 
@@ -123,7 +119,7 @@ void Game::run()
 
         window.window.setView(viewPort.view);
 
-        //transformEngine.drawDebug();
+        transformEngine.drawDebug();
         collisionEngine.drawDebug();
 
 

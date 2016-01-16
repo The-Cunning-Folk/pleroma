@@ -131,16 +131,32 @@ void TransformEngine::run()
 void TransformEngine::drawDebug()
 {
     GameWindow& window = *gameWindow;
+    sf::RectangleShape r;
+
+    r.setFillColor(sf::Color::Transparent);
+    r.setOutlineThickness(1);
+    r.setOutlineColor(sf::Color::Blue);
+
+//    for(unsigned int j=0; j<activeComponents.size(); j++)
+//    {
+//        int i = activeComponents[j];
+//        cross.setPosition(transforms[i].getPosition());
+//        cross.update();
+//        window.draw(cross);
+//        //draw all the transforms!
+//        //gameWindow->draw(transforms[i]);
+//    }
 
 
-    for(unsigned int j=0; j<activeComponents.size(); j++)
+
+    for(int i; i<activeGridLocations.size();i++)
     {
-        int i = activeComponents[j];
-        cross.setPosition(transforms[i].getPosition());
-        cross.update();
-        window.draw(cross);
-        //draw all the transforms!
-        //gameWindow->draw(transforms[i]);
+        sf::Vector2i & column = activeGridLocations[i];
+        sf::FloatRect f = grid->getGridSquare(column);
+        r.setPosition(f.left,f.top);
+        r.setSize(sf::Vector2f(f.width,f.height));
+
+        window.draw(r);
     }
 }
 
@@ -155,15 +171,6 @@ void TransformEngine::updatePositions()
     }
 }
 
-std::vector<sf::Vector2i> TransformEngine::getActiveGridLocations() const
-{
-    return activeGridLocations;
-}
-
-void TransformEngine::setActiveGridLocations(const std::vector<sf::Vector2i> &value)
-{
-    activeGridLocations = value;
-}
 
 Transform &TransformEngine::addTransform()
 {
