@@ -96,7 +96,7 @@ bool CollisionEngine::checkCollision(Collidable & a,Collidable & b)
                 }
                 else if((!a.immovable && b.immovable)  || (a.diminutive && !b.diminutive))
                 {
-                    tA.move(overlap);
+                    tA.move(-overlap);
                 }
 
             }
@@ -151,12 +151,8 @@ sf::Vector2f CollisionEngine::separatingAxisCheck(ConvexPolygon & a, ConvexPolyg
 
         if(o < mtv.overlap)
         {
-            if(maths->dot(a.position,axes[i])<0)
-            {
-                mtv.overlap = o;
-                mtv.direction = axes[i];
-            }
-
+            mtv.overlap = o;
+            mtv.direction = axes[i];
         }
 
     }

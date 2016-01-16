@@ -241,6 +241,10 @@ void Game::initialiseTests()
             {
             GameObject& coll = gameObjectFactory.newImmovableObject();
             coll.loadTransform().setPosition(sf::Vector2f(i*32 - 1280,j*32-1280));
+            if(math.randomInt(0,2) == 1)
+            {
+                componentLoader.getCollidableFromObject(coll,"hitbox").immovable = false;
+            }
             }
 
         }

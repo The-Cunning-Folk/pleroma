@@ -36,6 +36,12 @@ Collidable &ComponentLoader::getCollidableFromObject(GameObject & o, std::string
     return c;
 }
 
+std::vector<int> ComponentLoader::getComponentsFromObject(GameObject & o, std::string type)
+{
+    std::map<std::string,int> cs = o.components[type];
+    return getIndicesFromMap(cs);
+}
+
 std::vector<int> ComponentLoader::getIndicesFromMap(std::map<std::string, int> cs)
 {
     std::vector<int> indices;

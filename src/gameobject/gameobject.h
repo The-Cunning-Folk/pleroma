@@ -23,6 +23,7 @@ public:
     void addComponent(std::string,Component&);
 
     Transform & loadTransform();
+    std::vector<int> loadComponents(std::string);
     int getTransform() const;
     void setTransform(int value);
 
