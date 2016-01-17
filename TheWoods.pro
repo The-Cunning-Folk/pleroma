@@ -80,7 +80,8 @@ HEADERS += $$SRCDIR/window/gamewindow.h \
     src/logic/physicalcollision.h \
     src/window/viewport.h \
     src/managers/occlusionmanager.h \
-    src/engines/pathingengine.h
+    src/engines/pathingengine.h \
+    src/geometry/gridsquare.h
 
 SOURCES += src/main.cpp \
     $$SRCDIR/window/gamewindow.cpp \
@@ -138,7 +139,8 @@ SOURCES += src/main.cpp \
     src/logic/physicalcollision.cpp \
     src/window/viewport.cpp \
     src/managers/occlusionmanager.cpp \
-    src/engines/pathingengine.cpp
+    src/engines/pathingengine.cpp \
+    src/geometry/gridsquare.cpp
 
 LIBS += -L"$$PWD/SFML/lib"
 

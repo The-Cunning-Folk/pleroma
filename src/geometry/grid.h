@@ -5,6 +5,8 @@
 #include<mathsutils.h>
 #include<debugutils.h>
 
+#include<gridsquare.h>
+
 namespace BQ {
 class Grid
 {
