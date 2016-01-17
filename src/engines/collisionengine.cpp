@@ -203,6 +203,12 @@ void CollisionEngine::run()
             {
                 p1 = 0;
             }
+
+            sf::Vector2f v0 = p.points[p0];
+            sf::Vector2f v1 = p.points[p1];
+
+            grid->bresenhamLine(v0,v1);
+
         }
 
         quadtree.addObject(collidables[i],i);
