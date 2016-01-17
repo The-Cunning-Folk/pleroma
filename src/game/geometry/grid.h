@@ -24,6 +24,9 @@ public:
     void setOrigin(const sf::Vector2i &value);
     void setOrigin(int,int);
 
+    std::vector<sf::Vector2i> bresenhamLine(sf::Vector2f,sf::Vector2f);
+
+
     //todo: layering
     //I'm not totally decided on how I'm handling layers at this stage
     sf::Vector3i getGridPosition(sf::Vector2f, int); //where am I on the grid with height?

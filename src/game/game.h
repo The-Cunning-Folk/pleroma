@@ -107,6 +107,11 @@ public:
     PathingEngine getPathingEngine() const;
     void setPathingEngine(const PathingEngine &value);
 
+    Grid getGrid() const;
+    void setGrid(const Grid &value);
+
+    Grid grid;
+
 private:
 
     //managers
@@ -127,7 +132,7 @@ private:
 
 
     //global properties
-    Grid grid;
+
     InputMap input;
     ViewPort viewPort;
 

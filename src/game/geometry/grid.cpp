@@ -47,6 +47,13 @@ void BQ::Grid::setOrigin(int x, int y)
     setOrigin(newOrigin);
 }
 
+std::vector<sf::Vector2i> Grid::bresenhamLine(sf::Vector2f, sf::Vector2f)
+{
+    std::vector<sf::Vector2i> squares(0);
+    //add bresenham here
+    return squares;
+}
+
 sf::Vector2i BQ::Grid::getGridPosition(sf::Vector2f position)
 {
     int x = (int) ceil(position.x);

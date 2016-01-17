@@ -10,6 +10,8 @@ class PathingEngine : public Engine
 public:
     PathingEngine();
 
+    void doWaveFront(sf::Vector2i);
+
     void run();
     void drawDebug();
 };

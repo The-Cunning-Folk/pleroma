@@ -50,15 +50,6 @@ void TransformEngine::setWrapAround(bool value)
     wrapAround = value;
 }
 
-Grid *TransformEngine::getGrid() const
-{
-    return grid;
-}
-
-void TransformEngine::setGrid(Grid *value)
-{
-    grid = value;
-}
 
 void TransformEngine::run()
 {
@@ -71,7 +62,7 @@ void TransformEngine::run()
     activeComponents.clear();
     objectsInRange.clear();
 
-    activeGridLocations    = grid->getBox(grid->getGridPosition(bounds.left,bounds.top),
+    activeGridLocations = grid->getBox(grid->getGridPosition(bounds.left,bounds.top),
                                           grid->getGridPosition(bounds.left + bounds.width,
                                                                 bounds.top + bounds.height));
 
@@ -95,7 +86,7 @@ void TransformEngine::run()
 
                 if(leftEdge > gpos.x || rightEdge < gpos.x || topEdge > gpos.y || topEdge < gpos.y )
                 {
-                   //debug->println("out of bounds");
+                    //out of bounds
                     sf::Vector2f pos = transforms[i].getPosition();
                     if(pos.x > rightEdge)
                     {

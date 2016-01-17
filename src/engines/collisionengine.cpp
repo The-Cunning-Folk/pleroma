@@ -193,6 +193,18 @@ void CollisionEngine::run()
         p.setPosition(t.getPosition());
         collidables[i].update();
         collidables[i].setBBox(p.bBox);
+
+        //do bresenham border calculations here
+
+        for(unsigned int p0=0; p0<p.points.size();p0++)
+        {
+            unsigned int p1 = p0+1;
+            if(p1==p.points.size())
+            {
+                p1 = 0;
+            }
+        }
+
         quadtree.addObject(collidables[i],i);
     }
 

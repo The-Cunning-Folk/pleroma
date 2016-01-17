@@ -201,8 +201,6 @@ void Game::initialiseInjections()
    eventFactory.setEventEngine(&eventEngine);
    inputFactory.setInputEngine(&inputEngine);
 
-   transformEngine.setGrid(&grid);
-
    gameObjects.setComponentLoader(&componentLoader);
 
    grid.setDebug(debug);
@@ -372,6 +370,16 @@ PathingEngine Game::getPathingEngine() const
 void Game::setPathingEngine(const PathingEngine &value)
 {
     pathingEngine = value;
+}
+
+Grid Game::getGrid() const
+{
+    return grid;
+}
+
+void Game::setGrid(const Grid &value)
+{
+    grid = value;
 }
 
 void Game::setGameWindow(window_ptr window)
