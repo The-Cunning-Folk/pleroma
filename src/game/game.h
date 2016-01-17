@@ -24,6 +24,7 @@
 #include<collisionengine.h>
 #include<debugdisplayengine.h>
 #include<physicsengine.h>
+#include<pathingengine.h>
 
 #include<componentloader.h>
 #include<resourceloader.h>
@@ -103,6 +104,9 @@ public:
     OcclusionManager getOcclusionManager() const;
     void setOcclusionManager(const OcclusionManager &value);
 
+    PathingEngine getPathingEngine() const;
+    void setPathingEngine(const PathingEngine &value);
+
 private:
 
     //managers
@@ -118,6 +122,7 @@ private:
     CollisionEngine collisionEngine;
     DebugDisplayEngine debugDisplayEngine;
     PhysicsEngine physicsEngine;
+    PathingEngine pathingEngine;
 
 
 

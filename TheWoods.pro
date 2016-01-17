@@ -78,7 +78,8 @@ HEADERS += $$SRCDIR/window/gamewindow.h \
     src/factories/physicseventfactory.h \
     src/logic/physicalcollision.h \
     src/window/viewport.h \
-    src/managers/occlusionmanager.h
+    src/managers/occlusionmanager.h \
+    src/engines/pathingengine.h
 
 SOURCES += src/main.cpp \
     $$SRCDIR/window/gamewindow.cpp \
@@ -135,7 +136,8 @@ SOURCES += src/main.cpp \
     src/factories/physicseventfactory.cpp \
     src/logic/physicalcollision.cpp \
     src/window/viewport.cpp \
-    src/managers/occlusionmanager.cpp
+    src/managers/occlusionmanager.cpp \
+    src/engines/pathingengine.cpp
 
 LIBS += -L"$$PWD/SFML/lib"
 

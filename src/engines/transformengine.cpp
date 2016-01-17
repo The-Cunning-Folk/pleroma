@@ -137,25 +137,21 @@ void TransformEngine::drawDebug()
     r.setOutlineThickness(1);
     r.setOutlineColor(sf::Color::Blue);
 
-//    for(unsigned int j=0; j<activeComponents.size(); j++)
-//    {
-//        int i = activeComponents[j];
-//        cross.setPosition(transforms[i].getPosition());
-//        cross.update();
-//        window.draw(cross);
-//        //draw all the transforms!
-//        //gameWindow->draw(transforms[i]);
-//    }
-
-
-
     for(unsigned int i =0; i<activeGridLocations.size();i++)
     {
-        sf::Vector2i & column = activeGridLocations[i];
-        sf::FloatRect f = grid->getGridSquare(column);
+        sf::Vector2i & sq = activeGridLocations[i];
+        sf::FloatRect f = grid->getGridSquare(sq);
         r.setPosition(f.left,f.top);
         r.setSize(sf::Vector2f(f.width,f.height));
         window.draw(r);
+    }
+
+    for(unsigned int j=0; j<activeComponents.size(); j++)
+    {
+        int i = activeComponents[j];
+        cross.setPosition(transforms[i].getPosition());
+        cross.update();
+        window.draw(cross);
     }
 }
 

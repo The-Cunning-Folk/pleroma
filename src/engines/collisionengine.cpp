@@ -281,6 +281,10 @@ void CollisionEngine::drawDebug()
             }
             shape.setPosition(p.position);
             shape.setFillColor(sf::Color::White);
+            if(!collidables[i].immovable)
+            {
+                shape.setFillColor(sf::Color::Yellow);
+            }
             if(collidables[i].colliding)
             {
                 shape.setFillColor(sf::Color::Green);

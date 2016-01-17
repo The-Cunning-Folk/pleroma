@@ -82,6 +82,10 @@ void Game::run()
     fpsDisplay.setCharacterSize(20);
     fpsDisplay.setFont(resourceLoader.getFont("8bit16.ttf"));
 
+    bool transformDebug = true;
+    bool collisionDebug = true;
+    bool fpsDebug = true;
+
 
 
     //end temporary behaviours
@@ -100,7 +104,13 @@ void Game::run()
         input.update();
 
         if(input.keyToggled("debug"))
-            print.println("display debug");
+            fpsDebug = !fpsDebug;
+
+        if(input.keyToggled("transformDebug"))
+            transformDebug = !transformDebug;
+
+        if(input.keyToggled("collisionDebug"))
+            collisionDebug = !collisionDebug;
 
         //temporary behaviours
 
@@ -119,8 +129,11 @@ void Game::run()
 
         window.window.setView(viewPort.view);
 
-        transformEngine.drawDebug();
-        collisionEngine.drawDebug();
+        if(transformDebug)
+            transformEngine.drawDebug();
+
+        if(collisionDebug)
+            collisionEngine.drawDebug();
 
 
         //get the default viewport back
@@ -142,7 +155,8 @@ void Game::run()
 
         //end framerate stuff
 
-        window.draw(fpsDisplay);
+        if(fpsDebug)
+            window.draw(fpsDisplay);
 
         window.display();
 
@@ -218,6 +232,8 @@ void Game::initialiseInput()
     debug->println("initialising global inputs");
     input.setKeyInput("menu",sf::Keyboard::Escape);
     input.setKeyInput("debug",sf::Keyboard::F3);
+    input.setKeyInput("transformDebug",sf::Keyboard::F4);
+    input.setKeyInput("collisionDebug",sf::Keyboard::F5);
 
 }
 
@@ -346,6 +362,16 @@ OcclusionManager Game::getOcclusionManager() const
 void Game::setOcclusionManager(const OcclusionManager &value)
 {
     occlusionManager = value;
+}
+
+PathingEngine Game::getPathingEngine() const
+{
+    return pathingEngine;
+}
+
+void Game::setPathingEngine(const PathingEngine &value)
+{
+    pathingEngine = value;
 }
 
 void Game::setGameWindow(window_ptr window)
