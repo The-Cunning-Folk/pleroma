@@ -11,6 +11,8 @@ public:
 
     sf::Vector2i position;
     sf::FloatRect region;
+    int steps;
+    int workSteps;
     std::vector<int> collidablesInContact;
     std::vector<std::string> objectsInContact;
 

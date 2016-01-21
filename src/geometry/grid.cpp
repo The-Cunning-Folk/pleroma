@@ -54,6 +54,13 @@ std::vector<sf::Vector2i> Grid::bresenhamLine(sf::Vector2f, sf::Vector2f)
     return squares;
 }
 
+void Grid::setActiveBounds(sf::FloatRect bounds)
+{
+    activeSquares = getBox(getGridPosition(bounds.left,bounds.top),
+                                          getGridPosition(bounds.left + bounds.width,
+                                                                bounds.top + bounds.height));
+}
+
 std::vector<GridSquare> Grid::getActiveSquares() const
 {
     return activeSquares;

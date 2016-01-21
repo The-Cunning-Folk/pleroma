@@ -6,6 +6,7 @@
 #include<debugutils.h>
 #include<mathsutils.h>
 #include<gamewindow.h>
+#include<resourceloader.h>
 #include <grid.h>
 
 typedef std::shared_ptr<BQ::GameWindow> window_ptr;
@@ -90,6 +91,8 @@ public:
 
 protected:
     window_ptr gameWindow;
+
+    ResourceLoader* resourceLoader;
 
     Grid* grid;
 

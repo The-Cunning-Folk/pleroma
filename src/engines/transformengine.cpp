@@ -62,9 +62,7 @@ void TransformEngine::run()
     activeComponents.clear();
     objectsInRange.clear();
 
-    activeGridLocations = grid->getBox(grid->getGridPosition(bounds.left,bounds.top),
-                                          grid->getGridPosition(bounds.left + bounds.width,
-                                                                bounds.top + bounds.height));
+    activeGridLocations = grid->activeSquares;
 
 
     for(unsigned int i=0; i<transforms.size(); i++)

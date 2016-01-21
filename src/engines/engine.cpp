@@ -80,6 +80,7 @@ void Engine::setGame(Game *value)
     gameObjectLoader = &(game->gameObjectLoader);
     maths = &(game->math);
     eventFactory = &(game->eventFactory);
+    resourceLoader = &(game->resourceLoader);
 }
 
 Game *Engine::getGame() const

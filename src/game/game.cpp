@@ -21,6 +21,8 @@ void Game::runEngines()
     inputEngine.run();
     eventEngine.run();
 
+    grid.setActiveBounds(transformEngine.bounds);
+
     float deltaT = debug->time.getSeconds("logicTime");
     viewPort.update();
     transformEngine.setBounds(viewPort.renderRegion);
@@ -39,6 +41,8 @@ void Game::runEngines()
     collisionEngine.run();
     physicsEngine.setDelta(deltaT);
     physicsEngine.run();
+    pathingEngine.run();
+
     debugDisplayEngine.run();
 
     viewPort.update();
@@ -135,6 +139,8 @@ void Game::run()
         if(collisionDebug)
             collisionEngine.drawDebug();
 
+        pathingEngine.drawDebug();
+
 
         //get the default viewport back
         window.window.setView(window.window.getDefaultView());
@@ -211,6 +217,7 @@ void Game::initialiseInjections()
    transformEngine.setGame(this);
    collisionEngine.setGame(this);
    debugDisplayEngine.setGame(this);
+   pathingEngine.setGame(this);
 
    componentFactory.setGame(this);
    gameObjectFactory.setGame(this);

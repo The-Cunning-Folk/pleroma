@@ -28,9 +28,9 @@ public:
 
     std::vector<sf::Vector2i> bresenhamLine(sf::Vector2f,sf::Vector2f);
 
-
     std::vector<GridSquare> activeSquares;
 
+    void setActiveBounds(sf::FloatRect);
 
     //todo: layering
     //I'm not totally decided on how I'm handling layers at this stage
