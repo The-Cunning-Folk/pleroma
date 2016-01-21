@@ -25,7 +25,7 @@ public:
     void updatePositions();
 
     std::vector<Transform> transforms;
-    std::vector<sf::Vector2i> activeGridLocations;
+    std::vector<GridSquare> activeGridLocations;
 
     Transform& addTransform();
 

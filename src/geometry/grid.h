@@ -29,6 +29,9 @@ public:
     std::vector<sf::Vector2i> bresenhamLine(sf::Vector2f,sf::Vector2f);
 
 
+    std::vector<GridSquare> activeSquares;
+
+
     //todo: layering
     //I'm not totally decided on how I'm handling layers at this stage
     sf::Vector3i getGridPosition(sf::Vector2f, int); //where am I on the grid with height?
@@ -41,10 +44,13 @@ public:
     sf::Vector2f getCentre(int,int);
     float getLayerMidPoint(int); // get the float for the halfway point of a layer
 
-    std::vector<sf::Vector2i> getBox(sf::Vector2i,sf::Vector2i); // get all the grid positions in a box
-    sf::FloatRect getGridSquare(sf::Vector2i);
+    std::vector<GridSquare> getBox(sf::Vector2i,sf::Vector2i); // get all the grid positions in a box
+    GridSquare getGridSquare(sf::Vector2i);
 
     void setDebug(DebugUtils *value);
+
+    std::vector<GridSquare> getActiveSquares() const;
+    void setActiveSquares(const std::vector<GridSquare> &value);
 
 private:
 

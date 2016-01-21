@@ -130,8 +130,8 @@ void TransformEngine::drawDebug()
 
     for(unsigned int i =0; i<activeGridLocations.size();i++)
     {
-        sf::Vector2i & sq = activeGridLocations[i];
-        sf::FloatRect f = grid->getGridSquare(sq);
+        sf::Vector2i & sq = activeGridLocations[i].position;
+        sf::FloatRect f = activeGridLocations[i].region;
         r.setPosition(f.left,f.top);
         r.setSize(sf::Vector2f(f.width,f.height));
         window.draw(r);
