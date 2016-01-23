@@ -10,6 +10,7 @@ public:
     GridSquare();
 
     int index;
+    bool impassable;
     sf::Vector2i position;
     sf::FloatRect region;
     bool checked;
@@ -18,6 +19,9 @@ public:
     std::vector<int> collidablesInContact;
     std::vector<std::string> objectsInContact;
     sf::Vector2f pathVector;
+
+    void addCollidableInContact(int);
+    void addObjectInContact(std::string);
 
 };
 }

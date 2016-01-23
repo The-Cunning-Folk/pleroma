@@ -9,3 +9,13 @@ GridSquare::GridSquare()
     checked = false;
 }
 
+void GridSquare::addCollidableInContact(int i)
+{
+    collidablesInContact.push_back(i);
+}
+
+void GridSquare::addObjectInContact(std::string o)
+{
+    objectsInContact.push_back(o);
+}
+

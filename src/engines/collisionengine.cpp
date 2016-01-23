@@ -185,14 +185,28 @@ void CollisionEngine::run()
     collisions.clear();
     quadtree.clear();
     ComponentLoader& components = *componentLoader;
+    std::vector<GridSquare> gridSquares = grid->getActiveSquares();
     for(unsigned int j=0; j<activeComponents.size(); j++)
     {
+
+
         int i=activeComponents[j];
+
+
+
         Transform & t = components.getTransform(collidables[i].getTransform());
         ConvexPolygon& p = collidables[i].polygon;
         p.setPosition(t.getPosition());
         collidables[i].update();
         collidables[i].setBBox(p.bBox);
+
+        for(unsigned int k=0; k<gridSquares.size(); k++)
+        {
+            if(collidables[i].getBBox().intersects(gridSquares[k].region))
+            {
+                gridSquares[k].addCollidableInContact(i);
+            }
+        }
 
         //do bresenham border calculations here
 
