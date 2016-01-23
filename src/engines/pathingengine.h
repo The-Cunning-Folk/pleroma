@@ -10,7 +10,8 @@ class PathingEngine : public Engine
 public:
     PathingEngine();
 
-    void doWaveFront(sf::Vector2i);
+    void doWaveFront(GridSquare &);
+    void doWaveFrontLayer(int,std::vector<sf::Vector2i>);
 
     std::vector<sf::Vector2f> goals;
 

@@ -126,17 +126,28 @@ std::vector<sf::Vector2i> Grid::getActiveNeighboursLocalCoords(sf::Vector2i p)
 
     for(int i=min_x; i<=max_x; i++)
     {
-        for(int j=min_y;j<=max_y;j++)
+        if(i==p.x) {continue;}
+        if(isActive(sf::Vector2i(i,p.y)))
         {
-            if(i==p.x && j==p.y){continue;}
-            if(isActive(sf::Vector2i(i,j)))
-            {
-                neighbours.push_back(sf::Vector2i(i,j));
-            }
+                neighbours.push_back(sf::Vector2i(i,p.y));
+        }
+    }
+    for(int i=min_y; i<=max_y; i++)
+    {
+        if(i==p.y) {continue;}
+        if(isActive(sf::Vector2i(p.x,i)))
+        {
+                neighbours.push_back(sf::Vector2i(p.x,i));
         }
     }
     return neighbours;
 
+}
+
+std::vector<sf::Vector2i> Grid::getNeighbours(GridSquare & g)
+{
+    sf::Vector2i p = g.position;
+    return getActiveNeighboursLocalCoords(toLocalActiveCoords(p));
 }
 
 std::vector<sf::Vector2i> Grid::bresenhamLine(sf::Vector2f, sf::Vector2f)
@@ -218,6 +229,7 @@ std::vector<GridSquare> Grid::getBox(sf::Vector2i tl, sf::Vector2i br)
          for(int j=t; j<=b; j++)
         {
             GridSquare g = getGridSquare(sf::Vector2i(i,j));
+            g.index = ps.size();
             ps.push_back(g);
             //debug->println("X: " + std::to_string(i) + " , Y: " + std::to_string(j) );
         }

@@ -45,6 +45,8 @@ public:
 
     std::vector<sf::Vector2i> getActiveNeighboursLocalCoords(sf::Vector2i);
 
+    std::vector<sf::Vector2i> getNeighbours(GridSquare &);
+
     std::vector<sf::Vector2i> bresenhamLine(sf::Vector2f,sf::Vector2f);
 
     std::vector<GridSquare> activeSquares;

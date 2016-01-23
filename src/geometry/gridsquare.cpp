@@ -4,7 +4,8 @@ using namespace BQ;
 
 GridSquare::GridSquare()
 {
-    steps=0;
-    workSteps=0;
+    steps=-1;
+    workSteps=-1;
+    checked = false;
 }
 

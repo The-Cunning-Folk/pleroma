@@ -9,8 +9,10 @@ class GridSquare
 public:
     GridSquare();
 
+    int index;
     sf::Vector2i position;
     sf::FloatRect region;
+    bool checked;
     int steps;
     int workSteps;
     std::vector<int> collidablesInContact;
