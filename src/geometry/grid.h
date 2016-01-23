@@ -19,12 +19,31 @@ public:
 
     Grid();
 
+    GridSquare nullSqu; // an ugly way to handle errors safely. Should NEVER have to be used!
+
     int getScale() const;
     void setScale(int value);
 
     sf::Vector2i getOrigin() const;
     void setOrigin(const sf::Vector2i &value);
     void setOrigin(int,int);
+
+    int activeWidth;
+    int activeHeight;
+
+    sf::Vector2i activeOrigin;
+
+    bool isActive(sf::Vector2i);
+
+    sf::Vector2i toLocalActiveCoords(sf::Vector2i);
+
+    GridSquare & getActiveGridSquareFromPosition(sf::Vector2f);
+
+    GridSquare & getActiveGridSquareFromGlobalCoords(sf::Vector2i);
+
+    GridSquare & getActiveGridSquareFromLocalCoords(sf::Vector2i);
+
+    std::vector<sf::Vector2i> getActiveNeighboursLocalCoords(sf::Vector2i);
 
     std::vector<sf::Vector2i> bresenhamLine(sf::Vector2f,sf::Vector2f);
 
@@ -51,6 +70,9 @@ public:
 
     std::vector<GridSquare> getActiveSquares() const;
     void setActiveSquares(const std::vector<GridSquare> &value);
+
+    sf::Vector2i getActiveOrigin() const;
+    void setActiveOrigin(const sf::Vector2i &value);
 
 private:
 

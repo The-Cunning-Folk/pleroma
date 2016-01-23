@@ -12,6 +12,10 @@ public:
 
     void doWaveFront(sf::Vector2i);
 
+    std::vector<sf::Vector2f> goals;
+
+    void addGoal(sf::Vector2f);
+
     void run();
     void drawDebug();
 };

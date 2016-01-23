@@ -41,6 +41,9 @@ void Game::runEngines()
     collisionEngine.run();
     physicsEngine.setDelta(deltaT);
     physicsEngine.run();
+
+    pathingEngine.addGoal(gameObjectLoader.loadGameObject("player_1").loadTransform().position);
+
     pathingEngine.run();
 
     debugDisplayEngine.run();
@@ -86,9 +89,10 @@ void Game::run()
     fpsDisplay.setCharacterSize(20);
     fpsDisplay.setFont(resourceLoader.getFont("8bit16.ttf"));
 
-    bool transformDebug = true;
+    bool transformDebug = false;
     bool collisionDebug = true;
     bool fpsDebug = true;
+    bool pathingDebug = true;
 
 
 
@@ -116,6 +120,9 @@ void Game::run()
         if(input.keyToggled("collisionDebug"))
             collisionDebug = !collisionDebug;
 
+        if(input.keyToggled("pathingDebug"))
+            pathingDebug = !pathingDebug;
+
         //temporary behaviours
 
         runTests();
@@ -139,7 +146,8 @@ void Game::run()
         if(collisionDebug)
             collisionEngine.drawDebug();
 
-        pathingEngine.drawDebug();
+        if(pathingDebug)
+            pathingEngine.drawDebug();
 
 
         //get the default viewport back
@@ -239,6 +247,7 @@ void Game::initialiseInput()
     input.setKeyInput("debug",sf::Keyboard::F3);
     input.setKeyInput("transformDebug",sf::Keyboard::F4);
     input.setKeyInput("collisionDebug",sf::Keyboard::F5);
+    input.setKeyInput("pathingDebug",sf::Keyboard::F6);
 
 }
 

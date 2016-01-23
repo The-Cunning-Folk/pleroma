@@ -6,6 +6,10 @@ Grid::Grid()
 {
     setOrigin(0,0); //can't see myself ever wanting this to not be 0,0
     setScale(16);
+    activeWidth = 0;
+    activeOrigin.x =0;
+    activeOrigin.y = 0;
+    activeHeight = 0;
 }
 
 
@@ -45,6 +49,94 @@ void BQ::Grid::setOrigin(int x, int y)
 {
     sf::Vector2i newOrigin(x,y);
     setOrigin(newOrigin);
+}
+
+bool Grid::isActive(sf::Vector2i pos)
+{
+    int xpos = pos.x;
+    int ypos = pos.y;
+    if(xpos >= activeWidth || xpos < 0)
+    {
+        return false;
+    }
+    if( ypos >= activeHeight || ypos <0)
+    {
+        return false;
+    }
+    return true;
+}
+
+sf::Vector2i Grid::toLocalActiveCoords(sf::Vector2i v)
+{
+    sf::Vector2i l;
+
+    l.x = v.x - activeOrigin.x;
+    l.y = v.y - activeOrigin.y;
+
+    return l;
+}
+
+GridSquare &Grid::getActiveGridSquareFromPosition(sf::Vector2f p)
+{
+    sf::Vector2i gPos = getGridPosition(p);
+    return getActiveGridSquareFromGlobalCoords(gPos);
+}
+
+GridSquare &Grid::getActiveGridSquareFromGlobalCoords(sf::Vector2i global)
+{
+    sf::Vector2i local = toLocalActiveCoords(global);
+    GridSquare & g = getActiveGridSquareFromLocalCoords(local);
+    return g;
+}
+
+sf::Vector2i Grid::getActiveOrigin() const
+{
+    return activeOrigin;
+}
+
+void Grid::setActiveOrigin(const sf::Vector2i &value)
+{
+    activeOrigin = value;
+}
+
+GridSquare &Grid::getActiveGridSquareFromLocalCoords(sf::Vector2i p)
+{
+    int xpos = p.x;
+    int ypos = p.y;
+
+    if(!isActive(p))
+    {
+        return nullSqu;
+    }
+
+    int index = (xpos)*(activeHeight) + (ypos);
+    GridSquare & g = activeSquares[index];
+    return g;
+
+}
+
+std::vector<sf::Vector2i> Grid::getActiveNeighboursLocalCoords(sf::Vector2i p)
+{
+    int min_x = p.x-1;
+    int max_x = p.x+1;
+    int min_y = p.y-1;
+    int max_y = p.y+1;
+
+    std::vector<sf::Vector2i> neighbours;
+
+    for(int i=min_x; i<=max_x; i++)
+    {
+        for(int j=min_y;j<=max_y;j++)
+        {
+            if(i==p.x && j==p.y){continue;}
+            if(isActive(sf::Vector2i(i,j)))
+            {
+                neighbours.push_back(sf::Vector2i(i,j));
+            }
+        }
+    }
+    return neighbours;
+
 }
 
 std::vector<sf::Vector2i> Grid::bresenhamLine(sf::Vector2f, sf::Vector2f)
@@ -113,7 +205,13 @@ std::vector<GridSquare> Grid::getBox(sf::Vector2i tl, sf::Vector2i br)
     int t = tl.y;
     int b = br.y;
 
+    activeOrigin.x = l;
+    activeOrigin.y = t;
+
     std::vector<GridSquare> ps;
+
+    activeWidth = r-l+1;
+    activeHeight = b-t+1;
 
     for(int i=l; i<=r; i++)
     {

@@ -15,6 +15,7 @@ public:
     int workSteps;
     std::vector<int> collidablesInContact;
     std::vector<std::string> objectsInContact;
+    sf::Vector2f pathVector;
 
 };
 }
