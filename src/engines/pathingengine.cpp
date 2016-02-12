@@ -40,9 +40,17 @@ void PathingEngine::doWaveFrontLayer(int layerNum, std::vector<sf::Vector2i> lay
             GridSquare & n = grid->getActiveGridSquareFromLocalCoords(thisNeighbours[j]);
             if(!n.checked)
             {
-                n.steps = layerNum+1;
-                n.checked = true;
-                nextLayer.push_back(grid->toLocalActiveCoords(n.position));
+                if(!n.impassable)
+                {
+                    n.steps = layerNum+1;
+                    n.checked = true;
+                    nextLayer.push_back(grid->toLocalActiveCoords(n.position));
+                }
+                else
+                {
+                    n.steps = -1;
+                    n.checked = true;
+                }
             }
         }
     }
@@ -60,18 +68,10 @@ void PathingEngine::addGoal(sf::Vector2f p)
 
 void PathingEngine::run()
 {
-    std::vector<GridSquare> & squares = grid->activeSquares;
-    for(unsigned int i=0; i<squares.size(); i++)
-    {
-        GridSquare & g = squares[i];
-        //do steps calculation
-    }
     for(unsigned int i=0; i<goals.size(); i++)
     {
         doWaveFront(grid->getActiveGridSquareFromPosition(goals[i]));
     }
-
-
     goals.clear();
 }
 

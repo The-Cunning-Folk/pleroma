@@ -186,6 +186,14 @@ void CollisionEngine::run()
     quadtree.clear();
     ComponentLoader& components = *componentLoader;
     std::vector<GridSquare> gridSquares = grid->getActiveSquares();
+
+    for(int i=0; i<gridSquares.size(); i++)
+    {
+        GridSquare & g = gridSquares[i];
+        g.objectsInContact.clear();
+        g.collidablesInContact.clear();
+    }
+
     for(unsigned int j=0; j<activeComponents.size(); j++)
     {
 
@@ -197,18 +205,33 @@ void CollisionEngine::run()
         Transform & t = components.getTransform(collidables[i].getTransform());
         ConvexPolygon& p = collidables[i].polygon;
         p.setPosition(t.getPosition());
+        Collidable & c = collidables[i];
         collidables[i].update();
         collidables[i].setBBox(p.bBox);
 
-        for(unsigned int k=0; k<gridSquares.size(); k++)
+        //do bresenham border calculations here
+
+        sf::FloatRect box = collidables[i].getBBox();
+
+        sf::Vector2i tl = grid->getGridPosition(box.left,box.top);
+        sf::Vector2i br = grid->getGridPosition(box.left+box.width,box.top+box.height);
+
+        int minX = tl.x;
+        int minY = tl.y;
+        int maxX = br.x;
+        int maxY = br.y;
+
+        for(int k=minX ; k<maxX; k++)
         {
-            if(collidables[i].getBBox().intersects(gridSquares[k].region))
+            for(int l=minY; l<maxY; l++)
             {
-                gridSquares[k].addCollidableInContact(i);
+                sf::Vector2i pB(k,l);
+                GridSquare& gReal = grid->getActiveGridSquareFromGlobalCoords(pB);
+                gReal.addCollidableInContact(j);
+                gReal.addObjectInContact(collidables[i].getParent());
+                gReal.impassable = c.immovable;
             }
         }
-
-        //do bresenham border calculations here
 
         for(unsigned int p0=0; p0<p.points.size();p0++)
         {

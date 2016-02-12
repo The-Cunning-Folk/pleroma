@@ -154,6 +154,9 @@ std::vector<sf::Vector2i> Grid::bresenhamLine(sf::Vector2f, sf::Vector2f)
 {
     std::vector<sf::Vector2i> squares(0);
     //add bresenham here
+
+
+
     return squares;
 }
 
@@ -207,6 +210,15 @@ sf::Vector2f Grid::getCentre(int x, int y)
 {
     sf::Vector2i pos(x,y);
     return(getCentre(pos));
+}
+
+std::vector<GridSquare> Grid::getBox(sf::FloatRect rect)
+{
+    sf::Vector2i tl = getGridPosition(rect.left,rect.top);
+    sf::Vector2i br = getGridPosition(rect.left+rect.width,rect.top+rect.height);
+
+    return getBox(tl,br);
+
 }
 
 std::vector<GridSquare> Grid::getBox(sf::Vector2i tl, sf::Vector2i br)

@@ -66,6 +66,7 @@ public:
     float getLayerMidPoint(int); // get the float for the halfway point of a layer
 
     std::vector<GridSquare> getBox(sf::Vector2i,sf::Vector2i); // get all the grid positions in a box
+    std::vector<GridSquare> getBox(sf::FloatRect);
     GridSquare getGridSquare(sf::Vector2i);
 
     void setDebug(DebugUtils *value);

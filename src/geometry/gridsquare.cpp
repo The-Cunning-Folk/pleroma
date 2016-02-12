@@ -7,6 +7,7 @@ GridSquare::GridSquare()
     steps=-1;
     workSteps=-1;
     checked = false;
+    impassable = false;
 }
 
 void GridSquare::addCollidableInContact(int i)
