@@ -20,6 +20,16 @@ void Engine::setActiveComponents(const std::vector<int> &value)
     activeComponents = value;
 }
 
+Grid *Engine::getGrid() const
+{
+    return grid;
+}
+
+void Engine::setGrid(Grid *value)
+{
+    grid = value;
+}
+
 PhysicsEventFactory *Engine::getPhysicsEventFactory() const
 {
     return physicsEventFactory;
@@ -65,10 +75,12 @@ void Engine::setGame(Game *value)
     game = value;
     debug = (game->debug);
     gameWindow = (game->gameWindow);
+    grid = &(game->grid);
     componentLoader = &(game->componentLoader);
     gameObjectLoader = &(game->gameObjectLoader);
     maths = &(game->math);
     eventFactory = &(game->eventFactory);
+    resourceLoader = &(game->resourceLoader);
 }
 
 Game *Engine::getGame() const

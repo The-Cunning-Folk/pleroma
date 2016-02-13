@@ -50,15 +50,6 @@ void TransformEngine::setWrapAround(bool value)
     wrapAround = value;
 }
 
-Grid *TransformEngine::getGrid() const
-{
-    return grid;
-}
-
-void TransformEngine::setGrid(Grid *value)
-{
-    grid = value;
-}
 
 void TransformEngine::run()
 {
@@ -71,12 +62,14 @@ void TransformEngine::run()
     activeComponents.clear();
     objectsInRange.clear();
 
+    activeGridLocations = grid->activeSquares;
+
 
     for(unsigned int i=0; i<transforms.size(); i++)
     {
         //update all the transforms!
 
-        sf::Vector2f & gpos = transforms[i].getPosition();
+        const sf::Vector2f & gpos = transforms[i].getPosition();
         if(bounds.contains(gpos))
         {
             activeComponents.push_back(i);
@@ -91,7 +84,7 @@ void TransformEngine::run()
 
                 if(leftEdge > gpos.x || rightEdge < gpos.x || topEdge > gpos.y || topEdge < gpos.y )
                 {
-                   //debug->println("out of bounds");
+                    //out of bounds
                     sf::Vector2f pos = transforms[i].getPosition();
                     if(pos.x > rightEdge)
                     {
@@ -127,7 +120,20 @@ void TransformEngine::run()
 void TransformEngine::drawDebug()
 {
     GameWindow& window = *gameWindow;
+    sf::RectangleShape r;
 
+    r.setFillColor(sf::Color::Transparent);
+    r.setOutlineThickness(1);
+    r.setOutlineColor(sf::Color::Blue);
+
+    for(unsigned int i =0; i<activeGridLocations.size();i++)
+    {
+        sf::Vector2i & sq = activeGridLocations[i].position;
+        sf::FloatRect f = activeGridLocations[i].region;
+        r.setPosition(f.left,f.top);
+        r.setSize(sf::Vector2f(f.width,f.height));
+        window.draw(r);
+    }
 
     for(unsigned int j=0; j<activeComponents.size(); j++)
     {
@@ -135,8 +141,6 @@ void TransformEngine::drawDebug()
         cross.setPosition(transforms[i].getPosition());
         cross.update();
         window.draw(cross);
-        //draw all the transforms!
-        //gameWindow->draw(transforms[i]);
     }
 }
 
@@ -146,10 +150,11 @@ void TransformEngine::updatePositions()
     {
         int j = activeComponents[i];
         transforms[j].update();
-        transforms[j].move(delta*(transforms[i].step));
-        transforms[j].setGridPosition(grid->getGridPosition(transforms[i].getPosition()));
+        transforms[j].move(delta*(transforms[j].step));
+        transforms[j].setGridPosition(grid->getGridPosition(transforms[j].getPosition()));
     }
 }
+
 
 Transform &TransformEngine::addTransform()
 {

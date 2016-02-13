@@ -25,6 +25,8 @@ public:
 
     Collidable & getCollidableFromObject(GameObject&,std::string);
 
+    std::vector<int> getComponentsFromObject(GameObject &, std::string);
+
     std::vector<int> getCollidablesFromObject(GameObject & );
     std::vector<int> getGameLogicsFromObject(GameObject & );
     std::vector<int> getInputsFromObject(GameObject & );

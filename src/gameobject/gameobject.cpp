@@ -37,6 +37,11 @@ Transform &GameObject::loadTransform()
     return componentLoader->getTransform(transform);
 }
 
+std::vector<int> GameObject::loadComponents(std::string type)
+{
+    return componentLoader->getComponentsFromObject(*this,type);
+}
+
 void GameObject::addComponent(Component& component)
 {
     std::string name = component.name;

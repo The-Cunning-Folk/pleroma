@@ -1,8 +1,5 @@
 #include "physicsengine.h"
 
-#include<eventfactory.h>
-#include<componentloader.h>
-#include<gameobjectloader.h>
 #include<game.h>
 
 using namespace BQ;
@@ -58,7 +55,7 @@ void PhysicsEngine::run()
     {
         int i = activeComponents[j];
         RigidBody& r = rigidbodies[i];
-        r.loadTransform().setVelocity(r.getInvmass()*r.momentum);
+        componentLoader->getTransform(r.transform).setVelocity(r.getInvmass()*r.momentum);
         if(r.friction > 1E-12) //floating point inprecision check
         {
             float fric = delta*r.friction*r.getMass()*grav;

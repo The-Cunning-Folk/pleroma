@@ -21,6 +21,8 @@ void Game::runEngines()
     inputEngine.run();
     eventEngine.run();
 
+    grid.setActiveBounds(transformEngine.bounds);
+
     float deltaT = debug->time.getSeconds("logicTime");
     viewPort.update();
     transformEngine.setBounds(viewPort.renderRegion);
@@ -39,7 +41,14 @@ void Game::runEngines()
     collisionEngine.run();
     physicsEngine.setDelta(deltaT);
     physicsEngine.run();
+
+    pathingEngine.addGoal(gameObjectLoader.loadGameObject("player_1").loadTransform().position);
+
+    pathingEngine.run();
+
     debugDisplayEngine.run();
+
+    viewPort.update();
     deltaT = debug->time.getSeconds("logicTime");
     transformEngine.setDelta(deltaT);
     transformEngine.updatePositions();
@@ -80,6 +89,11 @@ void Game::run()
     fpsDisplay.setCharacterSize(20);
     fpsDisplay.setFont(resourceLoader.getFont("8bit16.ttf"));
 
+    bool transformDebug = false;
+    bool collisionDebug = true;
+    bool fpsDebug = true;
+    bool pathingDebug = true;
+
 
 
     //end temporary behaviours
@@ -98,7 +112,16 @@ void Game::run()
         input.update();
 
         if(input.keyToggled("debug"))
-            print.println("display debug");
+            fpsDebug = !fpsDebug;
+
+        if(input.keyToggled("transformDebug"))
+            transformDebug = !transformDebug;
+
+        if(input.keyToggled("collisionDebug"))
+            collisionDebug = !collisionDebug;
+
+        if(input.keyToggled("pathingDebug"))
+            pathingDebug = !pathingDebug;
 
         //temporary behaviours
 
@@ -117,8 +140,14 @@ void Game::run()
 
         window.window.setView(viewPort.view);
 
-        //transformEngine.drawDebug();
-        collisionEngine.drawDebug();
+        if(transformDebug)
+            transformEngine.drawDebug();
+
+        if(collisionDebug)
+            collisionEngine.drawDebug();
+
+        if(pathingDebug)
+            pathingEngine.drawDebug();
 
 
         //get the default viewport back
@@ -140,7 +169,8 @@ void Game::run()
 
         //end framerate stuff
 
-        window.draw(fpsDisplay);
+        if(fpsDebug)
+            window.draw(fpsDisplay);
 
         window.display();
 
@@ -185,8 +215,6 @@ void Game::initialiseInjections()
    eventFactory.setEventEngine(&eventEngine);
    inputFactory.setInputEngine(&inputEngine);
 
-   transformEngine.setGrid(&grid);
-
    gameObjects.setComponentLoader(&componentLoader);
 
    grid.setDebug(debug);
@@ -197,6 +225,7 @@ void Game::initialiseInjections()
    transformEngine.setGame(this);
    collisionEngine.setGame(this);
    debugDisplayEngine.setGame(this);
+   pathingEngine.setGame(this);
 
    componentFactory.setGame(this);
    gameObjectFactory.setGame(this);
@@ -216,6 +245,9 @@ void Game::initialiseInput()
     debug->println("initialising global inputs");
     input.setKeyInput("menu",sf::Keyboard::Escape);
     input.setKeyInput("debug",sf::Keyboard::F3);
+    input.setKeyInput("transformDebug",sf::Keyboard::F4);
+    input.setKeyInput("collisionDebug",sf::Keyboard::F5);
+    input.setKeyInput("pathingDebug",sf::Keyboard::F6);
 
 }
 
@@ -231,12 +263,19 @@ void Game::initialiseTests()
     //remove later!
 
 
-    for(int i=1; i<=10; i++)
+    for(int i=1; i<=100; i++)
     {
-        for(int j=1; j<=10; j++)
+        for(int j=1; j<=100; j++)
         {
-            GameObject& coll = gameObjectFactory.newCollisionObject();
-            coll.loadTransform().setPosition(sf::Vector2f(i*24 + 32,j*24+32));
+            if(math.randomInt(0,2) == 1)
+            {
+            GameObject& coll = gameObjectFactory.newImmovableObject();
+            coll.loadTransform().setPosition(sf::Vector2f(i*32 - 1280,j*32-1280));
+            if(math.randomInt(0,2) == 1)
+            {
+                componentLoader.getCollidableFromObject(coll,"hitbox").immovable = false;
+            }
+            }
 
         }
     }
@@ -337,6 +376,26 @@ OcclusionManager Game::getOcclusionManager() const
 void Game::setOcclusionManager(const OcclusionManager &value)
 {
     occlusionManager = value;
+}
+
+PathingEngine Game::getPathingEngine() const
+{
+    return pathingEngine;
+}
+
+void Game::setPathingEngine(const PathingEngine &value)
+{
+    pathingEngine = value;
+}
+
+Grid Game::getGrid() const
+{
+    return grid;
+}
+
+void Game::setGrid(const Grid &value)
+{
+    grid = value;
 }
 
 void Game::setGameWindow(window_ptr window)

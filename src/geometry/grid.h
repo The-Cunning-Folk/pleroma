@@ -5,6 +5,8 @@
 #include<mathsutils.h>
 #include<debugutils.h>
 
+#include<gridsquare.h>
+
 namespace BQ {
 class Grid
 {
@@ -17,12 +19,46 @@ public:
 
     Grid();
 
+    GridSquare nullSqu; // an ugly way to handle errors safely. Should NEVER have to be used!
+
     int getScale() const;
     void setScale(int value);
 
     sf::Vector2i getOrigin() const;
     void setOrigin(const sf::Vector2i &value);
     void setOrigin(int,int);
+
+    int activeWidth;
+    int activeHeight;
+
+    sf::Vector2i tl;
+    sf::Vector2i br;
+
+    sf::Vector2i activeOrigin;
+
+    bool isActive(sf::Vector2i);
+
+    sf::Vector2i toLocalActiveCoords(sf::Vector2i);
+
+    GridSquare & getActiveGridSquareFromPosition(sf::Vector2f);
+
+    GridSquare & getActiveGridSquareFromGlobalCoords(sf::Vector2i);
+
+    GridSquare & getActiveGridSquareFromLocalCoords(sf::Vector2i);
+
+    std::vector<sf::Vector2i> getActiveNeighboursLocalCoords(sf::Vector2i);
+
+    std::vector<sf::Vector2i> getActiveNeighboursAndDiagonalsLocalCoords(sf::Vector2i);
+
+    std::vector<sf::Vector2i> getNeighbours(GridSquare &);
+
+    std::vector<sf::Vector2i> getNeighboursAndDiagonals(GridSquare &);
+
+    std::vector<sf::Vector2i> bresenhamLine(sf::Vector2f,sf::Vector2f);
+
+    std::vector<GridSquare> activeSquares;
+
+    void setActiveBounds(sf::FloatRect);
 
     //todo: layering
     //I'm not totally decided on how I'm handling layers at this stage
@@ -36,7 +72,17 @@ public:
     sf::Vector2f getCentre(int,int);
     float getLayerMidPoint(int); // get the float for the halfway point of a layer
 
+    std::vector<GridSquare> getBox(sf::Vector2i,sf::Vector2i); // get all the grid positions in a box
+    std::vector<GridSquare> getBox(sf::FloatRect);
+    GridSquare getGridSquare(sf::Vector2i);
+
     void setDebug(DebugUtils *value);
+
+    std::vector<GridSquare> getActiveSquares() const;
+    void setActiveSquares(const std::vector<GridSquare> &value);
+
+    sf::Vector2i getActiveOrigin() const;
+    void setActiveOrigin(const sf::Vector2i &value);
 
 private:
 

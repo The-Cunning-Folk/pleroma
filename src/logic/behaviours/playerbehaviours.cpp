@@ -310,7 +310,8 @@ void PlayerBehaviours::update()
         velocity.x = 0;
         velocity.y = 0;
         Collidable & attack = componentLoader->getCollidableFromObject(gameObjectLoader->loadGameObject(parent),"attack");
-        attack.polygon = maths->rotateClockwise(maths->scale(attackFrames[attackFrame],attackScaleFactor),maths->getBearing(attackDirection));
+        ConvexPolygon scaled = maths->scale(attackFrames[attackFrame],attackScaleFactor);
+        attack.polygon = maths->rotateClockwise(scaled,maths->getBearing(attackDirection));
 
     }
     else

@@ -3,7 +3,7 @@
 
 #include <engine.h>
 #include <transform.h>
-#include <grid.h>
+
 
 namespace BQ{
 
@@ -13,8 +13,6 @@ public:
     TransformEngine();
 
     CrossShape cross;
-
-    Grid* grid;
 
     std::vector<std::string> objectsInRange;
 
@@ -27,11 +25,10 @@ public:
     void updatePositions();
 
     std::vector<Transform> transforms;
+    std::vector<GridSquare> activeGridLocations;
 
     Transform& addTransform();
 
-    Grid *getGrid() const;
-    void setGrid(Grid *value);
     bool getWrapAround() const;
     void setWrapAround(bool value);
 

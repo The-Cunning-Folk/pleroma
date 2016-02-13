@@ -49,8 +49,6 @@ GameObject &GameObjectFactory::newCollisionObject()
 {
     GameObject& collisionObj = newObject();
 
-    //collisionObj->loadTransform().setVelocity(sf::Vector2f(maths->randomFloat(-20,20),maths->randomFloat(-20,20)));
-
     Collidable & hitbox = componentFactory->newRandomCollidable();
     hitbox.setTransform(collisionObj.getTransform());
 
@@ -68,6 +66,17 @@ GameObject &GameObjectFactory::newCollisionObject()
 
     hitbox.update();
     return collisionObj;
+}
+
+GameObject &GameObjectFactory::newImmovableObject()
+{
+    GameObject& o = newObject();
+    Collidable & hitbox = componentFactory->newRectCollidable(sf::FloatRect(-16,-16,32,32));
+    hitbox.setTransform(o.getTransform());
+    hitbox.immovable = true;
+    o.addComponent("hitbox",hitbox);
+    hitbox.update();
+    return o;
 }
 
 GameObject& GameObjectFactory::newPlayerObject() //builds behaviours for the player
@@ -91,7 +100,9 @@ GameObject& GameObjectFactory::newPlayerObject() //builds behaviours for the pla
     hitbox.polygon.addPoint(sf::Vector2f(-size,size-corners));
     hitbox.polygon.addPoint(sf::Vector2f(-size+corners,size));
 
+    hitbox.pathable = true;
     attack.physical = false;
+    attack.pathable = true;
 
 
     hitbox.setTransform(player.getTransform());

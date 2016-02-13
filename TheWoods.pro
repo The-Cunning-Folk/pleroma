@@ -21,7 +21,8 @@ INCLUDEPATH += "SFML/include" \
     "$$SRCDIR/logic/behaviours" \
     "$$SRCDIR/loaders" \
     "$$SRCDIR/structures"\
-    "$$SRCDIR/managers"
+    "$$SRCDIR/managers"\
+    "$$SRCDIR/geometry"
 
 HEADERS += $$SRCDIR/window/gamewindow.h \
     src/window/windowmanager.h \
@@ -30,7 +31,7 @@ HEADERS += $$SRCDIR/window/gamewindow.h \
     src/game/game.h \
     src/typedef/apptypes.h \
     src/utils/timeutils.h \
-    src/game/geometry/grid.h \
+    src/geometry/grid.h \
     src/utils/mathsutils.h \
     src/utils/logger.h \
     src/utils/loggerfactory.h \
@@ -78,7 +79,9 @@ HEADERS += $$SRCDIR/window/gamewindow.h \
     src/factories/physicseventfactory.h \
     src/logic/physicalcollision.h \
     src/window/viewport.h \
-    src/managers/occlusionmanager.h
+    src/managers/occlusionmanager.h \
+    src/engines/pathingengine.h \
+    src/geometry/gridsquare.h
 
 SOURCES += src/main.cpp \
     $$SRCDIR/window/gamewindow.cpp \
@@ -87,7 +90,7 @@ SOURCES += src/main.cpp \
     src/application/app.cpp \
     src/game/game.cpp \
     src/utils/timeutils.cpp \
-    src/game/geometry/grid.cpp \
+    src/geometry/grid.cpp \
     src/utils/mathsutils.cpp \
     src/utils/logger.cpp \
     src/utils/loggerfactory.cpp \
@@ -135,7 +138,9 @@ SOURCES += src/main.cpp \
     src/factories/physicseventfactory.cpp \
     src/logic/physicalcollision.cpp \
     src/window/viewport.cpp \
-    src/managers/occlusionmanager.cpp
+    src/managers/occlusionmanager.cpp \
+    src/engines/pathingengine.cpp \
+    src/geometry/gridsquare.cpp
 
 LIBS += -L"$$PWD/SFML/lib"
 

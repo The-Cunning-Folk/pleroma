@@ -35,6 +35,7 @@ public:
 
     Collidable& newCollidable();
     Collidable& newCollidable(std::string);
+    Collidable& newRectCollidable(sf::FloatRect);
     Collidable& newRandomCollidable();
 
     RigidBody& newRigidBody();

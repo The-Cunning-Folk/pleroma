@@ -82,19 +82,21 @@ bool CollisionEngine::checkCollision(Collidable & a,Collidable & b)
 
             if(a.solid && b.solid)
             {
-                if(!a.immovable && !b.immovable)
+                if((!a.immovable && !b.immovable)
+                        && ((!a.diminutive && !b.diminutive)
+                        || (a.diminutive && b.diminutive)))
                 {
                     sf::Vector2f halfOverlap(0.5*overlap.x,0.5*overlap.y);
                     tA.move(-halfOverlap);
                     tB.move(halfOverlap);
                 }
-                else if(a.immovable && !b.immovable)
+                else if((a.immovable && !b.immovable) || (!a.diminutive && b.diminutive))
                 {
                     tB.move(overlap);
                 }
-                else if(!a.immovable && b.immovable)
+                else if((!a.immovable && b.immovable)  || (a.diminutive && !b.diminutive))
                 {
-                    tA.move(overlap);
+                    tA.move(-overlap);
                 }
 
             }
@@ -147,8 +149,6 @@ sf::Vector2f CollisionEngine::separatingAxisCheck(ConvexPolygon & a, ConvexPolyg
 
         float o = pA.getOverlap(pB);
 
-
-
         if(o < mtv.overlap)
         {
             mtv.overlap = o;
@@ -185,14 +185,72 @@ void CollisionEngine::run()
     collisions.clear();
     quadtree.clear();
     ComponentLoader& components = *componentLoader;
+    std::vector<GridSquare> gridSquares = grid->getActiveSquares();
+
+    for(int i=0; i<gridSquares.size(); i++)
+    {
+        GridSquare & g = gridSquares[i];
+        g.objectsInContact.clear();
+        g.collidablesInContact.clear();
+    }
+
     for(unsigned int j=0; j<activeComponents.size(); j++)
     {
+
+
         int i=activeComponents[j];
+
+
+
         Transform & t = components.getTransform(collidables[i].getTransform());
         ConvexPolygon& p = collidables[i].polygon;
         p.setPosition(t.getPosition());
+        Collidable & c = collidables[i];
         collidables[i].update();
         collidables[i].setBBox(p.bBox);
+
+        //do bresenham border calculations here
+
+        sf::FloatRect box = collidables[i].getBBox();
+
+        sf::Vector2i tl = grid->getGridPosition(box.left,box.top);
+        sf::Vector2i br = grid->getGridPosition(box.left+box.width,box.top+box.height);
+
+        int minX = tl.x;
+        int minY = tl.y;
+        int maxX = br.x;
+        int maxY = br.y;
+
+        for(int k=minX ; k<=maxX; k++)
+        {
+            for(int l=minY; l<=maxY; l++)
+            {
+                sf::Vector2i pB(k,l);
+                GridSquare& gReal = grid->getActiveGridSquareFromGlobalCoords(pB);
+                gReal.addCollidableInContact(j);
+                gReal.addObjectInContact(collidables[i].getParent());
+                if(!gReal.impassable)
+                {
+                    gReal.impassable = !c.pathable;
+                }
+            }
+        }
+
+        for(unsigned int p0=0; p0<p.points.size();p0++)
+        {
+            unsigned int p1 = p0+1;
+            if(p1==p.points.size())
+            {
+                p1 = 0;
+            }
+
+            sf::Vector2f v0 = p.points[p0];
+            sf::Vector2f v1 = p.points[p1];
+
+            grid->bresenhamLine(v0,v1);
+
+        }
+
         quadtree.addObject(collidables[i],i);
     }
 
@@ -252,7 +310,7 @@ void CollisionEngine::drawDebug()
             rectShape.setOutlineColor(sf::Color::Cyan);
             rectShape.setPosition(bBox.left+1,bBox.top+1);
             rectShape.setSize(sf::Vector2f(bBox.width-2,bBox.height-2));
-            window.draw(rectShape);
+            //window.draw(rectShape);
         }
         rectShape.setOutlineThickness(1.0);
         for(unsigned int j=0; j<activeComponents.size(); j++)
@@ -281,6 +339,10 @@ void CollisionEngine::drawDebug()
             }
             shape.setPosition(p.position);
             shape.setFillColor(sf::Color::White);
+            if(!collidables[i].immovable)
+            {
+                shape.setFillColor(sf::Color::Yellow);
+            }
             if(collidables[i].colliding)
             {
                 shape.setFillColor(sf::Color::Green);

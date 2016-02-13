@@ -6,6 +6,8 @@
 #include<debugutils.h>
 #include<mathsutils.h>
 #include<gamewindow.h>
+#include<resourceloader.h>
+#include <grid.h>
 
 typedef std::shared_ptr<BQ::GameWindow> window_ptr;
 
@@ -84,8 +86,15 @@ public:
     std::vector<int> getActiveComponents() const;
     void setActiveComponents(const std::vector<int> &value);
 
+    Grid *getGrid() const;
+    void setGrid(Grid *value);
+
 protected:
     window_ptr gameWindow;
+
+    ResourceLoader* resourceLoader;
+
+    Grid* grid;
 
 private:
 
