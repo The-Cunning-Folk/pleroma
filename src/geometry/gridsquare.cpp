@@ -8,6 +8,8 @@ GridSquare::GridSquare()
     workSteps=-1;
     checked = false;
     impassable = false;
+    pathVector.x = 0;
+    pathVector.y = 0;
 }
 
 void GridSquare::addCollidableInContact(int i)

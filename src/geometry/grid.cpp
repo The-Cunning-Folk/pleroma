@@ -144,10 +144,42 @@ std::vector<sf::Vector2i> Grid::getActiveNeighboursLocalCoords(sf::Vector2i p)
 
 }
 
+std::vector<sf::Vector2i> Grid::getActiveNeighboursAndDiagonalsLocalCoords(sf::Vector2i p)
+{
+
+    int min_x = p.x-1;
+    int max_x = p.x+1;
+    int min_y = p.y-1;
+    int max_y = p.y+1;
+
+    std::vector<sf::Vector2i> neighbours;
+
+    for(int i=min_x; i<=max_x; i++)
+    {
+        for(int j=min_y; j<=max_y; j++)
+        {
+            if(i==p.x && j == p.y) {continue;}
+            if(isActive(sf::Vector2i(i,j)))
+            {
+                    neighbours.push_back(sf::Vector2i(i,j));
+            }
+        }
+    }
+    return neighbours;
+
+}
+
+
 std::vector<sf::Vector2i> Grid::getNeighbours(GridSquare & g)
 {
     sf::Vector2i p = g.position;
     return getActiveNeighboursLocalCoords(toLocalActiveCoords(p));
+}
+
+std::vector<sf::Vector2i> Grid::getNeighboursAndDiagonals(GridSquare & g)
+{
+    sf::Vector2i p = g.position;
+    return getActiveNeighboursAndDiagonalsLocalCoords(toLocalActiveCoords(p));
 }
 
 std::vector<sf::Vector2i> Grid::bresenhamLine(sf::Vector2f, sf::Vector2f)
@@ -162,9 +194,11 @@ std::vector<sf::Vector2i> Grid::bresenhamLine(sf::Vector2f, sf::Vector2f)
 
 void Grid::setActiveBounds(sf::FloatRect bounds)
 {
-    activeSquares = getBox(getGridPosition(bounds.left,bounds.top),
-                                          getGridPosition(bounds.left + bounds.width,
-                                                                bounds.top + bounds.height));
+    tl = getGridPosition(bounds.left,bounds.top);
+    br = getGridPosition(bounds.left + bounds.width,
+                         bounds.top + bounds.height);
+    activeSquares = getBox(tl,br);
+
 }
 
 std::vector<GridSquare> Grid::getActiveSquares() const

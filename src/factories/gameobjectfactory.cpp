@@ -100,7 +100,9 @@ GameObject& GameObjectFactory::newPlayerObject() //builds behaviours for the pla
     hitbox.polygon.addPoint(sf::Vector2f(-size,size-corners));
     hitbox.polygon.addPoint(sf::Vector2f(-size+corners,size));
 
+    hitbox.pathable = true;
     attack.physical = false;
+    attack.pathable = true;
 
 
     hitbox.setTransform(player.getTransform());

@@ -14,6 +14,8 @@ Collidable::Collidable()
     immovable = false;
     physical = true;
     diminutive = false;
+    pathable = false;
+    opaque = true;
 
 }
 

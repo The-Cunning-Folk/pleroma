@@ -60,6 +60,41 @@ void PathingEngine::doWaveFrontLayer(int layerNum, std::vector<sf::Vector2i> lay
     }
 }
 
+void PathingEngine::calculateFlowVectors()
+{
+
+
+    for(int i=grid->tl.x; i<= grid->br.x; i++)
+    {
+        for(int j = grid->tl.y; j<=grid->br.y; j++)
+        {
+
+            GridSquare & g = grid->getActiveGridSquareFromGlobalCoords(sf::Vector2i(i,j));
+            std::vector<sf::Vector2i> adjacents = grid->getNeighboursAndDiagonals(g);
+            sf::Vector2f resultant(0,0);
+
+            if(g.steps > 0)
+            {
+                int minSteps = INT_MAX;
+                for(int i=0; i<adjacents.size(); i++)
+                {
+
+                    GridSquare & n = grid->getActiveGridSquareFromLocalCoords(adjacents[i]);
+                    sf::Vector2f diff = grid->getCentre(n.position) - grid->getCentre(g.position);
+                    if(n.steps < minSteps && n.steps >= 0 && n.steps < g.steps)
+                    {
+
+                        minSteps = n.steps;
+                        resultant = diff;
+                     }
+                }
+            }
+
+            g.pathVector =resultant;
+        }
+    }
+}
+
 
 void PathingEngine::addGoal(sf::Vector2f p)
 {
@@ -72,12 +107,18 @@ void PathingEngine::run()
     {
         doWaveFront(grid->getActiveGridSquareFromPosition(goals[i]));
     }
+    calculateFlowVectors();
+
+
     goals.clear();
 }
 
 void PathingEngine::drawDebug()
 {
     std::vector<GridSquare> & squares = grid->activeSquares;
+
+    sf::VertexArray pathVectors(sf::Lines);
+
     for(unsigned int i=0; i<squares.size(); i++)
     {
         GridSquare & g = squares[i];
@@ -88,7 +129,13 @@ void PathingEngine::drawDebug()
         t.setCharacterSize(8);
         t.setString(std::to_string(g.steps));
         t.setColor(sf::Color::Magenta);
-        game->gameWindow->draw(t);
+
+        pathVectors.append(txtpos);
+        pathVectors.append(txtpos + g.pathVector);
+
+        //game->gameWindow->draw(t);
     }
+
+    game->gameWindow->draw(pathVectors);
 }
 

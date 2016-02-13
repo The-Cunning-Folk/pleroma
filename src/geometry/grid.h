@@ -31,6 +31,9 @@ public:
     int activeWidth;
     int activeHeight;
 
+    sf::Vector2i tl;
+    sf::Vector2i br;
+
     sf::Vector2i activeOrigin;
 
     bool isActive(sf::Vector2i);
@@ -45,7 +48,11 @@ public:
 
     std::vector<sf::Vector2i> getActiveNeighboursLocalCoords(sf::Vector2i);
 
+    std::vector<sf::Vector2i> getActiveNeighboursAndDiagonalsLocalCoords(sf::Vector2i);
+
     std::vector<sf::Vector2i> getNeighbours(GridSquare &);
+
+    std::vector<sf::Vector2i> getNeighboursAndDiagonals(GridSquare &);
 
     std::vector<sf::Vector2i> bresenhamLine(sf::Vector2f,sf::Vector2f);
 

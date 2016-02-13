@@ -221,15 +221,18 @@ void CollisionEngine::run()
         int maxX = br.x;
         int maxY = br.y;
 
-        for(int k=minX ; k<maxX; k++)
+        for(int k=minX ; k<=maxX; k++)
         {
-            for(int l=minY; l<maxY; l++)
+            for(int l=minY; l<=maxY; l++)
             {
                 sf::Vector2i pB(k,l);
                 GridSquare& gReal = grid->getActiveGridSquareFromGlobalCoords(pB);
                 gReal.addCollidableInContact(j);
                 gReal.addObjectInContact(collidables[i].getParent());
-                gReal.impassable = c.immovable;
+                if(!gReal.impassable)
+                {
+                    gReal.impassable = !c.pathable;
+                }
             }
         }
 
@@ -307,7 +310,7 @@ void CollisionEngine::drawDebug()
             rectShape.setOutlineColor(sf::Color::Cyan);
             rectShape.setPosition(bBox.left+1,bBox.top+1);
             rectShape.setSize(sf::Vector2f(bBox.width-2,bBox.height-2));
-            window.draw(rectShape);
+            //window.draw(rectShape);
         }
         rectShape.setOutlineThickness(1.0);
         for(unsigned int j=0; j<activeComponents.size(); j++)

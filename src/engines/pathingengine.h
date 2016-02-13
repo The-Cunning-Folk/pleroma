@@ -13,6 +13,8 @@ public:
     void doWaveFront(GridSquare &);
     void doWaveFrontLayer(int,std::vector<sf::Vector2i>);
 
+    void calculateFlowVectors();
+
     std::vector<sf::Vector2f> goals;
 
     void addGoal(sf::Vector2f);

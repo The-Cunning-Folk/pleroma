@@ -30,6 +30,8 @@ public:
     bool immovable;
     bool physical;
     bool diminutive;
+    bool pathable;
+    bool opaque;
 
     bool colliding;
 
