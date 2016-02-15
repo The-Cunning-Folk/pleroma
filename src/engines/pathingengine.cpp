@@ -75,17 +75,33 @@ void PathingEngine::calculateFlowVectors()
 
             if(g.steps > 0)
             {
-                int minSteps = INT_MAX;
-                for(int i=0; i<adjacents.size(); i++)
+                int minSteps = 1E8;
+                for(int m=0; m<adjacents.size(); m++)
                 {
 
-                    GridSquare & n = grid->getActiveGridSquareFromLocalCoords(adjacents[i]);
+                    GridSquare & n = grid->getActiveGridSquareFromLocalCoords(adjacents[m]);
                     sf::Vector2f diff = grid->getCentre(n.position) - grid->getCentre(g.position);
+
                     if(n.steps < minSteps && n.steps >= 0 && n.steps < g.steps)
                     {
+                        //check for safe diagonal path
+                        int xdiff = g.position.x - n.position.x;
+                        int ydiff = g.position.y - n.position.y;
+                        bool diagonalImpass = false;
+                        if(xdiff !=0 && ydiff != 0)
+                        {
+                            //the neighbour is a diagonal
 
+                            GridSquare & vert = grid->getActiveGridSquareFromGlobalCoords(sf::Vector2i(n.position.x+xdiff,n.position.y));
+                            GridSquare & horiz = grid->getActiveGridSquareFromGlobalCoords(sf::Vector2i(n.position.x,n.position.y+ydiff));
+                            diagonalImpass = (vert.impassable && horiz.impassable);
+                        }
+
+                        if(!diagonalImpass)
+                        {
                         minSteps = n.steps;
                         resultant = diff;
+                        }
                      }
                 }
             }
@@ -132,6 +148,20 @@ void PathingEngine::drawDebug()
 
         pathVectors.append(txtpos);
         pathVectors.append(txtpos + g.pathVector);
+        int redness = 255 - g.steps*10;
+        if(redness < 0)
+        {
+            redness = 0;
+        }
+        int greenness = g.steps*10;
+
+        if(greenness > 255)
+        {
+            greenness = 255;
+        }
+
+        pathVectors[pathVectors.getVertexCount()-1].color = sf::Color(greenness,redness,0);
+        pathVectors[pathVectors.getVertexCount()-2].color = sf::Color(greenness-1,redness+1,0);
 
         //game->gameWindow->draw(t);
     }

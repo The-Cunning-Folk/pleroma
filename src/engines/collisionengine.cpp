@@ -229,7 +229,12 @@ void CollisionEngine::run()
                 GridSquare& gReal = grid->getActiveGridSquareFromGlobalCoords(pB);
                 gReal.addCollidableInContact(j);
                 gReal.addObjectInContact(collidables[i].getParent());
-                if(!gReal.impassable)
+
+                sf::FloatRect intersection = maths->findIntersectionRegion(gReal.region,c.bBox);
+
+                bool coversSquare = (maths->getArea(intersection) > 0.3*maths->getArea(gReal.region));
+
+                if(!gReal.impassable && coversSquare)
                 {
                     gReal.impassable = !c.pathable;
                 }

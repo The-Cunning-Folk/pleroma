@@ -62,3 +62,8 @@ void DebugUtils::printVal(std::string name, int val)
     std::string asString = std::to_string(val);
     printVal(name,asString);
 }
+
+void DebugUtils::printVal(sf::FloatRect r)
+{
+    println(" l: " + std::to_string(r.left) + ", t: " + std::to_string(r.top) + ", w: " + std::to_string(r.width) + ", h: " + std::to_string(r.height));
+}

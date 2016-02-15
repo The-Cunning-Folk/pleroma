@@ -27,6 +27,13 @@ public:
     std::vector<float>cosTable;
     std::vector<float>tanTable;
 
+    float min(float,float);
+    float max(float,float);
+
+    sf::FloatRect findIntersectionRegion(sf::FloatRect, sf::FloatRect);
+
+    float getArea(sf::FloatRect);
+
     float fsin(float x);
     float fcos(float x);
     float ftan(float x);
