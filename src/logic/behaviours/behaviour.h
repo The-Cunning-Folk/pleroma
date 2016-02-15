@@ -6,6 +6,7 @@
 #include<event.h>
 #include<mathsutils.h>
 #include<debugutils.h>
+#include<grid.h>
 
 
 namespace BQ{
@@ -23,6 +24,7 @@ public:
     GameObjectLoader* gameObjectLoader;
     MathsUtils* maths;
     DebugUtils* debug;
+    Grid* grid;
 
 
     float delta;
@@ -52,6 +54,8 @@ public:
     void setMaths(MathsUtils *value);
     DebugUtils *getDebug() const;
     void setDebug(DebugUtils *value);
+    Grid *getGrid() const;
+    void setGrid(Grid *value);
 };
 }
 

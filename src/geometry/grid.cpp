@@ -182,12 +182,61 @@ std::vector<sf::Vector2i> Grid::getNeighboursAndDiagonals(GridSquare & g)
     return getActiveNeighboursAndDiagonalsLocalCoords(toLocalActiveCoords(p));
 }
 
-std::vector<sf::Vector2i> Grid::bresenhamLine(sf::Vector2f, sf::Vector2f)
+std::vector<sf::Vector2i> Grid::bresenhamLine(sf::Vector2f a, sf::Vector2f b)
 {
+    float stepX = math.min((abs(b.x-a.x))*0.1,1.0f);
+    float stepY = math.min(abs(b.y-a.y)*0.1,1.0f);
     std::vector<sf::Vector2i> squares(0);
     //add bresenham here
 
+    float stepCountFl = math.min(abs((b.x-a.x)/stepX),abs((b.y-a.y)/stepY));
+    int stepCount = math.roundAndCast(stepCountFl);
 
+    float startX;
+    float startY;
+    float endX;
+    float endY;
+
+    if(a.x <= b.x)
+    {
+        startX = a.x;
+        startY = a.y;
+        endX = b.x;
+        endY = b.y;
+    }
+    else{
+        startX = b.x;
+        startY = b.y;
+        endX = a.x;
+        endY = a.y;
+    }
+
+    if(endY < startY)
+    {
+        stepY = -stepY;
+    }
+
+    sf::Vector2i lastGridPos = getGridPosition(startX,startY);
+    squares.push_back(lastGridPos);
+
+    for(int i; i<stepCount-1; i++)
+    {
+        float xpos = startX + i*stepX;
+        float ypos = startY + i*stepY;
+
+        sf::Vector2i thisGridPos = getGridPosition(xpos,ypos);
+        if(thisGridPos != lastGridPos)
+        {
+            squares.push_back(thisGridPos);
+        }
+    }
+
+    sf::Vector2i endGridPos = getGridPosition(endX,endY);
+
+    if(endGridPos != lastGridPos)
+    {
+        squares.push_back(lastGridPos);
+    }
 
     return squares;
 }

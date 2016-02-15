@@ -7,6 +7,26 @@ ComponentFactory::ComponentFactory()
 
 }
 
+Grid *ComponentFactory::getGrid() const
+{
+    return grid;
+}
+
+void ComponentFactory::setGrid(Grid *value)
+{
+    grid = value;
+}
+
+GameObjectLoader *ComponentFactory::getGameObjectLoader() const
+{
+    return gameObjectLoader;
+}
+
+void ComponentFactory::setGameObjectLoader(GameObjectLoader *value)
+{
+    gameObjectLoader = value;
+}
+
 ComponentLoader *ComponentFactory::getComponentLoader() const
 {
     return componentLoader;
@@ -63,9 +83,10 @@ GameLogic &ComponentFactory::newGameLogic()
 {
     GameLogic& gameLogic = eventEngine->addGameLogic();
     gameLogic.setComponentLoader(componentLoader);
-    gameLogic.setGameObjectLoader(&(game->gameObjectLoader));
+    gameLogic.setGameObjectLoader(gameObjectLoader);
     gameLogic.setMaths(maths);
     gameLogic.setDebug(debug);
+    gameLogic.setGrid(grid);
     return gameLogic;
 }
 
@@ -80,9 +101,10 @@ Collidable & ComponentFactory::newCollidable()
 {
     Collidable& collidable = collisionEngine->addCollidable();
     collidable.setComponentLoader(componentLoader);
-    collidable.setGameObjectLoader(&(game->gameObjectLoader));
+    collidable.setGameObjectLoader(gameObjectLoader);
     collidable.setMaths(maths);
     collidable.setDebug(debug);
+    collidable.setGrid(grid);
     return collidable;
 }
 

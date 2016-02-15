@@ -5,6 +5,7 @@
 
 #include <gameobject.h>
 #include <componentloader.h>
+#include<memory>
 #include <gameobjectloader.h>
 
 using namespace BQ;
@@ -14,14 +15,16 @@ GameLogic::GameLogic()
     typeId = "gamelogic";
 }
 
-void GameLogic::addBehaviour(std::shared_ptr<Behaviour> logic)
+void GameLogic::addBehaviour(Behaviour * logic)
 {
-    behaviours.push_back(std::move(std::shared_ptr<Behaviour>(new PlayerBehaviours)));
-    behaviours.back()->parent = parent;
-    behaviours.back()->setComponentLoader(componentLoader);
-    behaviours.back()->setGameObjectLoader(gameObjectLoader);
-    behaviours.back()->setMaths(maths);
-    behaviours.back()->setDebug(debug);
+    logic->parent = parent;
+    logic->setComponentLoader(componentLoader);
+    logic->setGameObjectLoader(gameObjectLoader);
+    logic->setMaths(maths);
+    logic->setDebug(debug);
+    logic->setGrid(grid);
+    behaviours.push_back(logic);
+
 }
 
 void GameLogic::addEvent(std::string script, std::string triggered,std::map<std::string,std::string> parsed)
@@ -53,6 +56,7 @@ void GameLogic::setDelta(float delta)
 
 void GameLogic::update()
 {
+    //debug->printVal((int) behaviours.size());
     for(unsigned int i = 0; i<behaviours.size(); i++)
     {
         behaviours[i]->resolveEvents();

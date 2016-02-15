@@ -19,9 +19,11 @@ void Game::runTests()
 void Game::runEngines()
 {
     inputEngine.run();
-    eventEngine.run();
+
 
     grid.setActiveBounds(transformEngine.bounds);
+
+    eventEngine.run();
 
     float deltaT = debug->time.getSeconds("logicTime");
     viewPort.update();
@@ -207,6 +209,8 @@ void Game::initialiseInjections()
    componentFactory.setCollisionEngine(&collisionEngine);
    componentFactory.setPhysicsEngine(&physicsEngine);
    componentFactory.setComponentLoader(&componentLoader);
+   componentFactory.setGrid(&grid);
+   componentFactory.setGameObjectLoader(&gameObjectLoader);
 
    gameObjectFactory.setStack(&gameObjects);
    gameObjectFactory.setComponentFactory(&componentFactory);
@@ -262,19 +266,27 @@ void Game::initialiseTests()
 
     //remove later!
 
+    GameObject& coll = gameObjectFactory.newPathingObject();
+
 
     for(int i=1; i<=100; i++)
     {
         for(int j=1; j<=100; j++)
         {
-            if(math.randomInt(0,2) == 1)
+            int spinner = math.randomInt(0,2);
+            if(spinner == 1)
             {
-            GameObject& coll = gameObjectFactory.newImmovableObject();
-            coll.loadTransform().setPosition(sf::Vector2f(i*32 - 1280,j*32-1280));
-            if(math.randomInt(0,2) == 1)
-            {
-                componentLoader.getCollidableFromObject(coll,"hitbox").immovable = false;
+                GameObject& coll = gameObjectFactory.newImmovableObject();
+                coll.loadTransform().setPosition(sf::Vector2f(i*32 - 1280,j*32-1280));
+                if(math.randomInt(0,2) == 1)
+                {
+                    componentLoader.getCollidableFromObject(coll,"hitbox").immovable = false;
+                }
             }
+            else if(spinner == 2)
+            {
+                //GameObject& coll = gameObjectFactory.newPathingObject();
+                //coll.loadTransform().setPosition(sf::Vector2f(i*32 - 1280,j*32-1280));
             }
 
         }

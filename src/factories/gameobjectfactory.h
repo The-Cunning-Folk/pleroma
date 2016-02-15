@@ -9,6 +9,7 @@
 #include<factory.h>
 
 #include<playerbehaviours.h>
+#include<flowpathingbehaviours.h>
 
 namespace BQ{
 class GameObjectFactory : public Factory
@@ -30,6 +31,8 @@ public:
     GameObject & newImmovableObject();
 
     GameObject& newPlayerObject();
+
+    GameObject& newPathingObject();
 
     ComponentFactory *getComponentFactory() const;
     void setComponentFactory(ComponentFactory *value);

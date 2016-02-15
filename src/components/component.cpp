@@ -11,6 +11,16 @@ Component::Component()
 
 }
 
+Grid *Component::getGrid() const
+{
+    return grid;
+}
+
+void Component::setGrid(Grid *value)
+{
+    grid = value;
+}
+
 MathsUtils *Component::getMaths() const
 {
     return maths;

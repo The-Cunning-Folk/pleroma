@@ -99,8 +99,8 @@ void PathingEngine::calculateFlowVectors()
 
                         if(!diagonalImpass)
                         {
-                        minSteps = n.steps;
-                        resultant = diff;
+                            minSteps = n.steps;
+                            resultant = diff;
                         }
                      }
                 }

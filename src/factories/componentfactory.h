@@ -13,6 +13,8 @@
 #include <physicsengine.h>
 
 #include <componentloader.h>
+#include <gameobjectloader.h>
+#include <grid.h>
 
 using namespace BQ;
 
@@ -22,6 +24,8 @@ public:
     ComponentFactory();
 
     ComponentLoader* componentLoader;
+    GameObjectLoader* gameObjectLoader;
+    Grid* grid;
 
     Transform& newTransform();
     Transform& newTransform(std::string);
@@ -59,6 +63,12 @@ public:
     PhysicsEngine *getPhysicsEngine() const;
     void setPhysicsEngine(PhysicsEngine *value);
 
+    GameObjectLoader *getGameObjectLoader() const;
+    void setGameObjectLoader(GameObjectLoader *value);
+
+    Grid *getGrid() const;
+    void setGrid(Grid *value);
+
 private:
 
     TransformEngine* transformEngine;
@@ -66,6 +76,8 @@ private:
     EventEngine* eventEngine;
     CollisionEngine* collisionEngine;
     PhysicsEngine* physicsEngine;
+
+
 };
 
 #endif // COMPONENTFACTORY_H

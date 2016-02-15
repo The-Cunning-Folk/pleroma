@@ -11,7 +11,7 @@ class GameLogic : public Component
 public:
     GameLogic();
 
-    void addBehaviour(std::shared_ptr<Behaviour>);
+    void addBehaviour(Behaviour *);
 
     void addEvent(std::string,std::string,std::map<std::string,std::string>);
 
@@ -21,7 +21,7 @@ public:
 
     void update();
 
-     std::vector<std::shared_ptr<Behaviour>> behaviours;
+     std::vector<Behaviour*> behaviours;
 
 private:
 

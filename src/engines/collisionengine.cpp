@@ -232,9 +232,19 @@ void CollisionEngine::run()
 
                 sf::FloatRect intersection = maths->findIntersectionRegion(gReal.region,c.bBox);
 
-                bool coversSquare = (maths->getArea(intersection) > 0.3*maths->getArea(gReal.region));
+                bool coversSquare = (maths->getArea(intersection) > maths->getArea(gReal.region));
+                bool obscuresSquare = (maths->getArea(intersection) > 0.33*maths->getArea(gReal.region));
 
-                if(!gReal.impassable && coversSquare)
+                if(!coversSquare)
+                {
+                    //bresenham calculation here
+
+
+                }
+
+
+
+                if(!gReal.impassable && obscuresSquare)
                 {
                     gReal.impassable = !c.pathable;
                 }
@@ -251,8 +261,6 @@ void CollisionEngine::run()
 
             sf::Vector2f v0 = p.points[p0];
             sf::Vector2f v1 = p.points[p1];
-
-            grid->bresenhamLine(v0,v1);
 
         }
 

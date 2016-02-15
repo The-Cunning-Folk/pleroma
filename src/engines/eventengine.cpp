@@ -8,6 +8,7 @@ using namespace BQ;
 EventEngine::EventEngine() : Engine()
 {
     placeholder = "event_";
+    gameLogics.resize(0);
 }
 
 GameLogic &EventEngine::addGameLogic()
@@ -92,6 +93,7 @@ void EventEngine::run()
 //        gameLogics[j].update();
 //    }
 
+    //debug->printVal((int) gameLogics.size());
     for(int i=0; i<gameLogics.size(); i++)
     {
         gameLogics[i].setDelta(delta);

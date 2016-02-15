@@ -11,6 +11,16 @@ Behaviour::Behaviour()
 
 }
 
+Grid *Behaviour::getGrid() const
+{
+    return grid;
+}
+
+void Behaviour::setGrid(Grid *value)
+{
+    grid = value;
+}
+
 DebugUtils *Behaviour::getDebug() const
 {
     return debug;

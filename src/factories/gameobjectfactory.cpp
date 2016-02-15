@@ -127,12 +127,34 @@ GameObject& GameObjectFactory::newPlayerObject() //builds behaviours for the pla
     input.inputMap.setKeyInput("roll",sf::Keyboard::Space);
 
     //behaviours
-    logic.addBehaviour(std::shared_ptr<Behaviour>((Behaviour*) new PlayerBehaviours));
+
+    logic.addBehaviour(new PlayerBehaviours);
 
     //collidable
     body.friction = 0.1;
     body.setMass(3);
 
     return player;
+}
+
+GameObject &GameObjectFactory::newPathingObject()
+{
+
+    GameObject & seeker = newObject();
+
+    Collidable & hitbox = componentFactory->newRandomCollidable();
+    hitbox.setTransform(seeker.getTransform());
+    hitbox.pathable = true;
+    hitbox.immovable = false;
+
+
+    GameLogic& logic = componentFactory->newGameLogic();
+
+    logic.addBehaviour(new FlowPathingBehaviours);
+
+    seeker.addComponent(hitbox);
+    seeker.addComponent(logic);
+
+    return seeker;
 }
 
