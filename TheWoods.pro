@@ -22,7 +22,7 @@ INCLUDEPATH += "SFML/include" \
     "$$SRCDIR/loaders" \
     "$$SRCDIR/structures"\
     "$$SRCDIR/managers"\
-    "$$SRCDIR/geometry" \
+    "$$SRCDIR/geometry"
 
 HEADERS += $$SRCDIR/window/gamewindow.h \
     src/window/windowmanager.h \
@@ -83,6 +83,7 @@ HEADERS += $$SRCDIR/window/gamewindow.h \
     src/engines/pathingengine.h \
     src/geometry/gridsquare.h \
     src/logic/behaviours/flowpathingbehaviours.h \
+    src/engines/logicengine.h
 
 SOURCES += src/main.cpp \
     $$SRCDIR/window/gamewindow.cpp \
@@ -143,6 +144,7 @@ SOURCES += src/main.cpp \
     src/engines/pathingengine.cpp \
     src/geometry/gridsquare.cpp \
     src/logic/behaviours/flowpathingbehaviours.cpp \
+    src/engines/logicengine.cpp
 
 LIBS += -L"$$PWD/SFML/lib"
 

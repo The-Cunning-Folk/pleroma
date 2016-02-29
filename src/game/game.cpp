@@ -23,7 +23,7 @@ void Game::runEngines()
 
     grid.setActiveBounds(transformEngine.bounds);
 
-    eventEngine.run();
+
 
     float deltaT = debug->time.getSeconds("logicTime");
     viewPort.update();
@@ -47,6 +47,8 @@ void Game::runEngines()
     pathingEngine.addGoal(gameObjectLoader.loadGameObject("player_1").loadTransform().position);
 
     pathingEngine.run();
+
+    eventEngine.run();
 
     debugDisplayEngine.run();
 
@@ -201,6 +203,7 @@ void Game::initialiseInjections()
    componentLoader.setCollisionEngine(&collisionEngine);
    componentLoader.setPhysicsEngine(&physicsEngine);
    componentLoader.setEventEngine(&eventEngine);
+   componentLoader.setLogicEngine(&logicEngine);
 
    componentFactory.setCollisionEngine(&collisionEngine);
    componentFactory.setTransformEngine(&transformEngine);
@@ -211,6 +214,7 @@ void Game::initialiseInjections()
    componentFactory.setComponentLoader(&componentLoader);
    componentFactory.setGrid(&grid);
    componentFactory.setGameObjectLoader(&gameObjectLoader);
+   componentFactory.setLogicEngine(&logicEngine);
 
    gameObjectFactory.setStack(&gameObjects);
    gameObjectFactory.setComponentFactory(&componentFactory);
@@ -230,6 +234,7 @@ void Game::initialiseInjections()
    collisionEngine.setGame(this);
    debugDisplayEngine.setGame(this);
    pathingEngine.setGame(this);
+   logicEngine.setGame(this);
 
    componentFactory.setGame(this);
    gameObjectFactory.setGame(this);
@@ -266,7 +271,7 @@ void Game::initialiseTests()
 
     //remove later!
 
-    GameObject& coll = gameObjectFactory.newPathingObject();
+    //GameObject& coll = gameObjectFactory.newPathingObject();
 
 
     for(int i=1; i<=100; i++)
@@ -285,8 +290,8 @@ void Game::initialiseTests()
             }
             else if(spinner == 2)
             {
-                //GameObject& coll = gameObjectFactory.newPathingObject();
-                //coll.loadTransform().setPosition(sf::Vector2f(i*32 - 1280,j*32-1280));
+                GameObject& coll = gameObjectFactory.newPathingObject();
+                coll.loadTransform().setPosition(sf::Vector2f(i*32 - 1280,j*32-1280));
             }
 
         }

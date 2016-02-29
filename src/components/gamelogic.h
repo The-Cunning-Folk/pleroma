@@ -11,7 +11,7 @@ class GameLogic : public Component
 public:
     GameLogic();
 
-    void addBehaviour(Behaviour *);
+    void addBehaviour(int);
 
     void addEvent(std::string,std::string,std::map<std::string,std::string>);
 
@@ -21,7 +21,7 @@ public:
 
     void update();
 
-     std::vector<Behaviour*> behaviours;
+     std::vector<int> behaviours;
 
 private:
 

@@ -17,6 +17,16 @@ void ComponentFactory::setGrid(Grid *value)
     grid = value;
 }
 
+LogicEngine *ComponentFactory::getLogicEngine() const
+{
+    return logicEngine;
+}
+
+void ComponentFactory::setLogicEngine(LogicEngine *value)
+{
+    logicEngine = value;
+}
+
 GameObjectLoader *ComponentFactory::getGameObjectLoader() const
 {
     return gameObjectLoader;
@@ -97,6 +107,11 @@ GameLogic &ComponentFactory::newGameLogic(std::string name)
     return(gameLogic);
 }
 
+Behaviour &ComponentFactory::bindBehaviour(GameLogic & g, std::string type)
+{
+    return logicEngine->bindBehaviour(g,type);
+}
+
 Collidable & ComponentFactory::newCollidable()
 {
     Collidable& collidable = collisionEngine->addCollidable();
@@ -129,7 +144,7 @@ Collidable &ComponentFactory::newRandomCollidable()
 {
     Collidable & collidable = newCollidable();
 
-    float r = maths->randomFloat(3,15);
+    float r = maths->randomFloat(2,5);
     sf::Vector2f point;
     float a = 0.0;
 

@@ -26,6 +26,7 @@ public:
     DebugUtils* debug;
     Grid* grid;
 
+    int index;
 
     float delta;
 

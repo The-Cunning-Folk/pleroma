@@ -128,7 +128,9 @@ GameObject& GameObjectFactory::newPlayerObject() //builds behaviours for the pla
 
     //behaviours
 
-    logic.addBehaviour(new PlayerBehaviours);
+    Behaviour & b = componentFactory->bindBehaviour(logic,"playerBehaviours");
+
+    //logic.addBehaviour(new PlayerBehaviours);
 
     //collidable
     body.friction = 0.1;
@@ -146,14 +148,19 @@ GameObject &GameObjectFactory::newPathingObject()
     hitbox.setTransform(seeker.getTransform());
     hitbox.pathable = true;
     hitbox.immovable = false;
+    hitbox.diminutive = true;
 
 
     GameLogic& logic = componentFactory->newGameLogic();
 
-    logic.addBehaviour(new FlowPathingBehaviours);
+
+
+    //logic.addBehaviour(new FlowPathingBehaviours);
 
     seeker.addComponent(hitbox);
     seeker.addComponent(logic);
+
+    Behaviour & b = componentFactory->bindBehaviour(logic,"flowPathingBehaviours");
 
     return seeker;
 }

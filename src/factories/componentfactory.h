@@ -11,6 +11,7 @@
 #include <eventengine.h>
 #include <collisionengine.h>
 #include <physicsengine.h>
+#include <logicengine.h>
 
 #include <componentloader.h>
 #include <gameobjectloader.h>
@@ -36,6 +37,8 @@ public:
 
     GameLogic& newGameLogic();
     GameLogic& newGameLogic(std::string);
+
+    Behaviour& bindBehaviour(GameLogic &, std::string);
 
     Collidable& newCollidable();
     Collidable& newCollidable(std::string);
@@ -69,6 +72,9 @@ public:
     Grid *getGrid() const;
     void setGrid(Grid *value);
 
+    LogicEngine *getLogicEngine() const;
+    void setLogicEngine(LogicEngine *value);
+
 private:
 
     TransformEngine* transformEngine;
@@ -76,6 +82,7 @@ private:
     EventEngine* eventEngine;
     CollisionEngine* collisionEngine;
     PhysicsEngine* physicsEngine;
+    LogicEngine* logicEngine;
 
 
 };

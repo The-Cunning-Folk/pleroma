@@ -30,6 +30,11 @@ GameLogic &ComponentLoader::getGameLogic(int index)
     return eventEngine->getGameLogic(index);
 }
 
+Behaviour &ComponentLoader::getBehaviour(int index)
+{
+    return logicEngine->getBehaviour(index);
+}
+
 Collidable &ComponentLoader::getCollidableFromObject(GameObject & o, std::string name)
 {
     Collidable & c = getCollidable(o.components["collidable"][name]);
@@ -134,5 +139,15 @@ GameObjectLoader *ComponentLoader::getGameObjectLoader() const
 void ComponentLoader::setGameObjectLoader(GameObjectLoader *value)
 {
     gameObjectLoader = value;
+}
+
+LogicEngine *ComponentLoader::getLogicEngine() const
+{
+    return logicEngine;
+}
+
+void ComponentLoader::setLogicEngine(LogicEngine *value)
+{
+    logicEngine = value;
 }
 

@@ -10,6 +10,8 @@ class FlowPathingBehaviours : public Behaviour
 public:
     FlowPathingBehaviours();
 
+    float pathSpeed;
+
     void collisionWith(GameObject &, std::string, std::string);
 
     void resolveEvents();

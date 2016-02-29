@@ -358,7 +358,7 @@ void CollisionEngine::drawDebug()
             }
             if(collidables[i].colliding)
             {
-                shape.setFillColor(sf::Color::Green);
+                //shape.setFillColor(sf::Color::Green);
             }
             window.draw(shape);
         }

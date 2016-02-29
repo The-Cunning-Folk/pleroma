@@ -9,7 +9,7 @@ using namespace BQ;
 
 FlowPathingBehaviours::FlowPathingBehaviours()
 {
-
+    pathSpeed=50;
 }
 
 
@@ -25,8 +25,11 @@ void FlowPathingBehaviours::resolveEvents()
 
 void FlowPathingBehaviours::update()
 {
-
+    int transform =  gameObjectLoader->loadGameObject(parent).transform;
     Transform & t = componentLoader->getTransform( gameObjectLoader->loadGameObject(parent).transform);
-    GridSquare & g = grid->getActiveGridSquareFromLocalCoords(grid->getGridPosition(t.position));
-    t.move(g.pathVector);
+    sf::Vector2i gPos = grid->getGridPosition(t.position);
+
+    GridSquare & g = grid->getActiveGridSquareFromGlobalCoords(gPos);
+
+    t.move(delta*pathSpeed*maths->unit(g.pathVector));
 }
