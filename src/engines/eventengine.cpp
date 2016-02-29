@@ -94,10 +94,12 @@ void EventEngine::run()
 //    }
 
     //debug->printVal((int) gameLogics.size());
-    for(int i=0; i<gameLogics.size(); i++)
+
+    for(int i=0; i<activeComponents.size(); i++)
     {
-        gameLogics[i].setDelta(delta);
-        gameLogics[i].update();
+        GameLogic & g = gameLogics[activeComponents[i]];
+        g.setDelta(delta);
+        g.update();
     }
     events.clear();
     collisions.clear();

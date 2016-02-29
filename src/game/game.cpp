@@ -35,6 +35,7 @@ void Game::runEngines()
 
     collisionEngine.setActiveComponents(occlusionManager.getActiveComponents("collidable"));
     physicsEngine.setActiveComponents(occlusionManager.getActiveComponents("rigidbody"));
+    eventEngine.setActiveComponents(occlusionManager.getActiveComponents("gamelogic"));
 
     //float logicTime = debug->time.getSeconds("logicTime");
     //eventEngine.setDelta(logicTime);
@@ -278,7 +279,7 @@ void Game::initialiseTests()
     {
         for(int j=1; j<=100; j++)
         {
-            int spinner = math.randomInt(0,2);
+            int spinner = math.randomInt(0,5);
             if(spinner == 1)
             {
                 GameObject& coll = gameObjectFactory.newImmovableObject();
