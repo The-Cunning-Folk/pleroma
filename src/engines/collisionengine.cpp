@@ -200,14 +200,13 @@ void CollisionEngine::run()
 
         int i=activeComponents[j];
 
-
-
-        Transform & t = components.getTransform(collidables[i].getTransform());
-        ConvexPolygon& p = collidables[i].polygon;
-        p.setPosition(t.getPosition());
         Collidable & c = collidables[i];
-        collidables[i].update();
-        collidables[i].setBBox(p.bBox);
+
+        Transform & t = components.getTransform(c.getTransform());
+        ConvexPolygon& p = c.polygon;
+        p.setPosition(t.getPosition());
+        c.update();
+        c.setBBox(p.bBox);
 
         //do bresenham border calculations here
 
@@ -344,6 +343,7 @@ void CollisionEngine::drawDebug()
         {
             int i=activeComponents[j];
             sf::ConvexShape shape;
+            Collidable & c = collidables[i];
             ConvexPolygon& p = collidables[i].polygon;
             shape.setPointCount(p.points.size());
             for(unsigned int k=0; k<p.points.size(); k++)

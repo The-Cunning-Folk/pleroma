@@ -9,7 +9,7 @@ using namespace BQ;
 
 FlowPathingBehaviours::FlowPathingBehaviours()
 {
-    pathSpeed=50;
+    pathSpeed=100;
 }
 
 
@@ -31,5 +31,7 @@ void FlowPathingBehaviours::update()
 
     GridSquare & g = grid->getActiveGridSquareFromGlobalCoords(gPos);
 
-    t.move(delta*pathSpeed*maths->unit(g.pathVector));
+    t.velocity += pathSpeed*maths->unit(g.pathVector);
+
+    //t.move(delta*pathSpeed*maths->unit(g.pathVector));
 }

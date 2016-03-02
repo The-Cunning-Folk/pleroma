@@ -2,6 +2,7 @@
 
 #include<game.h>
 
+typedef std::map<std::string,std::vector<Event>>::iterator groupIterator;
 
 using namespace BQ;
 
@@ -81,10 +82,43 @@ void EventEngine::run()
         }
 
     }
+
+    std::map<std::string,std::vector<Event>> groupedEvents;
+
     for(int i=0; i<events.size();i++)
     {
+        Event & e = events[i];
         resolve(events[i]);
+        //group by triggeredByObject
+        groupedEvents[e.triggeredBy].push_back(events[i]);
+
     }
+
+
+    for(groupIterator iterator = groupedEvents.begin(); iterator != groupedEvents.end(); iterator++) {
+        // iterator->first = key
+        // iterator->second = value
+        // Repeat if you also want to iterate through the second map.
+
+        std::vector<Event> groupedEvents = iterator->second;
+        std::string triggeredBy = iterator->first;
+        GameObject & g = game->gameObjectLoader.loadGameObject(triggeredBy);
+        std::vector<int> logicIndices = game->componentLoader.getGameLogicsFromObject(g);
+        for(unsigned int j=0; j<logicIndices.size(); j++)
+        {
+            int index = logicIndices[j];
+            GameLogic & l = game->componentLoader.getGameLogic(index);
+            for(int i=0 ; i<groupedEvents.size(); i++)
+            {
+                Event & event = groupedEvents[i];
+                l.addEvent(event.script,event.triggeredBy,event.parsedScript);
+            }
+        }
+    }
+
+
+
+
     delta = time.getSeconds("logicTime");
 //    for(unsigned int i=0; i<toUpdate.size();i++)
 //    {

@@ -25,11 +25,13 @@ void Game::runEngines()
 
 
 
+
     float deltaT = debug->time.getSeconds("logicTime");
     viewPort.update();
     transformEngine.setBounds(viewPort.renderRegion);
     transformEngine.setDelta(deltaT);
     transformEngine.run();
+
 
     occlusionManager.setActiveObjects(transformEngine.getObjectsInRange());
 
@@ -279,7 +281,7 @@ void Game::initialiseTests()
     {
         for(int j=1; j<=100; j++)
         {
-            int spinner = math.randomInt(0,5);
+            int spinner = math.randomInt(0,10);
             if(spinner == 1)
             {
                 GameObject& coll = gameObjectFactory.newImmovableObject();
