@@ -222,7 +222,9 @@ void CollisionEngine::run()
 //            }
             if(!c.pathable)
             {
-                if(maths->getArea(maths->findIntersectionRegion(gReal.region,p.bBox)) > 256.0){
+                if(maths->getArea(maths->findIntersectionRegion(gReal.region,p.bBox)) >= 200.0){
+                    //gReal.impassable = true;
+                    gReal.workFunction += 100;
                     gReal.impassable = true;
                 }
             }

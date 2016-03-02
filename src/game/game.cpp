@@ -282,7 +282,7 @@ void Game::initialiseTests()
         for(int j=1; j<=100; j++)
         {
             int spinner = math.randomInt(0,10);
-            if(spinner == 1)
+            if(spinner <= 2)
             {
                 GameObject& coll = gameObjectFactory.newImmovableObject();
                 coll.loadTransform().setPosition(sf::Vector2f(i*32 - 1280,j*32-1280));
@@ -291,7 +291,7 @@ void Game::initialiseTests()
                     componentLoader.getCollidableFromObject(coll,"hitbox").immovable = false;
                 }
             }
-            else if(spinner == 2)
+            else if(spinner == 9)
             {
                 GameObject& coll = gameObjectFactory.newPathingObject();
                 coll.loadTransform().setPosition(sf::Vector2f(i*32 - 1280,j*32-1280));

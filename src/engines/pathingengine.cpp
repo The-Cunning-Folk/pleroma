@@ -48,7 +48,7 @@ void PathingEngine::doWaveFrontLayer(int layerNum, std::vector<sf::Vector2i> lay
                 }
                 else
                 {
-                    n.steps = -1;
+                    n.steps = n.workFunction;
                     n.checked = true;
                 }
             }
