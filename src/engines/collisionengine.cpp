@@ -210,45 +210,26 @@ void CollisionEngine::run()
 
         //do bresenham border calculations here
 
-        sf::FloatRect box = collidables[i].getBBox();
 
-        sf::Vector2i tl = grid->getGridPosition(box.left,box.top);
-        sf::Vector2i br = grid->getGridPosition(box.left+box.width,box.top+box.height);
 
-        int minX = tl.x;
-        int minY = tl.y;
-        int maxX = br.x;
-        int maxY = br.y;
 
-        for(int k=minX ; k<=maxX; k++)
+        for(int k=0 ; k<c.gridEdges.size(); k++)
         {
-            for(int l=minY; l<=maxY; l++)
+            GridSquare& gReal = grid->getActiveGridSquareFromGlobalCoords(c.gridEdges[k]);
+//            if(!gReal.impassable)
+//            {
+//                gReal.impassable = !c.pathable;
+//            }
+            if(!c.pathable)
             {
-                sf::Vector2i pB(k,l);
-                GridSquare& gReal = grid->getActiveGridSquareFromGlobalCoords(pB);
-                gReal.addCollidableInContact(j);
-                gReal.addObjectInContact(collidables[i].getParent());
-
-                sf::FloatRect intersection = maths->findIntersectionRegion(gReal.region,c.bBox);
-
-                bool coversSquare = (maths->getArea(intersection) > maths->getArea(gReal.region));
-                bool obscuresSquare = (maths->getArea(intersection) > 0.33*maths->getArea(gReal.region));
-
-                if(!coversSquare)
-                {
-                    //bresenham calculation here
-
-
-                }
-
-
-
-                if(!gReal.impassable && obscuresSquare)
-                {
-                    gReal.impassable = !c.pathable;
+                if(maths->getArea(maths->findIntersectionRegion(gReal.region,p.bBox)) > 256.0){
+                    gReal.impassable = true;
                 }
             }
+
         }
+
+
 
         for(unsigned int p0=0; p0<p.points.size();p0++)
         {

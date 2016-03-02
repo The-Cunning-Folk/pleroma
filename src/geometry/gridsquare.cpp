@@ -5,11 +5,12 @@ using namespace BQ;
 GridSquare::GridSquare()
 {
     steps=-1;
-    workSteps=-1;
+    workFunction=0;
     checked = false;
     impassable = false;
     pathVector.x = 0;
     pathVector.y = 0;
+    debugColor = sf::Color::Blue;
 }
 
 void GridSquare::addCollidableInContact(int i)

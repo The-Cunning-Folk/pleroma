@@ -142,9 +142,15 @@ Collidable &ComponentFactory::newRectCollidable(sf::FloatRect r)
 
 Collidable &ComponentFactory::newRandomCollidable()
 {
+    float r = maths->randomFloat(1,10);
+    return newRandomCollidable(r);
+}
+
+Collidable &ComponentFactory::newRandomCollidable(float r)
+{
+
     Collidable & collidable = newCollidable();
 
-    float r = maths->randomFloat(2,5);
     sf::Vector2f point;
     float a = 0.0;
 
@@ -156,6 +162,22 @@ Collidable &ComponentFactory::newRandomCollidable()
         a += maths->randomFloat(10,80);
     }
 
+    return collidable;
+}
+
+Collidable &ComponentFactory::newCollidable(std::vector<sf::Vector2f> points)
+{
+    if(points.size() < 2){
+        debug->println("requested a collidable with only one point, returning a random");
+        return newRandomCollidable();
+    }
+
+    Collidable & collidable = newCollidable();
+
+    for(int i=0; i<points.size(); i++)
+    {
+        collidable.polygon.addPoint(points[i]);
+    }
     return collidable;
 }
 

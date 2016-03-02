@@ -132,16 +132,20 @@ void TransformEngine::drawDebug()
         sf::FloatRect f = activeGridLocations[i].region;
         r.setPosition(f.left,f.top);
         r.setSize(sf::Vector2f(f.width,f.height));
+
+        GridSquare & g = grid->getActiveGridSquareFromGlobalCoords(activeGridLocations[i].position);
+
+        r.setOutlineColor(g.debugColor);
         window.draw(r);
     }
 
-    for(unsigned int j=0; j<activeComponents.size(); j++)
-    {
-        int i = activeComponents[j];
-        cross.setPosition(transforms[i].getPosition());
-        cross.update();
-        window.draw(cross);
-    }
+//    for(unsigned int j=0; j<activeComponents.size(); j++)
+//    {
+//        int i = activeComponents[j];
+//        cross.setPosition(transforms[i].getPosition());
+//        cross.update();
+//        window.draw(cross);
+//    }
 }
 
 void TransformEngine::updatePositions()

@@ -184,13 +184,13 @@ std::vector<sf::Vector2i> Grid::getNeighboursAndDiagonals(GridSquare & g)
 
 std::vector<sf::Vector2i> Grid::bresenhamLine(sf::Vector2f a, sf::Vector2f b)
 {
-    float stepX = math.min((abs(b.x-a.x))*0.1,1.0f);
-    float stepY = math.min(abs(b.y-a.y)*0.1,1.0f);
+    float stepX = 1.0f;
+    float stepY = 1.0f;
     std::vector<sf::Vector2i> squares(0);
     //add bresenham here
 
     float stepCountFl = math.min(abs((b.x-a.x)/stepX),abs((b.y-a.y)/stepY));
-    int stepCount = math.roundAndCast(stepCountFl);
+    int stepCount = (int) ceil(stepCountFl);
 
     float startX;
     float startY;
@@ -221,8 +221,8 @@ std::vector<sf::Vector2i> Grid::bresenhamLine(sf::Vector2f a, sf::Vector2f b)
 
     for(int i; i<stepCount-1; i++)
     {
-        float xpos = startX + i*stepX;
-        float ypos = startY + i*stepY;
+        float xpos = startX + ((float) i)*stepX;
+        float ypos = startY + ((float) i)*stepY;
 
         sf::Vector2i thisGridPos = getGridPosition(xpos,ypos);
         if(thisGridPos != lastGridPos)
@@ -239,6 +239,54 @@ std::vector<sf::Vector2i> Grid::bresenhamLine(sf::Vector2f a, sf::Vector2f b)
     }
 
     return squares;
+}
+
+std::vector<sf::Vector2i> Grid::bresenhamPolygonEdge(ConvexPolygon & polygon)
+{
+
+    std::vector<sf::Vector2i> gridEdges;
+
+    for(int i=1; i<polygon.points.size(); i++)
+    {
+        std::vector<sf::Vector2i> edge = bresenhamLine(polygon.position + polygon.points[i],
+                                                             polygon.position + polygon.points[i-1]);
+
+        for(int j=0; j<edge.size(); j++)
+        {
+            bool alreadyPresent = false;
+            for(int k=0; k<gridEdges.size(); k++)
+            {
+                if(edge[j]==gridEdges[k]){
+                    alreadyPresent = true;
+                }
+            }
+            if(!alreadyPresent)
+            {
+                gridEdges.push_back(edge[j]);
+            }
+        }
+
+    }
+    if(polygon.points.size() > 2){
+        std::vector<sf::Vector2i> edge = bresenhamLine(polygon.position + polygon.points[0],
+                                                             polygon.position + polygon.points[polygon.points.size()-1]);
+        for(int j=0; j<edge.size(); j++)
+        {
+            bool alreadyPresent = false;
+            for(int k=0; k<gridEdges.size(); k++)
+            {
+                if(edge[j]==gridEdges[k]){
+                    alreadyPresent = true;
+                }
+            }
+            if(!alreadyPresent)
+            {
+                gridEdges.push_back(edge[j]);
+            }
+        }
+    }
+
+    return gridEdges;
 }
 
 void Grid::setActiveBounds(sf::FloatRect bounds)

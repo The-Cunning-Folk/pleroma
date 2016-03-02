@@ -40,10 +40,25 @@ public:
 
     Behaviour& bindBehaviour(GameLogic &, std::string);
 
+    //basic methods
     Collidable& newCollidable();
     Collidable& newCollidable(std::string);
+
+    //nice easy way to make square collidables
+    Collidable& newRectCollidable(std::string, sf::FloatRect);
     Collidable& newRectCollidable(sf::FloatRect);
+
+    //purely for testing tbh
     Collidable& newRandomCollidable();
+    Collidable& newRandomCollidable(std::string);
+
+    //define radius
+    Collidable& newRandomCollidable(float);
+    Collidable& newRandomCollidable(std::string,float);
+
+    //for generic collidables
+    Collidable& newCollidable(std::vector<sf::Vector2f>);
+    Collidable& newCollidable(std::string,std::vector<sf::Vector2f>);
 
     RigidBody& newRigidBody();
     RigidBody& newRigidBody(std::string);

@@ -147,14 +147,14 @@ void Game::run()
 
         window.window.setView(viewPort.view);
 
-        if(transformDebug)
-            transformEngine.drawDebug();
-
         if(collisionDebug)
             collisionEngine.drawDebug();
 
         if(pathingDebug)
             pathingEngine.drawDebug();
+
+        if(transformDebug)
+            transformEngine.drawDebug();
 
 
         //get the default viewport back

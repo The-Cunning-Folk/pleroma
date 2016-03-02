@@ -42,7 +42,7 @@ void PathingEngine::doWaveFrontLayer(int layerNum, std::vector<sf::Vector2i> lay
             {
                 if(!n.impassable)
                 {
-                    n.steps = layerNum+1;
+                    n.steps = layerNum+1+n.workFunction;
                     n.checked = true;
                     nextLayer.push_back(grid->toLocalActiveCoords(n.position));
                 }
@@ -105,6 +105,7 @@ void PathingEngine::calculateFlowVectors()
                      }
                 }
             }
+
 
             g.pathVector =resultant;
         }
