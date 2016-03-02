@@ -7,6 +7,36 @@ ComponentFactory::ComponentFactory()
 
 }
 
+Grid *ComponentFactory::getGrid() const
+{
+    return grid;
+}
+
+void ComponentFactory::setGrid(Grid *value)
+{
+    grid = value;
+}
+
+LogicEngine *ComponentFactory::getLogicEngine() const
+{
+    return logicEngine;
+}
+
+void ComponentFactory::setLogicEngine(LogicEngine *value)
+{
+    logicEngine = value;
+}
+
+GameObjectLoader *ComponentFactory::getGameObjectLoader() const
+{
+    return gameObjectLoader;
+}
+
+void ComponentFactory::setGameObjectLoader(GameObjectLoader *value)
+{
+    gameObjectLoader = value;
+}
+
 ComponentLoader *ComponentFactory::getComponentLoader() const
 {
     return componentLoader;
@@ -63,9 +93,10 @@ GameLogic &ComponentFactory::newGameLogic()
 {
     GameLogic& gameLogic = eventEngine->addGameLogic();
     gameLogic.setComponentLoader(componentLoader);
-    gameLogic.setGameObjectLoader(&(game->gameObjectLoader));
+    gameLogic.setGameObjectLoader(gameObjectLoader);
     gameLogic.setMaths(maths);
     gameLogic.setDebug(debug);
+    gameLogic.setGrid(grid);
     return gameLogic;
 }
 
@@ -76,13 +107,19 @@ GameLogic &ComponentFactory::newGameLogic(std::string name)
     return(gameLogic);
 }
 
+Behaviour &ComponentFactory::bindBehaviour(GameLogic & g, std::string type)
+{
+    return logicEngine->bindBehaviour(g,type);
+}
+
 Collidable & ComponentFactory::newCollidable()
 {
     Collidable& collidable = collisionEngine->addCollidable();
     collidable.setComponentLoader(componentLoader);
-    collidable.setGameObjectLoader(&(game->gameObjectLoader));
+    collidable.setGameObjectLoader(gameObjectLoader);
     collidable.setMaths(maths);
     collidable.setDebug(debug);
+    collidable.setGrid(grid);
     return collidable;
 }
 
@@ -105,9 +142,15 @@ Collidable &ComponentFactory::newRectCollidable(sf::FloatRect r)
 
 Collidable &ComponentFactory::newRandomCollidable()
 {
+    float r = maths->randomFloat(1,10);
+    return newRandomCollidable(r);
+}
+
+Collidable &ComponentFactory::newRandomCollidable(float r)
+{
+
     Collidable & collidable = newCollidable();
 
-    float r = maths->randomFloat(3,15);
     sf::Vector2f point;
     float a = 0.0;
 
@@ -119,6 +162,22 @@ Collidable &ComponentFactory::newRandomCollidable()
         a += maths->randomFloat(10,80);
     }
 
+    return collidable;
+}
+
+Collidable &ComponentFactory::newCollidable(std::vector<sf::Vector2f> points)
+{
+    if(points.size() < 2){
+        debug->println("requested a collidable with only one point, returning a random");
+        return newRandomCollidable();
+    }
+
+    Collidable & collidable = newCollidable();
+
+    for(int i=0; i<points.size(); i++)
+    {
+        collidable.polygon.addPoint(points[i]);
+    }
     return collidable;
 }
 

@@ -36,6 +36,8 @@ void ConvexPolygon::update()
         float bottom = points[0].y;
         for(unsigned int i=1; i<points.size();i++)
         {
+
+            //bbox calculation
             float tx = points[i].x;
             float ty = points[i].y;
             if(tx < left)

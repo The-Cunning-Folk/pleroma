@@ -5,6 +5,8 @@
 #include<inputengine.h>
 #include<transformengine.h>
 #include<physicsengine.h>
+#include<logicengine.h>
+
 namespace BQ{
 
 class EventEngine;
@@ -22,6 +24,7 @@ public:
     Collidable & getCollidable(int);
     RigidBody & getRigidBody(int);
     GameLogic & getGameLogic(int);
+    Behaviour & getBehaviour(int);
 
     Collidable & getCollidableFromObject(GameObject&,std::string);
 
@@ -52,6 +55,9 @@ public:
     GameObjectLoader *getGameObjectLoader() const;
     void setGameObjectLoader(GameObjectLoader *value);
 
+    LogicEngine *getLogicEngine() const;
+    void setLogicEngine(LogicEngine *value);
+
 private:
 
     GameObjectLoader * gameObjectLoader;
@@ -61,6 +67,7 @@ private:
     TransformEngine* transformEngine;
     PhysicsEngine* physicsEngine;
     EventEngine* eventEngine;
+    LogicEngine* logicEngine;
 };
 }
 

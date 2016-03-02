@@ -52,6 +52,7 @@ void Transform::update()
 {
     step = velocity;
     //set velocity to 0
+    velocity = sf::Vector2f(0,0);
 }
 
 sf::Vector2i Transform::getWindowPosition() const

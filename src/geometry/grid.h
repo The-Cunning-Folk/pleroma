@@ -55,6 +55,7 @@ public:
     std::vector<sf::Vector2i> getNeighboursAndDiagonals(GridSquare &);
 
     std::vector<sf::Vector2i> bresenhamLine(sf::Vector2f,sf::Vector2f);
+    std::vector<sf::Vector2i> bresenhamPolygonEdge(ConvexPolygon &);
 
     std::vector<GridSquare> activeSquares;
 

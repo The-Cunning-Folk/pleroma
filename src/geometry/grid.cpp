@@ -182,14 +182,111 @@ std::vector<sf::Vector2i> Grid::getNeighboursAndDiagonals(GridSquare & g)
     return getActiveNeighboursAndDiagonalsLocalCoords(toLocalActiveCoords(p));
 }
 
-std::vector<sf::Vector2i> Grid::bresenhamLine(sf::Vector2f, sf::Vector2f)
+std::vector<sf::Vector2i> Grid::bresenhamLine(sf::Vector2f a, sf::Vector2f b)
 {
+    float stepX = 1.0f;
+    float stepY = 1.0f;
     std::vector<sf::Vector2i> squares(0);
     //add bresenham here
 
+    float stepCountFl = math.min(abs((b.x-a.x)/stepX),abs((b.y-a.y)/stepY));
+    int stepCount = (int) ceil(stepCountFl);
 
+    float startX;
+    float startY;
+    float endX;
+    float endY;
+
+    if(a.x <= b.x)
+    {
+        startX = a.x;
+        startY = a.y;
+        endX = b.x;
+        endY = b.y;
+    }
+    else{
+        startX = b.x;
+        startY = b.y;
+        endX = a.x;
+        endY = a.y;
+    }
+
+    if(endY < startY)
+    {
+        stepY = -stepY;
+    }
+
+    sf::Vector2i lastGridPos = getGridPosition(startX,startY);
+    squares.push_back(lastGridPos);
+
+    for(int i; i<stepCount-1; i++)
+    {
+        float xpos = startX + ((float) i)*stepX;
+        float ypos = startY + ((float) i)*stepY;
+
+        sf::Vector2i thisGridPos = getGridPosition(xpos,ypos);
+        if(thisGridPos != lastGridPos)
+        {
+            squares.push_back(thisGridPos);
+        }
+    }
+
+    sf::Vector2i endGridPos = getGridPosition(endX,endY);
+
+    if(endGridPos != lastGridPos)
+    {
+        squares.push_back(lastGridPos);
+    }
 
     return squares;
+}
+
+std::vector<sf::Vector2i> Grid::bresenhamPolygonEdge(ConvexPolygon & polygon)
+{
+
+    std::vector<sf::Vector2i> gridEdges;
+
+    for(int i=1; i<polygon.points.size(); i++)
+    {
+        std::vector<sf::Vector2i> edge = bresenhamLine(polygon.position + polygon.points[i],
+                                                             polygon.position + polygon.points[i-1]);
+
+        for(int j=0; j<edge.size(); j++)
+        {
+            bool alreadyPresent = false;
+            for(int k=0; k<gridEdges.size(); k++)
+            {
+                if(edge[j]==gridEdges[k]){
+                    alreadyPresent = true;
+                }
+            }
+            if(!alreadyPresent)
+            {
+                gridEdges.push_back(edge[j]);
+            }
+        }
+
+    }
+    if(polygon.points.size() > 2){
+        std::vector<sf::Vector2i> edge = bresenhamLine(polygon.position + polygon.points[0],
+                                                             polygon.position + polygon.points[polygon.points.size()-1]);
+        for(int j=0; j<edge.size(); j++)
+        {
+            bool alreadyPresent = false;
+            for(int k=0; k<gridEdges.size(); k++)
+            {
+                if(edge[j]==gridEdges[k]){
+                    alreadyPresent = true;
+                }
+            }
+            if(!alreadyPresent)
+            {
+                gridEdges.push_back(edge[j]);
+            }
+        }
+    }
+
+    return gridEdges;
 }
 
 void Grid::setActiveBounds(sf::FloatRect bounds)

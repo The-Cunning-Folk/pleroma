@@ -224,7 +224,7 @@ void PlayerBehaviours::collisionWith(GameObject &o, std::string me, std::string 
 
 void PlayerBehaviours::resolveEvents()
 {
-    speed = delta*baseSpeed;
+    speed = baseSpeed;
     dx = 0;
     dy = 0;
 
@@ -311,7 +311,9 @@ void PlayerBehaviours::update()
         velocity.y = 0;
         Collidable & attack = componentLoader->getCollidableFromObject(gameObjectLoader->loadGameObject(parent),"attack");
         ConvexPolygon scaled = maths->scale(attackFrames[attackFrame],attackScaleFactor);
-        attack.polygon = maths->rotateClockwise(scaled,maths->getBearing(attackDirection));
+        scaled = maths->rotateClockwise(scaled,maths->getBearing(attackDirection));
+        scaled.position = attack.polygon.position;
+        attack.polygon = scaled;
 
     }
     else
@@ -320,6 +322,8 @@ void PlayerBehaviours::update()
         attack.polygon.clearPoints();
     }
 
-    transform.move(velocity);
+    //transform.move(velocity);
+    transform.velocity += velocity;
 }
+
 

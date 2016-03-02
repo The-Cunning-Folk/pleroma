@@ -5,6 +5,7 @@
 #include<SFML/Graphics.hpp>
 #include<mathsutils.h>
 #include<debugutils.h>
+#include<grid.h>
 
 namespace BQ{
 class GameObject;
@@ -20,6 +21,7 @@ public:
     DebugUtils* debug;
     ComponentLoader* componentLoader;
     GameObjectLoader* gameObjectLoader;
+    Grid* grid;
 
     std::string name; //name of the component. All components should be named
     std::string typeId; //what type of component am I?
@@ -49,6 +51,9 @@ public:
 
     MathsUtils *getMaths() const;
     void setMaths(MathsUtils *value);
+
+    Grid *getGrid() const;
+    void setGrid(Grid *value);
 
 protected:
 

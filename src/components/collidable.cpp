@@ -49,6 +49,23 @@ void Collidable::update()
     colliding = false;
     collidingWith.resize(0);
     polygon.update();
+
+    //bresenham precalc
+
+    gridEdges.clear();
+
+    gridEdges = grid->bresenhamPolygonEdge(polygon);
+
+    for(int i=0; i<gridEdges.size(); i++)
+    {
+        GridSquare & g = grid->getActiveGridSquareFromGlobalCoords(gridEdges[i]);
+        g.debugColor = sf::Color::Magenta;
+    }
+
+    gridInnerArea.clear();
+
+
+
 }
 
 Transform & Collidable::loadTransform()

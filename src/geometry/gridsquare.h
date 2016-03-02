@@ -15,9 +15,11 @@ public:
     sf::FloatRect region;
     bool checked;
     int steps;
-    int workSteps;
+    int workFunction;
     std::vector<int> collidablesInContact;
     std::vector<std::string> objectsInContact;
+
+    sf::Color debugColor;
 
     sf::Vector2f pathVector;
 

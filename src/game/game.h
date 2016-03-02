@@ -25,6 +25,7 @@
 #include<debugdisplayengine.h>
 #include<physicsengine.h>
 #include<pathingengine.h>
+#include<logicengine.h>
 
 #include<componentloader.h>
 #include<resourceloader.h>
@@ -128,6 +129,7 @@ private:
     DebugDisplayEngine debugDisplayEngine;
     PhysicsEngine physicsEngine;
     PathingEngine pathingEngine;
+    LogicEngine logicEngine;
 
 
 

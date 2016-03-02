@@ -71,7 +71,10 @@ GameObject &GameObjectFactory::newCollisionObject()
 GameObject &GameObjectFactory::newImmovableObject()
 {
     GameObject& o = newObject();
-    Collidable & hitbox = componentFactory->newRectCollidable(sf::FloatRect(-16,-16,32,32));
+    float size = 20;
+    std::vector<sf::Vector2f> points = {sf::Vector2f(-size,0),sf::Vector2f(0,size),
+                                        sf::Vector2f(size,0),sf::Vector2f(0,-size)};
+    Collidable & hitbox = componentFactory->newCollidable(points);
     hitbox.setTransform(o.getTransform());
     hitbox.immovable = true;
     o.addComponent("hitbox",hitbox);
@@ -127,12 +130,41 @@ GameObject& GameObjectFactory::newPlayerObject() //builds behaviours for the pla
     input.inputMap.setKeyInput("roll",sf::Keyboard::Space);
 
     //behaviours
-    logic.addBehaviour(std::shared_ptr<Behaviour>((Behaviour*) new PlayerBehaviours));
+
+    Behaviour & b = componentFactory->bindBehaviour(logic,"playerBehaviours");
+
+    //logic.addBehaviour(new PlayerBehaviours);
 
     //collidable
     body.friction = 0.1;
     body.setMass(3);
 
     return player;
+}
+
+GameObject &GameObjectFactory::newPathingObject()
+{
+
+    GameObject & seeker = newObject();
+
+    Collidable & hitbox = componentFactory->newRandomCollidable();
+    hitbox.setTransform(seeker.getTransform());
+    hitbox.pathable = true;
+    hitbox.immovable = false;
+    hitbox.diminutive = true;
+
+
+    GameLogic& logic = componentFactory->newGameLogic();
+
+
+
+    //logic.addBehaviour(new FlowPathingBehaviours);
+
+    seeker.addComponent(hitbox);
+    seeker.addComponent(logic);
+
+    Behaviour & b = componentFactory->bindBehaviour(logic,"flowPathingBehaviours");
+
+    return seeker;
 }
 

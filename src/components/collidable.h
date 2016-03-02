@@ -39,6 +39,9 @@ public:
 
     std::vector<int> collidingWith;
 
+    std::vector<sf::Vector2i> gridEdges;
+    std::vector<sf::Vector2i> gridInnerArea;
+
     Transform & loadTransform();
     int getTransform() const;
     void setTransform(int value);

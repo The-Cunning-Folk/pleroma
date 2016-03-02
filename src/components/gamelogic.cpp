@@ -5,6 +5,7 @@
 
 #include <gameobject.h>
 #include <componentloader.h>
+#include<memory>
 #include <gameobjectloader.h>
 
 using namespace BQ;
@@ -14,14 +15,9 @@ GameLogic::GameLogic()
     typeId = "gamelogic";
 }
 
-void GameLogic::addBehaviour(std::shared_ptr<Behaviour> logic)
+void GameLogic::addBehaviour(int logic)
 {
-    behaviours.push_back(std::move(std::shared_ptr<Behaviour>(new PlayerBehaviours)));
-    behaviours.back()->parent = parent;
-    behaviours.back()->setComponentLoader(componentLoader);
-    behaviours.back()->setGameObjectLoader(gameObjectLoader);
-    behaviours.back()->setMaths(maths);
-    behaviours.back()->setDebug(debug);
+    behaviours.push_back(logic);
 }
 
 void GameLogic::addEvent(std::string script, std::string triggered,std::map<std::string,std::string> parsed)
@@ -30,7 +26,7 @@ void GameLogic::addEvent(std::string script, std::string triggered,std::map<std:
     event.parsedScript = parsed;
     for(unsigned int i = 0; i<behaviours.size(); i++)
     {
-        behaviours[i]->addEvent(event);
+        componentLoader->getBehaviour(behaviours[i]).addEvent(event);
     }
 }
 
@@ -39,7 +35,7 @@ void GameLogic::collisionWith(GameObject & o, const Collidable & a, const Collid
     //todo: make collisions trigger events
     for(unsigned int i = 0; i<behaviours.size(); i++)
     {
-        behaviours[i]->collisionWith(o,a.name,b.name);
+        componentLoader->getBehaviour(behaviours[i]).collisionWith(o,a.name,b.name);
     }
 }
 
@@ -47,17 +43,20 @@ void GameLogic::setDelta(float delta)
 {
     for(unsigned int i = 0; i<behaviours.size(); i++)
     {
-        behaviours[i]->setDelta(delta);
+
+        componentLoader->getBehaviour(behaviours[i]).setDelta(delta);
     }
 }
 
 void GameLogic::update()
 {
+    //debug->printVal((int) behaviours.size());
     for(unsigned int i = 0; i<behaviours.size(); i++)
     {
-        behaviours[i]->resolveEvents();
-        behaviours[i]->update();
-        behaviours[i]->clearEvents();
+        Behaviour & b = componentLoader->getBehaviour(behaviours[i]);
+        b.resolveEvents();
+        b.update();
+        b.clearEvents();
     }
 }
 

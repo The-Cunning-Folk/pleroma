@@ -2,12 +2,14 @@
 
 #include<game.h>
 
+typedef std::map<std::string,std::vector<Event>>::iterator groupIterator;
 
 using namespace BQ;
 
 EventEngine::EventEngine() : Engine()
 {
     placeholder = "event_";
+    gameLogics.resize(0);
 }
 
 GameLogic &EventEngine::addGameLogic()
@@ -80,10 +82,43 @@ void EventEngine::run()
         }
 
     }
+
+    std::map<std::string,std::vector<Event>> groupedEvents;
+
     for(int i=0; i<events.size();i++)
     {
+        Event & e = events[i];
         resolve(events[i]);
+        //group by triggeredByObject
+        groupedEvents[e.triggeredBy].push_back(events[i]);
+
     }
+
+
+    for(groupIterator iterator = groupedEvents.begin(); iterator != groupedEvents.end(); iterator++) {
+        // iterator->first = key
+        // iterator->second = value
+        // Repeat if you also want to iterate through the second map.
+
+        std::vector<Event> groupedEvents = iterator->second;
+        std::string triggeredBy = iterator->first;
+        GameObject & g = game->gameObjectLoader.loadGameObject(triggeredBy);
+        std::vector<int> logicIndices = game->componentLoader.getGameLogicsFromObject(g);
+        for(unsigned int j=0; j<logicIndices.size(); j++)
+        {
+            int index = logicIndices[j];
+            GameLogic & l = game->componentLoader.getGameLogic(index);
+            for(int i=0 ; i<groupedEvents.size(); i++)
+            {
+                Event & event = groupedEvents[i];
+                l.addEvent(event.script,event.triggeredBy,event.parsedScript);
+            }
+        }
+    }
+
+
+
+
     delta = time.getSeconds("logicTime");
 //    for(unsigned int i=0; i<toUpdate.size();i++)
 //    {
@@ -92,10 +127,13 @@ void EventEngine::run()
 //        gameLogics[j].update();
 //    }
 
-    for(int i=0; i<gameLogics.size(); i++)
+    //debug->printVal((int) gameLogics.size());
+
+    for(int i=0; i<activeComponents.size(); i++)
     {
-        gameLogics[i].setDelta(delta);
-        gameLogics[i].update();
+        GameLogic & g = gameLogics[activeComponents[i]];
+        g.setDelta(delta);
+        g.update();
     }
     events.clear();
     collisions.clear();

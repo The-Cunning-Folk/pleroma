@@ -38,6 +38,56 @@ float MathsUtils::randomFloat(float l_bound, float u_bound)
     return distribution(twister);
 }
 
+float MathsUtils::min(float a, float b)
+{
+    if(a<=b)
+    {
+        return a;
+    }
+    else {
+        return b;
+    }
+}
+
+float MathsUtils::max(float a, float b)
+{
+    if(a>=b)
+    {
+        return a;
+    }
+    else {
+        return b;
+    }
+}
+
+sf::FloatRect MathsUtils::findIntersectionRegion(sf::FloatRect a, sf::FloatRect b)
+{
+    float l;
+    float t;
+    if(b.left+b.width - a.left < a.left+a.width-b.left){
+        l=a.left;
+    }
+    else{
+        l=b.left;
+    }
+    if(b.top+b.height - a.top < a.top+a.height-b.top){
+        t = a.top;
+    }
+    else{
+        t =b.top;
+    }
+
+    float width = min(b.left+b.width-l,a.left+a.width-l);
+    float height = min(b.top+b.height-t,a.top+a.height-t);
+
+    return sf::FloatRect(l,t,width,height);
+}
+
+float MathsUtils::getArea(sf::FloatRect r)
+{
+    return r.width*r.height;
+}
+
 float MathsUtils::fsin(float x)
 {
     return sinTable[intDegRad(x)];

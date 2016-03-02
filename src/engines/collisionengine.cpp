@@ -200,41 +200,38 @@ void CollisionEngine::run()
 
         int i=activeComponents[j];
 
-
-
-        Transform & t = components.getTransform(collidables[i].getTransform());
-        ConvexPolygon& p = collidables[i].polygon;
-        p.setPosition(t.getPosition());
         Collidable & c = collidables[i];
-        collidables[i].update();
-        collidables[i].setBBox(p.bBox);
+
+        Transform & t = components.getTransform(c.getTransform());
+        ConvexPolygon& p = c.polygon;
+        p.setPosition(t.getPosition());
+        c.update();
+        c.setBBox(p.bBox);
 
         //do bresenham border calculations here
 
-        sf::FloatRect box = collidables[i].getBBox();
 
-        sf::Vector2i tl = grid->getGridPosition(box.left,box.top);
-        sf::Vector2i br = grid->getGridPosition(box.left+box.width,box.top+box.height);
 
-        int minX = tl.x;
-        int minY = tl.y;
-        int maxX = br.x;
-        int maxY = br.y;
 
-        for(int k=minX ; k<=maxX; k++)
+        for(int k=0 ; k<c.gridEdges.size(); k++)
         {
-            for(int l=minY; l<=maxY; l++)
+            GridSquare& gReal = grid->getActiveGridSquareFromGlobalCoords(c.gridEdges[k]);
+//            if(!gReal.impassable)
+//            {
+//                gReal.impassable = !c.pathable;
+//            }
+            if(!c.pathable)
             {
-                sf::Vector2i pB(k,l);
-                GridSquare& gReal = grid->getActiveGridSquareFromGlobalCoords(pB);
-                gReal.addCollidableInContact(j);
-                gReal.addObjectInContact(collidables[i].getParent());
-                if(!gReal.impassable)
-                {
-                    gReal.impassable = !c.pathable;
+                if(maths->getArea(maths->findIntersectionRegion(gReal.region,p.bBox)) >= 200.0){
+                    //gReal.impassable = true;
+                    gReal.workFunction += 100;
+                    gReal.impassable = true;
                 }
             }
+
         }
+
+
 
         for(unsigned int p0=0; p0<p.points.size();p0++)
         {
@@ -246,8 +243,6 @@ void CollisionEngine::run()
 
             sf::Vector2f v0 = p.points[p0];
             sf::Vector2f v1 = p.points[p1];
-
-            grid->bresenhamLine(v0,v1);
 
         }
 
@@ -331,6 +326,7 @@ void CollisionEngine::drawDebug()
         {
             int i=activeComponents[j];
             sf::ConvexShape shape;
+            Collidable & c = collidables[i];
             ConvexPolygon& p = collidables[i].polygon;
             shape.setPointCount(p.points.size());
             for(unsigned int k=0; k<p.points.size(); k++)
@@ -345,7 +341,7 @@ void CollisionEngine::drawDebug()
             }
             if(collidables[i].colliding)
             {
-                shape.setFillColor(sf::Color::Green);
+                //shape.setFillColor(sf::Color::Green);
             }
             window.draw(shape);
         }

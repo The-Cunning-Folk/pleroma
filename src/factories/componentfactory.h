@@ -11,8 +11,11 @@
 #include <eventengine.h>
 #include <collisionengine.h>
 #include <physicsengine.h>
+#include <logicengine.h>
 
 #include <componentloader.h>
+#include <gameobjectloader.h>
+#include <grid.h>
 
 using namespace BQ;
 
@@ -22,6 +25,8 @@ public:
     ComponentFactory();
 
     ComponentLoader* componentLoader;
+    GameObjectLoader* gameObjectLoader;
+    Grid* grid;
 
     Transform& newTransform();
     Transform& newTransform(std::string);
@@ -33,10 +38,27 @@ public:
     GameLogic& newGameLogic();
     GameLogic& newGameLogic(std::string);
 
+    Behaviour& bindBehaviour(GameLogic &, std::string);
+
+    //basic methods
     Collidable& newCollidable();
     Collidable& newCollidable(std::string);
+
+    //nice easy way to make square collidables
+    Collidable& newRectCollidable(std::string, sf::FloatRect);
     Collidable& newRectCollidable(sf::FloatRect);
+
+    //purely for testing tbh
     Collidable& newRandomCollidable();
+    Collidable& newRandomCollidable(std::string);
+
+    //define radius
+    Collidable& newRandomCollidable(float);
+    Collidable& newRandomCollidable(std::string,float);
+
+    //for generic collidables
+    Collidable& newCollidable(std::vector<sf::Vector2f>);
+    Collidable& newCollidable(std::string,std::vector<sf::Vector2f>);
 
     RigidBody& newRigidBody();
     RigidBody& newRigidBody(std::string);
@@ -59,6 +81,15 @@ public:
     PhysicsEngine *getPhysicsEngine() const;
     void setPhysicsEngine(PhysicsEngine *value);
 
+    GameObjectLoader *getGameObjectLoader() const;
+    void setGameObjectLoader(GameObjectLoader *value);
+
+    Grid *getGrid() const;
+    void setGrid(Grid *value);
+
+    LogicEngine *getLogicEngine() const;
+    void setLogicEngine(LogicEngine *value);
+
 private:
 
     TransformEngine* transformEngine;
@@ -66,6 +97,9 @@ private:
     EventEngine* eventEngine;
     CollisionEngine* collisionEngine;
     PhysicsEngine* physicsEngine;
+    LogicEngine* logicEngine;
+
+
 };
 
 #endif // COMPONENTFACTORY_H
