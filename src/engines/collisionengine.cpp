@@ -236,6 +236,8 @@ void CollisionEngine::run()
                     //gReal.impassable = true;
                     gReal.workFunction += 1E7;
                     gReal.impassable = true;
+                    gReal.addObjectInContact(c.getParent());
+                    gReal.addCollidableInContact(c.index);
                 }
             }
 
@@ -272,8 +274,7 @@ void CollisionEngine::run()
 
         }
 
-        if(!c.pathable)
-        {
+
             for(auto const &row : xRowsMin) {
                 if(row.first == minY || row.first == maxY)
                 {
@@ -284,12 +285,20 @@ void CollisionEngine::run()
                     GridSquare& gInner = grid->getActiveGridSquareFromGlobalCoords(sf::Vector2i(r,row.first));
                     if(!gInner.impassable && gInner.position.x != 0 && gInner.position.y != 0)
                     {
-                        gInner.impassable = true;
                         gInner.debugColor = sf::Color::Cyan;
+                        if(!c.pathable)
+                        {
+                            if(!gInner.impassable && gInner.position.x != 0 && gInner.position.y != 0)
+                            {
+                                gInner.impassable = true;
+                            }
+                        }
+                        gInner.addObjectInContact(c.getParent());
+                        gInner.addCollidableInContact(c.index);
                     }
                 }
             }
-        }
+
 
 
         for(unsigned int p0=0; p0<p.points.size();p0++)
