@@ -15,6 +15,11 @@ TransformEngine::TransformEngine() : Engine()
     placeholder = "auto_transform_";
 }
 
+void TransformEngine::start()
+{
+
+}
+
 std::vector<std::string> TransformEngine::getObjectsInRange() const
 {
     return objectsInRange;
@@ -114,6 +119,11 @@ void TransformEngine::run()
     }
 
 
+
+}
+
+void TransformEngine::finish()
+{
 
 }
 

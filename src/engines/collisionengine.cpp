@@ -180,7 +180,7 @@ Projection CollisionEngine::projection(ConvexPolygon & shape, sf::Vector2f axis)
     return (Projection(min,max));
 }
 
-void CollisionEngine::run()
+void CollisionEngine::start()
 {
     collisions.clear();
     quadtree.clear();
@@ -318,7 +318,12 @@ void CollisionEngine::run()
     }
 
     quadtree.build();
+}
 
+void CollisionEngine::run()
+{
+
+    ComponentLoader& components = *componentLoader;
     for(unsigned int i=0; i<quadtree.flatNodes.size(); i++)
     {
         QuadtreeNode & node = quadtree.flatNodes[i];
@@ -359,6 +364,11 @@ void CollisionEngine::run()
         p.setPosition(t.getPosition());
         collidables[i].setBBox(p.bBox);
     }
+
+}
+
+void CollisionEngine::finish()
+{
 
 }
 

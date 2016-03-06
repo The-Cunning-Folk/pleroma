@@ -12,7 +12,9 @@ public:
 
     bool display;
 
+    void start();
     void run();
+    void finish();
     void drawDebug();
 
 private:

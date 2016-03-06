@@ -42,9 +42,21 @@ public:
     std::string placeholder;
     int currentId;
 
+    virtual void start(){
+        if(debug != NULL){
+            debug->printerr("undefined engine.start()");
+        }
+    }
+
     virtual void run(){
         if(debug != NULL){
             debug->printerr("undefined engine.run()");
+        }
+    }
+
+    virtual void finish(){
+        if(debug != NULL){
+            debug->printerr("undefined engine.finish()");
         }
     }
 

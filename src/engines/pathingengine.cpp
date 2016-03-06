@@ -118,6 +118,11 @@ void PathingEngine::addGoal(sf::Vector2f p)
     goals.push_back(p);
 }
 
+void PathingEngine::start()
+{
+
+}
+
 void PathingEngine::run()
 {
     for(unsigned int i=0; i<goals.size(); i++)
@@ -128,6 +133,11 @@ void PathingEngine::run()
 
 
     goals.clear();
+}
+
+void PathingEngine::finish()
+{
+
 }
 
 void PathingEngine::drawDebug()

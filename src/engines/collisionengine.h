@@ -28,7 +28,9 @@ public:
 
     Quadtree quadtree;
 
+    void start();
     void run();
+    void finish();
     void drawDebug();
 
 protected:

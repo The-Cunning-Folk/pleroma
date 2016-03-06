@@ -10,7 +10,9 @@ class InputEngine : public Engine
 public:
     InputEngine();
 
+    void start();
     void run();
+    void finish();
 
     std::vector<Controller> controllers;
 

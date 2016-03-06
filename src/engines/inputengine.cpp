@@ -13,6 +13,11 @@ InputEngine::InputEngine() : Engine()
     placeholder = "auto_input_";
 }
 
+void InputEngine::start()
+{
+
+}
+
 void InputEngine::run()
 {
     //check for inputs
@@ -67,6 +72,11 @@ void InputEngine::run()
 //            }
 //        }
     }
+}
+
+void InputEngine::finish()
+{
+
 }
 
 
