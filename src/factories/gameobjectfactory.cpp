@@ -71,9 +71,9 @@ GameObject &GameObjectFactory::newCollisionObject()
 GameObject &GameObjectFactory::newImmovableObject()
 {
     GameObject& o = newObject();
-    float size = 20;
-    std::vector<sf::Vector2f> points = {sf::Vector2f(-size,0),sf::Vector2f(0,size),
-                                        sf::Vector2f(size,0),sf::Vector2f(0,-size)};
+    float size = maths->randomFloat(6,32);
+    std::vector<sf::Vector2f> points = {sf::Vector2f(-size,-size),sf::Vector2f(size,-size),
+                                        sf::Vector2f(size,size),sf::Vector2f(-size,size)};
     Collidable & hitbox = componentFactory->newCollidable(points);
     hitbox.setTransform(o.getTransform());
     hitbox.immovable = true;

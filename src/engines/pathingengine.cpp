@@ -97,7 +97,7 @@ void PathingEngine::calculateFlowVectors()
                             diagonalImpass = (vert.impassable && horiz.impassable);
                         }
 
-                        if(!diagonalImpass)
+                        if(!diagonalImpass && !n.impassable)
                         {
                             minSteps = n.steps;
                             resultant = diff;
