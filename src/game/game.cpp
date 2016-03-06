@@ -99,7 +99,7 @@ void Game::run()
     bool transformDebug = false;
     bool collisionDebug = true;
     bool fpsDebug = true;
-    bool pathingDebug = true;
+    bool pathingDebug = false;
 
 
 
@@ -281,7 +281,7 @@ void Game::initialiseTests()
     {
         for(int j=1; j<=100; j++)
         {
-            int spinner = math.randomInt(0,10);
+            int spinner = math.randomInt(0,20);
             if(spinner <= 2)
             {
                 GameObject& coll = gameObjectFactory.newImmovableObject();

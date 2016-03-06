@@ -94,7 +94,7 @@ void PathingEngine::calculateFlowVectors()
 
                             GridSquare & vert = grid->getActiveGridSquareFromGlobalCoords(sf::Vector2i(n.position.x+xdiff,n.position.y));
                             GridSquare & horiz = grid->getActiveGridSquareFromGlobalCoords(sf::Vector2i(n.position.x,n.position.y+ydiff));
-                            diagonalImpass = (vert.impassable && horiz.impassable);
+                            diagonalImpass = (vert.impassable || horiz.impassable);
                         }
 
                         if(!diagonalImpass && !n.impassable)
