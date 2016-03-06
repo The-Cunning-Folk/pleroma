@@ -293,8 +293,8 @@ void Game::initialiseTests()
             }
             else if(spinner == 9)
             {
-                //GameObject& coll = gameObjectFactory.newPathingObject();
-                //coll.loadTransform().setPosition(sf::Vector2f(i*32 - 1280,j*32-1280));
+                GameObject& coll = gameObjectFactory.newPathingObject();
+                coll.loadTransform().setPosition(sf::Vector2f(i*32 - 1280,j*32-1280));
             }
 
         }

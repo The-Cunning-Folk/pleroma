@@ -187,6 +187,9 @@ void CollisionEngine::run()
     ComponentLoader& components = *componentLoader;
     std::vector<GridSquare> gridSquares = grid->getActiveSquares();
 
+    float gridEdge = (float) grid->getScale();
+    float halfGridEdge =0.5*(gridEdge);
+
     for(int i=0; i<gridSquares.size(); i++)
     {
         GridSquare & g = gridSquares[i];
@@ -197,6 +200,11 @@ void CollisionEngine::run()
     for(unsigned int j=0; j<activeComponents.size(); j++)
     {
 
+        std::map<int, int> xRowsMin;
+        std::map<int, int> xRowsMax;
+
+        int minY;
+        int maxY;
 
         int i=activeComponents[j];
 
@@ -222,15 +230,66 @@ void CollisionEngine::run()
 //            }
             if(!c.pathable)
             {
-                if(maths->getArea(maths->findIntersectionRegion(gReal.region,p.bBox)) >= 200.0){
+                //is it more than half full?
+                if(maths->getArea(maths->findIntersectionRegion(gReal.region,p.bBox)) >= halfGridEdge*gridEdge)
+                {
                     //gReal.impassable = true;
-                    gReal.workFunction += 100;
+                    gReal.workFunction += 1E7;
                     gReal.impassable = true;
                 }
             }
 
+            if(k==0 || minY > gReal.position.y){
+                minY = gReal.position.y;
+            }
+            if(k==0 || maxY < gReal.position.y){
+                maxY = gReal.position.y;
+            }
+
+            if(xRowsMin.find(gReal.position.y) != xRowsMin.end())
+            {
+                if(xRowsMin[gReal.position.y] > gReal.position.x)
+                {
+                    xRowsMin[gReal.position.y] = gReal.position.x;
+                }
+            }
+            else
+            {
+                xRowsMin[gReal.position.y] = gReal.position.x;
+            }
+
+            if(xRowsMax.find(gReal.position.y) != xRowsMax.end())
+            {
+                if(xRowsMax[gReal.position.y] < gReal.position.x)
+                {
+                    xRowsMax[gReal.position.y] = gReal.position.x;
+                }
+            }
+            else
+            {
+                xRowsMax[gReal.position.y] = gReal.position.x;
+            }
+
         }
 
+        if(!c.pathable)
+        {
+            for(auto const &row : xRowsMin) {
+                if(row.first == minY || row.first == maxY)
+                {
+                    continue;
+                }
+                for(int r=row.second+1; r<xRowsMax[row.first];r++)
+                {
+                    GridSquare& gInner = grid->getActiveGridSquareFromGlobalCoords(sf::Vector2i(r,row.first));
+                    if(!gInner.impassable && gInner.position.x != 0 && gInner.position.y != 0)
+                    {
+                        gInner.impassable = true;
+                        gInner.debugColor = sf::Color::Cyan;
+                    }
+                }
+            }
+        }
 
 
         for(unsigned int p0=0; p0<p.points.size();p0++)

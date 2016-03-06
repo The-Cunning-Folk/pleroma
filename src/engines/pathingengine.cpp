@@ -75,7 +75,7 @@ void PathingEngine::calculateFlowVectors()
 
             if(g.steps > 0)
             {
-                int minSteps = 1E8;
+                int minSteps = 1E6;
                 for(int m=0; m<adjacents.size(); m++)
                 {
 
