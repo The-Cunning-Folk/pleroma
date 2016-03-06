@@ -84,7 +84,8 @@ HEADERS += $$SRCDIR/window/gamewindow.h \
     src/geometry/gridsquare.h \
     src/logic/behaviours/flowpathingbehaviours.h \
     src/engines/logicengine.h \
-    src/engines/raycastingengine.h
+    src/engines/raycastingengine.h \
+    src/structures/simpleray.h
 
 SOURCES += src/main.cpp \
     $$SRCDIR/window/gamewindow.cpp \
@@ -146,7 +147,8 @@ SOURCES += src/main.cpp \
     src/geometry/gridsquare.cpp \
     src/logic/behaviours/flowpathingbehaviours.cpp \
     src/engines/logicengine.cpp \
-    src/engines/raycastingengine.cpp
+    src/engines/raycastingengine.cpp \
+    src/structures/simpleray.cpp
 
 LIBS += -L"$$PWD/SFML/lib"
 
