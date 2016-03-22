@@ -26,6 +26,7 @@
 #include<physicsengine.h>
 #include<pathingengine.h>
 #include<logicengine.h>
+#include<raycastingengine.h>
 
 #include<componentloader.h>
 #include<resourceloader.h>
@@ -113,6 +114,9 @@ public:
 
     Grid grid;
 
+    RaycastingEngine getRayCastingEngine() const;
+    void setRayCastingEngine(const RaycastingEngine &value);
+
 private:
 
     //managers
@@ -130,7 +134,7 @@ private:
     PhysicsEngine physicsEngine;
     PathingEngine pathingEngine;
     LogicEngine logicEngine;
-
+    RaycastingEngine rayCastingEngine;
 
 
     //global properties

@@ -18,6 +18,9 @@ void Game::runTests()
 
 void Game::runEngines()
 {
+
+    GameObject & player = gameObjectLoader.loadGameObject("player_1");
+
     inputEngine.run();
 
 
@@ -49,13 +52,15 @@ void Game::runEngines()
     physicsEngine.setDelta(deltaT);
     physicsEngine.run();
 
-    pathingEngine.addGoal(gameObjectLoader.loadGameObject("player_1").loadTransform().position);
+    pathingEngine.addGoal(player.loadTransform().position);
 
     pathingEngine.run();
 
     eventEngine.run();
 
     debugDisplayEngine.run();
+
+    rayCastingEngine.drawRay(player.loadTransform().position,player.loadTransform().position + sf::Vector2f(50,50));
 
     viewPort.update();
     deltaT = debug->time.getSeconds("logicTime");
@@ -240,6 +245,7 @@ void Game::initialiseInjections()
    debugDisplayEngine.setGame(this);
    pathingEngine.setGame(this);
    logicEngine.setGame(this);
+   rayCastingEngine.setGame(this);
 
    componentFactory.setGame(this);
    gameObjectFactory.setGame(this);
@@ -295,8 +301,8 @@ void Game::initialiseTests()
             }
             else if(spinner == 9)
             {
-                //GameObject& coll = gameObjectFactory.newPathingObject();
-                //coll.loadTransform().setPosition(sf::Vector2f(i*32 - 1280,j*32-1280));
+                GameObject& coll = gameObjectFactory.newPathingObject();
+                coll.loadTransform().setPosition(sf::Vector2f(i*32 - 1280,j*32-1280));
             }
 
         }
@@ -418,6 +424,16 @@ Grid Game::getGrid() const
 void Game::setGrid(const Grid &value)
 {
     grid = value;
+}
+
+RaycastingEngine Game::getRayCastingEngine() const
+{
+    return rayCastingEngine;
+}
+
+void Game::setRayCastingEngine(const RaycastingEngine &value)
+{
+    rayCastingEngine = value;
 }
 
 void Game::setGameWindow(window_ptr window)
