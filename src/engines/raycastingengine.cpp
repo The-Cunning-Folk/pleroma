@@ -14,13 +14,23 @@ SimpleRay &RaycastingEngine::drawRay(sf::Vector2f v1, sf::Vector2f v2)
     r.startPosition = v1;
     r.targetPosition = v2;
 
+    r.endPosition = v2;
+
     std::vector<sf::Vector2i> gridSquares = grid->bresenhamLine(v1,v2);
 
     for(int i=0; i<gridSquares.size(); i++)
     {
         GridSquare & g = grid->getActiveGridSquareFromGlobalCoords(gridSquares[i]);
         g.debugColor = sf::Color::Yellow;
+        if(g.collidablesInContact.size() > 0)
+        {
+            r.endPosition = grid->getCentre(gridSquares[i]);
+        }
     }
+
+
+
+
 
 }
 
@@ -52,6 +62,15 @@ void RaycastingEngine::finish()
 
 void RaycastingEngine::drawDebug()
 {
-    
+    sf::VertexArray drawRays(sf::Lines,2*simpleRays.size());
+
+    for(int i=0; i<simpleRays.size(); i++)
+    {
+        SimpleRay & r = simpleRays[i];
+        drawRays[2*i].position=r.startPosition;
+        drawRays[2*i+1].position=r.endPosition;
+    }
+
+    gameWindow->draw(drawRays);
 }
 

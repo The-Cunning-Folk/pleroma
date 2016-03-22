@@ -52,15 +52,20 @@ void Game::runEngines()
     physicsEngine.setDelta(deltaT);
     physicsEngine.run();
 
-    pathingEngine.addGoal(player.loadTransform().position);
+    rayCastingEngine.start();
+    rayCastingEngine.drawRay(player.loadTransform().position,player.loadTransform().position + sf::Vector2f(100,100));
 
+
+
+    pathingEngine.addGoal(player.loadTransform().position);
     pathingEngine.run();
+
+
 
     eventEngine.run();
 
     debugDisplayEngine.run();
 
-    rayCastingEngine.drawRay(player.loadTransform().position,player.loadTransform().position + sf::Vector2f(50,50));
 
     viewPort.update();
     deltaT = debug->time.getSeconds("logicTime");
@@ -107,6 +112,7 @@ void Game::run()
     bool collisionDebug = true;
     bool fpsDebug = true;
     bool pathingDebug = false;
+    bool raycastingDebug = false;
 
 
 
@@ -137,6 +143,9 @@ void Game::run()
         if(input.keyToggled("pathingDebug"))
             pathingDebug = !pathingDebug;
 
+        if(input.keyToggled("raycastingDebug"))
+            raycastingDebug = !raycastingDebug;
+
         //temporary behaviours
 
         runTests();
@@ -162,6 +171,9 @@ void Game::run()
 
         if(transformDebug)
             transformEngine.drawDebug();
+
+        if(raycastingDebug)
+            rayCastingEngine.drawDebug();
 
 
         //get the default viewport back
@@ -268,6 +280,7 @@ void Game::initialiseInput()
     input.setKeyInput("transformDebug",sf::Keyboard::F4);
     input.setKeyInput("collisionDebug",sf::Keyboard::F5);
     input.setKeyInput("pathingDebug",sf::Keyboard::F6);
+    input.setKeyInput("raycastingDebug",sf::Keyboard::F7);
 
 }
 
