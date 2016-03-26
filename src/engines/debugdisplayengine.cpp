@@ -6,9 +6,19 @@ DebugDisplayEngine::DebugDisplayEngine()
 
 }
 
+void DebugDisplayEngine::start()
+{
+
+}
+
 
 
 void BQ::DebugDisplayEngine::run()
+{
+
+}
+
+void DebugDisplayEngine::finish()
 {
 
 }

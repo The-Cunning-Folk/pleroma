@@ -37,6 +37,7 @@ public:
     sf::Vector2i activeOrigin;
 
     bool isActive(sf::Vector2i);
+    bool isActiveGlobal(sf::Vector2i);
 
     sf::Vector2i toLocalActiveCoords(sf::Vector2i);
 

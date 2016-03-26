@@ -18,6 +18,10 @@ void Game::runTests()
 
 void Game::runEngines()
 {
+
+    GameObject & player = gameObjectLoader.loadGameObject("player_1");
+    GameObject & testObj = gameObjectLoader.loadGameObject("testpather");
+
     inputEngine.run();
 
 
@@ -43,17 +47,27 @@ void Game::runEngines()
     //eventEngine.setDelta(logicTime);
 
     collisionEngine.quadtree.setRegion(viewPort.renderRegion);
+    collisionEngine.start();
     collisionEngine.run();
+
     physicsEngine.setDelta(deltaT);
     physicsEngine.run();
 
-    pathingEngine.addGoal(gameObjectLoader.loadGameObject("player_1").loadTransform().position);
+    rayCastingEngine.start();
 
+    rayCastingEngine.createTargettedRay(player,testObj);
+
+    rayCastingEngine.run();
+
+    pathingEngine.addGoal(player.loadTransform().position);
     pathingEngine.run();
+
+
 
     eventEngine.run();
 
     debugDisplayEngine.run();
+
 
     viewPort.update();
     deltaT = debug->time.getSeconds("logicTime");
@@ -96,10 +110,11 @@ void Game::run()
     fpsDisplay.setCharacterSize(20);
     fpsDisplay.setFont(resourceLoader.getFont("8bit16.ttf"));
 
-    bool transformDebug = false;
+    bool transformDebug = true;
     bool collisionDebug = true;
     bool fpsDebug = true;
-    bool pathingDebug = true;
+    bool pathingDebug = false;
+    bool raycastingDebug = true;
 
 
 
@@ -130,6 +145,9 @@ void Game::run()
         if(input.keyToggled("pathingDebug"))
             pathingDebug = !pathingDebug;
 
+        if(input.keyToggled("raycastingDebug"))
+            raycastingDebug = !raycastingDebug;
+
         //temporary behaviours
 
         runTests();
@@ -147,14 +165,17 @@ void Game::run()
 
         window.window.setView(viewPort.view);
 
+        if(transformDebug)
+            transformEngine.drawDebug();
+
         if(collisionDebug)
             collisionEngine.drawDebug();
 
         if(pathingDebug)
             pathingEngine.drawDebug();
 
-        if(transformDebug)
-            transformEngine.drawDebug();
+        if(raycastingDebug)
+            rayCastingEngine.drawDebug();
 
 
         //get the default viewport back
@@ -238,6 +259,7 @@ void Game::initialiseInjections()
    debugDisplayEngine.setGame(this);
    pathingEngine.setGame(this);
    logicEngine.setGame(this);
+   rayCastingEngine.setGame(this);
 
    componentFactory.setGame(this);
    gameObjectFactory.setGame(this);
@@ -260,6 +282,7 @@ void Game::initialiseInput()
     input.setKeyInput("transformDebug",sf::Keyboard::F4);
     input.setKeyInput("collisionDebug",sf::Keyboard::F5);
     input.setKeyInput("pathingDebug",sf::Keyboard::F6);
+    input.setKeyInput("raycastingDebug",sf::Keyboard::F7);
 
 }
 
@@ -281,7 +304,7 @@ void Game::initialiseTests()
     {
         for(int j=1; j<=100; j++)
         {
-            int spinner = math.randomInt(0,10);
+            int spinner = math.randomInt(0,20);
             if(spinner <= 2)
             {
                 GameObject& coll = gameObjectFactory.newImmovableObject();
@@ -299,6 +322,8 @@ void Game::initialiseTests()
 
         }
     }
+    GameObject& coll = gameObjectFactory.newPathingObject("testpather");
+    coll.loadTransform().setPosition(sf::Vector2f(164,128));
 }
 
 void Game::initialisePlayers()
@@ -416,6 +441,16 @@ Grid Game::getGrid() const
 void Game::setGrid(const Grid &value)
 {
     grid = value;
+}
+
+RaycastingEngine Game::getRayCastingEngine() const
+{
+    return rayCastingEngine;
+}
+
+void Game::setRayCastingEngine(const RaycastingEngine &value)
+{
+    rayCastingEngine = value;
 }
 
 void Game::setGameWindow(window_ptr window)

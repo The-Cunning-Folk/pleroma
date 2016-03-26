@@ -55,11 +55,26 @@ bool Grid::isActive(sf::Vector2i pos)
 {
     int xpos = pos.x;
     int ypos = pos.y;
-    if(xpos >= activeWidth || xpos < 0)
+    if(xpos > activeWidth || xpos < 0)
     {
         return false;
     }
     if( ypos >= activeHeight || ypos <0)
+    {
+        return false;
+    }
+    return true;
+}
+
+bool Grid::isActiveGlobal(sf::Vector2i pos)
+{
+    int xpos = pos.x;
+    int ypos = pos.y;
+    if(xpos > br.x || xpos < tl.x)
+    {
+        return false;
+    }
+    if( ypos >= br.y || ypos < tl.y)
     {
         return false;
     }
@@ -184,54 +199,38 @@ std::vector<sf::Vector2i> Grid::getNeighboursAndDiagonals(GridSquare & g)
 
 std::vector<sf::Vector2i> Grid::bresenhamLine(sf::Vector2f a, sf::Vector2f b)
 {
-    float stepX = 1.0f;
-    float stepY = 1.0f;
-    std::vector<sf::Vector2i> squares(0);
-    //add bresenham here
 
-    float stepCountFl = math.min(abs((b.x-a.x)/stepX),abs((b.y-a.y)/stepY));
-    int stepCount = (int) ceil(stepCountFl);
+    std::vector<sf::Vector2i> squares;
 
-    float startX;
-    float startY;
-    float endX;
-    float endY;
+    sf::Vector2f diff = b - a;
 
-    if(a.x <= b.x)
-    {
-        startX = a.x;
-        startY = a.y;
-        endX = b.x;
-        endY = b.y;
-    }
-    else{
-        startX = b.x;
-        startY = b.y;
-        endX = a.x;
-        endY = a.y;
-    }
+    sf::Vector2f unit = math.unit(diff);
 
-    if(endY < startY)
-    {
-        stepY = -stepY;
-    }
+    sf::Vector2f step;
 
-    sf::Vector2i lastGridPos = getGridPosition(startX,startY);
+    float distance = math.mag(diff);
+
+    float stepMag = math.min(distance*0.1f,1.0f);
+
+    step = stepMag*unit;
+
+    int stepCount = (int) ceil(distance/stepMag);
+
+    sf::Vector2i lastGridPos = getGridPosition(a);
     squares.push_back(lastGridPos);
 
     for(int i; i<stepCount-1; i++)
     {
-        float xpos = startX + ((float) i)*stepX;
-        float ypos = startY + ((float) i)*stepY;
+        sf::Vector2f stepPos = a + ((float) i)*step;
 
-        sf::Vector2i thisGridPos = getGridPosition(xpos,ypos);
+        sf::Vector2i thisGridPos = getGridPosition(stepPos);
         if(thisGridPos != lastGridPos)
         {
             squares.push_back(thisGridPos);
         }
     }
 
-    sf::Vector2i endGridPos = getGridPosition(endX,endY);
+    sf::Vector2i endGridPos = getGridPosition(b);
 
     if(endGridPos != lastGridPos)
     {

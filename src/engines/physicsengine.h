@@ -11,7 +11,9 @@ class PhysicsEngine : public Engine
 public:
     PhysicsEngine();
 
+    void start();
     void run();
+    void finish();
 
     float grav;
 

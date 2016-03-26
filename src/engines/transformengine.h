@@ -19,7 +19,9 @@ public:
     bool wrapAround;
     sf::FloatRect bounds;
 
+    void start();
     void run();
+    void finish();
     void drawDebug();
 
     void updatePositions();

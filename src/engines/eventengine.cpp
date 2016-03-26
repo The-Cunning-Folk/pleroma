@@ -24,6 +24,11 @@ GameLogic &EventEngine::getGameLogic(int index)
     return gameLogics[index];
 }
 
+void EventEngine::start()
+{
+
+}
+
 void EventEngine::run()
 {
     TimeUtils& time = (debug->time);
@@ -138,6 +143,11 @@ void EventEngine::run()
     events.clear();
     collisions.clear();
     toUpdate.clear();
+}
+
+void EventEngine::finish()
+{
+
 }
 
 void EventEngine::pushEvent(Event event)

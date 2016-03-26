@@ -75,7 +75,7 @@ void PathingEngine::calculateFlowVectors()
 
             if(g.steps > 0)
             {
-                int minSteps = 1E8;
+                int minSteps = 1E6;
                 for(int m=0; m<adjacents.size(); m++)
                 {
 
@@ -94,10 +94,10 @@ void PathingEngine::calculateFlowVectors()
 
                             GridSquare & vert = grid->getActiveGridSquareFromGlobalCoords(sf::Vector2i(n.position.x+xdiff,n.position.y));
                             GridSquare & horiz = grid->getActiveGridSquareFromGlobalCoords(sf::Vector2i(n.position.x,n.position.y+ydiff));
-                            diagonalImpass = (vert.impassable && horiz.impassable);
+                            diagonalImpass = (vert.impassable || horiz.impassable);
                         }
 
-                        if(!diagonalImpass)
+                        if(!diagonalImpass && !n.impassable)
                         {
                             minSteps = n.steps;
                             resultant = diff;
@@ -118,6 +118,11 @@ void PathingEngine::addGoal(sf::Vector2f p)
     goals.push_back(p);
 }
 
+void PathingEngine::start()
+{
+
+}
+
 void PathingEngine::run()
 {
     for(unsigned int i=0; i<goals.size(); i++)
@@ -128,6 +133,11 @@ void PathingEngine::run()
 
 
     goals.clear();
+}
+
+void PathingEngine::finish()
+{
+
 }
 
 void PathingEngine::drawDebug()

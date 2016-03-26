@@ -29,7 +29,9 @@ public:
     GameLogic& addGameLogic();
     GameLogic& getGameLogic(int);
 
+    void start();
     void run();
+    void finish();
 
     void pushEvent(Event);
 

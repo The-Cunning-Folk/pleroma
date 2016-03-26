@@ -33,6 +33,10 @@ public:
     GameObject& newPlayerObject();
 
     GameObject& newPathingObject();
+    GameObject& newPathingObject(std::string);
+
+    GameObject & makePhysicsObject(GameObject &);
+    GameObject & makePathingObject(GameObject &);
 
     ComponentFactory *getComponentFactory() const;
     void setComponentFactory(ComponentFactory *value);

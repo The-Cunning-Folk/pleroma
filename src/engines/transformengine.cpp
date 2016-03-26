@@ -15,6 +15,11 @@ TransformEngine::TransformEngine() : Engine()
     placeholder = "auto_transform_";
 }
 
+void TransformEngine::start()
+{
+
+}
+
 std::vector<std::string> TransformEngine::getObjectsInRange() const
 {
     return objectsInRange;
@@ -117,27 +122,33 @@ void TransformEngine::run()
 
 }
 
+void TransformEngine::finish()
+{
+
+}
+
 void TransformEngine::drawDebug()
 {
     GameWindow& window = *gameWindow;
-    sf::RectangleShape r;
 
-    r.setFillColor(sf::Color::Transparent);
-    r.setOutlineThickness(1);
-    r.setOutlineColor(sf::Color::Blue);
+    sf::VertexArray gridDebug = sf::VertexArray(sf::Quads,grid->activeSquares.size()*4);
 
     for(unsigned int i =0; i<activeGridLocations.size();i++)
     {
-        sf::Vector2i & sq = activeGridLocations[i].position;
         sf::FloatRect f = activeGridLocations[i].region;
-        r.setPosition(f.left,f.top);
-        r.setSize(sf::Vector2f(f.width,f.height));
-
         GridSquare & g = grid->getActiveGridSquareFromGlobalCoords(activeGridLocations[i].position);
 
-        r.setOutlineColor(g.debugColor);
-        window.draw(r);
+        gridDebug[i*4].position = sf::Vector2f(f.left + 1,f.top + 1);
+        gridDebug[i*4].color = g.debugColor;
+        gridDebug[i*4 + 1].position = sf::Vector2f(f.left + f.width - 1,f.top + 1);
+        gridDebug[i*4 + 1].color = g.debugColor;
+        gridDebug[i*4 + 2].position = sf::Vector2f(f.left + f.width - 1,f.top + f.height - 1);
+        gridDebug[i*4 + 2].color = g.debugColor;
+        gridDebug[i*4 + 3].position = sf::Vector2f(f.left + 1,f.top + f.width - 1);
+        gridDebug[i*4 + 3].color = g.debugColor;
     }
+
+    gameWindow->draw(gridDebug);
 
 //    for(unsigned int j=0; j<activeComponents.size(); j++)
 //    {

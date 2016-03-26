@@ -10,6 +10,11 @@ PhysicsEngine::PhysicsEngine()
     grav = 1;
 }
 
+void PhysicsEngine::start()
+{
+
+}
+
 void PhysicsEngine::run()
 {
     for(int i=0; i<collisions.size(); i++)
@@ -74,6 +79,11 @@ void PhysicsEngine::run()
         }
     }
     collisions.clear();
+}
+
+void PhysicsEngine::finish()
+{
+
 }
 
 void PhysicsEngine::addCollision(const PhysicalCollision & c)

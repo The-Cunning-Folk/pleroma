@@ -19,7 +19,9 @@ public:
 
     void addGoal(sf::Vector2f);
 
+    void start();
     void run();
+    void finish();
     void drawDebug();
 };
 
