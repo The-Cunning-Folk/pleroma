@@ -9,6 +9,7 @@
 #include<math.h>
 #include<SFML/Graphics.hpp>
 #include<convexpolygon.h>
+#include<lineintersection.h>
 
 namespace BQ{
 class MathsUtils
@@ -77,6 +78,9 @@ public:
     float dot(sf::Vector2f,sf::Vector2f);
 
     ConvexPolygon scale(ConvexPolygon&,float);
+
+    bool containsPoint(sf::Vector2f,ConvexPolygon&);
+    LineIntersection findIntersection(sf::Vector2f,sf::Vector2f,ConvexPolygon&);
 
 };
 }

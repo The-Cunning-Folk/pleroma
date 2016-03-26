@@ -295,3 +295,45 @@ ConvexPolygon MathsUtils::scale(ConvexPolygon & c, float factor)
     return nc;
 }
 
+bool MathsUtils::containsPoint(sf::Vector2f p, ConvexPolygon & c)
+{
+    bool contained = false;
+    int i,j = 0;
+    for(i = 0, j = c.points.size()-1; i < c.points.size(); j = i++)
+    {
+        sf::Vector2f vi = c.position + c.points[i];
+        sf::Vector2f vj = c.position + c.points[j];
+        if( ((vi.y > p.y)!=(vj.y>p.y)) && (p.x < (vj.x-vi.x) * (p.y-vi.y) / (vj.y-vi.y) + vi.x) )
+        {
+            contained = !contained;
+        }
+    }
+    return contained;
+}
+
+LineIntersection MathsUtils::findIntersection(sf::Vector2f a, sf::Vector2f b, ConvexPolygon& c)
+{
+    LineIntersection intersection;
+
+    sf::Vector2f diff = b - a;
+    sf::Vector2f unitV = unit(diff);
+    sf::Vector2f step;
+    float stepMag = 1.0f;
+    step = stepMag*unitV;
+    float distance = mag(diff);
+    int stepCount = (int) ceil(distance);
+
+    for(int i=0; i<stepCount; i++)
+    {
+        sf::Vector2f stepPos = a + ((float) i)*step;
+        if(containsPoint(stepPos,c))
+        {
+            intersection.intersects = true;
+            intersection.intersectionPoint = stepPos;
+            return intersection;
+        }
+    }
+    return intersection;
+
+}
+

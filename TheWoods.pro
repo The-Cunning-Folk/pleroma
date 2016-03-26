@@ -85,7 +85,8 @@ HEADERS += $$SRCDIR/window/gamewindow.h \
     src/logic/behaviours/flowpathingbehaviours.h \
     src/engines/logicengine.h \
     src/engines/raycastingengine.h \
-    src/structures/simpleray.h
+    src/structures/simpleray.h \
+    src/structures/lineintersection.h
 
 SOURCES += src/main.cpp \
     $$SRCDIR/window/gamewindow.cpp \
@@ -148,7 +149,8 @@ SOURCES += src/main.cpp \
     src/logic/behaviours/flowpathingbehaviours.cpp \
     src/engines/logicengine.cpp \
     src/engines/raycastingengine.cpp \
-    src/structures/simpleray.cpp
+    src/structures/simpleray.cpp \
+    src/structures/lineintersection.cpp
 
 LIBS += -L"$$PWD/SFML/lib"
 

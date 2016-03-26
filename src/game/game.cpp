@@ -53,9 +53,12 @@ void Game::runEngines()
     physicsEngine.run();
 
     rayCastingEngine.start();
-    rayCastingEngine.drawRay(player.loadTransform().position,player.loadTransform().position + sf::Vector2f(100,100));
+    rayCastingEngine.createOwnedRay(player.loadTransform().position,player.loadTransform().position + sf::Vector2f(100,100),player);
+    rayCastingEngine.createOwnedRay(player.loadTransform().position,player.loadTransform().position + sf::Vector2f(-100,100),player);
+    rayCastingEngine.createOwnedRay(player.loadTransform().position,player.loadTransform().position + sf::Vector2f(-100,-100),player);
+    rayCastingEngine.createOwnedRay(player.loadTransform().position,player.loadTransform().position + sf::Vector2f(100,-100),player);
 
-
+    rayCastingEngine.run();
 
     pathingEngine.addGoal(player.loadTransform().position);
     pathingEngine.run();
@@ -112,7 +115,7 @@ void Game::run()
     bool collisionDebug = true;
     bool fpsDebug = true;
     bool pathingDebug = false;
-    bool raycastingDebug = false;
+    bool raycastingDebug = true;
 
 
 

@@ -224,6 +224,8 @@ void CollisionEngine::start()
         for(int k=0 ; k<c.gridEdges.size(); k++)
         {
             GridSquare& gReal = grid->getActiveGridSquareFromGlobalCoords(c.gridEdges[k]);
+            gReal.addObjectInContact(c.getParent());
+            gReal.addCollidableInContact(c.index);
 //            if(!gReal.impassable)
 //            {
 //                gReal.impassable = !c.pathable;
@@ -236,8 +238,7 @@ void CollisionEngine::start()
                     //gReal.impassable = true;
                     gReal.workFunction += 1E7;
                     gReal.impassable = true;
-                    gReal.addObjectInContact(c.getParent());
-                    gReal.addCollidableInContact(c.index);
+
                 }
             }
 

@@ -163,7 +163,7 @@ GameObject &GameObjectFactory::newPathingObject()
     seeker.addComponent(hitbox);
     seeker.addComponent(logic);
 
-    Behaviour & b = componentFactory->bindBehaviour(logic,"flowPathingBehaviours");
+    //Behaviour & b = componentFactory->bindBehaviour(logic,"flowPathingBehaviours");
 
     return seeker;
 }

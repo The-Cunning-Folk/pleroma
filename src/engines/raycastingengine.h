@@ -3,6 +3,7 @@
 
 #include <engine.h>
 #include <simpleray.h>
+#include <collidable.h>
 
 namespace BQ {
 
@@ -11,7 +12,8 @@ class RaycastingEngine : public Engine
 public:
     RaycastingEngine();
 
-    SimpleRay& drawRay(sf::Vector2f,sf::Vector2f);
+    SimpleRay& createBasicRay(sf::Vector2f,sf::Vector2f);
+    SimpleRay& createOwnedRay(sf::Vector2f,sf::Vector2f,GameObject&);
 
     void start();
     void run();

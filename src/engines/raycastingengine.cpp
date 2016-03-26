@@ -1,5 +1,7 @@
 #include "raycastingengine.h"
 
+#include<game.h>
+
 using namespace BQ;
 
 RaycastingEngine::RaycastingEngine()
@@ -7,31 +9,23 @@ RaycastingEngine::RaycastingEngine()
 
 }
 
-SimpleRay &RaycastingEngine::drawRay(sf::Vector2f v1, sf::Vector2f v2)
+SimpleRay &RaycastingEngine::createBasicRay(sf::Vector2f v1, sf::Vector2f v2)
 {
     simpleRays.resize(simpleRays.size()+1);
     SimpleRay & r = simpleRays.back();
     r.startPosition = v1;
     r.targetPosition = v2;
-
     r.endPosition = v2;
-
     std::vector<sf::Vector2i> gridSquares = grid->bresenhamLine(v1,v2);
+    r.gridPositions = gridSquares;
+    return r;
+}
 
-    for(int i=0; i<gridSquares.size(); i++)
-    {
-        GridSquare & g = grid->getActiveGridSquareFromGlobalCoords(gridSquares[i]);
-        g.debugColor = sf::Color::Yellow;
-        if(g.collidablesInContact.size() > 0)
-        {
-            r.endPosition = grid->getCentre(gridSquares[i]);
-        }
-    }
-
-
-
-
-
+SimpleRay &RaycastingEngine::createOwnedRay(sf::Vector2f v1, sf::Vector2f v2, GameObject & owner)
+{
+    SimpleRay & r = createBasicRay(v1,v2);
+    r.originator = owner.name;
+    return r;
 }
 
 std::vector<SimpleRay> RaycastingEngine::getSimpleRays() const
@@ -52,7 +46,33 @@ void RaycastingEngine::start()
 
 void RaycastingEngine::run()
 {
-    
+
+    for(int n=0; n<simpleRays.size(); n++)
+    {
+        SimpleRay & r = simpleRays[n];
+        for(int i=0; i<r.gridPositions.size(); i++)
+        {
+            GridSquare & g = grid->getActiveGridSquareFromGlobalCoords(r.gridPositions[i]);
+            g.debugColor = sf::Color::Yellow;
+            if(g.collidablesInContact.size() > 0)
+            {
+                //find entry point at edge of this
+                for(int j=0; j<g.collidablesInContact.size(); j++)
+                {
+                    Collidable & c = componentLoader->getCollidable(g.collidablesInContact[j]);
+                    if(c.getParent() != r.originator)
+                    {
+                        LineIntersection l = maths->findIntersection(r.startPosition,r.endPosition,c.polygon);
+                        if(l.intersects)
+                        {
+                            r.endPosition = l.intersectionPoint;
+                            continue;
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
 
 void RaycastingEngine::finish()
