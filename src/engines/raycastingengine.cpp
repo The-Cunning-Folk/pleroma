@@ -28,6 +28,13 @@ SimpleRay &RaycastingEngine::createOwnedRay(sf::Vector2f v1, sf::Vector2f v2, Ga
     return r;
 }
 
+SimpleRay &RaycastingEngine::createTargettedRay(GameObject & owner, GameObject & target)
+{
+    SimpleRay & r = createOwnedRay(owner.loadTransform().position,target.loadTransform().position,owner);
+    r.target = target.name;
+    return r;
+}
+
 std::vector<SimpleRay> RaycastingEngine::getSimpleRays() const
 {
     return simpleRays;
@@ -52,6 +59,7 @@ void RaycastingEngine::run()
         SimpleRay & r = simpleRays[n];
         for(int i=0; i<r.gridPositions.size(); i++)
         {
+            if(!grid->isActiveGlobal(r.gridPositions[i])) {continue;}
             GridSquare & g = grid->getActiveGridSquareFromGlobalCoords(r.gridPositions[i]);
             g.debugColor = sf::Color::Yellow;
             if(g.collidablesInContact.size() > 0)

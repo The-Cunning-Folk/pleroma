@@ -55,11 +55,26 @@ bool Grid::isActive(sf::Vector2i pos)
 {
     int xpos = pos.x;
     int ypos = pos.y;
-    if(xpos >= activeWidth || xpos < 0)
+    if(xpos > activeWidth || xpos < 0)
     {
         return false;
     }
     if( ypos >= activeHeight || ypos <0)
+    {
+        return false;
+    }
+    return true;
+}
+
+bool Grid::isActiveGlobal(sf::Vector2i pos)
+{
+    int xpos = pos.x;
+    int ypos = pos.y;
+    if(xpos > br.x || xpos < tl.x)
+    {
+        return false;
+    }
+    if( ypos >= br.y || ypos < tl.y)
     {
         return false;
     }

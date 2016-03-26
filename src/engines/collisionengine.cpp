@@ -223,6 +223,7 @@ void CollisionEngine::start()
 
         for(int k=0 ; k<c.gridEdges.size(); k++)
         {
+            if(!grid->isActiveGlobal(c.gridEdges[k])) {continue;}
             GridSquare& gReal = grid->getActiveGridSquareFromGlobalCoords(c.gridEdges[k]);
             gReal.addObjectInContact(c.getParent());
             gReal.addCollidableInContact(c.index);
@@ -277,12 +278,15 @@ void CollisionEngine::start()
 
 
             for(auto const &row : xRowsMin) {
+
                 if(row.first == minY || row.first == maxY)
                 {
                     continue;
                 }
                 for(int r=row.second+1; r<xRowsMax[row.first];r++)
                 {
+                    sf::Vector2i gridPos = sf::Vector2i(r,row.first);
+                    if(!grid->isActiveGlobal(gridPos)){continue;}
                     GridSquare& gInner = grid->getActiveGridSquareFromGlobalCoords(sf::Vector2i(r,row.first));
                     if(!gInner.impassable && gInner.position.x != 0 && gInner.position.y != 0)
                     {
@@ -294,9 +298,10 @@ void CollisionEngine::start()
                                 gInner.impassable = true;
                             }
                         }
-                        gInner.addObjectInContact(c.getParent());
-                        gInner.addCollidableInContact(c.index);
+
                     }
+                    gInner.addObjectInContact(c.getParent());
+                    gInner.addCollidableInContact(c.index);
                 }
             }
 

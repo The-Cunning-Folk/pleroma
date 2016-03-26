@@ -48,24 +48,7 @@ GameObject &GameObjectFactory::newObject(std::string name)
 GameObject &GameObjectFactory::newCollisionObject()
 {
     GameObject& collisionObj = newObject();
-
-    Collidable & hitbox = componentFactory->newRandomCollidable();
-    hitbox.setTransform(collisionObj.getTransform());
-
-    RigidBody & body = componentFactory->newRigidBody();
-    body.restitution = maths->randomFloat(0.5,0.999);
-    body.friction = 1E-10;
-    body.setMass(maths->randomFloat(5,50));
-    float momR = body.getMass()*500;
-    body.momentum = sf::Vector2f(maths->randomFloat(-momR,momR),maths->randomFloat(-momR,momR));
-    body.setTransform(collisionObj.getTransform());
-
-
-    collisionObj.addComponent("hitbox",hitbox);
-    collisionObj.addComponent("body",body);
-
-    hitbox.update();
-    return collisionObj;
+    return makePhysicsObject(collisionObj);
 }
 
 GameObject &GameObjectFactory::newImmovableObject()
@@ -144,11 +127,41 @@ GameObject& GameObjectFactory::newPlayerObject() //builds behaviours for the pla
 
 GameObject &GameObjectFactory::newPathingObject()
 {
-
     GameObject & seeker = newObject();
+    return makePathingObject(seeker);
+}
 
+GameObject &GameObjectFactory::newPathingObject(std::string name)
+{
+    GameObject & seeker = newObject(name);
+    return makePathingObject(seeker);
+}
+
+GameObject &GameObjectFactory::makePhysicsObject(GameObject & o)
+{
     Collidable & hitbox = componentFactory->newRandomCollidable();
-    hitbox.setTransform(seeker.getTransform());
+    hitbox.setTransform(o.getTransform());
+
+    RigidBody & body = componentFactory->newRigidBody();
+    body.restitution = maths->randomFloat(0.5,0.999);
+    body.friction = 1E-10;
+    body.setMass(maths->randomFloat(5,50));
+    float momR = body.getMass()*500;
+    body.momentum = sf::Vector2f(maths->randomFloat(-momR,momR),maths->randomFloat(-momR,momR));
+    body.setTransform(o.getTransform());
+
+
+    o.addComponent("hitbox",hitbox);
+    o.addComponent("body",body);
+
+    hitbox.update();
+    return o;
+}
+
+GameObject &GameObjectFactory::makePathingObject(GameObject & o)
+{
+    Collidable & hitbox = componentFactory->newRandomCollidable();
+    hitbox.setTransform(o.getTransform());
     hitbox.pathable = true;
     hitbox.immovable = false;
     hitbox.diminutive = true;
@@ -156,15 +169,13 @@ GameObject &GameObjectFactory::newPathingObject()
 
     GameLogic& logic = componentFactory->newGameLogic();
 
-
-
     //logic.addBehaviour(new FlowPathingBehaviours);
 
-    seeker.addComponent(hitbox);
-    seeker.addComponent(logic);
+    o.addComponent(hitbox);
+    o.addComponent(logic);
 
     //Behaviour & b = componentFactory->bindBehaviour(logic,"flowPathingBehaviours");
 
-    return seeker;
+    return o;
 }
 

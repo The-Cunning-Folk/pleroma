@@ -20,6 +20,7 @@ void Game::runEngines()
 {
 
     GameObject & player = gameObjectLoader.loadGameObject("player_1");
+    GameObject & testObj = gameObjectLoader.loadGameObject("testpather");
 
     inputEngine.run();
 
@@ -57,6 +58,8 @@ void Game::runEngines()
     rayCastingEngine.createOwnedRay(player.loadTransform().position,player.loadTransform().position + sf::Vector2f(-100,100),player);
     rayCastingEngine.createOwnedRay(player.loadTransform().position,player.loadTransform().position + sf::Vector2f(-100,-100),player);
     rayCastingEngine.createOwnedRay(player.loadTransform().position,player.loadTransform().position + sf::Vector2f(100,-100),player);
+
+    rayCastingEngine.createTargettedRay(player,testObj);
 
     rayCastingEngine.run();
 
@@ -111,7 +114,7 @@ void Game::run()
     fpsDisplay.setCharacterSize(20);
     fpsDisplay.setFont(resourceLoader.getFont("8bit16.ttf"));
 
-    bool transformDebug = false;
+    bool transformDebug = true;
     bool collisionDebug = true;
     bool fpsDebug = true;
     bool pathingDebug = false;
@@ -323,6 +326,8 @@ void Game::initialiseTests()
 
         }
     }
+    GameObject& coll = gameObjectFactory.newPathingObject("testpather");
+    coll.loadTransform().setPosition(sf::Vector2f(164,128));
 }
 
 void Game::initialisePlayers()
