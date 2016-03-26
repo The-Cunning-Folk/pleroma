@@ -17,8 +17,6 @@ public:
     sf::Vector2f targetPosition; //is the desired end position, not the cutoff point
     sf::Vector2f endPosition;
 
-    std::vector<sf::Vector2i> gridPositions;
-
     std::vector<std::string> objectsInContact; //objects the ray is touching
     std::vector<int> collidablesInContact;
 

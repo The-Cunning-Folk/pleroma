@@ -16,8 +16,6 @@ SimpleRay &RaycastingEngine::createBasicRay(sf::Vector2f v1, sf::Vector2f v2)
     r.startPosition = v1;
     r.targetPosition = v2;
     r.endPosition = v2;
-    std::vector<sf::Vector2i> gridSquares = grid->bresenhamLine(v1,v2);
-    r.gridPositions = gridSquares;
     return r;
 }
 
@@ -54,13 +52,15 @@ void RaycastingEngine::start()
 void RaycastingEngine::run()
 {
 
+    //resolve rays
     for(int n=0; n<simpleRays.size(); n++)
     {
         SimpleRay & r = simpleRays[n];
-        for(int i=0; i<r.gridPositions.size(); i++)
+        std::vector<sf::Vector2i> gridPositions = grid->bresenhamLine(r.startPosition,r.endPosition);
+        for(int i=0; i<gridPositions.size(); i++)
         {
-            if(!grid->isActiveGlobal(r.gridPositions[i])) {continue;}
-            GridSquare & g = grid->getActiveGridSquareFromGlobalCoords(r.gridPositions[i]);
+            if(!grid->isActiveGlobal(gridPositions[i])) {continue;}
+            GridSquare & g = grid->getActiveGridSquareFromGlobalCoords(gridPositions[i]);
             g.debugColor = sf::Color::Yellow;
             if(g.collidablesInContact.size() > 0)
             {
@@ -73,14 +73,32 @@ void RaycastingEngine::run()
                         LineIntersection l = maths->findIntersection(r.startPosition,r.endPosition,c.polygon);
                         if(l.intersects)
                         {
+                            r.objectsInContact.push_back(c.getParent());
+                            r.collidablesInContact.push_back(c.index);
                             r.endPosition = l.intersectionPoint;
+                            gridPositions.erase(gridPositions.begin()+i,gridPositions.end());
                             continue;
                         }
                     }
                 }
             }
         }
+
+        for(int i=0; i<r.objectsInContact.size(); i++)
+        {
+            if(r.objectsInContact[i] == r.target)
+            {
+                //trigger behaviours here!
+            }
+            else
+            {
+                //secondary behaviours here1
+            }
+        }
     }
+
+
+
 }
 
 void RaycastingEngine::finish()

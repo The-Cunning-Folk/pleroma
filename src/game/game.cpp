@@ -54,10 +54,6 @@ void Game::runEngines()
     physicsEngine.run();
 
     rayCastingEngine.start();
-    rayCastingEngine.createOwnedRay(player.loadTransform().position,player.loadTransform().position + sf::Vector2f(100,100),player);
-    rayCastingEngine.createOwnedRay(player.loadTransform().position,player.loadTransform().position + sf::Vector2f(-100,100),player);
-    rayCastingEngine.createOwnedRay(player.loadTransform().position,player.loadTransform().position + sf::Vector2f(-100,-100),player);
-    rayCastingEngine.createOwnedRay(player.loadTransform().position,player.loadTransform().position + sf::Vector2f(100,-100),player);
 
     rayCastingEngine.createTargettedRay(player,testObj);
 
@@ -169,14 +165,14 @@ void Game::run()
 
         window.window.setView(viewPort.view);
 
+        if(transformDebug)
+            transformEngine.drawDebug();
+
         if(collisionDebug)
             collisionEngine.drawDebug();
 
         if(pathingDebug)
             pathingEngine.drawDebug();
-
-        if(transformDebug)
-            transformEngine.drawDebug();
 
         if(raycastingDebug)
             rayCastingEngine.drawDebug();

@@ -326,11 +326,14 @@ LineIntersection MathsUtils::findIntersection(sf::Vector2f a, sf::Vector2f b, Co
     for(int i=0; i<stepCount; i++)
     {
         sf::Vector2f stepPos = a + ((float) i)*step;
-        if(containsPoint(stepPos,c))
+        if(c.bBox.contains(stepPos))
         {
-            intersection.intersects = true;
-            intersection.intersectionPoint = stepPos;
-            return intersection;
+            if(containsPoint(stepPos,c))
+            {
+                intersection.intersects = true;
+                intersection.intersectionPoint = stepPos;
+                return intersection;
+            }
         }
     }
     return intersection;
