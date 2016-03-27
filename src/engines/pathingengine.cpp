@@ -33,10 +33,12 @@ void PathingEngine::doWaveFrontLayer(int layerNum, std::vector<sf::Vector2i> lay
     std::vector<sf::Vector2i> nextLayer;
     for(unsigned int i=0; i< layer.size(); i++)
     {
+        if(!grid->isActive(layer[i])){continue;}
         GridSquare & g = grid->getActiveGridSquareFromLocalCoords(layer[i]);
         std::vector<sf::Vector2i> thisNeighbours = grid->getNeighbours(g);
         for(unsigned int j=0; j<thisNeighbours.size(); j++)
         {
+            if(!grid->isActive(thisNeighbours[j])){continue;}
             GridSquare & n = grid->getActiveGridSquareFromLocalCoords(thisNeighbours[j]);
             if(!n.checked)
             {
