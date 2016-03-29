@@ -169,12 +169,10 @@ GameObject &GameObjectFactory::makePathingObject(GameObject & o)
 
     GameLogic& logic = componentFactory->newGameLogic();
 
-    //logic.addBehaviour(new FlowPathingBehaviours);
-
     o.addComponent(hitbox);
     o.addComponent(logic);
 
-    //Behaviour & b = componentFactory->bindBehaviour(logic,"flowPathingBehaviours");
+    Behaviour & b = componentFactory->bindBehaviour(logic,"flowPathingBehaviours");
 
     return o;
 }
