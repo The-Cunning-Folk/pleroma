@@ -317,15 +317,225 @@ LineIntersection MathsUtils::findIntersection(sf::Vector2f a, sf::Vector2f b, Co
 
     sf::Vector2f diff = b - a;
     sf::Vector2f unitV = unit(diff);
+
+
+    float dy = diff.y;
+    float dx = diff.x;
+
+    bool posX = b.x > a.x;
+    bool posY = b.y > a.y;
+
+    bool startInBox = c.bBox.contains(a);
+    bool endInBox = c.bBox.contains(b);
+
+    sf::Vector2f entersBox = a;
+    sf::Vector2f exitsBox = b;
+
+    if(!startInBox && !endInBox)
+    {
+        if(dx == 0.0 && dy == 0.0)
+        {
+            intersection.intersects = false;
+            return intersection;
+        }
+        else if(dx == 0.0)
+        {
+            //straight line in y
+            float invC = a.x;
+            entersBox.x = invC;
+            exitsBox.x = invC;
+            if(posY)
+            {
+                entersBox.y = c.bBox.top;
+                exitsBox.y = c.bBox.top + c.bBox.height;
+            }
+            else
+            {
+                entersBox.y = c.bBox.top + c.bBox.height;
+                exitsBox.y = c.bBox.top;
+            }
+
+        }
+
+        else if(dy == 0.0)
+        {
+            //straight line in x
+            float C = a.y;
+            entersBox.y = C;
+            exitsBox.y = C;
+            if(posX)
+            {
+                entersBox.x = c.bBox.left;
+                exitsBox.x = c.bBox.left + c.bBox.width;
+            }
+            else
+            {
+                entersBox.x = c.bBox.left + c.bBox.width;
+                exitsBox.x = c.bBox.left;
+            }
+        }
+        else
+        {
+            float grad = dy/dx;
+            float invgrad = 1.0/grad;
+            float aY = a.y;
+            float aX = a.x;
+
+            float yAtLeftEdge = grad*(c.bBox.left-aX) + aY;
+            float xAtTopEdge = invgrad*(c.bBox.top-aY) + aX;
+            float yAtRightEdge = grad*(c.bBox.left+c.bBox.width - aX) + aY;
+            float xAtBotEdge = invgrad*(c.bBox.top+c.bBox.height - aY) + aX;
+
+            bool hitsLeftEdge = (yAtLeftEdge >= c.bBox.top && yAtLeftEdge <= c.bBox.top + c.bBox.height);
+            bool hitsTopEdge = (xAtTopEdge >= c.bBox.left && xAtTopEdge <= c.bBox.left + c.bBox.width);
+            bool hitsRightEdge = (yAtRightEdge >= c.bBox.top && yAtRightEdge <= c.bBox.top + c.bBox.height);
+            bool hitsBotEdge = (xAtBotEdge >= c.bBox.left && xAtBotEdge <= c.bBox.left + c.bBox.width);
+
+            if(grad > 0)
+            {
+
+
+                if(posX)
+                {
+                    //left to right, low y to high y
+
+                    if(hitsLeftEdge)
+                    {
+                        //line enters on left edge
+                        entersBox.x = c.bBox.left;
+                        entersBox.y = yAtLeftEdge;
+                    }
+                    else if(hitsTopEdge)
+                    {
+                        //line enters on top edge
+                        entersBox.y = c.bBox.top;
+                        entersBox.x = xAtTopEdge;
+                    }
+
+                    if(hitsRightEdge)
+                    {
+                        //line exits on right edge
+                        exitsBox.x = c.bBox.left + c.bBox.width;
+                        exitsBox.y = yAtRightEdge;
+                    }
+                    else if(hitsBotEdge)
+                    {
+                        //line exits on bottom edge
+                        exitsBox.y = c.bBox.top + c.bBox.height;
+                        exitsBox.x = xAtBotEdge;
+                    }
+
+                }
+
+                else
+                {
+                    //right to left, high y to low y
+
+                    if(hitsLeftEdge)
+                    {
+                        //line enters on left edge
+                        exitsBox.x = c.bBox.left;
+                        exitsBox.y = yAtLeftEdge;
+                    }
+                    else if(hitsTopEdge)
+                    {
+                        //line enters on top edge
+                        exitsBox.y = c.bBox.top;
+                        exitsBox.x = xAtTopEdge;
+                    }
+
+                    if(hitsRightEdge)
+                    {
+                        //line exits on right edge
+                        entersBox.x = c.bBox.left + c.bBox.width;
+                        entersBox.y = yAtRightEdge;
+                    }
+                    else if(hitsBotEdge)
+                    {
+                        //line exits on bottom edge
+                        entersBox.y = c.bBox.top + c.bBox.height;
+                        entersBox.x = xAtBotEdge;
+                    }
+
+                }
+            }
+            else
+            {
+                if(posX)
+                {
+                    //left to right, high y to low y
+
+                    if(hitsLeftEdge)
+                    {
+                        //line enters on left edge
+                        entersBox.x = c.bBox.left;
+                        entersBox.y = yAtLeftEdge;
+                    }
+                    else if(hitsTopEdge)
+                    {
+                        //line enters on top edge
+                        exitsBox.y = c.bBox.top;
+                        exitsBox.x = xAtTopEdge;
+                    }
+
+                    if(hitsRightEdge)
+                    {
+                        //line exits on right edge
+                        exitsBox.x = c.bBox.left + c.bBox.width;
+                        exitsBox.y = yAtRightEdge;
+                    }
+                    else if(hitsBotEdge)
+                    {
+                        //line exits on bottom edge
+                        entersBox.y = c.bBox.top + c.bBox.height;
+                        entersBox.x = xAtBotEdge;
+                    }
+
+                }
+                else
+                {
+                    //right to left, low y to hight y
+
+                    if(hitsLeftEdge)
+                    {
+                        //line enters on left edge
+                        exitsBox.x = c.bBox.left;
+                        exitsBox.y = yAtLeftEdge;
+                    }
+                    else if(hitsTopEdge)
+                    {
+                        //line enters on top edge
+                        entersBox.y = c.bBox.top;
+                        entersBox.x = xAtTopEdge;
+                    }
+
+                    if(hitsRightEdge)
+                    {
+                        //line exits on right edge
+                        entersBox.x = c.bBox.left + c.bBox.width;
+                        entersBox.y = yAtRightEdge;
+                    }
+                    else if(hitsBotEdge)
+                    {
+                        //line exits on bottom edge
+                        exitsBox.y = c.bBox.top + c.bBox.height;
+                        exitsBox.x = xAtBotEdge;
+                    }
+                }
+            }
+
+        }
+    }
+
     sf::Vector2f step;
     float stepMag = 1.0f;
     step = stepMag*unitV;
-    float distance = mag(diff);
+    float distance = mag(exitsBox-entersBox);
     int stepCount = (int) ceil(distance);
 
     for(int i=0; i<stepCount; i++)
     {
-        sf::Vector2f stepPos = a + ((float) i)*step;
+        sf::Vector2f stepPos = entersBox + ((float) i)*step;
         if(c.bBox.contains(stepPos))
         {
             if(containsPoint(stepPos,c))

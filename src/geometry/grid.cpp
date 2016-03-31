@@ -10,6 +10,8 @@ Grid::Grid()
     activeOrigin.x =0;
     activeOrigin.y = 0;
     activeHeight = 0;
+    nullSqu.workFunction = 1E10;
+    nullSqu.steps = 1E10;
 }
 
 
