@@ -57,11 +57,16 @@ bool Grid::isActive(sf::Vector2i pos)
 {
     int xpos = pos.x;
     int ypos = pos.y;
-    if(xpos > activeWidth || xpos < 0)
+    if(xpos >= activeWidth || xpos < 0)
     {
         return false;
     }
     if( ypos >= activeHeight || ypos <0)
+    {
+        return false;
+    }
+
+    if(xpos*activeHeight + ypos > activeSquares.size()-1)
     {
         return false;
     }

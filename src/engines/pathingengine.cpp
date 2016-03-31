@@ -81,8 +81,11 @@ void PathingEngine::calculateFlowVectors()
                 for(int m=0; m<adjacents.size(); m++)
                 {
 
+
                     GridSquare & n = grid->getActiveGridSquareFromLocalCoords(adjacents[m]);
                     sf::Vector2f diff = grid->getCentre(n.position) - grid->getCentre(g.position);
+
+
 
                     if(n.steps < minSteps && n.steps >= 0 && n.steps < g.steps)
                     {
