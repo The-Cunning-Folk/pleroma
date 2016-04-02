@@ -10,6 +10,8 @@ Grid::Grid()
     activeOrigin.x =0;
     activeOrigin.y = 0;
     activeHeight = 0;
+    nullSqu.workFunction = 1E10;
+    nullSqu.steps = 1E10;
 }
 
 
@@ -55,11 +57,16 @@ bool Grid::isActive(sf::Vector2i pos)
 {
     int xpos = pos.x;
     int ypos = pos.y;
-    if(xpos > activeWidth || xpos < 0)
+    if(xpos >= activeWidth || xpos < 0)
     {
         return false;
     }
     if( ypos >= activeHeight || ypos <0)
+    {
+        return false;
+    }
+
+    if(xpos*activeHeight + ypos > activeSquares.size()-1)
     {
         return false;
     }
@@ -309,8 +316,8 @@ void Grid::setActiveSquares(const std::vector<GridSquare> &value)
 
 sf::Vector2i BQ::Grid::getGridPosition(sf::Vector2f position)
 {
-    int x = (int) ceil(position.x);
-    int y = (int) ceil(position.y);
+    int x = (int) floor(position.x);
+    int y = (int) floor(position.y);
 
     int gridx = x>>power;
     int gridy = y>>power;

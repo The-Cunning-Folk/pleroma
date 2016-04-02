@@ -165,16 +165,15 @@ GameObject &GameObjectFactory::makePathingObject(GameObject & o)
     hitbox.pathable = true;
     hitbox.immovable = false;
     hitbox.diminutive = true;
+    hitbox.opaque = false;
 
 
     GameLogic& logic = componentFactory->newGameLogic();
 
-    //logic.addBehaviour(new FlowPathingBehaviours);
-
     o.addComponent(hitbox);
     o.addComponent(logic);
 
-    //Behaviour & b = componentFactory->bindBehaviour(logic,"flowPathingBehaviours");
+    Behaviour & b = componentFactory->bindBehaviour(logic,"flowPathingBehaviours");
 
     return o;
 }

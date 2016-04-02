@@ -26,6 +26,13 @@ SimpleRay &RaycastingEngine::createOwnedRay(sf::Vector2f v1, sf::Vector2f v2, Ga
     return r;
 }
 
+SimpleRay &RaycastingEngine::createOwnedRay(GameObject & owner, sf::Vector2f relativePosition)
+{
+    sf::Vector2f start = owner.loadTransform().position;
+    sf::Vector2f end = start + relativePosition;
+    return createOwnedRay(start,end,owner);
+}
+
 SimpleRay &RaycastingEngine::createTargettedRay(GameObject & owner, GameObject & target)
 {
     SimpleRay & r = createOwnedRay(owner.loadTransform().position,target.loadTransform().position,owner);
@@ -61,13 +68,15 @@ void RaycastingEngine::run()
         {
             if(!grid->isActiveGlobal(gridPositions[i])) {continue;}
             GridSquare & g = grid->getActiveGridSquareFromGlobalCoords(gridPositions[i]);
-            g.debugColor = sf::Color::Yellow;
+            //g.debugColor = sf::Color::Green;
             if(g.collidablesInContact.size() > 0)
             {
                 //find entry point at edge of this
                 for(int j=0; j<g.collidablesInContact.size(); j++)
                 {
+
                     Collidable & c = componentLoader->getCollidable(g.collidablesInContact[j]);
+                    if(!c.opaque && c.getParent() != r.target) {continue;}
                     if(c.getParent() != r.originator)
                     {
                         LineIntersection l = maths->findIntersection(r.startPosition,r.endPosition,c.polygon);
@@ -75,8 +84,11 @@ void RaycastingEngine::run()
                         {
                             r.objectsInContact.push_back(c.getParent());
                             r.collidablesInContact.push_back(c.index);
-                            r.endPosition = l.intersectionPoint;
-                            gridPositions.erase(gridPositions.begin()+i,gridPositions.end());
+                            if(c.opaque)
+                            {
+                                r.endPosition = l.intersectionPoint;
+                                gridPositions.erase(gridPositions.begin()+i,gridPositions.end());
+                            }
                             continue;
                         }
                     }
@@ -89,6 +101,7 @@ void RaycastingEngine::run()
             if(r.objectsInContact[i] == r.target)
             {
                 //trigger behaviours here!
+
             }
             else
             {

@@ -33,10 +33,12 @@ void PathingEngine::doWaveFrontLayer(int layerNum, std::vector<sf::Vector2i> lay
     std::vector<sf::Vector2i> nextLayer;
     for(unsigned int i=0; i< layer.size(); i++)
     {
+        if(!grid->isActive(layer[i])){continue;}
         GridSquare & g = grid->getActiveGridSquareFromLocalCoords(layer[i]);
         std::vector<sf::Vector2i> thisNeighbours = grid->getNeighbours(g);
         for(unsigned int j=0; j<thisNeighbours.size(); j++)
         {
+            if(!grid->isActive(thisNeighbours[j])){continue;}
             GridSquare & n = grid->getActiveGridSquareFromLocalCoords(thisNeighbours[j]);
             if(!n.checked)
             {
@@ -79,8 +81,11 @@ void PathingEngine::calculateFlowVectors()
                 for(int m=0; m<adjacents.size(); m++)
                 {
 
+
                     GridSquare & n = grid->getActiveGridSquareFromLocalCoords(adjacents[m]);
                     sf::Vector2f diff = grid->getCentre(n.position) - grid->getCentre(g.position);
+
+
 
                     if(n.steps < minSteps && n.steps >= 0 && n.steps < g.steps)
                     {

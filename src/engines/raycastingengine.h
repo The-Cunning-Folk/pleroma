@@ -14,6 +14,7 @@ public:
 
     SimpleRay& createBasicRay(sf::Vector2f,sf::Vector2f);
     SimpleRay& createOwnedRay(sf::Vector2f,sf::Vector2f,GameObject&);
+    SimpleRay& createOwnedRay(GameObject&,sf::Vector2f);
     SimpleRay& createTargettedRay(GameObject &, GameObject &);
 
     void start();
