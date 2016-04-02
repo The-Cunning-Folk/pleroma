@@ -56,13 +56,6 @@ void Game::runEngines()
     rayCastingEngine.start();
 
     sf::Vector2f pPos = player.loadTransform().position;
-    int rayNum = 1000;
-    float angleStep = 2*3.14/((float)rayNum);
-
-    for(int i=0; i<rayNum; i++)
-    {
-        rayCastingEngine.createOwnedRay(player,math.rotateClockwise(sf::Vector2f(200,0),i*angleStep));
-    }
 
     rayCastingEngine.createTargettedRay(player,testObj);
 

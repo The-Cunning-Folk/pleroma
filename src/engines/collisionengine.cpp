@@ -26,7 +26,7 @@ Collidable &CollisionEngine::getCollidable(int index)
     else
     {
         debug->printerr("requested collidable out of bounds");
-        return collidables[0];
+        return collidables[0]; //todo: this could cause a segfault! Very bad >:(
     }
 
 }

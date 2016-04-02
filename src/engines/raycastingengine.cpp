@@ -50,6 +50,26 @@ void RaycastingEngine::setSimpleRays(const std::vector<SimpleRay> &value)
     simpleRays = value;
 }
 
+RayEmitter &RaycastingEngine::addRayEmitter()
+{
+    rayEmitters.resize(rayEmitters.size()+1);
+    rayEmitters.back().index = rayEmitters.size()-1;
+    return rayEmitters.back();
+}
+
+RayEmitter &RaycastingEngine::getRayEmitter(int index)
+{
+    if(index >=0 && index < rayEmitters.size())
+    {
+        return rayEmitters[index];
+    }
+    else
+    {
+        debug->printerr("requested rayemitter out of bounds");
+        return rayEmitters[0]; //todo: this could cause a segfault! Very bad >:(
+    }
+}
+
 void RaycastingEngine::start()
 {
     //get rid of the rays from the last frame
