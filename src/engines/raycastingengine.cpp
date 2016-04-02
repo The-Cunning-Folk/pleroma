@@ -68,7 +68,7 @@ void RaycastingEngine::run()
         {
             if(!grid->isActiveGlobal(gridPositions[i])) {continue;}
             GridSquare & g = grid->getActiveGridSquareFromGlobalCoords(gridPositions[i]);
-            g.debugColor = sf::Color::Green;
+            //g.debugColor = sf::Color::Green;
             if(g.collidablesInContact.size() > 0)
             {
                 //find entry point at edge of this

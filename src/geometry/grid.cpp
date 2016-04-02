@@ -316,8 +316,8 @@ void Grid::setActiveSquares(const std::vector<GridSquare> &value)
 
 sf::Vector2i BQ::Grid::getGridPosition(sf::Vector2f position)
 {
-    int x = (int) ceil(position.x);
-    int y = (int) ceil(position.y);
+    int x = (int) floor(position.x);
+    int y = (int) floor(position.y);
 
     int gridx = x>>power;
     int gridy = y>>power;

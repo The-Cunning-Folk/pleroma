@@ -331,7 +331,8 @@ LineIntersection MathsUtils::findIntersection(sf::Vector2f a, sf::Vector2f b, Co
     sf::Vector2f entersBox = a;
     sf::Vector2f exitsBox = b;
 
-    if(!startInBox && !endInBox)
+
+    if(!(startInBox && endInBox))
     {
         if(dx == 0.0 && dy == 0.0)
         {
@@ -381,15 +382,25 @@ LineIntersection MathsUtils::findIntersection(sf::Vector2f a, sf::Vector2f b, Co
             float aY = a.y;
             float aX = a.x;
 
+            float startX = a.x < b.x ? a.x: b.x;
+            float startY = a.y < b.y ? a.y: b.y;
+            float endX = a.x > b.x ? a.x: b.x;
+            float endY = a.y > b.y ? a.y: b.y;
+
             float yAtLeftEdge = grad*(c.bBox.left-aX) + aY;
             float xAtTopEdge = invgrad*(c.bBox.top-aY) + aX;
             float yAtRightEdge = grad*(c.bBox.left+c.bBox.width - aX) + aY;
             float xAtBotEdge = invgrad*(c.bBox.top+c.bBox.height - aY) + aX;
 
-            bool hitsLeftEdge = (yAtLeftEdge >= c.bBox.top && yAtLeftEdge <= c.bBox.top + c.bBox.height);
-            bool hitsTopEdge = (xAtTopEdge >= c.bBox.left && xAtTopEdge <= c.bBox.left + c.bBox.width);
-            bool hitsRightEdge = (yAtRightEdge >= c.bBox.top && yAtRightEdge <= c.bBox.top + c.bBox.height);
-            bool hitsBotEdge = (xAtBotEdge >= c.bBox.left && xAtBotEdge <= c.bBox.left + c.bBox.width);
+            bool reachesLeftEdge = c.bBox.left > startX && c.bBox.left < endX;
+            bool reachesTopEdge = c.bBox.top > startY && c.bBox.top < endY;
+            bool reachesRightEdge = c.bBox.left + c.bBox.width > startX && c.bBox.left + c.bBox.width < endX;
+            bool reachesBotEdge = c.bBox.top + c.bBox.height > startY && c.bBox.top + c.bBox.height < endY;
+
+            bool hitsLeftEdge = reachesLeftEdge && (yAtLeftEdge > c.bBox.top && yAtLeftEdge < c.bBox.top + c.bBox.height);
+            bool hitsTopEdge = reachesTopEdge && (xAtTopEdge > c.bBox.left && xAtTopEdge < c.bBox.left + c.bBox.width);
+            bool hitsRightEdge = reachesRightEdge && (yAtRightEdge > c.bBox.top && yAtRightEdge < c.bBox.top + c.bBox.height);
+            bool hitsBotEdge = reachesBotEdge && (xAtBotEdge > c.bBox.left && xAtBotEdge < c.bBox.left + c.bBox.width);
 
             if(grad > 0)
             {
