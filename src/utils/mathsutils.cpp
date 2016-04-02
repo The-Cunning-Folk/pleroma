@@ -382,6 +382,8 @@ LineIntersection MathsUtils::findIntersection(sf::Vector2f a, sf::Vector2f b, Co
             float aY = a.y;
             float aX = a.x;
 
+            //what a bloody mess...
+
             float startX = a.x < b.x ? a.x: b.x;
             float startY = a.y < b.y ? a.y: b.y;
             float endX = a.x > b.x ? a.x: b.x;
