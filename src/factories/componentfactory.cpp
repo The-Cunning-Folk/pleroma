@@ -27,6 +27,16 @@ void ComponentFactory::setLogicEngine(LogicEngine *value)
     logicEngine = value;
 }
 
+RaycastingEngine *ComponentFactory::getRayCastingEngine() const
+{
+    return rayCastingEngine;
+}
+
+void ComponentFactory::setRayCastingEngine(RaycastingEngine *value)
+{
+    rayCastingEngine = value;
+}
+
 GameObjectLoader *ComponentFactory::getGameObjectLoader() const
 {
     return gameObjectLoader;
@@ -193,6 +203,18 @@ RigidBody &ComponentFactory::newRigidBody(std::string name)
     RigidBody & rigidBody = newRigidBody();
     rigidBody.setName(name);
     return rigidBody;
+}
+
+RayEmitter &ComponentFactory::newRayEmitter()
+{
+    return rayCastingEngine->addRayEmitter();
+}
+
+RayEmitter &ComponentFactory::newRayEmitter(std::string name)
+{
+    RayEmitter & rayEmitter = rayCastingEngine->addRayEmitter();
+    rayEmitter.setName(name);
+    return rayEmitter;
 }
 
 TransformEngine *ComponentFactory::getTransformEngine() const

@@ -12,6 +12,7 @@
 #include <collisionengine.h>
 #include <physicsengine.h>
 #include <logicengine.h>
+#include <raycastingengine.h>
 
 #include <componentloader.h>
 #include <gameobjectloader.h>
@@ -63,6 +64,9 @@ public:
     RigidBody& newRigidBody();
     RigidBody& newRigidBody(std::string);
 
+    RayEmitter & newRayEmitter();
+    RayEmitter & newRayEmitter(std::string);
+
     TransformEngine *getTransformEngine() const;
     void setTransformEngine(TransformEngine *value);
 
@@ -90,6 +94,9 @@ public:
     LogicEngine *getLogicEngine() const;
     void setLogicEngine(LogicEngine *value);
 
+    RaycastingEngine *getRayCastingEngine() const;
+    void setRayCastingEngine(RaycastingEngine *value);
+
 private:
 
     TransformEngine* transformEngine;
@@ -98,6 +105,7 @@ private:
     CollisionEngine* collisionEngine;
     PhysicsEngine* physicsEngine;
     LogicEngine* logicEngine;
+    RaycastingEngine* rayCastingEngine;
 
 
 };

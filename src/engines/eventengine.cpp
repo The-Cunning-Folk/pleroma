@@ -185,6 +185,7 @@ std::map<std::string,std::string> EventEngine::parseEvent(std::string event)
 void EventEngine::resolveGlobally(Event& event)
 {
     event.parsedScript = parseEvent(event.script);
+
 }
 
 void EventEngine::resolveLocally(Event& event)

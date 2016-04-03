@@ -10,8 +10,10 @@ public:
     RayEmitter();
 
     std::vector<std::string> targets;
+    std::vector<sf::Vector2f> positions;
 
     void addTarget(std::string);
+    std::string getTarget(int);
 
     void update();
 

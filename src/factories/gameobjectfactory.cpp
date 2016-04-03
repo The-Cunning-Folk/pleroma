@@ -73,6 +73,7 @@ GameObject& GameObjectFactory::newPlayerObject() //builds behaviours for the pla
     Collidable & hitbox = componentFactory->newCollidable("player_hitbox");
     Collidable & attack = componentFactory->newCollidable("player_attack");
     RigidBody & body = componentFactory->newRigidBody("player_rigidbody");
+    RayEmitter & rays = componentFactory->newRayEmitter("player_ray1");
 
     float corners = 3;
     float size = 8;
@@ -103,6 +104,7 @@ GameObject& GameObjectFactory::newPlayerObject() //builds behaviours for the pla
     player.addComponent("hitbox",hitbox);
     player.addComponent("attack",attack);
     player.addComponent("body",body);
+    player.addComponent("raytest",rays);
 
     //input
     input.inputMap.setKeyInput("move_up",sf::Keyboard::W);
@@ -127,14 +129,22 @@ GameObject& GameObjectFactory::newPlayerObject() //builds behaviours for the pla
 
 GameObject &GameObjectFactory::newPathingObject()
 {
-    GameObject & seeker = newObject();
-    return makePathingObject(seeker);
+    GameObject & seeker = makePlayerSeekingObject(
+                makePathingObject(
+                    newObject()
+                    )
+                );
+    return seeker;
 }
 
 GameObject &GameObjectFactory::newPathingObject(std::string name)
 {
-    GameObject & seeker = newObject(name);
-    return makePathingObject(seeker);
+    GameObject & seeker = makePlayerSeekingObject(
+                makePathingObject(
+                    newObject(name)
+                    )
+                );
+    return seeker;
 }
 
 GameObject &GameObjectFactory::makePhysicsObject(GameObject & o)
@@ -175,6 +185,14 @@ GameObject &GameObjectFactory::makePathingObject(GameObject & o)
 
     Behaviour & b = componentFactory->bindBehaviour(logic,"flowPathingBehaviours");
 
+    return o;
+}
+
+GameObject &GameObjectFactory::makePlayerSeekingObject(GameObject & o)
+{
+    RayEmitter & e = componentFactory->newRayEmitter();
+    e.addTarget("player_1");
+    o.addComponent(e);
     return o;
 }
 

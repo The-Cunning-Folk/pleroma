@@ -37,6 +37,7 @@ public:
 
     GameObject & makePhysicsObject(GameObject &);
     GameObject & makePathingObject(GameObject &);
+    GameObject & makePlayerSeekingObject(GameObject &);
 
     ComponentFactory *getComponentFactory() const;
     void setComponentFactory(ComponentFactory *value);

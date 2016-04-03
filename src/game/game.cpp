@@ -42,6 +42,7 @@ void Game::runEngines()
     collisionEngine.setActiveComponents(occlusionManager.getActiveComponents("collidable"));
     physicsEngine.setActiveComponents(occlusionManager.getActiveComponents("rigidbody"));
     eventEngine.setActiveComponents(occlusionManager.getActiveComponents("gamelogic"));
+    rayCastingEngine.setActiveComponents(occlusionManager.getActiveComponents("rayemitter"));
 
     //float logicTime = debug->time.getSeconds("logicTime");
     //eventEngine.setDelta(logicTime);
@@ -241,6 +242,7 @@ void Game::initialiseInjections()
    componentFactory.setGrid(&grid);
    componentFactory.setGameObjectLoader(&gameObjectLoader);
    componentFactory.setLogicEngine(&logicEngine);
+   componentFactory.setRayCastingEngine(&rayCastingEngine);
 
    gameObjectFactory.setStack(&gameObjects);
    gameObjectFactory.setComponentFactory(&componentFactory);

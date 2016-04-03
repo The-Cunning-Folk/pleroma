@@ -79,6 +79,19 @@ void RaycastingEngine::start()
 void RaycastingEngine::run()
 {
 
+    for(int i=0; i<activeComponents.size(); i++)
+    {
+        RayEmitter & e = rayEmitters[activeComponents[i]];
+        GameObject & oA = gameObjectLoader->loadGameObject(e.getParent());
+
+        for(int j=0; j<e.targets.size(); j++)
+        {
+            std::string target = e.getTarget(j);
+            GameObject oB = gameObjectLoader->loadGameObject(target);
+            createTargettedRay(oA,oB);
+        }
+    }
+
     //resolve rays
     for(int n=0; n<simpleRays.size(); n++)
     {
