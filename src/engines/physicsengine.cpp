@@ -100,5 +100,13 @@ RigidBody &PhysicsEngine::addRigidBody()
 
 RigidBody &PhysicsEngine::getRigidBody(int index)
 {
-    return rigidbodies[index];
+    if(index >=0 && index < rigidbodies.size())
+    {
+        return rigidbodies[index];
+    }
+    else
+    {
+        debug->printerr("requested rigidbody out of bounds");
+        return rigidbodies[0]; //todo: this could cause a segfault! Very bad >:(
+    }
 }

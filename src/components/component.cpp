@@ -11,6 +11,7 @@ Component::Component()
 
 }
 
+
 Grid *Component::getGrid() const
 {
     return grid;

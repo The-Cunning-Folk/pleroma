@@ -140,14 +140,14 @@ void EventEngine::run()
         g.setDelta(delta);
         g.update();
     }
-    events.clear();
-    collisions.clear();
-    toUpdate.clear();
+
 }
 
 void EventEngine::finish()
 {
-
+    events.clear();
+    collisions.clear();
+    toUpdate.clear();
 }
 
 void EventEngine::pushEvent(Event event)
@@ -185,6 +185,7 @@ std::map<std::string,std::string> EventEngine::parseEvent(std::string event)
 void EventEngine::resolveGlobally(Event& event)
 {
     event.parsedScript = parseEvent(event.script);
+
 }
 
 void EventEngine::resolveLocally(Event& event)

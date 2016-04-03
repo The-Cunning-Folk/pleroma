@@ -50,6 +50,26 @@ void RaycastingEngine::setSimpleRays(const std::vector<SimpleRay> &value)
     simpleRays = value;
 }
 
+RayEmitter &RaycastingEngine::addRayEmitter()
+{
+    rayEmitters.resize(rayEmitters.size()+1);
+    rayEmitters.back().index = rayEmitters.size()-1;
+    return rayEmitters.back();
+}
+
+RayEmitter &RaycastingEngine::getRayEmitter(int index)
+{
+    if(index >=0 && index < rayEmitters.size())
+    {
+        return rayEmitters[index];
+    }
+    else
+    {
+        debug->printerr("requested rayemitter out of bounds");
+        return rayEmitters[0]; //todo: this could cause a segfault! Very bad >:(
+    }
+}
+
 void RaycastingEngine::start()
 {
     //get rid of the rays from the last frame
@@ -58,6 +78,19 @@ void RaycastingEngine::start()
 
 void RaycastingEngine::run()
 {
+
+    for(int i=0; i<activeComponents.size(); i++)
+    {
+        RayEmitter & e = rayEmitters[activeComponents[i]];
+        GameObject & oA = gameObjectLoader->loadGameObject(e.getParent());
+
+        for(int j=0; j<e.targets.size(); j++)
+        {
+            std::string target = e.getTarget(j);
+            GameObject oB = gameObjectLoader->loadGameObject(target);
+            createTargettedRay(oA,oB);
+        }
+    }
 
     //resolve rays
     for(int n=0; n<simpleRays.size(); n++)
@@ -101,11 +134,12 @@ void RaycastingEngine::run()
             if(r.objectsInContact[i] == r.target)
             {
                 //trigger behaviours here!
-
+                eventFactory->createEvent("ray_target_impact("+r.target+")",r.originator);
             }
             else
             {
                 //secondary behaviours here1
+                eventFactory->createEvent("ray_impact("+r.objectsInContact[i]+")",r.originator);
             }
         }
     }

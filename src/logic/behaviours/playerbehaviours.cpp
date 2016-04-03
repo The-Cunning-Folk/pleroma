@@ -222,66 +222,63 @@ void PlayerBehaviours::collisionWith(GameObject &o, std::string me, std::string 
     }
 }
 
-void PlayerBehaviours::resolveEvents()
+void PlayerBehaviours::beforeEvents()
 {
     speed = baseSpeed;
     dx = 0;
     dy = 0;
+}
 
-    for(unsigned int i=0; i<events.size(); i++)
+void PlayerBehaviours::resolveEvent(Event & event)
+{
+    std::string action = event.parsedScript["action"];
+
+    if(compare(action,"move_right"))
     {
-
-        Event & event = events[i];
-
-
-        std::string action = event.parsedScript["action"];
-
-        if(compare(action,"move_right"))
+        dx += 1;
+    }
+    else if(compare(action,"move_up"))
+    {
+        dy -= 1;
+    }
+    else if(compare(action,"move_left"))
+    {
+        dx -= 1;
+    }
+    else if(compare(action,"move_down"))
+    {
+        dy += 1;
+    }
+    else if(compare(action,"attack") || compare(action,"pad_X"))
+    {
+        if(attackCooled)
         {
-            dx += 1;
-        }
-        else if(compare(action,"move_up"))
-        {
-            dy -= 1;
-        }
-        else if(compare(action,"move_left"))
-        {
-            dx -= 1;
-        }
-        else if(compare(action,"move_down"))
-        {
-            dy += 1;
-        }
-        else if(compare(action,"attack") || compare(action,"pad_X"))
-        {
-            if(attackCooled)
-            {
-                startAttack = true;
-                attackCooled = false;
-                attackClock.restart();
-            }
-        }
-        else if(compare(action,"roll") || compare(action,"pad_A"))
-        {
-            if(rollCooled)
-            {
-                startRoll = true;
-                rollCooled = false;
-                rollClock.restart();
-            }
-        }
-        else if(compare(action,"X"))
-        {
-            float deltaX = std::stof(event.parsedScript["val"])*0.01;
-            dx += deltaX;
-        }
-        else if(compare(action,"Y"))
-        {
-            float deltaY = std::stof(event.parsedScript["val"])*0.01;
-            dy += deltaY;
+            startAttack = true;
+            attackCooled = false;
+            attackClock.restart();
         }
     }
+    else if(compare(action,"roll") || compare(action,"pad_A"))
+    {
+        if(rollCooled)
+        {
+            startRoll = true;
+            rollCooled = false;
+            rollClock.restart();
+        }
+    }
+    else if(compare(action,"X"))
+    {
+        float deltaX = std::stof(event.parsedScript["val"])*0.01;
+        dx += deltaX;
+    }
+    else if(compare(action,"Y"))
+    {
+        float deltaY = std::stof(event.parsedScript["val"])*0.01;
+        dy += deltaY;
+    }
 }
+
 
 void PlayerBehaviours::update()
 {

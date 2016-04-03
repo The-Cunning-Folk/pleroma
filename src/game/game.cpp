@@ -42,6 +42,7 @@ void Game::runEngines()
     collisionEngine.setActiveComponents(occlusionManager.getActiveComponents("collidable"));
     physicsEngine.setActiveComponents(occlusionManager.getActiveComponents("rigidbody"));
     eventEngine.setActiveComponents(occlusionManager.getActiveComponents("gamelogic"));
+    rayCastingEngine.setActiveComponents(occlusionManager.getActiveComponents("rayemitter"));
 
     //float logicTime = debug->time.getSeconds("logicTime");
     //eventEngine.setDelta(logicTime);
@@ -56,13 +57,6 @@ void Game::runEngines()
     rayCastingEngine.start();
 
     sf::Vector2f pPos = player.loadTransform().position;
-    int rayNum = 1000;
-    float angleStep = 2*3.14/((float)rayNum);
-
-    for(int i=0; i<rayNum; i++)
-    {
-        rayCastingEngine.createOwnedRay(player,math.rotateClockwise(sf::Vector2f(200,0),i*angleStep));
-    }
 
     rayCastingEngine.createTargettedRay(player,testObj);
 
@@ -76,6 +70,8 @@ void Game::runEngines()
     eventEngine.run();
 
     debugDisplayEngine.run();
+
+    eventEngine.finish();
 
 
     viewPort.update();
@@ -119,11 +115,11 @@ void Game::run()
     fpsDisplay.setCharacterSize(20);
     fpsDisplay.setFont(resourceLoader.getFont("8bit16.ttf"));
 
-    bool transformDebug = true;
+    bool transformDebug = false;
     bool collisionDebug = true;
     bool fpsDebug = true;
     bool pathingDebug = false;
-    bool raycastingDebug = true;
+    bool raycastingDebug = false;
 
 
 
@@ -248,6 +244,7 @@ void Game::initialiseInjections()
    componentFactory.setGrid(&grid);
    componentFactory.setGameObjectLoader(&gameObjectLoader);
    componentFactory.setLogicEngine(&logicEngine);
+   componentFactory.setRayCastingEngine(&rayCastingEngine);
 
    gameObjectFactory.setStack(&gameObjects);
    gameObjectFactory.setComponentFactory(&componentFactory);
