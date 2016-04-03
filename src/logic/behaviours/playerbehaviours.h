@@ -51,7 +51,8 @@ public:
 
     void collisionWith(GameObject &, std::string, std::string);
 
-    void resolveEvents();
+    void beforeEvents();
+    void resolveEvent(Event &);
     void update();
 };
 }

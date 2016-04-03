@@ -36,7 +36,9 @@ public:
 
     void addEvent(Event);
 
-    virtual void resolveEvents();
+    void resolveEvents();
+    virtual void beforeEvents();
+    virtual void resolveEvent(Event &);
 
     void clearEvents();
 

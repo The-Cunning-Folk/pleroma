@@ -71,6 +71,8 @@ void Game::runEngines()
 
     debugDisplayEngine.run();
 
+    eventEngine.finish();
+
 
     viewPort.update();
     deltaT = debug->time.getSeconds("logicTime");
@@ -113,11 +115,11 @@ void Game::run()
     fpsDisplay.setCharacterSize(20);
     fpsDisplay.setFont(resourceLoader.getFont("8bit16.ttf"));
 
-    bool transformDebug = true;
+    bool transformDebug = false;
     bool collisionDebug = true;
     bool fpsDebug = true;
     bool pathingDebug = false;
-    bool raycastingDebug = true;
+    bool raycastingDebug = false;
 
 
 

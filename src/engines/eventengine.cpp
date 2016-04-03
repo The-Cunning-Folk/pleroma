@@ -140,14 +140,14 @@ void EventEngine::run()
         g.setDelta(delta);
         g.update();
     }
-    events.clear();
-    collisions.clear();
-    toUpdate.clear();
+
 }
 
 void EventEngine::finish()
 {
-
+    events.clear();
+    collisions.clear();
+    toUpdate.clear();
 }
 
 void EventEngine::pushEvent(Event event)

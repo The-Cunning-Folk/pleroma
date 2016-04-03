@@ -174,7 +174,7 @@ GameObject &GameObjectFactory::makePathingObject(GameObject & o)
     hitbox.setTransform(o.getTransform());
     hitbox.pathable = true;
     hitbox.immovable = false;
-    hitbox.diminutive = true;
+    hitbox.diminutive = false;
     hitbox.opaque = false;
 
 

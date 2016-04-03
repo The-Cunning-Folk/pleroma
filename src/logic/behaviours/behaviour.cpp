@@ -78,7 +78,22 @@ void Behaviour::addEvent(Event event)
 
 void Behaviour::resolveEvents()
 {
-    //nothing here...
+    beforeEvents();
+    for(int i=0; i<events.size(); i++)
+    {
+        Event & e = events[i];
+        resolveEvent(e);
+    }
+}
+
+void Behaviour::beforeEvents()
+{
+    //nothing, put variable resets in here etc
+}
+
+void Behaviour::resolveEvent(Event &)
+{
+    //nothing!
 }
 
 void Behaviour::clearEvents()

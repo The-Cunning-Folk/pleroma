@@ -134,11 +134,12 @@ void RaycastingEngine::run()
             if(r.objectsInContact[i] == r.target)
             {
                 //trigger behaviours here!
-
+                eventFactory->createEvent("ray_target_impact("+r.target+")",r.originator);
             }
             else
             {
                 //secondary behaviours here1
+                eventFactory->createEvent("ray_impact("+r.objectsInContact[i]+")",r.originator);
             }
         }
     }
