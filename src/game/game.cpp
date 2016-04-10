@@ -55,24 +55,22 @@ void Game::runEngines()
     physicsEngine.run();
 
     rayCastingEngine.start();
-
-    sf::Vector2f pPos = player.loadTransform().position;
-
-    rayCastingEngine.createTargettedRay(player,testObj);
-
     rayCastingEngine.run();
+    rayCastingEngine.finish();
 
     pathingEngine.addGoal(player.loadTransform().position);
     pathingEngine.run();
 
 
-
+    eventEngine.start();
     eventEngine.run();
-
-    debugDisplayEngine.run();
-
     eventEngine.finish();
 
+    renderEngine.start();
+    renderEngine.run();
+    renderEngine.finish();
+
+    debugDisplayEngine.run();
 
     viewPort.update();
     deltaT = debug->time.getSeconds("logicTime");
@@ -266,6 +264,7 @@ void Game::initialiseInjections()
    pathingEngine.setGame(this);
    logicEngine.setGame(this);
    rayCastingEngine.setGame(this);
+   renderEngine.setGame(this);
 
    componentFactory.setGame(this);
    gameObjectFactory.setGame(this);

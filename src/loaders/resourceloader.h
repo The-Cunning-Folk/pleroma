@@ -6,7 +6,7 @@
 #include <string>
 #include <memory>
 #include <SFML/Graphics.hpp>
-
+#include <SFML/Audio.hpp>
 
 namespace BQ{
 class ResourceLoader
@@ -22,10 +22,14 @@ public:
 
     std::string baseDirectory;
     std::string fontDirectory;
+    std::string textureDirectory;
 
     std::map<std::string,sf::Font> fonts;
 
+    std::map<std::string,sf::Texture> textures;
+
     sf::Font& getFont(std::string);
+    sf::Texture& getTexture(std::string);
 
 };
 }

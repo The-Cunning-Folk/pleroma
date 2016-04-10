@@ -6,6 +6,7 @@ ResourceLoader::ResourceLoader()
 {
     baseDirectory = "var";
     fontDirectory = "fonts";
+    textureDirectory = "textures";
 }
 
 DebugUtils *ResourceLoader::getDebug() const
@@ -32,9 +33,30 @@ sf::Font &ResourceLoader::getFont(std::string name)
     if(!font.loadFromFile(baseDirectory + "/" + fontDirectory + "/" + name))
     {
         debug->println("font not found");
-        debug->printerr("font not found");
+        debug->printerr("font " + name + " not found");
     }
     fonts[name] = font;
     return fonts[name];
+}
+
+sf::Texture &ResourceLoader::getTexture(std::string name)
+{
+    std::map<std::string,sf::Texture>::const_iterator it = textures.find(name);
+    bool exists = it!=textures.end();
+    if(exists) {return textures[name];}
+
+    //the texture is not in the map
+
+    sf::Texture texture;
+
+    if(!texture.loadFromFile(baseDirectory + "/" + textureDirectory + "/" + name))
+    {
+        debug->println("texture not found");
+        debug->printerr("texture " + name + " not found");
+    }
+
+    textures[name] = texture;
+    return textures[name];
+
 }
 
