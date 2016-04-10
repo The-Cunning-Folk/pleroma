@@ -37,6 +37,16 @@ void ComponentFactory::setRayCastingEngine(RaycastingEngine *value)
     rayCastingEngine = value;
 }
 
+RenderEngine *ComponentFactory::getRenderEngine() const
+{
+    return renderEngine;
+}
+
+void ComponentFactory::setRenderEngine(RenderEngine *value)
+{
+    renderEngine = value;
+}
+
 GameObjectLoader *ComponentFactory::getGameObjectLoader() const
 {
     return gameObjectLoader;
@@ -215,6 +225,18 @@ RayEmitter &ComponentFactory::newRayEmitter(std::string name)
     RayEmitter & rayEmitter = rayCastingEngine->addRayEmitter();
     rayEmitter.setName(name);
     return rayEmitter;
+}
+
+SpriteRenderer &ComponentFactory::newSpriteRenderer()
+{
+    return renderEngine->addSpriteRenderer();
+}
+
+SpriteRenderer &ComponentFactory::newSpriteRenderer(std::string name)
+{
+    SpriteRenderer & spriteRenderer = renderEngine->addSpriteRenderer();
+    spriteRenderer.setName(name);
+    return spriteRenderer;
 }
 
 TransformEngine *ComponentFactory::getTransformEngine() const

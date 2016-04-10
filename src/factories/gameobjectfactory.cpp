@@ -74,6 +74,7 @@ GameObject& GameObjectFactory::newPlayerObject() //builds behaviours for the pla
     Collidable & attack = componentFactory->newCollidable("player_attack");
     RigidBody & body = componentFactory->newRigidBody("player_rigidbody");
     RayEmitter & rays = componentFactory->newRayEmitter("player_ray1");
+    SpriteRenderer & sprite = componentFactory->newSpriteRenderer("player_spr");
 
     float corners = 3;
     float size = 8;
@@ -105,6 +106,7 @@ GameObject& GameObjectFactory::newPlayerObject() //builds behaviours for the pla
     player.addComponent("attack",attack);
     player.addComponent("body",body);
     player.addComponent("raytest",rays);
+    player.addComponent("sprite",sprite);
 
     //input
     input.inputMap.setKeyInput("move_up",sf::Keyboard::W);

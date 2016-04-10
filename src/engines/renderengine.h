@@ -14,6 +14,7 @@ public:
     std::vector<SpriteRenderer> sprites;
 
     SpriteRenderer& addSpriteRenderer();
+    SpriteRenderer& getSpriteRenderer(int);
 
     void start();
     void run();

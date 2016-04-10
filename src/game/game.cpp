@@ -20,7 +20,6 @@ void Game::runEngines()
 {
 
     GameObject & player = gameObjectLoader.loadGameObject("player_1");
-    GameObject & testObj = gameObjectLoader.loadGameObject("testpather");
 
     inputEngine.run();
 
@@ -56,7 +55,6 @@ void Game::runEngines()
 
     rayCastingEngine.start();
     rayCastingEngine.run();
-    rayCastingEngine.finish();
 
     pathingEngine.addGoal(player.loadTransform().position);
     pathingEngine.run();
@@ -64,19 +62,28 @@ void Game::runEngines()
 
     eventEngine.start();
     eventEngine.run();
-    eventEngine.finish();
+
 
     renderEngine.start();
     renderEngine.run();
-    renderEngine.finish();
 
     debugDisplayEngine.run();
 
-    viewPort.update();
+    transformEngine.finish();
+    eventEngine.finish();
+    collisionEngine.finish();
+    pathingEngine.finish();
+    rayCastingEngine.finish();
+    renderEngine.finish();
+
     deltaT = debug->time.getSeconds("logicTime");
     transformEngine.setDelta(deltaT);
     transformEngine.updatePositions();
 
+
+
+
+    viewPort.update();
 
 
 }
@@ -180,6 +187,8 @@ void Game::run()
         if(raycastingDebug)
             rayCastingEngine.drawDebug();
 
+        renderEngine.drawDebug();
+
 
         //get the default viewport back
         window.window.setView(window.window.getDefaultView());
@@ -231,6 +240,7 @@ void Game::initialiseInjections()
    componentLoader.setPhysicsEngine(&physicsEngine);
    componentLoader.setEventEngine(&eventEngine);
    componentLoader.setLogicEngine(&logicEngine);
+   componentLoader.setRenderEngine(&renderEngine);
 
    componentFactory.setCollisionEngine(&collisionEngine);
    componentFactory.setTransformEngine(&transformEngine);
@@ -243,6 +253,7 @@ void Game::initialiseInjections()
    componentFactory.setGameObjectLoader(&gameObjectLoader);
    componentFactory.setLogicEngine(&logicEngine);
    componentFactory.setRayCastingEngine(&rayCastingEngine);
+   componentFactory.setRenderEngine(&renderEngine);
 
    gameObjectFactory.setStack(&gameObjects);
    gameObjectFactory.setComponentFactory(&componentFactory);

@@ -10,6 +10,7 @@ class SpriteRenderer : public Component
 public:
     SpriteRenderer();
 
+    sf::Vector2f position;
     std::string texture;
 
 };

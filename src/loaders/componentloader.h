@@ -6,6 +6,7 @@
 #include<transformengine.h>
 #include<physicsengine.h>
 #include<logicengine.h>
+#include<renderengine.h>
 
 namespace BQ{
 
@@ -58,6 +59,9 @@ public:
     LogicEngine *getLogicEngine() const;
     void setLogicEngine(LogicEngine *value);
 
+    RenderEngine *getRenderEngine() const;
+    void setRenderEngine(RenderEngine *value);
+
 private:
 
     GameObjectLoader * gameObjectLoader;
@@ -68,6 +72,7 @@ private:
     PhysicsEngine* physicsEngine;
     EventEngine* eventEngine;
     LogicEngine* logicEngine;
+    RenderEngine* renderEngine;
 };
 }
 

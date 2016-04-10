@@ -53,6 +53,7 @@ sf::Texture &ResourceLoader::getTexture(std::string name)
     {
         debug->println("texture not found");
         debug->printerr("texture " + name + " not found");
+        texture.loadFromFile(baseDirectory + "/" + textureDirectory + "/" + "error.png");
     }
 
     textures[name] = texture;
