@@ -14,11 +14,18 @@ public:
 
     bool centreOrigin;
 
+    float depth;
+
     sf::Vector2f offset;
     std::string texture;
 
     int getTransform() const;
     void setTransform(int value);
+
+    bool operator < (const SpriteRenderer& str) const
+    {
+        return (depth < str.depth);
+    }
 };
 
 }

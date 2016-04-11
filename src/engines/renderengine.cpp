@@ -35,7 +35,7 @@ SpriteRenderer &RenderEngine::getSpriteRenderer(int index)
     }
     else
     {
-        debug->printerr("requested rayemitter out of bounds");
+        debug->printerr("requested spriterenderer out of bounds");
         return sprites[0]; //todo: this could cause a segfault! Very bad >:(
     }
 }
@@ -51,6 +51,7 @@ void BQ::RenderEngine::run()
     for(int i=0; i<sprites.size(); i++)
     {
         SpriteRenderer & s = sprites[i];
+        s.depth = componentLoader->getTransform(s.transform).position.y;
     }
 }
 
@@ -61,6 +62,8 @@ void BQ::RenderEngine::finish()
 
 void BQ::RenderEngine::drawDebug()
 {
+    std::sort(sprites.begin(),sprites.end());
+
     for(int i=0; i<sprites.size(); i++)
     {
         SpriteRenderer & s = sprites[i];

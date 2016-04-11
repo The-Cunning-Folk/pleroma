@@ -124,7 +124,7 @@ void Game::run()
     fpsDisplay.setFont(resourceLoader.getFont("8bit16.ttf"));
 
     bool transformDebug = false;
-    bool collisionDebug = true;
+    bool collisionDebug = false;
     bool fpsDebug = true;
     bool pathingDebug = false;
     bool raycastingDebug = false;
@@ -180,6 +180,8 @@ void Game::run()
         if(transformDebug)
             transformEngine.drawDebug();
 
+        renderEngine.drawDebug();
+
         if(collisionDebug)
             collisionEngine.drawDebug();
 
@@ -189,7 +191,7 @@ void Game::run()
         if(raycastingDebug)
             rayCastingEngine.drawDebug();
 
-        renderEngine.drawDebug();
+
 
 
         //get the default viewport back
@@ -322,8 +324,8 @@ void Game::initialiseTests()
     {
         for(int j=1; j<=100; j++)
         {
-            int spinner = math.randomInt(0,20);
-            if(spinner <= 2)
+            int spinner = math.randomInt(0,50);
+            if(spinner <= 5)
             {
                 GameObject& coll = gameObjectFactory.newImmovableObject();
                 coll.loadTransform().setPosition(sf::Vector2f(i*32 - 1280,j*32-1280));

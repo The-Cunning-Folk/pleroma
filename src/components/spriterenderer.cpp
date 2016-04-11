@@ -12,8 +12,8 @@ SpriteRenderer::SpriteRenderer()
     transform = 0;
     offset.x = 0;
     offset.y = 0;
-    texture = "error.png";
     centreOrigin = true;
+    depth = 0;
 }
 
 int SpriteRenderer::getTransform() const

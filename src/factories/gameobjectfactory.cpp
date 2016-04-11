@@ -60,6 +60,12 @@ GameObject &GameObjectFactory::newImmovableObject()
     Collidable & hitbox = componentFactory->newCollidable(points);
     hitbox.setTransform(o.getTransform());
     hitbox.immovable = true;
+
+    SpriteRenderer & sprite = componentFactory->newSpriteRenderer();
+    sprite.texture = "box_test.png";
+    sprite.setTransform(o.getTransform());
+    o.addComponent(sprite);
+
     o.addComponent("hitbox",hitbox);
     hitbox.update();
     return o;
