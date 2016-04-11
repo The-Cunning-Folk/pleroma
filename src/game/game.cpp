@@ -24,6 +24,8 @@ void Game::runEngines()
     inputEngine.run();
 
 
+
+
     grid.setActiveBounds(transformEngine.bounds);
 
 
@@ -34,6 +36,10 @@ void Game::runEngines()
     transformEngine.setBounds(viewPort.renderRegion);
     transformEngine.setDelta(deltaT);
     transformEngine.run();
+    transformEngine.updatePositions();
+
+    //restart the logic timer
+    debug->time.restartClock("logicTime");
 
 
     occlusionManager.setActiveObjects(transformEngine.getObjectsInRange());
@@ -76,9 +82,6 @@ void Game::runEngines()
     rayCastingEngine.finish();
     renderEngine.finish();
 
-    deltaT = debug->time.getSeconds("logicTime");
-    transformEngine.setDelta(deltaT);
-    transformEngine.updatePositions();
 
 
 
@@ -166,8 +169,7 @@ void Game::run()
 
         //end logic
 
-        //restart the logic timer
-        print.time.restartClock("logicTime");
+
 
         window.clear();
 
@@ -338,8 +340,6 @@ void Game::initialiseTests()
 
         }
     }
-    GameObject& coll = gameObjectFactory.newPathingObject("testpather");
-    coll.loadTransform().setPosition(sf::Vector2f(164,128));
 }
 
 void Game::initialisePlayers()

@@ -419,7 +419,7 @@ void CollisionEngine::drawDebug()
             {
                 shape.setPoint(k,p.points[k]);
             }
-            shape.setPosition(p.position);
+            shape.setPosition(componentLoader->getTransform(c.transform).position);
             shape.setFillColor(sf::Color::White);
             if(!collidables[i].immovable)
             {

@@ -56,12 +56,7 @@ void BQ::RenderEngine::run()
 
 void BQ::RenderEngine::finish()
 {
-    for(int i=0; i<sprites.size(); i++)
-    {
-        SpriteRenderer & s = sprites[i];
-        sf::Vector2f pos = gameObjectLoader->loadGameObject(s.getParent()).loadTransform().position;
-        s.position = pos;
-    }
+
 }
 
 void BQ::RenderEngine::drawDebug()
@@ -71,7 +66,13 @@ void BQ::RenderEngine::drawDebug()
         SpriteRenderer & s = sprites[i];
         sf::Sprite spr;
         spr.setTexture(resourceLoader->getTexture(s.texture));
-        spr.setPosition(s.position);
+        sf::Vector2f pos = componentLoader->getTransform(s.transform).position;
+        if(s.centreOrigin)
+        {
+            pos.x -= 0.5*spr.getLocalBounds().width;
+            pos.y -= 0.5*spr.getLocalBounds().height;
+        }
+        spr.setPosition(pos + s.offset);
         gameWindow->draw(spr);
     }
 }

@@ -96,6 +96,9 @@ GameObject& GameObjectFactory::newPlayerObject() //builds behaviours for the pla
     hitbox.setTransform(player.getTransform());
     body.setTransform(player.getTransform());
     attack.setTransform(player.getTransform());
+    sprite.setTransform(player.getTransform());
+
+
 
     attack.solid = false;
 
@@ -136,6 +139,11 @@ GameObject &GameObjectFactory::newPathingObject()
                     newObject()
                     )
                 );
+
+    SpriteRenderer & sprite = componentFactory->newSpriteRenderer("enemy_spr");
+    sprite.setTransform(seeker.transform);
+    seeker.addComponent(sprite);
+
     return seeker;
 }
 

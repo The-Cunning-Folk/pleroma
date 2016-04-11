@@ -10,9 +10,15 @@ class SpriteRenderer : public Component
 public:
     SpriteRenderer();
 
-    sf::Vector2f position;
+    int transform;
+
+    bool centreOrigin;
+
+    sf::Vector2f offset;
     std::string texture;
 
+    int getTransform() const;
+    void setTransform(int value);
 };
 
 }
