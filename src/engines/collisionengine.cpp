@@ -87,16 +87,16 @@ bool CollisionEngine::checkCollision(Collidable & a,Collidable & b)
                         || (a.diminutive && b.diminutive)))
                 {
                     sf::Vector2f halfOverlap(0.5*overlap.x,0.5*overlap.y);
-                    tA.move(-halfOverlap);
-                    tB.move(halfOverlap);
+                    tA.correction -= halfOverlap;
+                    tB.correction += halfOverlap;
                 }
                 else if((a.immovable && !b.immovable) || (!a.diminutive && b.diminutive))
                 {
-                    tB.move(overlap);
+                    tB.correction += overlap;
                 }
                 else if((!a.immovable && b.immovable)  || (a.diminutive && !b.diminutive))
                 {
-                    tA.move(-overlap);
+                    tA.correction -= overlap;
                 }
 
             }
@@ -373,6 +373,8 @@ void CollisionEngine::finish()
     {
         int i=activeComponents[j];
         Transform & t = components.getTransform(collidables[i].getTransform());
+        t.move(t.correction);
+        t.correction.x = t.correction.y = 0;
         ConvexPolygon& p = collidables[i].polygon;
         p.setPosition(t.getPosition());
         p.update();

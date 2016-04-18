@@ -167,6 +167,7 @@ void TransformEngine::updatePositions()
         transforms[j].update();
         transforms[j].move(delta*(transforms[j].step));
         transforms[j].setGridPosition(grid->getGridPosition(transforms[j].getPosition()));
+        transforms[j].step.x = transforms[j].step.y = 0;
     }
 }
 

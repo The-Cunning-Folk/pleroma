@@ -48,6 +48,7 @@ void Game::runEngines()
     physicsEngine.setActiveComponents(occlusionManager.getActiveComponents("rigidbody"));
     eventEngine.setActiveComponents(occlusionManager.getActiveComponents("gamelogic"));
     rayCastingEngine.setActiveComponents(occlusionManager.getActiveComponents("rayemitter"));
+    renderEngine.setActiveComponents(occlusionManager.getActiveComponents("spriterenderer"));
 
     //float logicTime = debug->time.getSeconds("logicTime");
     //eventEngine.setDelta(logicTime);

@@ -62,11 +62,21 @@ void BQ::RenderEngine::finish()
 
 void BQ::RenderEngine::drawDebug()
 {
-    std::sort(sprites.begin(),sprites.end());
 
-    for(int i=0; i<sprites.size(); i++)
+
+    std::vector<SpriteRenderer> renderList;
+
+    for(int i=0; i<activeComponents.size(); i++)
     {
-        SpriteRenderer & s = sprites[i];
+        SpriteRenderer s = sprites[activeComponents[i]];
+        renderList.push_back(s);
+    }
+
+    std::sort(renderList.begin(),renderList.end());
+
+    for(int i=0; i<renderList.size(); i++)
+    {
+        SpriteRenderer & s = renderList[i];
         sf::Sprite spr;
         spr.setTexture(resourceLoader->getTexture(s.texture));
         sf::Vector2f pos = componentLoader->getTransform(s.transform).position;

@@ -9,6 +9,7 @@ using namespace BQ;
 
 SpriteRenderer::SpriteRenderer()
 {
+    typeId = "spriterenderer";
     transform = 0;
     offset.x = 0;
     offset.y = 0;
