@@ -27,6 +27,7 @@
 #include<pathingengine.h>
 #include<logicengine.h>
 #include<raycastingengine.h>
+#include<renderengine.h>
 
 #include<componentloader.h>
 #include<resourceloader.h>
@@ -135,6 +136,7 @@ private:
     PathingEngine pathingEngine;
     LogicEngine logicEngine;
     RaycastingEngine rayCastingEngine;
+    RenderEngine renderEngine;
 
 
     //global properties

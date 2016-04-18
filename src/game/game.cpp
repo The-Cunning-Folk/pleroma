@@ -20,9 +20,10 @@ void Game::runEngines()
 {
 
     GameObject & player = gameObjectLoader.loadGameObject("player_1");
-    GameObject & testObj = gameObjectLoader.loadGameObject("testpather");
 
     inputEngine.run();
+
+
 
 
     grid.setActiveBounds(transformEngine.bounds);
@@ -35,6 +36,10 @@ void Game::runEngines()
     transformEngine.setBounds(viewPort.renderRegion);
     transformEngine.setDelta(deltaT);
     transformEngine.run();
+    transformEngine.updatePositions();
+
+    //restart the logic timer
+    debug->time.restartClock("logicTime");
 
 
     occlusionManager.setActiveObjects(transformEngine.getObjectsInRange());
@@ -43,6 +48,7 @@ void Game::runEngines()
     physicsEngine.setActiveComponents(occlusionManager.getActiveComponents("rigidbody"));
     eventEngine.setActiveComponents(occlusionManager.getActiveComponents("gamelogic"));
     rayCastingEngine.setActiveComponents(occlusionManager.getActiveComponents("rayemitter"));
+    renderEngine.setActiveComponents(occlusionManager.getActiveComponents("spriterenderer"));
 
     //float logicTime = debug->time.getSeconds("logicTime");
     //eventEngine.setDelta(logicTime);
@@ -55,30 +61,33 @@ void Game::runEngines()
     physicsEngine.run();
 
     rayCastingEngine.start();
-
-    sf::Vector2f pPos = player.loadTransform().position;
-
-    rayCastingEngine.createTargettedRay(player,testObj);
-
     rayCastingEngine.run();
 
     pathingEngine.addGoal(player.loadTransform().position);
     pathingEngine.run();
 
 
-
+    eventEngine.start();
     eventEngine.run();
+
+
+    renderEngine.start();
+    renderEngine.run();
 
     debugDisplayEngine.run();
 
+    transformEngine.finish();
     eventEngine.finish();
+    collisionEngine.finish();
+    pathingEngine.finish();
+    rayCastingEngine.finish();
+    renderEngine.finish();
+
+
+
 
 
     viewPort.update();
-    deltaT = debug->time.getSeconds("logicTime");
-    transformEngine.setDelta(deltaT);
-    transformEngine.updatePositions();
-
 
 
 }
@@ -116,7 +125,7 @@ void Game::run()
     fpsDisplay.setFont(resourceLoader.getFont("8bit16.ttf"));
 
     bool transformDebug = false;
-    bool collisionDebug = true;
+    bool collisionDebug = false;
     bool fpsDebug = true;
     bool pathingDebug = false;
     bool raycastingDebug = false;
@@ -161,8 +170,7 @@ void Game::run()
 
         //end logic
 
-        //restart the logic timer
-        print.time.restartClock("logicTime");
+
 
         window.clear();
 
@@ -173,6 +181,8 @@ void Game::run()
         if(transformDebug)
             transformEngine.drawDebug();
 
+        renderEngine.drawDebug();
+
         if(collisionDebug)
             collisionEngine.drawDebug();
 
@@ -181,6 +191,8 @@ void Game::run()
 
         if(raycastingDebug)
             rayCastingEngine.drawDebug();
+
+
 
 
         //get the default viewport back
@@ -233,6 +245,7 @@ void Game::initialiseInjections()
    componentLoader.setPhysicsEngine(&physicsEngine);
    componentLoader.setEventEngine(&eventEngine);
    componentLoader.setLogicEngine(&logicEngine);
+   componentLoader.setRenderEngine(&renderEngine);
 
    componentFactory.setCollisionEngine(&collisionEngine);
    componentFactory.setTransformEngine(&transformEngine);
@@ -245,6 +258,7 @@ void Game::initialiseInjections()
    componentFactory.setGameObjectLoader(&gameObjectLoader);
    componentFactory.setLogicEngine(&logicEngine);
    componentFactory.setRayCastingEngine(&rayCastingEngine);
+   componentFactory.setRenderEngine(&renderEngine);
 
    gameObjectFactory.setStack(&gameObjects);
    gameObjectFactory.setComponentFactory(&componentFactory);
@@ -266,6 +280,7 @@ void Game::initialiseInjections()
    pathingEngine.setGame(this);
    logicEngine.setGame(this);
    rayCastingEngine.setGame(this);
+   renderEngine.setGame(this);
 
    componentFactory.setGame(this);
    gameObjectFactory.setGame(this);
@@ -310,8 +325,8 @@ void Game::initialiseTests()
     {
         for(int j=1; j<=100; j++)
         {
-            int spinner = math.randomInt(0,20);
-            if(spinner <= 2)
+            int spinner = math.randomInt(0,50);
+            if(spinner <= 5)
             {
                 GameObject& coll = gameObjectFactory.newImmovableObject();
                 coll.loadTransform().setPosition(sf::Vector2f(i*32 - 1280,j*32-1280));
@@ -328,8 +343,6 @@ void Game::initialiseTests()
 
         }
     }
-    GameObject& coll = gameObjectFactory.newPathingObject("testpather");
-    coll.loadTransform().setPosition(sf::Vector2f(164,128));
 }
 
 void Game::initialisePlayers()

@@ -13,6 +13,7 @@
 #include <physicsengine.h>
 #include <logicengine.h>
 #include <raycastingengine.h>
+#include <renderengine.h>
 
 #include <componentloader.h>
 #include <gameobjectloader.h>
@@ -67,6 +68,9 @@ public:
     RayEmitter & newRayEmitter();
     RayEmitter & newRayEmitter(std::string);
 
+    SpriteRenderer & newSpriteRenderer();
+    SpriteRenderer & newSpriteRenderer(std::string);
+
     TransformEngine *getTransformEngine() const;
     void setTransformEngine(TransformEngine *value);
 
@@ -97,6 +101,9 @@ public:
     RaycastingEngine *getRayCastingEngine() const;
     void setRayCastingEngine(RaycastingEngine *value);
 
+    RenderEngine *getRenderEngine() const;
+    void setRenderEngine(RenderEngine *value);
+
 private:
 
     TransformEngine* transformEngine;
@@ -106,6 +113,7 @@ private:
     PhysicsEngine* physicsEngine;
     LogicEngine* logicEngine;
     RaycastingEngine* rayCastingEngine;
+    RenderEngine* renderEngine;
 
 
 };

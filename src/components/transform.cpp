@@ -9,12 +9,11 @@ using namespace BQ;
 Transform::Transform()
 {
     typeId = "transform";
-    position.x = 0;
+    position.x = position.y = 0;
     position.y = 0;
-    size.x = 10;
-    size.y = 10;
-    velocity.x = 0;
-    velocity.y = 0;
+    size.x = size.y = 10;
+    velocity.x = velocity.y = 0;
+    correction.x = correction.y = 0;
 }
 
 sf::Vector2f Transform::getVelocity() const

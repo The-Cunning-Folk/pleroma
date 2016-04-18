@@ -87,16 +87,16 @@ bool CollisionEngine::checkCollision(Collidable & a,Collidable & b)
                         || (a.diminutive && b.diminutive)))
                 {
                     sf::Vector2f halfOverlap(0.5*overlap.x,0.5*overlap.y);
-                    tA.move(-halfOverlap);
-                    tB.move(halfOverlap);
+                    tA.correction -= halfOverlap;
+                    tB.correction += halfOverlap;
                 }
                 else if((a.immovable && !b.immovable) || (!a.diminutive && b.diminutive))
                 {
-                    tB.move(overlap);
+                    tB.correction += overlap;
                 }
                 else if((!a.immovable && b.immovable)  || (a.diminutive && !b.diminutive))
                 {
-                    tA.move(-overlap);
+                    tA.correction -= overlap;
                 }
 
             }
@@ -362,20 +362,24 @@ void CollisionEngine::run()
         eventFactory->createCollision(collisions[i]);
     }
 
-    for(unsigned int j=0; j<activeComponents.size(); j++)
-    {
-        int i=activeComponents[j];
-        Transform & t = components.getTransform(collidables[i].getTransform());
-        ConvexPolygon& p = collidables[i].polygon;
-        p.setPosition(t.getPosition());
-        collidables[i].setBBox(p.bBox);
-    }
+
 
 }
 
 void CollisionEngine::finish()
 {
-
+    ComponentLoader& components = *componentLoader;
+    for(unsigned int j=0; j<activeComponents.size(); j++)
+    {
+        int i=activeComponents[j];
+        Transform & t = components.getTransform(collidables[i].getTransform());
+        t.move(t.correction);
+        t.correction.x = t.correction.y = 0;
+        ConvexPolygon& p = collidables[i].polygon;
+        p.setPosition(t.getPosition());
+        p.update();
+        collidables[i].setBBox(p.bBox);
+    }
 }
 
 void CollisionEngine::drawDebug()
@@ -417,7 +421,7 @@ void CollisionEngine::drawDebug()
             {
                 shape.setPoint(k,p.points[k]);
             }
-            shape.setPosition(p.position);
+            shape.setPosition(componentLoader->getTransform(c.transform).position);
             shape.setFillColor(sf::Color::White);
             if(!collidables[i].immovable)
             {

@@ -60,6 +60,12 @@ GameObject &GameObjectFactory::newImmovableObject()
     Collidable & hitbox = componentFactory->newCollidable(points);
     hitbox.setTransform(o.getTransform());
     hitbox.immovable = true;
+
+    SpriteRenderer & sprite = componentFactory->newSpriteRenderer();
+    sprite.texture = "box_test.png";
+    sprite.setTransform(o.getTransform());
+    o.addComponent(sprite);
+
     o.addComponent("hitbox",hitbox);
     hitbox.update();
     return o;
@@ -74,6 +80,7 @@ GameObject& GameObjectFactory::newPlayerObject() //builds behaviours for the pla
     Collidable & attack = componentFactory->newCollidable("player_attack");
     RigidBody & body = componentFactory->newRigidBody("player_rigidbody");
     RayEmitter & rays = componentFactory->newRayEmitter("player_ray1");
+    SpriteRenderer & sprite = componentFactory->newSpriteRenderer("player_spr");
 
     float corners = 3;
     float size = 8;
@@ -95,6 +102,9 @@ GameObject& GameObjectFactory::newPlayerObject() //builds behaviours for the pla
     hitbox.setTransform(player.getTransform());
     body.setTransform(player.getTransform());
     attack.setTransform(player.getTransform());
+    sprite.setTransform(player.getTransform());
+
+
 
     attack.solid = false;
 
@@ -105,6 +115,7 @@ GameObject& GameObjectFactory::newPlayerObject() //builds behaviours for the pla
     player.addComponent("attack",attack);
     player.addComponent("body",body);
     player.addComponent("raytest",rays);
+    player.addComponent("sprite",sprite);
 
     //input
     input.inputMap.setKeyInput("move_up",sf::Keyboard::W);
@@ -134,6 +145,11 @@ GameObject &GameObjectFactory::newPathingObject()
                     newObject()
                     )
                 );
+
+    SpriteRenderer & sprite = componentFactory->newSpriteRenderer("enemy_spr");
+    sprite.setTransform(seeker.transform);
+    seeker.addComponent(sprite);
+
     return seeker;
 }
 

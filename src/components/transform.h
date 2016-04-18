@@ -49,6 +49,7 @@ public:
     void setVelocity(const sf::Vector2f &value);
 
     sf::Vector2f step;
+    sf::Vector2f correction;
 
 private:
 

@@ -151,3 +151,13 @@ void ComponentLoader::setLogicEngine(LogicEngine *value)
     logicEngine = value;
 }
 
+RenderEngine *ComponentLoader::getRenderEngine() const
+{
+    return renderEngine;
+}
+
+void ComponentLoader::setRenderEngine(RenderEngine *value)
+{
+    renderEngine = value;
+}
+
