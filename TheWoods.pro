@@ -193,3 +193,5 @@ CONFIG(debug, debug|release): LIBS += -lsfml-audio-d -lsfml-graphics-d -lsfml-ne
 
 INCLUDEPATH += "SFML/include"
 DEPENDPATH += "SFML/include"
+INCLUDEPATH += "include"
+DEPENDPATH += "include"
