@@ -22,7 +22,8 @@ INCLUDEPATH += "SFML/include" \
     "$$SRCDIR/loaders" \
     "$$SRCDIR/structures"\
     "$$SRCDIR/managers"\
-    "$$SRCDIR/geometry"
+    "$$SRCDIR/geometry" \
+    "$$SRCDIR/graphics"
 
 HEADERS += $$SRCDIR/window/gamewindow.h \
     src/window/windowmanager.h \

@@ -79,6 +79,10 @@ void BQ::RenderEngine::drawDebug()
         SpriteRenderer & s = renderList[i];
         sf::Sprite spr;
         spr.setTexture(resourceLoader->getTexture(s.texture));
+        if(s.textureRect.width*s.textureRect.height != 0)
+        {
+            spr.setTextureRect(s.textureRect);
+        }
         sf::Vector2f pos = componentLoader->getTransform(s.transform).position;
         if(s.centreOrigin)
         {

@@ -239,13 +239,25 @@ void Game::initialiseInjections()
 
    gameObjectLoader.setGameObjects(&gameObjects);
 
+   //component loader injections
+
    componentLoader.setGameObjectLoader(&gameObjectLoader);
+
    componentLoader.setTransformEngine(&transformEngine);
    componentLoader.setCollisionEngine(&collisionEngine);
    componentLoader.setPhysicsEngine(&physicsEngine);
    componentLoader.setEventEngine(&eventEngine);
    componentLoader.setLogicEngine(&logicEngine);
    componentLoader.setRenderEngine(&renderEngine);
+   componentLoader.setRayCastingEngines(&rayCastingEngine);
+
+   //end of component loader injections
+
+   //component factory injections
+
+   componentFactory.setGrid(&grid);
+   componentFactory.setComponentLoader(&componentLoader);
+   componentFactory.setGameObjectLoader(&gameObjectLoader);
 
    componentFactory.setCollisionEngine(&collisionEngine);
    componentFactory.setTransformEngine(&transformEngine);
@@ -253,12 +265,11 @@ void Game::initialiseInjections()
    componentFactory.setEventEngine(&eventEngine);
    componentFactory.setCollisionEngine(&collisionEngine);
    componentFactory.setPhysicsEngine(&physicsEngine);
-   componentFactory.setComponentLoader(&componentLoader);
-   componentFactory.setGrid(&grid);
-   componentFactory.setGameObjectLoader(&gameObjectLoader);
    componentFactory.setLogicEngine(&logicEngine);
    componentFactory.setRayCastingEngine(&rayCastingEngine);
    componentFactory.setRenderEngine(&renderEngine);
+
+   //end of component factory injections
 
    gameObjectFactory.setStack(&gameObjects);
    gameObjectFactory.setComponentFactory(&componentFactory);
@@ -333,6 +344,7 @@ void Game::initialiseTests()
                 if(math.randomInt(0,2) == 1)
                 {
                     componentLoader.getCollidableFromObject(coll,"hitbox").immovable = false;
+                    //componentLoader.getSpriteRendererFromObject(coll,"sprite").textureRect = sf::IntRect(48,0,16,32);
                 }
             }
             else if(spinner == 9)

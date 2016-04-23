@@ -16,6 +16,8 @@ public:
     SpriteRenderer& addSpriteRenderer();
     SpriteRenderer& getSpriteRenderer(int);
 
+
+
     void start();
     void run();
     void finish();

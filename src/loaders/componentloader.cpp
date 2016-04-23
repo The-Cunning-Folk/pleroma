@@ -35,10 +35,45 @@ Behaviour &ComponentLoader::getBehaviour(int index)
     return logicEngine->getBehaviour(index);
 }
 
+RayEmitter &ComponentLoader::getRayEmitter(int index)
+{
+    return rayCastingEngine->getRayEmitter(index);
+}
+
+SpriteRenderer &ComponentLoader::getSpriteRenderer(int index)
+{
+    return renderEngine->getSpriteRenderer(index);
+}
+
+Transform &ComponentLoader::getTransformFromObject(GameObject & o, std::string name)
+{
+    Transform & t = getTransform(o.components["transform"][name]);
+    return t;
+}
+
 Collidable &ComponentLoader::getCollidableFromObject(GameObject & o, std::string name)
 {
-    Collidable & c = getCollidable(o.components["collidable"][name]);
-    return c;
+    return getCollidable(o.components["collidable"][name]);
+}
+
+RigidBody &ComponentLoader::getRigidBodyFromObject(GameObject & o, std::string name)
+{
+    return getRigidBody(o.components["rigidbody"][name]);
+}
+
+GameLogic &ComponentLoader::getGameLogicFromObject(GameObject & o, std::string name)
+{
+    return getGameLogic(o.components["gamelogic"][name]);
+}
+
+RayEmitter &ComponentLoader::getRayEmitterFromObject(GameObject & o, std::string name)
+{
+    return getRayEmitter(o.components["rayemitter"][name]);
+}
+
+SpriteRenderer &ComponentLoader::getSpriteRendererFromObject(GameObject & o, std::string name)
+{
+    return getSpriteRenderer(o.components["spriterenderer"][name]);
 }
 
 std::vector<int> ComponentLoader::getComponentsFromObject(GameObject & o, std::string type)
@@ -78,6 +113,18 @@ std::vector<int> ComponentLoader::getInputsFromObject(GameObject & o)
 std::vector<int> ComponentLoader::getRigidBodiesFromObject(GameObject & o)
 {
     std::map<std::string,int> cs = o.components["rigidbody"];
+    return getIndicesFromMap(cs);
+}
+
+std::vector<int> ComponentLoader::getRayEmittersFromObject(GameObject & o)
+{
+    std::map<std::string,int> cs = o.components["rayemitter"];
+    return getIndicesFromMap(cs);
+}
+
+std::vector<int> ComponentLoader::getSpriteRenderersFromObject(GameObject & o)
+{
+    std::map<std::string,int> cs = o.components["spriterenderer"];
     return getIndicesFromMap(cs);
 }
 
@@ -159,5 +206,15 @@ RenderEngine *ComponentLoader::getRenderEngine() const
 void ComponentLoader::setRenderEngine(RenderEngine *value)
 {
     renderEngine = value;
+}
+
+RaycastingEngine *ComponentLoader::getRayCastingEngines() const
+{
+    return rayCastingEngine;
+}
+
+void ComponentLoader::setRayCastingEngines(RaycastingEngine *value)
+{
+    rayCastingEngine = value;
 }
 

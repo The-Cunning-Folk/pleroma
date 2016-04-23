@@ -61,10 +61,14 @@ GameObject &GameObjectFactory::newImmovableObject()
     hitbox.setTransform(o.getTransform());
     hitbox.immovable = true;
 
+    //temporary hardcode
     SpriteRenderer & sprite = componentFactory->newSpriteRenderer();
-    sprite.texture = "box_test.png";
+    sprite.texture = "placeholders/box_test.png";
+    sprite.offset = sf::Vector2f(0,-6);
+    //sprite.textureRect = sf::IntRect(32,0,16,32);
+
     sprite.setTransform(o.getTransform());
-    o.addComponent(sprite);
+    o.addComponent("sprite",sprite);
 
     o.addComponent("hitbox",hitbox);
     hitbox.update();

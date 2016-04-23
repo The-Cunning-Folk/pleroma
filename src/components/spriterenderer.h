@@ -2,6 +2,7 @@
 #define SPRITERENDERER_H
 
 #include <component.h>
+#include <spritesheet.h>
 
 namespace BQ{
 
@@ -18,6 +19,7 @@ public:
 
     sf::Vector2f offset;
     std::string texture;
+    sf::IntRect textureRect;
 
     int getTransform() const;
     void setTransform(int value);

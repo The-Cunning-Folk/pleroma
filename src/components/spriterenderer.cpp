@@ -15,6 +15,7 @@ SpriteRenderer::SpriteRenderer()
     offset.y = 0;
     centreOrigin = true;
     depth = 0;
+    textureRect.left = textureRect.top = textureRect.height = textureRect.width = 0;
 }
 
 int SpriteRenderer::getTransform() const
