@@ -51,7 +51,7 @@ void BQ::RenderEngine::run()
     for(int i=0; i<sprites.size(); i++)
     {
         SpriteRenderer & s = sprites[i];
-        s.depth = componentLoader->getTransform(s.transform).position.y;
+        s.depth = componentLoader->getTransform(s.transform).position.y + s.depthOffset;
     }
 }
 

@@ -17,7 +17,9 @@ public:
 
     float depth;
 
-    sf::Vector2f offset;
+    sf::Vector2f offset; //where the sprite sits compared to the transform position
+    float depthOffset; //a correction for the draw order sorting
+
     std::string texture;
     sf::IntRect textureRect;
 

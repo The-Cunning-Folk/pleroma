@@ -344,7 +344,7 @@ void Game::initialiseTests()
                 if(math.randomInt(0,2) == 1)
                 {
                     componentLoader.getCollidableFromObject(coll,"hitbox").immovable = false;
-                    //componentLoader.getSpriteRendererFromObject(coll,"sprite").textureRect = sf::IntRect(48,0,16,32);
+                    componentLoader.getSpriteRendererFromObject(coll,"sprite").textureRect = sf::IntRect(96,0,32,64);
                 }
             }
             else if(spinner == 9)
