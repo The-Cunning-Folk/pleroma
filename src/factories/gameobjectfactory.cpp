@@ -87,7 +87,7 @@ GameObject& GameObjectFactory::newPlayerObject() //builds behaviours for the pla
     RayEmitter & rays = componentFactory->newRayEmitter("player_ray1");
     SpriteRenderer & sprite = componentFactory->newSpriteRenderer("player_spr");
 
-    float corners = 3;
+    float corners = 1;
     float size = 4;
 
     hitbox.polygon.addPoint(sf::Vector2f(size-corners,size));
@@ -109,7 +109,9 @@ GameObject& GameObjectFactory::newPlayerObject() //builds behaviours for the pla
     attack.setTransform(player.getTransform());
     sprite.setTransform(player.getTransform());
 
-
+    sprite.texture = "entities/characters/clo_walk.png";
+    sprite.textureRect = sf::IntRect(0,0,16,32);
+    sprite.offset = sf::Vector2f(0,-6);
 
     attack.solid = false;
 

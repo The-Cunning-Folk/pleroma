@@ -19,6 +19,17 @@ window_ptr WindowManager::addWindow(std::string tag,int width,int height,std::st
     return(newWindow);
 }
 
+window_ptr WindowManager::addWindow(std::string tag,int width,int height,std::string name, int style)
+{
+    window_ptr newWindow(new GameWindow(width,height,name,style));  //define a new shared pointer
+
+    newWindow->setTag(tag);
+
+    gameWindows.push_back(newWindow); //give it to the window manager to handle creation and destruction
+
+    return(newWindow);
+}
+
 void WindowManager::removeWindow(std::string)
 {
 
