@@ -19,28 +19,22 @@ void Game::runTests()
 void Game::runEngines()
 {
 
+    viewPort.update();
+
     GameObject & player = gameObjectLoader.loadGameObject("player_1");
 
     inputEngine.run();
 
+    float deltaStep = debug->time.getSecondsAndRestart("stepClock");
+    transformEngine.setDelta(deltaStep);
+    transformEngine.runStep();
 
-
+    transformEngine.setBounds(viewPort.renderRegion);
+    transformEngine.run();
 
     grid.setActiveBounds(transformEngine.bounds);
 
-
-
-
-    float deltaT = debug->time.getSeconds("logicTime");
-    viewPort.update();
-    transformEngine.setBounds(viewPort.renderRegion);
-    transformEngine.setDelta(deltaT);
-    transformEngine.run();
-    transformEngine.updatePositions();
-
-    //restart the logic timer
-    debug->time.restartClock("logicTime");
-
+    float deltaT = debug->time.getSecondsAndRestart("logicTime");
 
     occlusionManager.setActiveObjects(transformEngine.getObjectsInRange());
 
@@ -70,6 +64,7 @@ void Game::runEngines()
     eventEngine.start();
     eventEngine.run();
 
+    transformEngine.runCorrections();
 
     renderEngine.start();
     renderEngine.run();
@@ -83,12 +78,7 @@ void Game::runEngines()
     rayCastingEngine.finish();
     renderEngine.finish();
 
-
-
-
-
     viewPort.update();
-
 
 }
 
@@ -304,6 +294,7 @@ void Game::initialiseClocks()
 {
     debug->time.addClock("frameTime");
     debug->time.addClock("logicTime");
+    debug->time.addClock("stepClock");
 }
 
 void Game::initialiseInput()

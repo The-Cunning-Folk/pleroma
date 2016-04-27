@@ -14,6 +14,17 @@ Transform::Transform()
     size.x = size.y = 10;
     velocity.x = velocity.y = 0;
     correction.x = correction.y = 0;
+    lastFrame.x = lastFrame.y = 0;
+}
+
+sf::Vector2f Transform::getLastFrame() const
+{
+    return lastFrame;
+}
+
+void Transform::setLastFrame(const sf::Vector2f &value)
+{
+    lastFrame = value;
 }
 
 sf::Vector2f Transform::getVelocity() const

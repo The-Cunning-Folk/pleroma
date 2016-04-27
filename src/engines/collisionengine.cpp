@@ -60,6 +60,7 @@ bool CollisionEngine::checkCollision(Collidable & a,Collidable & b)
 
     if(a.bBox.intersects(b.bBox))
     {
+
         //SAT HERE
         sf::Vector2f overlap = separatingAxisCheck(a.polygon,b.polygon);
         float oMag = maths->mag(overlap);
@@ -74,6 +75,16 @@ bool CollisionEngine::checkCollision(Collidable & a,Collidable & b)
 
             Transform & tA = componentLoader->getTransform(a.getTransform());
             Transform & tB = componentLoader->getTransform(b.getTransform());
+
+            //do polygon sweep here
+
+            //check if tunelling has occurred
+            if(maths->dot(tA.position - tB.position,tA.lastFrame - tB.lastFrame) < 0)
+            {
+                debug->println("tunnel");
+            }
+
+            //end polygon sweep
 
             if((maths->dot(tA.position - tB.position,overlap)) > 0)
             {
@@ -368,18 +379,7 @@ void CollisionEngine::run()
 
 void CollisionEngine::finish()
 {
-    ComponentLoader& components = *componentLoader;
-    for(unsigned int j=0; j<activeComponents.size(); j++)
-    {
-        int i=activeComponents[j];
-        Transform & t = components.getTransform(collidables[i].getTransform());
-        t.move(t.correction);
-        t.correction.x = t.correction.y = 0;
-        ConvexPolygon& p = collidables[i].polygon;
-        p.setPosition(t.getPosition());
-        p.update();
-        collidables[i].setBBox(p.bBox);
-    }
+
 }
 
 void CollisionEngine::drawDebug()
