@@ -18,6 +18,7 @@ public:
     //sf::RectangleShape rectShape;
 
     sf::FloatRect bBox;
+    sf::FloatRect tBox; //box which encapsulates the entire sphere of influence of the last step
 
     void setBBoxRectColor(sf::Color);
 

@@ -58,7 +58,7 @@ bool CollisionEngine::checkCollision(Collidable & a,Collidable & b)
         }
     }
 
-    if(a.bBox.intersects(b.bBox))
+    if(a.tBox.intersects(b.tBox))
     {
 
         //SAT HERE
@@ -76,15 +76,17 @@ bool CollisionEngine::checkCollision(Collidable & a,Collidable & b)
             Transform & tA = componentLoader->getTransform(a.getTransform());
             Transform & tB = componentLoader->getTransform(b.getTransform());
 
-            //do polygon sweep here
+
 
             //check if tunelling has occurred
             if(maths->dot(tA.position - tB.position,tA.lastFrame - tB.lastFrame) < 0)
             {
-                debug->println("tunnel");
+                //do polygon sweep here
+
+                //end polygon sweep
             }
 
-            //end polygon sweep
+
 
             if((maths->dot(tA.position - tB.position,overlap)) > 0)
             {
@@ -225,7 +227,6 @@ void CollisionEngine::start()
         ConvexPolygon& p = c.polygon;
         p.setPosition(t.getPosition());
         c.update();
-        c.setBBox(p.bBox);
 
         //do bresenham border calculations here
 
@@ -347,7 +348,6 @@ void CollisionEngine::run()
         int indexChecked = 0;
         for(unsigned int j=0; j<node.objects.size();j++)
         {
-            int jLevel = node.objects[j].quadtreeLevel;
             if(node.objects[j].quadtreeLevel == node.level) //primary nodes only fool
             {
                 int jIndex = node.objects[j].cIndex;
@@ -355,7 +355,6 @@ void CollisionEngine::run()
                 {
                     if(k==j){continue;}
                     int kIndex = node.objects[k].cIndex;
-                    int kLevel = node.objects[k].quadtreeLevel;
                     Collidable & A = collidables[jIndex];
                     Collidable & B = collidables[kIndex];
                     if(checkCollision(A,B))
@@ -399,7 +398,7 @@ void CollisionEngine::drawDebug()
         for(unsigned int j=0; j<activeComponents.size(); j++)
         {
             int i = activeComponents[j];
-            sf::FloatRect bBox = collidables[i].getBBox();
+            sf::FloatRect bBox = collidables[i].tBox;
             rectShape.setOutlineColor(sf::Color::Red);
             rectShape.setPosition(bBox.left+1,bBox.top);
             rectShape.setSize(sf::Vector2f(bBox.width-1,bBox.height));

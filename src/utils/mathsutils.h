@@ -82,6 +82,8 @@ public:
     bool containsPoint(sf::Vector2f,ConvexPolygon&);
     LineIntersection findIntersection(sf::Vector2f,sf::Vector2f,ConvexPolygon&);
 
+    sf::FloatRect makeCompoundRect(sf::FloatRect,sf::FloatRect);
+
 };
 }
 
