@@ -75,8 +75,7 @@ void Collidable::update()
 
 void Collidable::wake()
 {
-    polygon.update();
-    tBox = polygon.bBox;
+    update();
 }
 
 Transform & Collidable::loadTransform()
