@@ -123,6 +123,8 @@ void Game::run()
 
 
     //end temporary behaviours
+    transformEngine.wake();
+    collisionEngine.wake();
 
     while(window.isOpen()){
         //game loop goes here

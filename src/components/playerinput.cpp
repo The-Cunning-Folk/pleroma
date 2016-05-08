@@ -15,3 +15,8 @@ void PlayerInput::update()
 {
     inputMap.update();
 }
+
+void PlayerInput::wake()
+{
+
+}

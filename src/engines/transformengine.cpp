@@ -156,7 +156,16 @@ void TransformEngine::drawDebug()
 //        cross.setPosition(transforms[i].getPosition());
 //        cross.update();
 //        window.draw(cross);
-//    }
+    //    }
+}
+
+void TransformEngine::wake()
+{
+    for(int i=0; i<transforms.size(); i++)
+    {
+        Transform & t = transforms[i];
+        t.wake();
+    }
 }
 
 void TransformEngine::runStep()

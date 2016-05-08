@@ -25,6 +25,7 @@ public:
     Transform & loadTransform();
 
     void update();
+    void wake();
 
     int getTransform() const;
     void setTransform(int value);

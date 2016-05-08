@@ -15,6 +15,7 @@ CollisionEngine::CollisionEngine() : Engine()
     quadtree.initialise();
     rectShape.setOutlineThickness(1.0);
     rectShape.setFillColor(sf::Color::Transparent);
+    overlapThreshold = 2.0f;
 }
 
 Collidable &CollisionEngine::getCollidable(int index)
@@ -58,14 +59,67 @@ bool CollisionEngine::checkCollision(Collidable & a,Collidable & b)
         }
     }
 
-    if(a.bBox.intersects(b.bBox))
+    if(a.tBox.intersects(b.tBox))
     {
 
         //SAT HERE
-        sf::Vector2f overlap = separatingAxisCheck(a.polygon,b.polygon);
+        //do polygon sweep here
+
+        Transform & tA = componentLoader->getTransform(a.getTransform());
+        Transform & tB = componentLoader->getTransform(b.getTransform());
+
+        sf::Vector2f dDA = tA.position - tA.lastFrame; //displacement of A
+        sf::Vector2f dDB = tB.position - tB.lastFrame;
+
+        float mdDA = maths->mag(dDA);
+        float mdDB = maths->mag(dDB);
+
+        float flSteps = mdDA >= mdDB ? mdDA/(maths->min(0.5*a.bBox.width,0.5*a.bBox.height)) : mdDB/(maths->min(0.5*b.bBox.width,0.5*b.bBox.height));
+        flSteps = flSteps > 1.0f ? flSteps : 2.0f;
+        int sweepSteps = maths->roundAndCast(flSteps); //this is always 2 for now
+        float flSweepSteps = (float) sweepSteps;
+        float invFlSweepSteps = 1.0f/flSweepSteps;
+
+        sf::Vector2f DstepA = dDA*invFlSweepSteps;
+        sf::Vector2f DstepB = dDB*invFlSweepSteps;
+
+        sf::Vector2f overlap = sf::Vector2f(0,0);
+        sf::Vector2f cCorA = sf::Vector2f(0,0); //correction for A
+        sf::Vector2f cCorB = sf::Vector2f(0,0); //correction for B
+
+        for(int i=0; i<sweepSteps+1; i++)
+        {
+            sf::Vector2f pPosA = ((float)i)*DstepA + tA.lastFrame;
+            sf::Vector2f pPosB = ((float)i)*DstepB + tB.lastFrame;
+            ConvexPolygon pA = a.polygon;
+            ConvexPolygon pB = b.polygon;
+            pA.position = pPosA;
+            pB.position = pPosB;
+            pA.update();
+            pB.update();
+            if(pA.bBox.intersects(pB.bBox))
+            {
+                overlap = separatingAxisCheck(pA,pB);
+
+                if(maths->mag(overlap)>overlapThreshold)
+                {
+                    cCorA = tA.position - pPosA;
+                    cCorB = tB.position - pPosB;
+                    //tA.correction -= cCorA;
+                    //tB.correction -= cCorB;
+                    tA.position = pPosA;
+                    tB.position = pPosB;
+                    break;
+                }
+            }
+        }
+
+        //end polygon sweep
+
+        //sf::Vector2f overlap = separatingAxisCheck(a.polygon,b.polygon);
         float oMag = maths->mag(overlap);
 
-        if(oMag > 0.001) //allow for a 0.1% floating point error
+        if(oMag > overlapThreshold) //allow for a 0.1% floating point error
         {
             a.colliding = true;
             b.colliding = true;
@@ -73,18 +127,11 @@ bool CollisionEngine::checkCollision(Collidable & a,Collidable & b)
             a.collidingWith.push_back(b.index);
             b.collidingWith.push_back(a.index);
 
-            Transform & tA = componentLoader->getTransform(a.getTransform());
-            Transform & tB = componentLoader->getTransform(b.getTransform());
-
-            //do polygon sweep here
-
             //check if tunelling has occurred
             if(maths->dot(tA.position - tB.position,tA.lastFrame - tB.lastFrame) < 0)
             {
-                debug->println("tunnel");
-            }
 
-            //end polygon sweep
+            }
 
             if((maths->dot(tA.position - tB.position,overlap)) > 0)
             {
@@ -119,6 +166,7 @@ bool CollisionEngine::checkCollision(Collidable & a,Collidable & b)
             c.collidableB = b.index;
             c.overlap = overlap;
             collisions.push_back(c);
+
 
             return true;
         }
@@ -225,7 +273,6 @@ void CollisionEngine::start()
         ConvexPolygon& p = c.polygon;
         p.setPosition(t.getPosition());
         c.update();
-        c.setBBox(p.bBox);
 
         //do bresenham border calculations here
 
@@ -347,7 +394,6 @@ void CollisionEngine::run()
         int indexChecked = 0;
         for(unsigned int j=0; j<node.objects.size();j++)
         {
-            int jLevel = node.objects[j].quadtreeLevel;
             if(node.objects[j].quadtreeLevel == node.level) //primary nodes only fool
             {
                 int jIndex = node.objects[j].cIndex;
@@ -355,7 +401,6 @@ void CollisionEngine::run()
                 {
                     if(k==j){continue;}
                     int kIndex = node.objects[k].cIndex;
-                    int kLevel = node.objects[k].quadtreeLevel;
                     Collidable & A = collidables[jIndex];
                     Collidable & B = collidables[kIndex];
                     if(checkCollision(A,B))
@@ -399,7 +444,7 @@ void CollisionEngine::drawDebug()
         for(unsigned int j=0; j<activeComponents.size(); j++)
         {
             int i = activeComponents[j];
-            sf::FloatRect bBox = collidables[i].getBBox();
+            sf::FloatRect bBox = collidables[i].tBox;
             rectShape.setOutlineColor(sf::Color::Red);
             rectShape.setPosition(bBox.left+1,bBox.top);
             rectShape.setSize(sf::Vector2f(bBox.width-1,bBox.height));
@@ -434,6 +479,17 @@ void CollisionEngine::drawDebug()
             window.draw(shape);
         }
 
+
+    }
+}
+
+void CollisionEngine::wake()
+{
+    for(int i=0; i<collidables.size();i++)
+    {
+        Collidable & c = collidables[i];
+        c.polygon.setPosition(componentLoader->getTransform(c.transform).position);
+        c.wake();
 
     }
 }

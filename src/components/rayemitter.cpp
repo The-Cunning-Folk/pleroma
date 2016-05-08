@@ -29,3 +29,8 @@ void RayEmitter::update()
 
 }
 
+void RayEmitter::wake()
+{
+
+}
+

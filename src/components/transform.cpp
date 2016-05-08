@@ -65,6 +65,11 @@ void Transform::update()
     velocity = sf::Vector2f(0,0);
 }
 
+void Transform::wake()
+{
+    lastFrame = position;
+}
+
 sf::Vector2i Transform::getWindowPosition() const
 {
     return windowPosition;
@@ -92,7 +97,7 @@ void Transform::setGridPosition(const sf::Vector2i &value)
 
 void Transform::move(sf::Vector2f value)
 {
-    setPosition(position + value);
+    position = (position + value);
 }
 
 void Transform::move(sf::Vector2i value)

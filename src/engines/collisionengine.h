@@ -14,11 +14,14 @@ class CollisionEngine : public Engine
 public:
     CollisionEngine();
 
+    float overlapThreshold;
+
     Collidable & getCollidable(int);
 
     Collidable& addCollidable();
 
     bool checkCollision(Collidable &,Collidable &);
+    sf::Vector2f findMovingCollisionCorrection(Collidable &, Collidable &);
     sf::Vector2f separatingAxisCheck(ConvexPolygon &, ConvexPolygon &);
     Projection projection(ConvexPolygon &, sf::Vector2f);
 
@@ -32,6 +35,7 @@ public:
     void run();
     void finish();
     void drawDebug();
+    void wake();
 
 protected:
 
