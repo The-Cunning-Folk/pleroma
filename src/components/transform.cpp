@@ -65,6 +65,11 @@ void Transform::update()
     velocity = sf::Vector2f(0,0);
 }
 
+void Transform::wake()
+{
+    lastFrame = position;
+}
+
 sf::Vector2i Transform::getWindowPosition() const
 {
     return windowPosition;

@@ -73,6 +73,12 @@ void Collidable::update()
 
 }
 
+void Collidable::wake()
+{
+    polygon.update();
+    tBox = polygon.bBox;
+}
+
 Transform & Collidable::loadTransform()
 {
     return componentLoader->getTransform(transform);

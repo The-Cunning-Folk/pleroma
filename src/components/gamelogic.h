@@ -20,6 +20,7 @@ public:
     void setDelta(float);
 
     void update();
+    void wake();
 
      std::vector<int> behaviours;
 

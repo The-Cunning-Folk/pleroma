@@ -26,6 +26,11 @@ public:
 
     std::vector<int> activeComponents;
 
+    virtual void wake()
+    {
+        //nothing here
+    }
+
     EventFactory* eventFactory;
     ComponentLoader* componentLoader;
     GameObjectLoader* gameObjectLoader;

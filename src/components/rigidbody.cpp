@@ -39,6 +39,11 @@ void RigidBody::update()
 
 }
 
+void RigidBody::wake()
+{
+
+}
+
 float RigidBody::getMass() const
 {
     return mass;

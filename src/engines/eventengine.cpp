@@ -150,6 +150,15 @@ void EventEngine::finish()
     toUpdate.clear();
 }
 
+void EventEngine::wake()
+{
+    for(int i=0; i<gameLogics.size();i++)
+    {
+        GameLogic & g = gameLogics[i];
+        g.wake();
+    }
+}
+
 void EventEngine::pushEvent(Event event)
 {
     events.push_back(event);

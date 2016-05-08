@@ -28,3 +28,13 @@ void SpriteRenderer::setTransform(int value)
     transform = value;
 }
 
+void SpriteRenderer::update()
+{
+
+}
+
+void SpriteRenderer::wake()
+{
+
+}
+

@@ -26,6 +26,9 @@ public:
     int getTransform() const;
     void setTransform(int value);
 
+    void update();
+    void wake();
+
     bool operator < (const SpriteRenderer& str) const
     {
         return (depth < str.depth);

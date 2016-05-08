@@ -26,6 +26,7 @@ public:
     void setBBox(const sf::FloatRect &value);
 
     void update();
+    void wake();
 
     bool solid;
     bool immovable;

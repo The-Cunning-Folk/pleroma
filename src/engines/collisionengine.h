@@ -32,6 +32,7 @@ public:
     void run();
     void finish();
     void drawDebug();
+    void wake();
 
 protected:
 

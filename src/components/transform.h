@@ -37,6 +37,7 @@ public:
     sf::Vector2f getPosition() const;
 
     void update();
+    void wake();
 
     sf::Vector2i getWindowPosition() const;
     void setWindowPosition(const sf::Vector2i &value);

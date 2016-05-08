@@ -23,6 +23,7 @@ public:
     void run();
     void finish();
     void drawDebug();
+    void wake();
 
     void runStep();
     void runCorrections();

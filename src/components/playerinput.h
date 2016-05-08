@@ -13,6 +13,7 @@ public:
     InputMap inputMap;
 
     void update();
+    void wake();
 
 private:
 

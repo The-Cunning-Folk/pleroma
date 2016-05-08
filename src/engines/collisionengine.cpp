@@ -62,7 +62,57 @@ bool CollisionEngine::checkCollision(Collidable & a,Collidable & b)
     {
 
         //SAT HERE
-        sf::Vector2f overlap = separatingAxisCheck(a.polygon,b.polygon);
+        //do polygon sweep here
+
+        Transform & tA = componentLoader->getTransform(a.getTransform());
+        Transform & tB = componentLoader->getTransform(b.getTransform());
+
+        sf::Vector2f dDA = tA.position - tA.lastFrame; //displacement of A
+        sf::Vector2f dDB = tB.position - tB.lastFrame;
+
+        float mdDA = maths->mag(dDA);
+        float mdDB = maths->mag(dDB);
+
+        float flSteps = mdDA >= mdDB ? mdDA/(maths->min(0.5*a.bBox.width,0.5*a.bBox.height)) : mdDB/(maths->min(0.5*b.bBox.width,0.5*b.bBox.height));
+
+        int sweepSteps = maths->roundAndCast(flSteps); //this is always 2 for now
+        float flSweepSteps = (float) sweepSteps;
+        float invFlSweepSteps = 1.0f/flSweepSteps;
+
+        sf::Vector2f DstepA = dDA*invFlSweepSteps;
+        sf::Vector2f DstepB = dDB*invFlSweepSteps;
+
+        sf::Vector2f overlap = sf::Vector2f(0,0);
+        sf::Vector2f cCorA = sf::Vector2f(0,0); //correction for A
+        sf::Vector2f cCorB = sf::Vector2f(0,0); //correction for B
+
+        for(int i=0; i<sweepSteps+1; i++)
+        {
+            sf::Vector2f pPosA = ((float)i)*DstepA + tA.lastFrame;
+            sf::Vector2f pPosB = ((float)i)*DstepB + tB.lastFrame;
+            ConvexPolygon pA = a.polygon;
+            ConvexPolygon pB = b.polygon;
+            pA.position = pPosA;
+            pB.position = pPosB;
+            pA.update();
+            pB.update();
+            if(pA.bBox.intersects(pB.bBox))
+            {
+                overlap = separatingAxisCheck(pA,pB);
+                if(maths->mag(overlap)> 0.001)
+                {
+                    cCorA = tA.position - pPosA;
+                    cCorB = tB.position - pPosB;
+                    tA.correction -= cCorA;
+                    tB.correction -= cCorB;
+                    break;
+                }
+            }
+        }
+
+        //end polygon sweep
+
+        //sf::Vector2f overlap = separatingAxisCheck(a.polygon,b.polygon);
         float oMag = maths->mag(overlap);
 
         if(oMag > 0.001) //allow for a 0.1% floating point error
@@ -73,20 +123,11 @@ bool CollisionEngine::checkCollision(Collidable & a,Collidable & b)
             a.collidingWith.push_back(b.index);
             b.collidingWith.push_back(a.index);
 
-            Transform & tA = componentLoader->getTransform(a.getTransform());
-            Transform & tB = componentLoader->getTransform(b.getTransform());
-
-
-
             //check if tunelling has occurred
             if(maths->dot(tA.position - tB.position,tA.lastFrame - tB.lastFrame) < 0)
             {
-                //do polygon sweep here
 
-                //end polygon sweep
             }
-
-
 
             if((maths->dot(tA.position - tB.position,overlap)) > 0)
             {
@@ -434,6 +475,15 @@ void CollisionEngine::drawDebug()
         }
 
 
+    }
+}
+
+void CollisionEngine::wake()
+{
+    for(int i=0; i<collidables.size();i++)
+    {
+        Collidable & c = collidables[i];
+        c.wake();
     }
 }
 
