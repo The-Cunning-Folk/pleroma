@@ -89,7 +89,7 @@ void BQ::RenderEngine::drawDebug()
             pos.x -= 0.5*spr.getLocalBounds().width;
             pos.y -= 0.5*spr.getLocalBounds().height;
         }
-        spr.setPosition(pos + s.offset);
+        spr.setPosition(maths->round(pos + s.offset));
         gameWindow->draw(spr);
     }
 }

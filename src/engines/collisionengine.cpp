@@ -15,6 +15,7 @@ CollisionEngine::CollisionEngine() : Engine()
     quadtree.initialise();
     rectShape.setOutlineThickness(1.0);
     rectShape.setFillColor(sf::Color::Transparent);
+    overlapThreshold = 2.0f;
 }
 
 Collidable &CollisionEngine::getCollidable(int index)
@@ -99,12 +100,15 @@ bool CollisionEngine::checkCollision(Collidable & a,Collidable & b)
             if(pA.bBox.intersects(pB.bBox))
             {
                 overlap = separatingAxisCheck(pA,pB);
-                if(maths->mag(overlap)> 0.001)
+
+                if(maths->mag(overlap)>overlapThreshold)
                 {
                     cCorA = tA.position - pPosA;
                     cCorB = tB.position - pPosB;
-                    tA.correction -= cCorA;
-                    tB.correction -= cCorB;
+                    //tA.correction -= cCorA;
+                    //tB.correction -= cCorB;
+                    tA.position = pPosA;
+                    tB.position = pPosB;
                     break;
                 }
             }
@@ -115,7 +119,7 @@ bool CollisionEngine::checkCollision(Collidable & a,Collidable & b)
         //sf::Vector2f overlap = separatingAxisCheck(a.polygon,b.polygon);
         float oMag = maths->mag(overlap);
 
-        if(oMag > 0.001) //allow for a 0.1% floating point error
+        if(oMag > overlapThreshold) //allow for a 0.1% floating point error
         {
             a.colliding = true;
             b.colliding = true;
@@ -162,6 +166,7 @@ bool CollisionEngine::checkCollision(Collidable & a,Collidable & b)
             c.collidableB = b.index;
             c.overlap = overlap;
             collisions.push_back(c);
+
 
             return true;
         }
@@ -483,7 +488,9 @@ void CollisionEngine::wake()
     for(int i=0; i<collidables.size();i++)
     {
         Collidable & c = collidables[i];
+        c.polygon.setPosition(componentLoader->getTransform(c.transform).position);
         c.wake();
+
     }
 }
 
