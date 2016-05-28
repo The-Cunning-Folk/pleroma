@@ -7,6 +7,8 @@
 #include <timeutils.h>
 #include <logger.h>
 #include <SFML/Graphics.hpp>
+#include <sstream>
+#include <iomanip>
 
 //this class should act as a penknife for debugging,
 //so it's possible to get sensible information everywhere
@@ -38,6 +40,8 @@ public:
     void printVal(sf::FloatRect);
     void printVal(sf::Vector2f);
     void printVal(sf::Vector2i);
+
+    std::string formatVector(sf::Vector2f,int);
 
 private:
 

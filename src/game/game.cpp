@@ -111,8 +111,14 @@ void Game::run()
 
     sf::Text fpsDisplay;
     fpsDisplay.setPosition(15,15);
-    fpsDisplay.setCharacterSize(20);
+    fpsDisplay.setCharacterSize(16);
     fpsDisplay.setFont(resourceLoader.getFont("8bit16.ttf"));
+
+    sf::Text posDisplay;
+    posDisplay.setPosition(15,32);
+    posDisplay.setCharacterSize(16);
+    posDisplay.setFont(resourceLoader.getFont("8bit16.ttf"));
+
 
     bool transformDebug = false;
     bool collisionDebug = false;
@@ -184,7 +190,7 @@ void Game::run()
         if(raycastingDebug)
             rayCastingEngine.drawDebug();
 
-
+        std::string winPosStr = "w_pos - " + debug->formatVector(window.window.getView().getCenter(),1);
 
 
         //get the default viewport back
@@ -202,12 +208,17 @@ void Game::run()
         frameTime = print.time.getSecondsAndRestart("frameTime");
         float fps = 1.0/frameTime;
 
-        fpsDisplay.setString(std::to_string(math.roundAndCast(fps)));
+        fpsDisplay.setString(std::to_string(math.roundAndCast(fps)) + "  -  " + std::to_string(math.roundAndCast(frameTime*1000)));
+
+        posDisplay.setString(winPosStr);
 
         //end framerate stuff
 
         if(fpsDebug)
+        {
             window.draw(fpsDisplay);
+            window.draw(posDisplay);
+        }
 
         window.display();
 
