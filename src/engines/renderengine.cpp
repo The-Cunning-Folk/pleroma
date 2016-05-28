@@ -63,7 +63,22 @@ void RenderEngine::wake()
         std::string sheetConfig = resourceLoader->loadFileAsString(tDir + "/" + files[i].GetString());
         rapidjson::Document sConfig;
         sConfig.Parse(sheetConfig.c_str());
-        debug->println(sConfig["name"].GetString());
+
+        assert(sConfig["name"].IsString());
+        assert(sConfig["path"].IsString());
+        assert(sConfig["sprites"].IsArray());
+
+        std::string sName = sConfig["name"].GetString();
+        std::string sDir = sConfig["path"].GetString();
+
+        //construct a spritesheet object here
+        if ( spriteSheets.find(sName) == spriteSheets.end() ) {
+            debug->printwarn("duplicate sprite sheet defined in config: " + sName);
+          // not found
+        }
+
+        spriteSheets[sName].texture = sDir;
+
     }
 
 
