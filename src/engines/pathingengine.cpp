@@ -123,6 +123,11 @@ void PathingEngine::addGoal(sf::Vector2f p)
     goals.push_back(p);
 }
 
+void PathingEngine::wake()
+{
+
+}
+
 void PathingEngine::start()
 {
 

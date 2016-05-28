@@ -131,6 +131,7 @@ void Game::run()
     //end temporary behaviours
     transformEngine.wake();
     collisionEngine.wake();
+    renderEngine.wake();
 
     while(window.isOpen()){
         //game loop goes here

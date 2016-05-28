@@ -40,6 +40,16 @@ SpriteRenderer &RenderEngine::getSpriteRenderer(int index)
     }
 }
 
+void RenderEngine::wake()
+{
+    //load sprite sheets
+    std::string textureConfig = resourceLoader->loadFileAsString("config/textures.json");
+    rapidjson::Document tconfig;
+    tconfig.Parse(textureConfig.c_str());
+    debug->println(tconfig["textures"]["parentdirectory"].GetString());
+
+}
+
 void BQ::RenderEngine::start()
 {
 

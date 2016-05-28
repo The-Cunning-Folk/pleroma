@@ -20,6 +20,7 @@ public:
 
     DebugUtils* debug;
 
+    std::string loadFileAsString(std::string);
 
     DebugUtils *getDebug() const;
     void setDebug(DebugUtils *value);

@@ -10,6 +10,8 @@ class InputEngine : public Engine
 public:
     InputEngine();
 
+    void wake();
+
     void start();
     void run();
     void finish();

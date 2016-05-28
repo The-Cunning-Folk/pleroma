@@ -9,6 +9,14 @@ ResourceLoader::ResourceLoader()
     textureDirectory = "textures";
 }
 
+std::string ResourceLoader::loadFileAsString(std::string path)
+{
+    std::ifstream ifs(baseDirectory + "/" + path);
+    std::string content( (std::istreambuf_iterator<char>(ifs) ),
+                         (std::istreambuf_iterator<char>()    ) );
+    return content;
+}
+
 DebugUtils *ResourceLoader::getDebug() const
 {
     return debug;

@@ -40,6 +40,11 @@ SimpleRay &RaycastingEngine::createTargettedRay(GameObject & owner, GameObject &
     return r;
 }
 
+void RaycastingEngine::wake()
+{
+
+}
+
 std::vector<SimpleRay> RaycastingEngine::getSimpleRays() const
 {
     return simpleRays;

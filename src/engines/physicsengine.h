@@ -11,6 +11,8 @@ class PhysicsEngine : public Engine
 public:
     PhysicsEngine();
 
+    void wake();
+
     void start();
     void run();
     void finish();
