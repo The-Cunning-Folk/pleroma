@@ -9,7 +9,7 @@ public:
     SpriteSheet();
 
     std::string texture;
-    std::map<std::string,std::vector<sf::FloatRect>> spriteFrames;
+    std::map<std::string,std::vector<sf::IntRect>> spriteFrames;
 
 };
 

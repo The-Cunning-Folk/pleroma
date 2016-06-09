@@ -1,6 +1,8 @@
 {
     "parentdirectory" : "data/spr_data",
     "spritesheets": [
-        "example_1.json"
+        "example_1.json",
+        "demo_blocks.json",
+        "clo_walk.json"
     ]
 }

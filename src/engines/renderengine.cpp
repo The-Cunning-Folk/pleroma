@@ -61,23 +61,51 @@ void RenderEngine::wake()
     {
         debug->println(tDir + "/" + files[i].GetString());
         std::string sheetConfig = resourceLoader->loadFileAsString(tDir + "/" + files[i].GetString());
-        rapidjson::Document sConfig;
-        sConfig.Parse(sheetConfig.c_str());
+        rapidjson::Document spritesheetJson;
+        spritesheetJson.Parse(sheetConfig.c_str());
 
-        assert(sConfig["name"].IsString());
-        assert(sConfig["path"].IsString());
-        assert(sConfig["sprites"].IsArray());
+        assert(spritesheetJson["name"].IsString());
+        assert(spritesheetJson["path"].IsString());
 
-        std::string sName = sConfig["name"].GetString();
-        std::string sDir = sConfig["path"].GetString();
+
+        std::string sheetName = spritesheetJson["name"].GetString();
+        std::string sheetPath = spritesheetJson["path"].GetString();
+        const rapidjson::Value & animationsJson = spritesheetJson["sprites"];
+
+        assert(animationsJson.IsArray());
 
         //construct a spritesheet object here
-        if ( spriteSheets.find(sName) == spriteSheets.end() ) {
-            debug->printwarn("duplicate sprite sheet defined in config: " + sName);
+        if ( spriteSheets.find(sheetName) != spriteSheets.end() ) {
+            debug->printwarn("duplicate sprite sheet defined in config: " + sheetName);
           // not found
         }
+        else
+        {
+            SpriteSheet s;
+            s.texture = sheetPath;
 
-        spriteSheets[sName].texture = sDir;
+            for (rapidjson::SizeType j=0 ; j<animationsJson.Size(); j++)
+            {
+
+                assert(animationsJson[j]["name"].IsString());
+                std::string sprName = animationsJson[j]["name"].GetString();
+                const rapidjson::Value & frames = animationsJson[j]["frames"];
+                assert(frames.IsArray());
+                std::vector<sf::IntRect> rects;
+                for (rapidjson::SizeType k=0 ; k<frames.Size(); k++)
+                {
+                    sf::IntRect r;
+                    r.left = frames[k]["l"].GetInt();
+                    r.top = frames[k]["t"].GetInt();
+                    r.width = frames[k]["w"].GetInt();
+                    r.height = frames[k]["h"].GetInt();
+                    rects.push_back(r);
+                }
+                s.spriteFrames[sprName] = rects;
+            }
+
+            spriteSheets[sheetName] = s;
+        }
 
     }
 
@@ -123,11 +151,43 @@ void BQ::RenderEngine::drawDebug()
     {
         SpriteRenderer & s = renderList[i];
         sf::Sprite spr;
-        spr.setTexture(resourceLoader->getTexture(s.texture));
-        if(s.textureRect.width*s.textureRect.height != 0)
-        {
-            spr.setTextureRect(s.textureRect);
+        if ( spriteSheets.find(s.spritesheet) == spriteSheets.end() ) {
+            spr.setTexture(resourceLoader->getTexture(""));
         }
+        else
+        {
+            SpriteSheet& sheet = spriteSheets[s.spritesheet];
+            spr.setTexture(resourceLoader->getTexture(sheet.texture));
+            if(sheet.spriteFrames.find(s.sprite) != sheet.spriteFrames.end())
+            {
+                int frame = s.frame < sheet.spriteFrames[s.sprite].size()
+                        ? s.frame
+                        : sheet.spriteFrames[s.sprite].size() > 0
+                            ? 0
+                            : -1;
+
+                if(frame != -1)
+                {
+                    spr.setTextureRect(sheet.spriteFrames[s.sprite][s.frame]);
+                }
+            }
+            else if(sheet.spriteFrames.size() > 0)
+            {
+                std::string key = sheet.spriteFrames.begin()->first;
+
+                int frame = s.frame < sheet.spriteFrames[key].size()
+                        ? s.frame
+                        : sheet.spriteFrames[key].size() > 0
+                            ? 0
+                            : -1;
+
+                if(frame != -1)
+                {
+                    spr.setTextureRect(sheet.spriteFrames[key][s.frame]);
+                }
+            }
+        }
+
         sf::Vector2f pos = componentLoader->getTransform(s.transform).position;
         if(s.centreOrigin)
         {

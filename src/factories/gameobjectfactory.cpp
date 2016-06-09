@@ -63,7 +63,7 @@ GameObject &GameObjectFactory::newImmovableObject()
 
     //temporary hardcode
     SpriteRenderer & sprite = componentFactory->newSpriteRenderer();
-    sprite.texture = "placeholders/blocks.png";
+    sprite.spritesheet = "demo_blocks";
     sprite.offset = sf::Vector2f(0,-18);
     sprite.depthOffset = 10;
     sprite.textureRect = sf::IntRect(32,0,32,64);
@@ -109,8 +109,7 @@ GameObject& GameObjectFactory::newPlayerObject() //builds behaviours for the pla
     attack.setTransform(player.getTransform());
     sprite.setTransform(player.getTransform());
 
-    sprite.texture = "entities/characters/clo_walk.png";
-    sprite.textureRect = sf::IntRect(0,0,16,32);
+    sprite.spritesheet = "clo_walk";
     sprite.offset = sf::Vector2f(0,-6);
 
     attack.solid = false;

@@ -21,6 +21,11 @@ public:
     float depthOffset; //a correction for the draw order sorting
 
     std::string texture;
+
+    std::string spritesheet;
+    std::string sprite;
+    int frame;
+
     sf::IntRect textureRect;
 
     int getTransform() const;
