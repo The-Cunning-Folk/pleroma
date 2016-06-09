@@ -16,6 +16,7 @@ public:
     std::string getTarget(int);
 
     void update();
+    void wake();
 
 };
 }

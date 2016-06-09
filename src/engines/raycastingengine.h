@@ -20,6 +20,7 @@ public:
     SimpleRay& createOwnedRay(GameObject&,sf::Vector2f);
     SimpleRay& createTargettedRay(GameObject &, GameObject &);
 
+    void wake();
     void start();
     void run();
     void finish();

@@ -17,6 +17,8 @@ class LogicEngine : public Engine
 
 public:
 
+    void wake();
+
     std::vector<logicUnit> behaviours;
 
     Behaviour& bindBehaviour(GameLogic &, std::string);

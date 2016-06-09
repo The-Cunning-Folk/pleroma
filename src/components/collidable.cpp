@@ -48,6 +48,9 @@ void Collidable::update()
 {
     colliding = false;
     collidingWith.resize(0);
+
+    sf::FloatRect lastBox = polygon.bBox;
+
     polygon.update();
 
     //bresenham precalc
@@ -64,8 +67,15 @@ void Collidable::update()
 
     gridInnerArea.clear();
 
+    tBox = maths->makeCompoundRect(lastBox,polygon.bBox);
 
+    setBBox(polygon.bBox);
 
+}
+
+void Collidable::wake()
+{
+    update();
 }
 
 Transform & Collidable::loadTransform()

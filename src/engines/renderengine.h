@@ -16,6 +16,10 @@ public:
     SpriteRenderer& addSpriteRenderer();
     SpriteRenderer& getSpriteRenderer(int);
 
+    std::map<std::string,SpriteSheet> spriteSheets;
+
+    void wake();
+
     void start();
     void run();
     void finish();

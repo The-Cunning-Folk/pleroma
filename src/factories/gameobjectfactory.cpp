@@ -55,16 +55,21 @@ GameObject &GameObjectFactory::newImmovableObject()
 {
     GameObject& o = newObject();
     float size = 16;
-    std::vector<sf::Vector2f> points = {sf::Vector2f(-size,-size),sf::Vector2f(size,-size),
-                                        sf::Vector2f(size,size),sf::Vector2f(-size,size)};
+    std::vector<sf::Vector2f> points = {sf::Vector2f(-size,-size+4),sf::Vector2f(size,-size+4),
+                                        sf::Vector2f(size,size-4),sf::Vector2f(-size,size-4)};
     Collidable & hitbox = componentFactory->newCollidable(points);
     hitbox.setTransform(o.getTransform());
     hitbox.immovable = true;
 
+    //temporary hardcode
     SpriteRenderer & sprite = componentFactory->newSpriteRenderer();
-    sprite.texture = "box_test.png";
+    sprite.spritesheet = "demo_blocks";
+    sprite.offset = sf::Vector2f(0,-18);
+    sprite.depthOffset = 10;
+    sprite.textureRect = sf::IntRect(32,0,32,64);
+
     sprite.setTransform(o.getTransform());
-    o.addComponent(sprite);
+    o.addComponent("sprite",sprite);
 
     o.addComponent("hitbox",hitbox);
     hitbox.update();
@@ -82,8 +87,8 @@ GameObject& GameObjectFactory::newPlayerObject() //builds behaviours for the pla
     RayEmitter & rays = componentFactory->newRayEmitter("player_ray1");
     SpriteRenderer & sprite = componentFactory->newSpriteRenderer("player_spr");
 
-    float corners = 3;
-    float size = 8;
+    float corners = 1;
+    float size = 4;
 
     hitbox.polygon.addPoint(sf::Vector2f(size-corners,size));
     hitbox.polygon.addPoint(sf::Vector2f(size,size-corners));
@@ -104,7 +109,8 @@ GameObject& GameObjectFactory::newPlayerObject() //builds behaviours for the pla
     attack.setTransform(player.getTransform());
     sprite.setTransform(player.getTransform());
 
-
+    sprite.spritesheet = "clo_walk";
+    sprite.offset = sf::Vector2f(0,-6);
 
     attack.solid = false;
 

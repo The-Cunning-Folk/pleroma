@@ -27,3 +27,8 @@ void BQ::DebugDisplayEngine::drawDebug()
 {
 
 }
+
+void DebugDisplayEngine::wake()
+{
+
+}

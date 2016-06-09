@@ -34,6 +34,10 @@ public:
     {
         //nothing here
     }
+    virtual void wake()
+    {
+        //nothing here
+    }
 
 
     DebugUtils *getDebug() const;

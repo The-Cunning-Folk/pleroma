@@ -60,3 +60,8 @@ void GameLogic::update()
     }
 }
 
+void GameLogic::wake()
+{
+
+}
+

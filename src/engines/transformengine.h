@@ -23,8 +23,10 @@ public:
     void run();
     void finish();
     void drawDebug();
+    void wake();
 
-    void updatePositions();
+    void runStep();
+    void runCorrections();
 
     std::vector<Transform> transforms;
     std::vector<GridSquare> activeGridLocations;

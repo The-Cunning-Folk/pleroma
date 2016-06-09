@@ -9,6 +9,7 @@ namespace BQ{
     public:
         GameWindow();
         GameWindow(int,int,std::string);
+        GameWindow(int,int,std::string,int);
         GameWindow(GameWindow&);
 
         void updateEvents();

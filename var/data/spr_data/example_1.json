@@ -1,0 +1,12 @@
+{
+    "name": "example_sheet", 
+    "path": "placeholders/box_test.png",
+    "sprites": [
+        { 
+            "name": "box",
+            "frames": [
+                {"l": 0, "t": 0, "w": 32, "h": 48}
+            ]
+        }
+    ]
+}

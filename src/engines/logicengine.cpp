@@ -5,6 +5,11 @@
 
 using namespace BQ;
 
+void LogicEngine::wake()
+{
+
+}
+
 Behaviour &LogicEngine::bindBehaviour(GameLogic & g, std::string type)
 {
     logicUnit newBehaviour = logicUnit(new Behaviour);

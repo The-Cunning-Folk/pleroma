@@ -19,6 +19,8 @@ public:
 
     void addGoal(sf::Vector2f);
 
+    void wake();
+
     void start();
     void run();
     void finish();

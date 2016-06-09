@@ -14,6 +14,17 @@ Transform::Transform()
     size.x = size.y = 10;
     velocity.x = velocity.y = 0;
     correction.x = correction.y = 0;
+    lastFrame.x = lastFrame.y = 0;
+}
+
+sf::Vector2f Transform::getLastFrame() const
+{
+    return lastFrame;
+}
+
+void Transform::setLastFrame(const sf::Vector2f &value)
+{
+    lastFrame = value;
 }
 
 sf::Vector2f Transform::getVelocity() const
@@ -54,6 +65,11 @@ void Transform::update()
     velocity = sf::Vector2f(0,0);
 }
 
+void Transform::wake()
+{
+    lastFrame = position;
+}
+
 sf::Vector2i Transform::getWindowPosition() const
 {
     return windowPosition;
@@ -81,7 +97,7 @@ void Transform::setGridPosition(const sf::Vector2i &value)
 
 void Transform::move(sf::Vector2f value)
 {
-    setPosition(position + value);
+    position = (position + value);
 }
 
 void Transform::move(sf::Vector2i value)

@@ -16,6 +16,7 @@ public:
 
     sf::Vector2i gridPosition; //the position of the object on the grid
 
+    sf::Vector2f lastFrame;
     sf::Vector2f position; //this is the position that we do work on so that we can scale things nicely
     sf::Vector2f size;
     sf::Vector2f velocity;
@@ -36,6 +37,7 @@ public:
     sf::Vector2f getPosition() const;
 
     void update();
+    void wake();
 
     sf::Vector2i getWindowPosition() const;
     void setWindowPosition(const sf::Vector2i &value);
@@ -50,6 +52,9 @@ public:
 
     sf::Vector2f step;
     sf::Vector2f correction;
+
+    sf::Vector2f getLastFrame() const;
+    void setLastFrame(const sf::Vector2f &value);
 
 private:
 

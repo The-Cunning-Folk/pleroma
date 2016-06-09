@@ -77,3 +77,16 @@ void DebugUtils::printVal(sf::Vector2i v)
 {
     println(" x: " + std::to_string(v.x) + ", y: " + std::to_string(v.y));
 }
+
+std::string DebugUtils::formatVector(sf::Vector2f v, int dec_places)
+{
+    std::stringstream streamX;
+    streamX << std::fixed << std::setprecision(dec_places) << v.x;
+    std::stringstream streamY;
+    streamY << std::fixed << std::setprecision(dec_places) << v.y;
+
+    std::string xPrec = streamX.str();
+    std::string yPrec = streamY.str();
+
+    return "(" + xPrec + " , " + yPrec + ")";
+}

@@ -156,18 +156,42 @@ void TransformEngine::drawDebug()
 //        cross.setPosition(transforms[i].getPosition());
 //        cross.update();
 //        window.draw(cross);
-//    }
+    //    }
 }
 
-void TransformEngine::updatePositions()
+void TransformEngine::wake()
+{
+    for(int i=0; i<transforms.size(); i++)
+    {
+        Transform & t = transforms[i];
+        t.wake();
+    }
+}
+
+void TransformEngine::runStep()
 {
     for(unsigned int i=0; i<activeComponents.size(); i++)
     {
         int j = activeComponents[i];
-        transforms[j].update();
-        transforms[j].move(delta*(transforms[j].step));
-        transforms[j].setGridPosition(grid->getGridPosition(transforms[j].getPosition()));
-        transforms[j].step.x = transforms[j].step.y = 0;
+        Transform & t = transforms[j];
+        t.lastFrame = t.position;
+        t.update();
+        t.move(delta*(t.step));
+        t.setGridPosition(grid->getGridPosition(t.getPosition()));
+        t.step.x = t.step.y = 0;
+
+    }
+}
+
+void TransformEngine::runCorrections()
+{
+    for(unsigned int i=0; i<activeComponents.size(); i++)
+    {
+        int j = activeComponents[i];
+        Transform & t = transforms[j];
+        t.move(t.correction);
+        t.setGridPosition(grid->getGridPosition(t.getPosition()));
+        t.correction.x = t.correction.y = 0;
     }
 }
 

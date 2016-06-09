@@ -11,10 +11,13 @@ SpriteRenderer::SpriteRenderer()
 {
     typeId = "spriterenderer";
     transform = 0;
-    offset.x = 0;
-    offset.y = 0;
     centreOrigin = true;
     depth = 0;
+    offset.x = offset.y = 0;
+    depthOffset = 0;
+    textureRect.left = textureRect.top = textureRect.height = textureRect.width = 0;
+    frame = 0;
+    sprite = "";
 }
 
 int SpriteRenderer::getTransform() const
@@ -25,5 +28,15 @@ int SpriteRenderer::getTransform() const
 void SpriteRenderer::setTransform(int value)
 {
     transform = value;
+}
+
+void SpriteRenderer::update()
+{
+
+}
+
+void SpriteRenderer::wake()
+{
+
 }
 

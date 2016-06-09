@@ -1,0 +1,30 @@
+{
+    "name": "demo_blocks", 
+    "path": "placeholders/blocks.png",
+    "sprites": [
+            { 
+            "name": "wall_1",
+            "frames": [
+                {"l": 0, "t": 0, "w": 32, "h": 64}
+            ]
+        },
+                { 
+            "name": "wall_2",
+            "frames": [
+                {"l": 32, "t": 0, "w": 32, "h": 64}
+            ]
+        },
+                { 
+            "name": "wall_3",
+            "frames": [
+                {"l": 64, "t": 0, "w": 32, "h": 64}
+            ]
+        },
+                { 
+            "name": "box_1",
+            "frames": [
+                {"l": 96, "t": 0, "w": 32, "h": 64}
+            ]
+        }
+    ]
+}

@@ -32,6 +32,7 @@ public:
     void start();
     void run();
     void finish();
+    void wake();
 
     void pushEvent(Event);
 

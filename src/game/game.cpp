@@ -19,28 +19,22 @@ void Game::runTests()
 void Game::runEngines()
 {
 
+    viewPort.update();
+
     GameObject & player = gameObjectLoader.loadGameObject("player_1");
 
     inputEngine.run();
 
+    float deltaStep = debug->time.getSecondsAndRestart("stepClock");
+    transformEngine.setDelta(deltaStep);
+    transformEngine.runStep();
 
-
+    transformEngine.setBounds(viewPort.renderRegion);
+    transformEngine.run();
 
     grid.setActiveBounds(transformEngine.bounds);
 
-
-
-
-    float deltaT = debug->time.getSeconds("logicTime");
-    viewPort.update();
-    transformEngine.setBounds(viewPort.renderRegion);
-    transformEngine.setDelta(deltaT);
-    transformEngine.run();
-    transformEngine.updatePositions();
-
-    //restart the logic timer
-    debug->time.restartClock("logicTime");
-
+    float deltaT = debug->time.getSecondsAndRestart("logicTime");
 
     occlusionManager.setActiveObjects(transformEngine.getObjectsInRange());
 
@@ -70,6 +64,7 @@ void Game::runEngines()
     eventEngine.start();
     eventEngine.run();
 
+    transformEngine.runCorrections();
 
     renderEngine.start();
     renderEngine.run();
@@ -83,12 +78,7 @@ void Game::runEngines()
     rayCastingEngine.finish();
     renderEngine.finish();
 
-
-
-
-
     viewPort.update();
-
 
 }
 
@@ -121,8 +111,14 @@ void Game::run()
 
     sf::Text fpsDisplay;
     fpsDisplay.setPosition(15,15);
-    fpsDisplay.setCharacterSize(20);
+    fpsDisplay.setCharacterSize(16);
     fpsDisplay.setFont(resourceLoader.getFont("8bit16.ttf"));
+
+    sf::Text posDisplay;
+    posDisplay.setPosition(15,32);
+    posDisplay.setCharacterSize(16);
+    posDisplay.setFont(resourceLoader.getFont("8bit16.ttf"));
+
 
     bool transformDebug = false;
     bool collisionDebug = false;
@@ -133,6 +129,9 @@ void Game::run()
 
 
     //end temporary behaviours
+    transformEngine.wake();
+    collisionEngine.wake();
+    renderEngine.wake();
 
     while(window.isOpen()){
         //game loop goes here
@@ -192,7 +191,7 @@ void Game::run()
         if(raycastingDebug)
             rayCastingEngine.drawDebug();
 
-
+        std::string winPosStr = "w_pos - " + debug->formatVector(window.window.getView().getCenter(),1);
 
 
         //get the default viewport back
@@ -210,12 +209,17 @@ void Game::run()
         frameTime = print.time.getSecondsAndRestart("frameTime");
         float fps = 1.0/frameTime;
 
-        fpsDisplay.setString(std::to_string(math.roundAndCast(fps)));
+        fpsDisplay.setString(std::to_string(math.roundAndCast(fps)) + "  -  " + std::to_string(math.roundAndCast(frameTime*1000)));
+
+        posDisplay.setString(winPosStr);
 
         //end framerate stuff
 
         if(fpsDebug)
+        {
             window.draw(fpsDisplay);
+            window.draw(posDisplay);
+        }
 
         window.display();
 
@@ -239,13 +243,25 @@ void Game::initialiseInjections()
 
    gameObjectLoader.setGameObjects(&gameObjects);
 
+   //component loader injections
+
    componentLoader.setGameObjectLoader(&gameObjectLoader);
+
    componentLoader.setTransformEngine(&transformEngine);
    componentLoader.setCollisionEngine(&collisionEngine);
    componentLoader.setPhysicsEngine(&physicsEngine);
    componentLoader.setEventEngine(&eventEngine);
    componentLoader.setLogicEngine(&logicEngine);
    componentLoader.setRenderEngine(&renderEngine);
+   componentLoader.setRayCastingEngines(&rayCastingEngine);
+
+   //end of component loader injections
+
+   //component factory injections
+
+   componentFactory.setGrid(&grid);
+   componentFactory.setComponentLoader(&componentLoader);
+   componentFactory.setGameObjectLoader(&gameObjectLoader);
 
    componentFactory.setCollisionEngine(&collisionEngine);
    componentFactory.setTransformEngine(&transformEngine);
@@ -253,12 +269,11 @@ void Game::initialiseInjections()
    componentFactory.setEventEngine(&eventEngine);
    componentFactory.setCollisionEngine(&collisionEngine);
    componentFactory.setPhysicsEngine(&physicsEngine);
-   componentFactory.setComponentLoader(&componentLoader);
-   componentFactory.setGrid(&grid);
-   componentFactory.setGameObjectLoader(&gameObjectLoader);
    componentFactory.setLogicEngine(&logicEngine);
    componentFactory.setRayCastingEngine(&rayCastingEngine);
    componentFactory.setRenderEngine(&renderEngine);
+
+   //end of component factory injections
 
    gameObjectFactory.setStack(&gameObjects);
    gameObjectFactory.setComponentFactory(&componentFactory);
@@ -293,6 +308,7 @@ void Game::initialiseClocks()
 {
     debug->time.addClock("frameTime");
     debug->time.addClock("logicTime");
+    debug->time.addClock("stepClock");
 }
 
 void Game::initialiseInput()
@@ -333,6 +349,7 @@ void Game::initialiseTests()
                 if(math.randomInt(0,2) == 1)
                 {
                     componentLoader.getCollidableFromObject(coll,"hitbox").immovable = false;
+                    componentLoader.getSpriteRendererFromObject(coll,"sprite").textureRect = sf::IntRect(96,0,32,64);
                 }
             }
             else if(spinner == 9)

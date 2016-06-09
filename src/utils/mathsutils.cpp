@@ -563,3 +563,13 @@ LineIntersection MathsUtils::findIntersection(sf::Vector2f a, sf::Vector2f b, Co
 
 }
 
+sf::FloatRect MathsUtils::makeCompoundRect(sf::FloatRect a, sf::FloatRect b)
+{
+    sf::FloatRect c;
+    c.left = (a.left <= b.left) ? a.left : b.left;
+    c.top = (a.top <= b.top) ? a.top : b.top;
+    c.width = (a.left + a.width >= b.left + b.width) ? a.left + a.width - c.left : b.left + b.width - c.left;
+    c.height = (a.top + a.height >= b.top + b.height) ? a.top + a.height - c.top : b.top + b.height - c.top;
+    return c;
+}
+

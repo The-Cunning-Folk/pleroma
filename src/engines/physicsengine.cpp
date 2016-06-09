@@ -10,6 +10,11 @@ PhysicsEngine::PhysicsEngine()
     grav = 1;
 }
 
+void PhysicsEngine::wake()
+{
+
+}
+
 void PhysicsEngine::start()
 {
 

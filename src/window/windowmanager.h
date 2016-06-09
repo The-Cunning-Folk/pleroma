@@ -14,6 +14,8 @@ namespace BQ {
 
         //window management
         window_ptr addWindow(std::string,int,int,std::string);
+        window_ptr addWindow(std::string,int,int,std::string,int);
+
         void removeWindow(std::string);
 
 

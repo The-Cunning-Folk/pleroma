@@ -2,6 +2,7 @@
 #define SPRITERENDERER_H
 
 #include <component.h>
+#include <spritesheet.h>
 
 namespace BQ{
 
@@ -16,11 +17,22 @@ public:
 
     float depth;
 
-    sf::Vector2f offset;
+    sf::Vector2f offset; //where the sprite sits compared to the transform position
+    float depthOffset; //a correction for the draw order sorting
+
     std::string texture;
+
+    std::string spritesheet;
+    std::string sprite;
+    int frame;
+
+    sf::IntRect textureRect;
 
     int getTransform() const;
     void setTransform(int value);
+
+    void update();
+    void wake();
 
     bool operator < (const SpriteRenderer& str) const
     {

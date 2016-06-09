@@ -7,6 +7,7 @@
 #include<physicsengine.h>
 #include<logicengine.h>
 #include<renderengine.h>
+#include<raycastingengine.h>
 
 namespace BQ{
 
@@ -26,8 +27,15 @@ public:
     RigidBody & getRigidBody(int);
     GameLogic & getGameLogic(int);
     Behaviour & getBehaviour(int);
+    RayEmitter & getRayEmitter(int);
+    SpriteRenderer & getSpriteRenderer(int);
 
+    Transform & getTransformFromObject(GameObject&,std::string);
     Collidable & getCollidableFromObject(GameObject&,std::string);
+    RigidBody & getRigidBodyFromObject(GameObject&,std::string);
+    GameLogic & getGameLogicFromObject(GameObject&,std::string);
+    RayEmitter & getRayEmitterFromObject(GameObject&,std::string);
+    SpriteRenderer & getSpriteRendererFromObject(GameObject&,std::string);
 
     std::vector<int> getComponentsFromObject(GameObject &, std::string);
 
@@ -35,6 +43,8 @@ public:
     std::vector<int> getGameLogicsFromObject(GameObject & );
     std::vector<int> getInputsFromObject(GameObject & );
     std::vector<int> getRigidBodiesFromObject(GameObject &);
+    std::vector<int> getRayEmittersFromObject(GameObject &);
+    std::vector<int> getSpriteRenderersFromObject(GameObject &);
 
     std::vector<int> getIndicesFromMap(std::map<std::string,int>);
 
@@ -62,6 +72,9 @@ public:
     RenderEngine *getRenderEngine() const;
     void setRenderEngine(RenderEngine *value);
 
+    RaycastingEngine *getRayCastingEngines() const;
+    void setRayCastingEngines(RaycastingEngine *value);
+
 private:
 
     GameObjectLoader * gameObjectLoader;
@@ -72,6 +85,7 @@ private:
     PhysicsEngine* physicsEngine;
     EventEngine* eventEngine;
     LogicEngine* logicEngine;
+    RaycastingEngine * rayCastingEngine;
     RenderEngine* renderEngine;
 };
 }

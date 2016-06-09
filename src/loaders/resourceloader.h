@@ -7,6 +7,10 @@
 #include <memory>
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
+#include <rapidjson/rapidjson.h>
+#include <rapidjson/document.h>
+#include <rapidjson/writer.h>
+#include <rapidjson/stringbuffer.h>
 
 namespace BQ{
 class ResourceLoader
@@ -16,6 +20,7 @@ public:
 
     DebugUtils* debug;
 
+    std::string loadFileAsString(std::string);
 
     DebugUtils *getDebug() const;
     void setDebug(DebugUtils *value);

@@ -13,6 +13,11 @@ InputEngine::InputEngine() : Engine()
     placeholder = "auto_input_";
 }
 
+void InputEngine::wake()
+{
+
+}
+
 void InputEngine::start()
 {
 

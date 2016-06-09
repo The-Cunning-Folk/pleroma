@@ -22,7 +22,8 @@ INCLUDEPATH += "SFML/include" \
     "$$SRCDIR/loaders" \
     "$$SRCDIR/structures"\
     "$$SRCDIR/managers"\
-    "$$SRCDIR/geometry"
+    "$$SRCDIR/geometry" \
+    "$$SRCDIR/graphics"
 
 HEADERS += $$SRCDIR/window/gamewindow.h \
     src/window/windowmanager.h \
@@ -192,3 +193,5 @@ CONFIG(debug, debug|release): LIBS += -lsfml-audio-d -lsfml-graphics-d -lsfml-ne
 
 INCLUDEPATH += "SFML/include"
 DEPENDPATH += "SFML/include"
+INCLUDEPATH += "include"
+DEPENDPATH += "include"
