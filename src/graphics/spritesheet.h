@@ -3,6 +3,7 @@
 
 #include <SFML/Graphics.hpp>
 
+namespace BQ{
 class SpriteSheet
 {
 public:
@@ -12,5 +13,6 @@ public:
     std::map<std::string,std::vector<sf::IntRect>> spriteFrames;
 
 };
+}
 
 #endif // SPRITESHEET_H

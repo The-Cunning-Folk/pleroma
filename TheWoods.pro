@@ -91,7 +91,9 @@ HEADERS += $$SRCDIR/window/gamewindow.h \
     src/components/rayemitter.h \
     src/graphics/spritesheet.h \
     src/components/spriterenderer.h \
-    src/engines/renderengine.h
+    src/engines/renderengine.h \
+    src/graphics/frame.h \
+    src/graphics/animation.h
 
 SOURCES += src/main.cpp \
     $$SRCDIR/window/gamewindow.cpp \
@@ -159,7 +161,9 @@ SOURCES += src/main.cpp \
     src/components/rayemitter.cpp \
     src/graphics/spritesheet.cpp \
     src/components/spriterenderer.cpp \
-    src/engines/renderengine.cpp
+    src/engines/renderengine.cpp \
+    src/graphics/frame.cpp \
+    src/graphics/animation.cpp
 
 LIBS += -L"$$PWD/SFML/lib"
 

@@ -66,7 +66,6 @@ GameObject &GameObjectFactory::newImmovableObject()
     sprite.spritesheet = "demo_blocks";
     sprite.offset = sf::Vector2f(0,-18);
     sprite.depthOffset = 10;
-    sprite.textureRect = sf::IntRect(32,0,32,64);
 
     sprite.setTransform(o.getTransform());
     o.addComponent("sprite",sprite);

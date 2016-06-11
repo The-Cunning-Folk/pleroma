@@ -3,6 +3,7 @@
 
 #include<behaviour.h>
 #include <convexpolygon.h>
+#include <animation.h>
 
 namespace BQ{
 class PlayerBehaviours : public Behaviour
@@ -20,6 +21,8 @@ public:
     sf::Clock rollClock;
     sf::Time attackTimer;
     sf::Clock attackClock;
+
+    Animation anim;
 
     sf::Vector2f rollDirection;
     sf::Vector2f attackDirection;
