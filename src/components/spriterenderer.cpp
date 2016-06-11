@@ -17,7 +17,7 @@ SpriteRenderer::SpriteRenderer()
     depthOffset = 0;
     textureRect.left = textureRect.top = textureRect.height = textureRect.width = 0;
     frame = 0;
-    sprite = "";
+    clip = "";
 }
 
 int SpriteRenderer::getTransform() const
@@ -32,7 +32,6 @@ void SpriteRenderer::setTransform(int value)
 
 void SpriteRenderer::update()
 {
-
 }
 
 void SpriteRenderer::wake()

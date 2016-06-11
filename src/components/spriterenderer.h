@@ -3,6 +3,7 @@
 
 #include <component.h>
 #include <spritesheet.h>
+#include <animation.h>
 
 namespace BQ{
 
@@ -23,7 +24,7 @@ public:
     std::string texture;
 
     std::string spritesheet;
-    std::string sprite;
+    std::string clip;
     int frame;
 
     sf::IntRect textureRect;

@@ -294,16 +294,31 @@ void PlayerBehaviours::update()
 
     SpriteRenderer & spr = componentLoader->getSpriteRendererFromObject(g,"sprite");
 
-    debug->println(facing);
-
     if(facing[0] == 'd')
-        spr.sprite = "walk_down";
+        spr.clip = "walk_down";
     else if(facing[0] == 'u')
-        spr.sprite = "walk_up";
+        spr.clip = "walk_up";
     else if(facing[0] == 'r')
-        spr.sprite = "walk_right";
+        spr.clip = "walk_right";
     else if(facing[0] == 'l')
-        spr.sprite = "walk_left";
+        spr.clip = "walk_left";
+
+    anim.frame = spr.frame;
+
+    anim.update();
+
+    spr.frame = anim.frame;
+
+    if(maths->mag(velocity) < 0.01f)
+    {
+        anim.stop();
+    }
+    else
+    {
+        anim.rate = 2*maths->mag(velocity)/speed;
+        anim.play();
+    }
+
 
     rollTimer = rollClock.getElapsedTime();    
     attackTimer = attackClock.getElapsedTime();

@@ -24,6 +24,7 @@ BQ::SpriteRenderer &BQ::RenderEngine::addSpriteRenderer()
 {
     sprites.resize(sprites.size()+1);
     sprites.back().index = sprites.size()-1;
+    sprites.back().name = placeholder + std::to_string(sprites.size());
     return sprites.back();
 }
 
@@ -135,21 +136,25 @@ void BQ::RenderEngine::finish()
 
 void BQ::RenderEngine::drawDebug()
 {
-
-
     std::vector<SpriteRenderer> renderList;
 
     for(int i=0; i<activeComponents.size(); i++)
     {
-        SpriteRenderer s = sprites[activeComponents[i]];
-        renderList.push_back(s);
+        renderList.push_back(sprites[activeComponents[i]]);
     }
 
     std::sort(renderList.begin(),renderList.end());
 
+    std::vector<int> renderOrder;
+
     for(int i=0; i<renderList.size(); i++)
     {
-        SpriteRenderer & s = renderList[i];
+        renderOrder.push_back(renderList[i].index);
+    }
+
+    for(int i=0; i<renderOrder.size(); i++)
+    {
+        SpriteRenderer & s = sprites[renderOrder[i]];
         sf::Sprite spr;
         if ( spriteSheets.find(s.spritesheet) == spriteSheets.end() ) {
             spr.setTexture(resourceLoader->getTexture(""));
@@ -158,34 +163,38 @@ void BQ::RenderEngine::drawDebug()
         {
             SpriteSheet& sheet = spriteSheets[s.spritesheet];
             spr.setTexture(resourceLoader->getTexture(sheet.texture));
-            if(sheet.spriteFrames.find(s.sprite) != sheet.spriteFrames.end())
+            std::string clip = "";
+            if(sheet.spriteFrames.find(s.clip) != sheet.spriteFrames.end())
             {
-                int frame = s.frame < sheet.spriteFrames[s.sprite].size()
-                        ? s.frame
-                        : sheet.spriteFrames[s.sprite].size() > 0
-                            ? 0
-                            : -1;
-
-                if(frame != -1)
-                {
-                    spr.setTextureRect(sheet.spriteFrames[s.sprite][s.frame]);
-                }
+                clip = s.clip;
             }
             else if(sheet.spriteFrames.size() > 0)
             {
-                std::string key = sheet.spriteFrames.begin()->first;
+                clip = sheet.spriteFrames.begin()->first;
+            }
 
-                int frame = s.frame < sheet.spriteFrames[key].size()
-                        ? s.frame
-                        : sheet.spriteFrames[key].size() > 0
-                            ? 0
-                            : -1;
-
-                if(frame != -1)
+            if(clip != "")
+            {
+                bool spritefound = true;
+                if(s.frame < 0 || s.frame >= sheet.spriteFrames[clip].size())
                 {
-                    spr.setTextureRect(sheet.spriteFrames[key][s.frame]);
+                    if(sheet.spriteFrames[clip].size() > 0)
+                    {
+                        s.frame = 0;
+                    }
+                    else
+                    {
+                        spritefound = false;
+                    }
+                }
+
+                if(spritefound)
+                {
+                    spr.setTextureRect(sheet.spriteFrames[clip][s.frame]);
                 }
             }
+
+
         }
 
         sf::Vector2f pos = componentLoader->getTransform(s.transform).position;
