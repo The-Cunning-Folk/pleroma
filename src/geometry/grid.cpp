@@ -217,7 +217,7 @@ std::vector<sf::Vector2i> Grid::bresenhamLine(sf::Vector2f a, sf::Vector2f b)
 
     float distance = math.mag(diff);
 
-    float stepMag = math.min(distance*0.1f,1.0f);
+    float stepMag = 1.0f;
 
     step = stepMag*unit;
 
@@ -226,14 +226,16 @@ std::vector<sf::Vector2i> Grid::bresenhamLine(sf::Vector2f a, sf::Vector2f b)
     sf::Vector2i lastGridPos = getGridPosition(a);
     squares.push_back(lastGridPos);
 
-    for(int i; i<stepCount-1; i++)
+    for(int i=0; i<stepCount-1; i++)
     {
         sf::Vector2f stepPos = a + ((float) i)*step;
+
 
         sf::Vector2i thisGridPos = getGridPosition(stepPos);
         if(thisGridPos != lastGridPos)
         {
             squares.push_back(thisGridPos);
+            lastGridPos = thisGridPos;
         }
     }
 
@@ -241,7 +243,7 @@ std::vector<sf::Vector2i> Grid::bresenhamLine(sf::Vector2f a, sf::Vector2f b)
 
     if(endGridPos != lastGridPos)
     {
-        squares.push_back(lastGridPos);
+        squares.push_back(endGridPos);
     }
 
     return squares;

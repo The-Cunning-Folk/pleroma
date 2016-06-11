@@ -106,17 +106,20 @@ void RaycastingEngine::run()
         {
             if(!grid->isActiveGlobal(gridPositions[i])) {continue;}
             GridSquare & g = grid->getActiveGridSquareFromGlobalCoords(gridPositions[i]);
-            //g.debugColor = sf::Color::Green;
+            g.debugColor = sf::Color::Green;
             if(g.collidablesInContact.size() > 0)
             {
                 //find entry point at edge of this
                 for(int j=0; j<g.collidablesInContact.size(); j++)
                 {
-
                     Collidable & c = componentLoader->getCollidable(g.collidablesInContact[j]);
+
+                    if(c.getParent() == r.originator) {continue;}
                     if(!c.opaque && c.getParent() != r.target) {continue;}
+
                     if(c.getParent() != r.originator)
                     {
+
                         LineIntersection l = maths->findIntersection(r.startPosition,r.endPosition,c.polygon);
                         if(l.intersects)
                         {
