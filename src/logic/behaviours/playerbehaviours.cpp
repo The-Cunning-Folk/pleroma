@@ -282,7 +282,8 @@ void PlayerBehaviours::resolveEvent(Event & event)
 
 void PlayerBehaviours::update()
 {
-    Transform & transform = gameObjectLoader->loadGameObject(parent).loadTransform();
+    GameObject& g = gameObjectLoader->loadGameObject(parent);
+    Transform & transform = g.loadTransform();
     sf::Vector2f direction(dx,dy);
     if(maths->mag(direction) > 1.0)
     {
@@ -290,6 +291,20 @@ void PlayerBehaviours::update()
     }
     sf::Vector2f velocity = speed*direction;
     facing = getFacing(direction.x,direction.y);
+
+    SpriteRenderer & spr = componentLoader->getSpriteRendererFromObject(g,"sprite");
+
+    debug->println(facing);
+
+    if(facing[0] == 'd')
+        spr.sprite = "walk_down";
+    else if(facing[0] == 'u')
+        spr.sprite = "walk_up";
+    else if(facing[0] == 'r')
+        spr.sprite = "walk_right";
+    else if(facing[0] == 'l')
+        spr.sprite = "walk_left";
+
     rollTimer = rollClock.getElapsedTime();    
     attackTimer = attackClock.getElapsedTime();
 

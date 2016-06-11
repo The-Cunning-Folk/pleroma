@@ -3,7 +3,7 @@
     "path": "entities/characters/clo_walk.png",
     "sprites": [
             { 
-            "name": "walk_front",
+            "name": "walk_down",
             "frames": [
                 {"l": 0, "t": 0, "w": 16, "h": 32},
                 {"l": 16, "t": 0, "w": 16, "h": 32},
@@ -15,7 +15,7 @@
             ]
         },
         { 
-            "name": "walk_back",
+            "name": "walk_up",
             "frames": [
                 {"l": 0, "t": 32, "w": 16, "h": 32},
                 {"l": 16, "t": 32, "w": 16, "h": 32},
@@ -39,7 +39,7 @@
             ]
         },
         { 
-            "name": "walk_front",
+            "name": "walk_left",
             "frames": [
                 {"l": 0, "t": 96, "w": 16, "h": 32},
                 {"l": 16, "t": 96, "w": 16, "h": 32},
