@@ -134,20 +134,24 @@ Behaviour &ComponentFactory::bindBehaviour(GameLogic & g, std::string type)
 
 Collidable & ComponentFactory::newCollidable()
 {
-    Collidable& collidable = collisionEngine->addCollidable();
-    collidable.setComponentLoader(componentLoader);
-    collidable.setGameObjectLoader(gameObjectLoader);
-    collidable.setMaths(maths);
-    collidable.setDebug(debug);
-    collidable.setGrid(grid);
-    return collidable;
+    Collidable & c = collisionEngine->addCollidable();
+    c.setComponentLoader(componentLoader);
+    c.setGameObjectLoader(gameObjectLoader);
+    c.setMaths(maths);
+    c.setDebug(debug);
+    c.setGrid(grid);
+    return c;
 }
 
 Collidable & ComponentFactory::newCollidable(std::string name)
 {
-    Collidable & collidable = newCollidable();
-    collidable.name = name;
-    return(collidable);
+    Collidable & c = newCollidable();
+    c.name = name;
+//    c.polygon.points.push_back(sf::Vector2f(10,-10));
+//    c.polygon.points.push_back(sf::Vector2f(10,10));
+//    c.polygon.points.push_back(sf::Vector2f(-10,10));
+//    c.polygon.points.push_back(sf::Vector2f(-10,-10));
+    return(c);
 }
 
 Collidable &ComponentFactory::newRectCollidable(sf::FloatRect r)
@@ -169,7 +173,7 @@ Collidable &ComponentFactory::newRandomCollidable()
 Collidable &ComponentFactory::newRandomCollidable(float r)
 {
 
-    Collidable & collidable = newCollidable();
+    Collidable & c = newCollidable();
 
     sf::Vector2f point;
     float a = 0.0;
@@ -178,11 +182,11 @@ Collidable &ComponentFactory::newRandomCollidable(float r)
     {
         point.x = r*maths->fcosDeg(a);
         point.y = r*maths->fsinDeg(a);
-        collidable.polygon.addPoint(point);
+        c.polygon.addPoint(point);
         a += maths->randomFloat(10,80);
     }
 
-    return collidable;
+    return c;
 }
 
 Collidable &ComponentFactory::newCollidable(std::vector<sf::Vector2f> points)
@@ -192,13 +196,13 @@ Collidable &ComponentFactory::newCollidable(std::vector<sf::Vector2f> points)
         return newRandomCollidable();
     }
 
-    Collidable & collidable = newCollidable();
+    Collidable & c = newCollidable();
 
     for(int i=0; i<points.size(); i++)
     {
-        collidable.polygon.addPoint(points[i]);
+        c.polygon.addPoint(points[i]);
     }
-    return collidable;
+    return c;
 }
 
 RigidBody &ComponentFactory::newRigidBody()

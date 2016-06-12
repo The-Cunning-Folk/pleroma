@@ -55,6 +55,6 @@ void GameObject::addComponent(Component& component)
 void GameObject::addComponent(std::string name, Component & component)
 {
     component.setParent(this->name);
-    //component.setName(name);
+    component.setName(name);
     components[component.typeId][name] = component.index;
 }

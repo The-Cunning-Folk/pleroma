@@ -13,9 +13,9 @@ ConvexPolygon::ConvexPolygon()
 
 void ConvexPolygon::addPoint(sf::Vector2f v)
 {
-//    std::vector<sf::Vector2f> newpoints = points;
-//    newpoints.push_back(v);
-//    points = newpoints;
+    std::vector<sf::Vector2f> newpoints = points;
+    newpoints.push_back(v);
+    points = newpoints;
 }
 
 void ConvexPolygon::addPoint(float x, float y)

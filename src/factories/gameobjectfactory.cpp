@@ -94,20 +94,19 @@ GameObject& GameObjectFactory::newPlayerObject() //builds behaviours for the pla
     hitbox.pathable = true;
     hitbox.setTransform(player.getTransform());
 
-    ConvexPolygon & p = hitbox.polygon;
-
     float corners = 1.0f;
     float size = 4.0f;
-    p.addPoint(sf::Vector2f(size-corners,size));
-    p.addPoint(sf::Vector2f(size,size-corners));
-    p.addPoint(sf::Vector2f(size,-size+corners));
-    p.addPoint(sf::Vector2f(size-corners,-size));
-    p.addPoint(sf::Vector2f(-size+corners,-size));
-    p.addPoint(sf::Vector2f(-size,-size+corners));
-    p.addPoint(sf::Vector2f(-size,size-corners));
-    p.addPoint(sf::Vector2f(-size+corners,size));
+    hitbox.polygon.addPoint(sf::Vector2f(size-corners,size));
+    hitbox.polygon.addPoint(sf::Vector2f(size,size-corners));
+    hitbox.polygon.addPoint(sf::Vector2f(size,-size+corners));
+    hitbox.polygon.addPoint(sf::Vector2f(size-corners,-size));
+    hitbox.polygon.addPoint(sf::Vector2f(-size+corners,-size));
+    hitbox.polygon.addPoint(sf::Vector2f(-size,-size+corners));
+    hitbox.polygon.addPoint(sf::Vector2f(-size,size-corners));
+    hitbox.polygon.addPoint(sf::Vector2f(-size+corners,size));
 
     player.addComponent("hitbox",hitbox);
+    hitbox.update();
 
     Collidable & attack = componentFactory->newCollidable("player_attack");
 
@@ -116,6 +115,7 @@ GameObject& GameObjectFactory::newPlayerObject() //builds behaviours for the pla
     attack.setTransform(player.getTransform());
     attack.solid = false;
     player.addComponent("attack",attack);
+    attack.update();
 
 
     body.setTransform(player.getTransform());
@@ -123,8 +123,6 @@ GameObject& GameObjectFactory::newPlayerObject() //builds behaviours for the pla
 
     sprite.spritesheet = "clo_walk";
     sprite.offset = sf::Vector2f(0,-6);
-
-
 
     //add components
     player.addComponent("input",input);

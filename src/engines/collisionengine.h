@@ -19,6 +19,7 @@ public:
     Collidable & getCollidable(int);
 
     Collidable& addCollidable();
+    Collidable& addCollidable(Collidable);
 
     bool checkCollision(Collidable &,Collidable &);
     sf::Vector2f findMovingCollisionCorrection(Collidable &, Collidable &);
