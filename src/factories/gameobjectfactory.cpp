@@ -84,44 +84,53 @@ GameObject& GameObjectFactory::newPlayerObject() //builds behaviours for the pla
     GameObject& player = newObject("player_1");
     PlayerInput& input = componentFactory->newPlayerInput("player_input");
     GameLogic& logic = componentFactory->newGameLogic("player_logic");
-    Collidable & hitbox = componentFactory->newCollidable("player_hitbox");
-    Collidable & attack = componentFactory->newCollidable("player_attack");
+
+
     RigidBody & body = componentFactory->newRigidBody("player_rigidbody");
     RayEmitter & rays = componentFactory->newRayEmitter("player_ray1");
     SpriteRenderer & sprite = componentFactory->newSpriteRenderer("player_spr");
 
-    float corners = 1;
-    float size = 4;
-
-    hitbox.polygon.addPoint(sf::Vector2f(size-corners,size));
-    hitbox.polygon.addPoint(sf::Vector2f(size,size-corners));
-    hitbox.polygon.addPoint(sf::Vector2f(size,-size+corners));
-    hitbox.polygon.addPoint(sf::Vector2f(size-corners,-size));
-    hitbox.polygon.addPoint(sf::Vector2f(-size+corners,-size));
-    hitbox.polygon.addPoint(sf::Vector2f(-size,-size+corners));
-    hitbox.polygon.addPoint(sf::Vector2f(-size,size-corners));
-    hitbox.polygon.addPoint(sf::Vector2f(-size+corners,size));
-
+    Collidable & hitbox = componentFactory->newCollidable("player_hitbox");
     hitbox.pathable = true;
+    hitbox.setTransform(player.getTransform());
+
+    ConvexPolygon & p = hitbox.polygon;
+
+    float corners = 1.0f;
+    float size = 4.0f;
+    p.addPoint(sf::Vector2f(size-corners,size));
+    p.addPoint(sf::Vector2f(size,size-corners));
+    p.addPoint(sf::Vector2f(size,-size+corners));
+    p.addPoint(sf::Vector2f(size-corners,-size));
+    p.addPoint(sf::Vector2f(-size+corners,-size));
+    p.addPoint(sf::Vector2f(-size,-size+corners));
+    p.addPoint(sf::Vector2f(-size,size-corners));
+    p.addPoint(sf::Vector2f(-size+corners,size));
+
+    player.addComponent("hitbox",hitbox);
+
+    Collidable & attack = componentFactory->newCollidable("player_attack");
+
     attack.physical = false;
     attack.pathable = true;
-
-
-    hitbox.setTransform(player.getTransform());
-    body.setTransform(player.getTransform());
     attack.setTransform(player.getTransform());
+    attack.solid = false;
+    player.addComponent("attack",attack);
+
+
+    body.setTransform(player.getTransform());
     sprite.setTransform(player.getTransform());
 
     sprite.spritesheet = "clo_walk";
     sprite.offset = sf::Vector2f(0,-6);
 
-    attack.solid = false;
+
 
     //add components
     player.addComponent("input",input);
     player.addComponent("logic",logic);
-    player.addComponent("hitbox",hitbox);
-    player.addComponent("attack",attack);
+
+
     player.addComponent("body",body);
     player.addComponent("raytest",rays);
     player.addComponent("sprite",sprite);

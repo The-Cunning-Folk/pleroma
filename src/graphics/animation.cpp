@@ -36,7 +36,7 @@ void Animation::play()
 
 void Animation::stop()
 {
-    running = false;
     frame = 0;
+    running = false;
 }
 
