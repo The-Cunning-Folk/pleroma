@@ -11,6 +11,8 @@
 #include<inputmap.h>
 #include<viewport.h>
 
+#include<level.h>
+
 #include<gameobjectstack.h>
 
 #include<gameobjectfactory.h>
@@ -46,6 +48,8 @@ public:
 
     void setGameWindow(window_ptr);
     window_ptr getGameWindow();
+
+    std::map<std::string,Level> levels;
 
     void setFrameRate(float);
     float getFrameRate();

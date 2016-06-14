@@ -23,7 +23,8 @@ INCLUDEPATH += "SFML/include" \
     "$$SRCDIR/structures"\
     "$$SRCDIR/managers"\
     "$$SRCDIR/geometry" \
-    "$$SRCDIR/graphics"
+    "$$SRCDIR/graphics" \
+    "$$SRCDIR/environment"
 
 HEADERS += $$SRCDIR/window/gamewindow.h \
     src/window/windowmanager.h \
@@ -93,7 +94,10 @@ HEADERS += $$SRCDIR/window/gamewindow.h \
     src/components/spriterenderer.h \
     src/engines/renderengine.h \
     src/graphics/frame.h \
-    src/graphics/animation.h
+    src/graphics/animation.h \
+    src/environment/level.h \
+    src/environment/tilemap.h \
+    src/environment/tile.h
 
 SOURCES += src/main.cpp \
     $$SRCDIR/window/gamewindow.cpp \
@@ -163,7 +167,10 @@ SOURCES += src/main.cpp \
     src/components/spriterenderer.cpp \
     src/engines/renderengine.cpp \
     src/graphics/frame.cpp \
-    src/graphics/animation.cpp
+    src/graphics/animation.cpp \
+    src/environment/level.cpp \
+    src/environment/tilemap.cpp \
+    src/environment/tile.cpp
 
 LIBS += -L"$$PWD/SFML/lib"
 

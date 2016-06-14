@@ -102,7 +102,7 @@ void RenderEngine::wake()
                     r.height = frames[k]["h"].GetInt();
                     rects.push_back(r);
                 }
-                s.spriteFrames[sprName] = rects;
+                s.addSprite(sprName,rects);
             }
 
             spriteSheets[sheetName] = s;
@@ -164,6 +164,7 @@ void BQ::RenderEngine::drawDebug()
             SpriteSheet& sheet = spriteSheets[s.spritesheet];
             spr.setTexture(resourceLoader->getTexture(sheet.texture));
             std::string clip = "";
+
             if(sheet.spriteFrames.find(s.clip) != sheet.spriteFrames.end())
             {
                 clip = s.clip;

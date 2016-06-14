@@ -393,9 +393,6 @@ void CollisionEngine::start()
 
 void CollisionEngine::run()
 {
-
-    debug->printVal((int)collidables.size());
-    debug->printVal((int)activeComponents.size());
     ComponentLoader& components = *componentLoader;
     for(unsigned int i=0; i<quadtree.flatNodes.size(); i++)
     {
