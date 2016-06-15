@@ -17,6 +17,14 @@ std::string ResourceLoader::loadFileAsString(std::string path)
     return content;
 }
 
+rapidjson::Document ResourceLoader::loadJsonFile(std::string path)
+{
+    std::string jsonStr = loadFileAsString(path);
+    rapidjson::Document doc;
+    doc.Parse(jsonStr.c_str());
+    return doc;
+}
+
 DebugUtils *ResourceLoader::getDebug() const
 {
     return debug;

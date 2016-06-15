@@ -63,6 +63,7 @@ public:
     void initialiseInput();
     void initialiseTests();
     void initialisePlayers();
+    void initialiseEnvironment();
 
     void runTests();
     void runEngines();

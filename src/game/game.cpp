@@ -98,9 +98,9 @@ void Game::run()
     initialiseInjections(); //injections
     initialiseInput();
     initialiseClocks(); //clock definitions
+    initialiseEnvironment();
 
     initialiseTests();
-
     initialisePlayers();
 
     DebugUtils& print = *debug;
@@ -241,6 +241,7 @@ void Game::initialiseInjections()
 
    resourceLoader.setDebug(debug);
 
+
    gameObjectLoader.setGameObjects(&gameObjects);
 
    //component loader injections
@@ -368,6 +369,17 @@ void Game::initialisePlayers()
     debug->println("adding players");
     GameObject& player = gameObjectFactory.newPlayerObject();
     viewPort.focusedTransform =  player.getTransform();
+}
+
+void Game::initialiseEnvironment()
+{
+    rapidjson::Document levelConfig = resourceLoader.loadJsonFile("config/levels.json");
+    assert(levelConfig["parentdirectory"].IsString());
+    assert(levelConfig["levels"].IsArray());
+
+    std::string lDir = levelConfig["parentdirectory"].GetString();
+
+
 }
 
 void Game::stabiliseFrameRate(float currentFrameDuration)

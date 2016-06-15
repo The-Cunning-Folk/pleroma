@@ -1,0 +1,13 @@
+{
+    "name": "butterfly_demo",
+    "ground" : {
+        "left" : -4,
+        "top": -4,
+        "width" : 8,
+        "height" : 8,
+        "map" : [
+            
+        ]
+            
+    }
+}

@@ -46,9 +46,7 @@ void RenderEngine::wake()
     //load sprite sheets
 
     //load and parse textures.json
-    std::string textureConfig = resourceLoader->loadFileAsString("config/textures.json");
-    rapidjson::Document tconfig;
-    tconfig.Parse(textureConfig.c_str());
+    rapidjson::Document tconfig = resourceLoader->loadJsonFile("config/textures.json");
 
     //get the parent directory for the spritesheets
     assert(tconfig["parentdirectory"].IsString());
@@ -61,16 +59,13 @@ void RenderEngine::wake()
     for (rapidjson::SizeType i = 0; i < files.Size(); i++)
     {
         debug->println(tDir + "/" + files[i].GetString());
-        std::string sheetConfig = resourceLoader->loadFileAsString(tDir + "/" + files[i].GetString());
-        rapidjson::Document spritesheetJson;
-        spritesheetJson.Parse(sheetConfig.c_str());
+        rapidjson::Document spritesheetJson = resourceLoader->loadJsonFile(tDir + "/" + files[i].GetString());
 
         assert(spritesheetJson["name"].IsString());
         assert(spritesheetJson["path"].IsString());
-
-
         std::string sheetName = spritesheetJson["name"].GetString();
         std::string sheetPath = spritesheetJson["path"].GetString();
+
         const rapidjson::Value & animationsJson = spritesheetJson["sprites"];
 
         assert(animationsJson.IsArray());
