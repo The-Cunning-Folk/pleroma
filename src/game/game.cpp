@@ -378,7 +378,28 @@ void Game::initialiseEnvironment()
     assert(levelConfig["levels"].IsArray());
 
     std::string lDir = levelConfig["parentdirectory"].GetString();
+    const rapidjson::Value & files = levelConfig["levels"];
+    assert(files.IsArray());
 
+    for (rapidjson::SizeType i = 0; i < files.Size(); i++)
+    {
+        debug->println(lDir + "/" + files[i].GetString());
+        rapidjson::Document levelJson = resourceLoader.loadJsonFile(lDir + "/" + files[i].GetString());
+
+        assert(levelJson["name"].IsString());
+        assert(levelJson["ground"].IsObject());
+
+        std::string levelName = levelJson["name"].GetString();
+        rapidjson::Value ground = levelJson["ground"].GetObject();
+
+        assert(ground["left"].IsInt());
+        assert(ground["top"].IsInt());
+        assert(ground["width"].IsInt());
+        assert(ground["height"].IsInt());
+        assert(ground["map"].IsArray());
+
+
+    }
 
 }
 
