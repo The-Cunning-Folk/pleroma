@@ -3,6 +3,8 @@
     "spritesheets": [
         "example_1.json",
         "demo_blocks.json",
-        "clo_walk.json"
+        "clo_walk.json",
+        "ts_demo_1.json"
+        
     ]
 }

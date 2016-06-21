@@ -58,17 +58,19 @@ void RenderEngine::wake()
 
     for (rapidjson::SizeType i = 0; i < files.Size(); i++)
     {
-        debug->println(tDir + "/" + files[i].GetString());
+        std::string fileName = files[i].GetString();
+        debug->println(tDir + "/" + fileName);
         rapidjson::Document spritesheetJson = resourceLoader->loadJsonFile(tDir + "/" + files[i].GetString());
+
+        if(!spritesheetJson.HasMember("name") || !spritesheetJson.HasMember("path"))
+        {
+            continue;
+        }
 
         assert(spritesheetJson["name"].IsString());
         assert(spritesheetJson["path"].IsString());
         std::string sheetName = spritesheetJson["name"].GetString();
         std::string sheetPath = spritesheetJson["path"].GetString();
-
-        const rapidjson::Value & animationsJson = spritesheetJson["sprites"];
-
-        assert(animationsJson.IsArray());
 
         //construct a spritesheet object here
         if ( spriteSheets.find(sheetName) != spriteSheets.end() ) {
@@ -80,25 +82,75 @@ void RenderEngine::wake()
             SpriteSheet s;
             s.texture = sheetPath;
 
-            for (rapidjson::SizeType j=0 ; j<animationsJson.Size(); j++)
+            if(!spritesheetJson.HasMember("sprites") && !spritesheetJson.HasMember("split"))
+            {
+                debug->println("parser error in " + fileName + ": no sprite data found");
+                continue;
+            }
+
+            if(spritesheetJson.HasMember("sprites"))
             {
 
-                assert(animationsJson[j]["name"].IsString());
-                std::string sprName = animationsJson[j]["name"].GetString();
-                const rapidjson::Value & frames = animationsJson[j]["frames"];
-                assert(frames.IsArray());
-                std::vector<sf::IntRect> rects;
-                for (rapidjson::SizeType k=0 ; k<frames.Size(); k++)
+                const rapidjson::Value & animationsJson = spritesheetJson["sprites"];
+
+                assert(animationsJson.IsArray());
+
+
+
+                for (rapidjson::SizeType j=0 ; j<animationsJson.Size(); j++)
                 {
-                    sf::IntRect r;
-                    r.left = frames[k]["l"].GetInt();
-                    r.top = frames[k]["t"].GetInt();
-                    r.width = frames[k]["w"].GetInt();
-                    r.height = frames[k]["h"].GetInt();
-                    rects.push_back(r);
+
+                    assert(animationsJson[j]["name"].IsString());
+                    std::string sprName = animationsJson[j]["name"].GetString();
+                    const rapidjson::Value & frames = animationsJson[j]["frames"];
+                    assert(frames.IsArray());
+                    std::vector<sf::IntRect> rects;
+                    for (rapidjson::SizeType k=0 ; k<frames.Size(); k++)
+                    {
+                        sf::IntRect r;
+                        r.left = frames[k]["l"].GetInt();
+                        r.top = frames[k]["t"].GetInt();
+                        r.width = frames[k]["w"].GetInt();
+                        r.height = frames[k]["h"].GetInt();
+                        rects.push_back(r);
+                    }
+                    s.addSprite(sprName,rects);
                 }
-                s.addSprite(sprName,rects);
             }
+
+            if(spritesheetJson.HasMember("split"))
+            {
+                const rapidjson::Value & split = spritesheetJson["split"].GetObject();
+                if(!split.HasMember("w") || !split.HasMember("h") || !split.HasMember("x_count") || !split.HasMember("y_count"))
+                {
+                    debug->println("parser error in " + fileName + ": split data incomplete");
+                    continue;
+                }
+
+                int xCount = split["x_count"].GetInt();
+                int yCount = split["y_count"].GetInt();
+                int width = split["w"].GetInt();
+                int height = split["h"].GetInt();
+
+                for(int j = 0; j<yCount; j++)
+                {
+                    for(int k=0; k<xCount; k++)
+                    {
+                        std::vector<sf::IntRect> rects;
+                        int sprIndex = j*xCount + k;
+                        std::string sprName = std::to_string(sprIndex);
+                        sf::IntRect r;
+                        r.left = k*width;
+                        r.top = j*height;
+                        r.width = width;
+                        r.height = height;
+                        rects.push_back(r);
+                        s.addSprite(sprName,rects);
+                    }
+                }
+
+            }
+
 
             spriteSheets[sheetName] = s;
         }

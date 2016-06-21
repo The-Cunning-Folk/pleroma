@@ -11,6 +11,7 @@ class TileMap
 public:
     TileMap();
 
+    std::string tileset;
     Tile defaultTile;
     std::map<int,std::map<int,Tile>> tiles;
 

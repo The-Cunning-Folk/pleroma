@@ -1,6 +1,8 @@
 {
     "name": "butterfly_demo",
     "ground" : {
+        "default" : 0,
+        "sheet" : "tileset_demo_1",
         "left" : -4,
         "top": -4,
         "width" : 8,

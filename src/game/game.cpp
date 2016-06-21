@@ -383,6 +383,7 @@ void Game::initialiseEnvironment()
 
     for (rapidjson::SizeType i = 0; i < files.Size(); i++)
     {
+        Level lvl;
         debug->println(lDir + "/" + files[i].GetString());
         rapidjson::Document levelJson = resourceLoader.loadJsonFile(lDir + "/" + files[i].GetString());
 
@@ -397,8 +398,37 @@ void Game::initialiseEnvironment()
         assert(ground["width"].IsInt());
         assert(ground["height"].IsInt());
         assert(ground["map"].IsArray());
+        assert(ground["sheet"].IsString());
 
+        int l = ground["left"].GetInt();
+        int t = ground["top"].GetInt();
+        int w = ground["width"].GetInt();
+        int h = ground["height"].GetInt();
 
+        Tile defaultTile;
+
+        defaultTile.index = ground["default"].GetInt();
+
+        lvl.tileMap.tileset = ground["sheet"].GetString();
+        lvl.tileMap.defaultTile = defaultTile;
+        int row = 0;
+        int col = 0;
+
+        for(rapidjson::SizeType j=0; j<ground["map"].Size();j++)
+        {
+            if(j!=0 && j%w == 0)
+            {
+                row++;
+                col=0;
+            }
+            Tile tile;
+            int sheetIndex = ground["map"][j].GetInt();
+            tile.index = sheetIndex;
+            lvl.tileMap.tiles[l+row][t+col] = tile;
+            col++;
+        }
+
+        levels[levelName] = lvl;
     }
 
 }

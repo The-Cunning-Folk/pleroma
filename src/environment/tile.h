@@ -8,7 +8,6 @@ class Tile
 {
 public:
     Tile();
-    std::string sheet;
     int index;
 };
 }
