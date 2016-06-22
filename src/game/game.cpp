@@ -397,8 +397,7 @@ void Game::initialiseEnvironment()
         assert(ground["top"].IsInt());
         assert(ground["width"].IsInt());
         assert(ground["height"].IsInt());
-        assert(ground["map"].IsArray());
-        assert(ground["sheet"].IsString());
+        assert(ground["default_sheet"].IsString());
 
         int l = ground["left"].GetInt();
         int t = ground["top"].GetInt();
@@ -407,25 +406,55 @@ void Game::initialiseEnvironment()
 
         Tile defaultTile;
 
-        defaultTile.index = ground["default"].GetInt();
+        defaultTile.index = ground["default_tile"].GetInt();
 
-        lvl.tileMap.tileset = ground["sheet"].GetString();
+        lvl.tileMap.tileset = ground["default_sheet"].GetString();
         lvl.tileMap.defaultTile = defaultTile;
-        int row = 0;
-        int col = 0;
 
-        for(rapidjson::SizeType j=0; j<ground["map"].Size();j++)
+        lvl.tileMap.tileLayers.resize(ground["layers"].GetArray().Size());
+
+        assert(ground["layers"].IsArray());
+
+        for(rapidjson::SizeType lnum = 0; lnum<ground["layers"].Size(); lnum++)
         {
-            if(j!=0 && j%w == 0)
+            TileLayer & layer = lvl.tileMap.tileLayers[lnum];
+            int row = 0;
+            int col = 0;
+            rapidjson::Value layerJson = ground["layers"][lnum].GetObject();
+
+            if(layerJson.HasMember("sheet"))
             {
-                row++;
-                col=0;
+                layer.tileset = layerJson["sheet"].GetString();
             }
-            Tile tile;
-            int sheetIndex = ground["map"][j].GetInt();
-            tile.index = sheetIndex;
-            lvl.tileMap.tiles[l+row][t+col] = tile;
-            col++;
+            else
+            {
+                layer.tileset = ground["default_sheet"].GetString();
+            }
+            if(layerJson.HasMember("default"))
+            {
+                layer.defaultTile.index = layerJson["default"].GetInt();
+            }
+            else if(lnum == 0)
+            {
+                layer.defaultTile = defaultTile;
+            }
+
+            assert(layerJson["map"].IsArray());
+
+            for(rapidjson::SizeType j=0; j<layerJson["map"].Size();j++)
+            {
+                if(j!=0 && j%w == 0)
+                {
+                    row++;
+                    col=0;
+                }
+                Tile tile;
+                int sheetIndex = layerJson["map"][j].GetInt();
+                tile.index = sheetIndex;
+                layer.tiles[t+col][l+row] = tile;
+                col++;
+            }
+
         }
 
         levels[levelName] = lvl;

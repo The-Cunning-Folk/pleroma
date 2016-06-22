@@ -1,6 +1,6 @@
 {
     "name": "ts_demo_1", 
-    "path": "tilesheets/tileset_demo_1.png",
+    "path": "tilesets/tileset_demo_1.png",
     "split": 
     {
         "w":16,

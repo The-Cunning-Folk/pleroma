@@ -3,7 +3,7 @@
 
 #include<map>
 #include<SFML/Graphics.hpp>
-#include<tile.h>
+#include<tilelayer.h>
 
 namespace  BQ {
 class TileMap
@@ -13,9 +13,10 @@ public:
 
     std::string tileset;
     Tile defaultTile;
-    std::map<int,std::map<int,Tile>> tiles;
 
-    Tile & getTile(sf::Vector2i);
+    std::vector<TileLayer> tileLayers;
+
+    Tile & getTile(int,sf::Vector2i);
 
 };
 }

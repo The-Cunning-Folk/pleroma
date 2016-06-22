@@ -6,11 +6,11 @@ TileMap::TileMap()
 
 }
 
-Tile &TileMap::getTile(sf::Vector2i p)
+Tile &TileMap::getTile(int layer, sf::Vector2i p)
 {
-    if(tiles.find(p.x) != tiles.end() && tiles[p.x].find(p.y) != tiles[p.x].end())
+    if(layer < tileLayers.size() && layer >= 0)
     {
-        return tiles[p.x][p.y];
+        return tileLayers[layer].getTile(p);
     }
     else
     {

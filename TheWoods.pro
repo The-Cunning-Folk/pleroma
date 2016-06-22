@@ -97,7 +97,8 @@ HEADERS += $$SRCDIR/window/gamewindow.h \
     src/graphics/animation.h \
     src/environment/level.h \
     src/environment/tilemap.h \
-    src/environment/tile.h
+    src/environment/tile.h \
+    src/environment/tilelayer.h
 
 SOURCES += src/main.cpp \
     $$SRCDIR/window/gamewindow.cpp \
@@ -170,7 +171,8 @@ SOURCES += src/main.cpp \
     src/graphics/animation.cpp \
     src/environment/level.cpp \
     src/environment/tilemap.cpp \
-    src/environment/tile.cpp
+    src/environment/tile.cpp \
+    src/environment/tilelayer.cpp
 
 LIBS += -L"$$PWD/SFML/lib"
 

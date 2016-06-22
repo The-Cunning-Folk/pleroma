@@ -185,6 +185,29 @@ void BQ::RenderEngine::drawDebug()
 {
     std::vector<SpriteRenderer> renderList;
 
+    Level & l = game->levels["butterfly_demo"];
+
+    sf::Sprite tSpr;
+    SpriteSheet & tSheet = spriteSheets[l.tileMap.tileset];
+    tSpr.setTexture(resourceLoader->getTexture(tSheet.texture));
+
+    for(int i=0; i<grid->activeSquares.size(); i++)
+    {
+        GridSquare & g = grid->activeSquares[i];
+        for(int j = 0; j<l.tileMap.tileLayers.size(); j++)
+        {
+            Tile & t = l.tileMap.getTile(j,g.position);
+            if(t.index == -1)
+            {
+                continue;
+            }
+            tSpr.setTextureRect(tSheet.getSprite(t.index)[0]);
+            tSpr.setPosition(grid->getCentre(g.position));
+            game->gameWindow->draw(tSpr);
+        }
+
+    }
+
     for(int i=0; i<activeComponents.size(); i++)
     {
         renderList.push_back(sprites[activeComponents[i]]);
