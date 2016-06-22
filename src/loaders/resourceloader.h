@@ -22,6 +22,8 @@ public:
 
     std::string loadFileAsString(std::string);
 
+    rapidjson::Document loadJsonFile(std::string);
+
     DebugUtils *getDebug() const;
     void setDebug(DebugUtils *value);
 

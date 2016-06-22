@@ -98,9 +98,9 @@ void Game::run()
     initialiseInjections(); //injections
     initialiseInput();
     initialiseClocks(); //clock definitions
+    initialiseEnvironment();
 
     initialiseTests();
-
     initialisePlayers();
 
     DebugUtils& print = *debug;
@@ -241,6 +241,7 @@ void Game::initialiseInjections()
 
    resourceLoader.setDebug(debug);
 
+
    gameObjectLoader.setGameObjects(&gameObjects);
 
    //component loader injections
@@ -337,29 +338,29 @@ void Game::initialiseTests()
     //GameObject& coll = gameObjectFactory.newPathingObject();
 
 
-    for(int i=1; i<=100; i++)
-    {
-        for(int j=1; j<=100; j++)
-        {
-            int spinner = math.randomInt(0,50);
-            if(spinner <= 5)
-            {
-                GameObject& coll = gameObjectFactory.newImmovableObject();
-                coll.loadTransform().setPosition(sf::Vector2f(i*32 - 1280,j*32-1280));
-                if(math.randomInt(0,2) == 1)
-                {
-                    componentLoader.getCollidableFromObject(coll,"hitbox").immovable = false;
-                    componentLoader.getSpriteRendererFromObject(coll,"sprite").textureRect = sf::IntRect(96,0,32,64);
-                }
-            }
-            else if(spinner == 9)
-            {
-                GameObject& coll = gameObjectFactory.newPathingObject();
-                coll.loadTransform().setPosition(sf::Vector2f(i*32 - 1280,j*32-1280));
-            }
+//    for(int i=1; i<=100; i++)
+//    {
+//        for(int j=1; j<=100; j++)
+//        {
+//            int spinner = math.randomInt(0,50);
+//            if(spinner <= 5)
+//            {
+//                GameObject& coll = gameObjectFactory.newImmovableObject();
+//                coll.loadTransform().setPosition(sf::Vector2f(i*32 - 1280,j*32-1280));
+//                if(math.randomInt(0,2) == 1)
+//                {
+//                    componentLoader.getCollidableFromObject(coll,"hitbox").immovable = false;
+//                    componentLoader.getSpriteRendererFromObject(coll,"sprite").textureRect = sf::IntRect(96,0,32,64);
+//                }
+//            }
+//            else if(spinner == 9)
+//            {
+//                GameObject& coll = gameObjectFactory.newPathingObject();
+//                coll.loadTransform().setPosition(sf::Vector2f(i*32 - 1280,j*32-1280));
+//            }
 
-        }
-    }
+//        }
+//    }
 }
 
 void Game::initialisePlayers()
@@ -368,6 +369,97 @@ void Game::initialisePlayers()
     debug->println("adding players");
     GameObject& player = gameObjectFactory.newPlayerObject();
     viewPort.focusedTransform =  player.getTransform();
+}
+
+void Game::initialiseEnvironment()
+{
+    rapidjson::Document levelConfig = resourceLoader.loadJsonFile("config/levels.json");
+    assert(levelConfig["parentdirectory"].IsString());
+    assert(levelConfig["levels"].IsArray());
+
+    std::string lDir = levelConfig["parentdirectory"].GetString();
+    const rapidjson::Value & files = levelConfig["levels"];
+    assert(files.IsArray());
+
+    for (rapidjson::SizeType i = 0; i < files.Size(); i++)
+    {
+        Level lvl;
+        debug->println(lDir + "/" + files[i].GetString());
+        rapidjson::Document levelJson = resourceLoader.loadJsonFile(lDir + "/" + files[i].GetString());
+
+        assert(levelJson["name"].IsString());
+        assert(levelJson["ground"].IsObject());
+
+        std::string levelName = levelJson["name"].GetString();
+        rapidjson::Value ground = levelJson["ground"].GetObject();
+
+        assert(ground["left"].IsInt());
+        assert(ground["top"].IsInt());
+        assert(ground["width"].IsInt());
+        assert(ground["height"].IsInt());
+        assert(ground["default_sheet"].IsString());
+
+        int l = ground["left"].GetInt();
+        int t = ground["top"].GetInt();
+        int w = ground["width"].GetInt();
+        int h = ground["height"].GetInt();
+
+        Tile defaultTile;
+
+        defaultTile.index = ground["default_tile"].GetInt();
+
+        lvl.tileMap.tileset = ground["default_sheet"].GetString();
+        lvl.tileMap.defaultTile = defaultTile;
+
+        lvl.tileMap.tileLayers.resize(ground["layers"].GetArray().Size());
+
+        assert(ground["layers"].IsArray());
+
+        for(rapidjson::SizeType lnum = 0; lnum<ground["layers"].Size(); lnum++)
+        {
+            TileLayer & layer = lvl.tileMap.tileLayers[lnum];
+            int row = 0;
+            int col = 0;
+            rapidjson::Value layerJson = ground["layers"][lnum].GetObject();
+
+            if(layerJson.HasMember("sheet"))
+            {
+                layer.tileset = layerJson["sheet"].GetString();
+            }
+            else
+            {
+                layer.tileset = ground["default_sheet"].GetString();
+            }
+            if(layerJson.HasMember("default"))
+            {
+                layer.defaultTile.index = layerJson["default"].GetInt();
+            }
+            else if(lnum == 0)
+            {
+                layer.defaultTile = defaultTile;
+            }
+
+            assert(layerJson["map"].IsArray());
+
+            for(rapidjson::SizeType j=0; j<layerJson["map"].Size();j++)
+            {
+                if(j!=0 && j%w == 0)
+                {
+                    row++;
+                    col=0;
+                }
+                Tile tile;
+                int sheetIndex = layerJson["map"][j].GetInt();
+                tile.index = sheetIndex;
+                layer.tiles[t+col][l+row] = tile;
+                col++;
+            }
+
+        }
+
+        levels[levelName] = lvl;
+    }
+
 }
 
 void Game::stabiliseFrameRate(float currentFrameDuration)

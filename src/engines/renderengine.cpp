@@ -46,9 +46,7 @@ void RenderEngine::wake()
     //load sprite sheets
 
     //load and parse textures.json
-    std::string textureConfig = resourceLoader->loadFileAsString("config/textures.json");
-    rapidjson::Document tconfig;
-    tconfig.Parse(textureConfig.c_str());
+    rapidjson::Document tconfig = resourceLoader->loadJsonFile("config/textures.json");
 
     //get the parent directory for the spritesheets
     assert(tconfig["parentdirectory"].IsString());
@@ -60,20 +58,19 @@ void RenderEngine::wake()
 
     for (rapidjson::SizeType i = 0; i < files.Size(); i++)
     {
-        debug->println(tDir + "/" + files[i].GetString());
-        std::string sheetConfig = resourceLoader->loadFileAsString(tDir + "/" + files[i].GetString());
-        rapidjson::Document spritesheetJson;
-        spritesheetJson.Parse(sheetConfig.c_str());
+        std::string fileName = files[i].GetString();
+        debug->println(tDir + "/" + fileName);
+        rapidjson::Document spritesheetJson = resourceLoader->loadJsonFile(tDir + "/" + files[i].GetString());
+
+        if(!spritesheetJson.HasMember("name") || !spritesheetJson.HasMember("path"))
+        {
+            continue;
+        }
 
         assert(spritesheetJson["name"].IsString());
         assert(spritesheetJson["path"].IsString());
-
-
         std::string sheetName = spritesheetJson["name"].GetString();
         std::string sheetPath = spritesheetJson["path"].GetString();
-        const rapidjson::Value & animationsJson = spritesheetJson["sprites"];
-
-        assert(animationsJson.IsArray());
 
         //construct a spritesheet object here
         if ( spriteSheets.find(sheetName) != spriteSheets.end() ) {
@@ -85,25 +82,75 @@ void RenderEngine::wake()
             SpriteSheet s;
             s.texture = sheetPath;
 
-            for (rapidjson::SizeType j=0 ; j<animationsJson.Size(); j++)
+            if(!spritesheetJson.HasMember("sprites") && !spritesheetJson.HasMember("split"))
+            {
+                debug->println("parser error in " + fileName + ": no sprite data found");
+                continue;
+            }
+
+            if(spritesheetJson.HasMember("sprites"))
             {
 
-                assert(animationsJson[j]["name"].IsString());
-                std::string sprName = animationsJson[j]["name"].GetString();
-                const rapidjson::Value & frames = animationsJson[j]["frames"];
-                assert(frames.IsArray());
-                std::vector<sf::IntRect> rects;
-                for (rapidjson::SizeType k=0 ; k<frames.Size(); k++)
+                const rapidjson::Value & animationsJson = spritesheetJson["sprites"];
+
+                assert(animationsJson.IsArray());
+
+
+
+                for (rapidjson::SizeType j=0 ; j<animationsJson.Size(); j++)
                 {
-                    sf::IntRect r;
-                    r.left = frames[k]["l"].GetInt();
-                    r.top = frames[k]["t"].GetInt();
-                    r.width = frames[k]["w"].GetInt();
-                    r.height = frames[k]["h"].GetInt();
-                    rects.push_back(r);
+
+                    assert(animationsJson[j]["name"].IsString());
+                    std::string sprName = animationsJson[j]["name"].GetString();
+                    const rapidjson::Value & frames = animationsJson[j]["frames"];
+                    assert(frames.IsArray());
+                    std::vector<sf::IntRect> rects;
+                    for (rapidjson::SizeType k=0 ; k<frames.Size(); k++)
+                    {
+                        sf::IntRect r;
+                        r.left = frames[k]["l"].GetInt();
+                        r.top = frames[k]["t"].GetInt();
+                        r.width = frames[k]["w"].GetInt();
+                        r.height = frames[k]["h"].GetInt();
+                        rects.push_back(r);
+                    }
+                    s.addSprite(sprName,rects);
                 }
-                s.spriteFrames[sprName] = rects;
             }
+
+            if(spritesheetJson.HasMember("split"))
+            {
+                const rapidjson::Value & split = spritesheetJson["split"].GetObject();
+                if(!split.HasMember("w") || !split.HasMember("h") || !split.HasMember("x_count") || !split.HasMember("y_count"))
+                {
+                    debug->println("parser error in " + fileName + ": split data incomplete");
+                    continue;
+                }
+
+                int xCount = split["x_count"].GetInt();
+                int yCount = split["y_count"].GetInt();
+                int width = split["w"].GetInt();
+                int height = split["h"].GetInt();
+
+                for(int j = 0; j<yCount; j++)
+                {
+                    for(int k=0; k<xCount; k++)
+                    {
+                        std::vector<sf::IntRect> rects;
+                        int sprIndex = j*xCount + k;
+                        std::string sprName = std::to_string(sprIndex);
+                        sf::IntRect r;
+                        r.left = k*width;
+                        r.top = j*height;
+                        r.width = width;
+                        r.height = height;
+                        rects.push_back(r);
+                        s.addSprite(sprName,rects);
+                    }
+                }
+
+            }
+
 
             spriteSheets[sheetName] = s;
         }
@@ -138,6 +185,33 @@ void BQ::RenderEngine::drawDebug()
 {
     std::vector<SpriteRenderer> renderList;
 
+    Level & l = game->levels["butterfly_demo"];
+
+    sf::Sprite tSpr;
+
+    for(int j = 0; j<l.tileMap.tileLayers.size(); j++)
+    {
+        TileLayer & layer = l.tileMap.tileLayers[j];
+        SpriteSheet & tSheet = spriteSheets[layer.tileset];
+        sf::Texture & layerTexture = resourceLoader->getTexture(tSheet.texture);
+        tSpr.setTexture(layerTexture);
+
+        for(int i=0; i<grid->activeSquares.size(); i++)
+        {
+            GridSquare & g = grid->activeSquares[i];
+
+            Tile & t = l.tileMap.getTile(j,g.position);
+            if(t.index == -1)
+            {
+                continue;
+            }
+            tSpr.setTextureRect(tSheet.getSprite(t.index)[0]);
+            tSpr.setPosition(grid->getCentre(g.position));
+            game->gameWindow->draw(tSpr);
+        }
+
+    }
+
     for(int i=0; i<activeComponents.size(); i++)
     {
         renderList.push_back(sprites[activeComponents[i]]);
@@ -164,6 +238,7 @@ void BQ::RenderEngine::drawDebug()
             SpriteSheet& sheet = spriteSheets[s.spritesheet];
             spr.setTexture(resourceLoader->getTexture(sheet.texture));
             std::string clip = "";
+
             if(sheet.spriteFrames.find(s.clip) != sheet.spriteFrames.end())
             {
                 clip = s.clip;

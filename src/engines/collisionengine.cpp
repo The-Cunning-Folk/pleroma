@@ -43,6 +43,13 @@ Collidable & CollisionEngine::addCollidable()
     return c;
 }
 
+Collidable & CollisionEngine::addCollidable(Collidable c)
+{
+    c.index = collidables.size();
+    collidables.push_back(c);
+    return collidables.back();
+}
+
 bool CollisionEngine::checkCollision(Collidable & a,Collidable & b)
 {
 
@@ -386,7 +393,6 @@ void CollisionEngine::start()
 
 void CollisionEngine::run()
 {
-
     ComponentLoader& components = *componentLoader;
     for(unsigned int i=0; i<quadtree.flatNodes.size(); i++)
     {
@@ -466,7 +472,9 @@ void CollisionEngine::drawDebug()
             {
                 shape.setPoint(k,p.points[k]);
             }
+            //debug->printVal(componentLoader->getTransform(c.transform).position);
             shape.setPosition(componentLoader->getTransform(c.transform).position);
+
             shape.setFillColor(sf::Color::White);
             if(!collidables[i].immovable)
             {

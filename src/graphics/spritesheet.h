@@ -11,6 +11,12 @@ public:
 
     std::string texture;
     std::map<std::string,std::vector<sf::IntRect>> spriteFrames;
+    std::map<int,std::string> spriteFrameMap;
+
+    void addSprite(std::string,std::vector<sf::IntRect>);
+
+    std::vector<sf::IntRect> & getSprite(std::string);
+    std::vector<sf::IntRect> & getSprite(int);
 
 };
 }
