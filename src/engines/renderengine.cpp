@@ -188,14 +188,18 @@ void BQ::RenderEngine::drawDebug()
     Level & l = game->levels["butterfly_demo"];
 
     sf::Sprite tSpr;
-    SpriteSheet & tSheet = spriteSheets[l.tileMap.tileset];
-    tSpr.setTexture(resourceLoader->getTexture(tSheet.texture));
 
-    for(int i=0; i<grid->activeSquares.size(); i++)
+    for(int j = 0; j<l.tileMap.tileLayers.size(); j++)
     {
-        GridSquare & g = grid->activeSquares[i];
-        for(int j = 0; j<l.tileMap.tileLayers.size(); j++)
+        TileLayer & layer = l.tileMap.tileLayers[j];
+        SpriteSheet & tSheet = spriteSheets[layer.tileset];
+        sf::Texture & layerTexture = resourceLoader->getTexture(tSheet.texture);
+        tSpr.setTexture(layerTexture);
+
+        for(int i=0; i<grid->activeSquares.size(); i++)
         {
+            GridSquare & g = grid->activeSquares[i];
+
             Tile & t = l.tileMap.getTile(j,g.position);
             if(t.index == -1)
             {
