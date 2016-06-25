@@ -202,11 +202,11 @@ GameObject &GameObjectFactory::makePhysicsObject(GameObject & o)
 
 GameObject &GameObjectFactory::makePathingObject(GameObject & o)
 {
-    Collidable & hitbox = componentFactory->newRandomCollidable();
+    Collidable & hitbox = componentFactory->newRectCollidable(sf::FloatRect(-5,-5,10,10));
     hitbox.setTransform(o.getTransform());
     hitbox.pathable = true;
     hitbox.immovable = false;
-    hitbox.diminutive = false;
+    hitbox.diminutive = true;
     hitbox.opaque = false;
 
 
@@ -226,5 +226,10 @@ GameObject &GameObjectFactory::makePlayerSeekingObject(GameObject & o)
     e.addTarget("player_1");
     o.addComponent(e);
     return o;
+}
+
+GameObject &GameObjectFactory::makeFlockingObject(GameObject &)
+{
+
 }
 
