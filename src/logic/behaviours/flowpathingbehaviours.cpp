@@ -9,7 +9,7 @@ using namespace BQ;
 
 FlowPathingBehaviours::FlowPathingBehaviours()
 {
-    pathSpeed=100;
+    pathSpeed=70;
     path = true;
     targetProximity = 32 + rand()%32;
     active = false;

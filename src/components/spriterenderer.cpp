@@ -32,6 +32,10 @@ void SpriteRenderer::setTransform(int value)
 
 void SpriteRenderer::update()
 {
+    animation.frame = frame;
+    animation.update();
+    frame = animation.frame;
+
 }
 
 void SpriteRenderer::wake()

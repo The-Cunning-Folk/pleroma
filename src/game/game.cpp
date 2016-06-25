@@ -343,7 +343,7 @@ void Game::initialiseTests()
         for(int j=1; j<=100; j++)
         {
             int spinner = math.randomInt(0,50);
-            if(spinner <= 5)
+            if(spinner <= 1)
             {
                 GameObject& coll = gameObjectFactory.newImmovableObject();
                 coll.loadTransform().setPosition(sf::Vector2f(i*32 - 1280,j*32-1280));
@@ -353,7 +353,7 @@ void Game::initialiseTests()
                     componentLoader.getSpriteRendererFromObject(coll,"sprite").textureRect = sf::IntRect(96,0,32,64);
                 }
             }
-            else if(spinner == 9)
+            else if(spinner > 40)
             {
                 GameObject& coll = gameObjectFactory.newPathingObject();
                 coll.loadTransform().setPosition(sf::Vector2f(i*32 - 1280,j*32-1280));

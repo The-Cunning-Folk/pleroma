@@ -163,6 +163,8 @@ GameObject &GameObjectFactory::newPathingObject()
                 );
 
     SpriteRenderer & sprite = componentFactory->newSpriteRenderer("enemy_spr");
+    sprite.spritesheet = "butterfly";
+    sprite.animation.spf = 0.04f;
     sprite.setTransform(seeker.transform);
     seeker.addComponent(sprite);
 
@@ -202,7 +204,7 @@ GameObject &GameObjectFactory::makePhysicsObject(GameObject & o)
 
 GameObject &GameObjectFactory::makePathingObject(GameObject & o)
 {
-    Collidable & hitbox = componentFactory->newRectCollidable(sf::FloatRect(-5,-5,10,10));
+    Collidable & hitbox = componentFactory->newRectCollidable(sf::FloatRect(-2,-2,4,4));
     hitbox.setTransform(o.getTransform());
     hitbox.pathable = true;
     hitbox.immovable = false;

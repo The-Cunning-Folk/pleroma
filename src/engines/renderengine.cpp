@@ -169,9 +169,10 @@ void BQ::RenderEngine::start()
 void BQ::RenderEngine::run()
 {
 
-    for(int i=0; i<sprites.size(); i++)
+    for(int i=0; i<activeComponents.size(); i++)
     {
-        SpriteRenderer & s = sprites[i];
+        SpriteRenderer & s = sprites[activeComponents[i]];
+        s.update();
         s.depth = componentLoader->getTransform(s.transform).position.y + s.depthOffset;
     }
 }

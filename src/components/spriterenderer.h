@@ -14,6 +14,8 @@ public:
 
     int transform;
 
+    Animation animation;
+
     bool centreOrigin;
 
     float depth;
