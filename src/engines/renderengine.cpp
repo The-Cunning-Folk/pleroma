@@ -171,9 +171,43 @@ void BQ::RenderEngine::run()
 
     for(int i=0; i<activeComponents.size(); i++)
     {
+
         SpriteRenderer & s = sprites[activeComponents[i]];
+        SpriteSheet& sheet = spriteSheets[s.spritesheet];
         s.update();
         s.depth = componentLoader->getTransform(s.transform).position.y + s.depthOffset;
+
+
+            if(sheet.spriteFrames.find(s.clip) != sheet.spriteFrames.end())
+            {
+
+            }
+            else if(sheet.spriteFrames.size()>0)
+            {
+                s.clip = sheet.spriteFrames.begin()->first;
+            }
+            else
+            {
+                s.clip = "NONE";
+            }
+
+            if(s.clip != "NONE")
+            {
+                bool spritefound = true;
+                if(s.frame < 0 || s.frame >= sheet.spriteFrames[s.clip].size())
+                {
+                    if(sheet.spriteFrames[s.clip].size() > 0)
+                    {
+                        s.frame = 0;
+                    }
+                    else
+                    {
+                        spritefound = false;
+                    }
+                }
+            }
+
+
     }
 }
 
@@ -188,29 +222,49 @@ void BQ::RenderEngine::drawDebug()
 
     Level & l = game->levels["butterfly_demo"];
 
-    sf::Sprite tSpr;
+
+
 
     for(int j = 0; j<l.tileMap.tileLayers.size(); j++)
     {
+
         TileLayer & layer = l.tileMap.tileLayers[j];
         SpriteSheet & tSheet = spriteSheets[layer.tileset];
         sf::Texture & layerTexture = resourceLoader->getTexture(tSheet.texture);
-        tSpr.setTexture(layerTexture);
+
+        sf::VertexArray tileArray;
+        tileArray.setPrimitiveType(sf::Quads);
+        tileArray.resize(grid->activeSquares.size()*4);
 
         for(int i=0; i<grid->activeSquares.size(); i++)
         {
             GridSquare & g = grid->activeSquares[i];
 
             Tile & t = l.tileMap.getTile(j,g.position);
-            if(t.index == -1)
-            {
-                continue;
-            }
-            tSpr.setTextureRect(tSheet.getSprite(t.index)[0]);
-            tSpr.setPosition(grid->getCentre(g.position));
-            game->gameWindow->draw(tSpr);
-        }
 
+            sf::Vector2f gPos = grid->getCentre(g.position);
+
+            sf::IntRect & tRect = tSheet.getSprite(t.index)[0];
+
+            int tSize = 8;
+
+            tileArray[i*4].position = sf::Vector2f(gPos.x-tSize,gPos.y-tSize);
+            tileArray[i*4+1].position = sf::Vector2f(gPos.x+tSize,gPos.y-tSize);
+            tileArray[i*4+2].position = sf::Vector2f(gPos.x+tSize,gPos.y+tSize);
+            tileArray[i*4+3].position = sf::Vector2f(gPos.x-tSize,gPos.y+tSize);
+
+            if(t.index >= 0)
+            {
+                tileArray[i*4].texCoords = sf::Vector2f(sf::Vector2f(tRect.left,tRect.top));
+                tileArray[i*4+1].texCoords = sf::Vector2f(sf::Vector2f(tRect.left+tRect.width,tRect.top));
+                tileArray[i*4+2].texCoords = sf::Vector2f(sf::Vector2f(tRect.left+tRect.width,tRect.top+tRect.height));
+                tileArray[i*4+3].texCoords = sf::Vector2f(sf::Vector2f(tRect.left,tRect.top+tRect.height));
+            }
+
+        }
+        sf::RenderStates states;
+        states.texture = &layerTexture;
+        game->gameWindow->window.draw(tileArray,states);
     }
 
     for(int i=0; i<activeComponents.size(); i++)
@@ -220,58 +274,25 @@ void BQ::RenderEngine::drawDebug()
 
     std::sort(renderList.begin(),renderList.end());
 
-    std::vector<int> renderOrder;
+//    std::vector<int> renderOrder;
+
+//    for(int i=0; i<renderList.size(); i++)
+//    {
+//        renderOrder.push_back(renderList[i].index);
+//    }
 
     for(int i=0; i<renderList.size(); i++)
     {
-        renderOrder.push_back(renderList[i].index);
-    }
-
-    for(int i=0; i<renderOrder.size(); i++)
-    {
-        SpriteRenderer & s = sprites[renderOrder[i]];
+        SpriteRenderer & s = renderList[i];
         sf::Sprite spr;
+
         if ( spriteSheets.find(s.spritesheet) == spriteSheets.end() ) {
             spr.setTexture(resourceLoader->getTexture(""));
         }
-        else
-        {
-            SpriteSheet& sheet = spriteSheets[s.spritesheet];
-            spr.setTexture(resourceLoader->getTexture(sheet.texture));
-            std::string clip = "";
 
-            if(sheet.spriteFrames.find(s.clip) != sheet.spriteFrames.end())
-            {
-                clip = s.clip;
-            }
-            else if(sheet.spriteFrames.size() > 0)
-            {
-                clip = sheet.spriteFrames.begin()->first;
-            }
-
-            if(clip != "")
-            {
-                bool spritefound = true;
-                if(s.frame < 0 || s.frame >= sheet.spriteFrames[clip].size())
-                {
-                    if(sheet.spriteFrames[clip].size() > 0)
-                    {
-                        s.frame = 0;
-                    }
-                    else
-                    {
-                        spritefound = false;
-                    }
-                }
-
-                if(spritefound)
-                {
-                    spr.setTextureRect(sheet.spriteFrames[clip][s.frame]);
-                }
-            }
-
-
-        }
+        SpriteSheet& sheet = spriteSheets[s.spritesheet];
+        spr.setTexture(resourceLoader->getTexture(sheet.texture));
+        spr.setTextureRect(sheet.spriteFrames[s.clip][s.frame]);
 
         sf::Vector2f pos = componentLoader->getTransform(s.transform).position;
         if(s.centreOrigin)

@@ -14,7 +14,7 @@ Animation::Animation()
 void Animation::update()
 {
 
-    if(!running || stopped)
+    if(!running)
     {
         clock.restart();
     }
@@ -23,7 +23,7 @@ void Animation::update()
     {
         frame = 0;
     }
-    else if(running && !stopped && rate*clock.getElapsedTime().asSeconds() >= spf)
+    else if(running && rate*clock.getElapsedTime().asSeconds() >= spf)
     {
         frame++;
         clock.restart();

@@ -122,6 +122,7 @@ GameObject& GameObjectFactory::newPlayerObject() //builds behaviours for the pla
     sprite.setTransform(player.getTransform());
 
     sprite.spritesheet = "clo_walk";
+    sprite.clip = "walk_down";
     sprite.offset = sf::Vector2f(0,-6);
 
     //add components
