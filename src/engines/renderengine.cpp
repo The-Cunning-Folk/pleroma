@@ -242,6 +242,11 @@ void BQ::RenderEngine::drawDebug()
 
             Tile & t = l.tileMap.getTile(j,g.position);
 
+            if(t.index < 0)
+            {
+                continue;
+            }
+
             sf::Vector2f gPos = grid->getCentre(g.position);
 
             sf::IntRect & tRect = tSheet.getSprite(t.index)[0];
@@ -253,13 +258,10 @@ void BQ::RenderEngine::drawDebug()
             tileArray[i*4+2].position = sf::Vector2f(gPos.x+tSize,gPos.y+tSize);
             tileArray[i*4+3].position = sf::Vector2f(gPos.x-tSize,gPos.y+tSize);
 
-            if(t.index >= 0)
-            {
-                tileArray[i*4].texCoords = sf::Vector2f(sf::Vector2f(tRect.left,tRect.top));
-                tileArray[i*4+1].texCoords = sf::Vector2f(sf::Vector2f(tRect.left+tRect.width,tRect.top));
-                tileArray[i*4+2].texCoords = sf::Vector2f(sf::Vector2f(tRect.left+tRect.width,tRect.top+tRect.height));
-                tileArray[i*4+3].texCoords = sf::Vector2f(sf::Vector2f(tRect.left,tRect.top+tRect.height));
-            }
+            tileArray[i*4].texCoords = sf::Vector2f(sf::Vector2f(tRect.left,tRect.top));
+            tileArray[i*4+1].texCoords = sf::Vector2f(sf::Vector2f(tRect.left+tRect.width,tRect.top));
+            tileArray[i*4+2].texCoords = sf::Vector2f(sf::Vector2f(tRect.left+tRect.width,tRect.top+tRect.height));
+            tileArray[i*4+3].texCoords = sf::Vector2f(sf::Vector2f(tRect.left,tRect.top+tRect.height));
 
         }
         sf::RenderStates states;
@@ -273,13 +275,6 @@ void BQ::RenderEngine::drawDebug()
     }
 
     std::sort(renderList.begin(),renderList.end());
-
-//    std::vector<int> renderOrder;
-
-//    for(int i=0; i<renderList.size(); i++)
-//    {
-//        renderOrder.push_back(renderList[i].index);
-//    }
 
     for(int i=0; i<renderList.size(); i++)
     {

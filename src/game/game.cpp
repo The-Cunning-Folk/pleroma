@@ -393,16 +393,7 @@ void Game::initialiseEnvironment()
         std::string levelName = levelJson["name"].GetString();
         rapidjson::Value ground = levelJson["ground"].GetObject();
 
-        assert(ground["left"].IsInt());
-        assert(ground["top"].IsInt());
-        assert(ground["width"].IsInt());
-        assert(ground["height"].IsInt());
         assert(ground["default_sheet"].IsString());
-
-        int l = ground["left"].GetInt();
-        int t = ground["top"].GetInt();
-        int w = ground["width"].GetInt();
-        int h = ground["height"].GetInt();
 
         Tile defaultTile;
 
@@ -418,8 +409,6 @@ void Game::initialiseEnvironment()
         for(rapidjson::SizeType lnum = 0; lnum<ground["layers"].Size(); lnum++)
         {
             TileLayer & layer = lvl.tileMap.tileLayers[lnum];
-            int row = 0;
-            int col = 0;
             rapidjson::Value layerJson = ground["layers"][lnum].GetObject();
 
             if(layerJson.HasMember("sheet"))
@@ -443,16 +432,19 @@ void Game::initialiseEnvironment()
 
             for(rapidjson::SizeType j=0; j<layerJson["map"].Size();j++)
             {
-                if(j!=0 && j%w == 0)
-                {
-                    row++;
-                    col=0;
-                }
                 Tile tile;
-                int sheetIndex = layerJson["map"][j].GetInt();
+                rapidjson::Value tileJson = layerJson["map"][j].GetObject();
+                int sheetIndex = tileJson["tile"].GetInt();
+                int xpos = tileJson["x"].GetInt();
+                int ypos = tileJson["y"].GetInt();
+                int rot = tileJson["rot"].GetInt();
+                bool flipX = tileJson["flipX"].GetBool();
                 tile.index = sheetIndex;
-                layer.tiles[t+col][l+row] = tile;
-                col++;
+                tile.x = xpos;
+                tile.y = ypos;
+                tile.rot = rot;
+                tile.flipX = flipX;
+                layer.tiles[xpos][ypos] = tile;
             }
 
         }
