@@ -231,8 +231,4 @@ GameObject &GameObjectFactory::makePlayerSeekingObject(GameObject & o)
     return o;
 }
 
-GameObject &GameObjectFactory::makeFlockingObject(GameObject &)
-{
-
-}
 
