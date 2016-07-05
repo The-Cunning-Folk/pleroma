@@ -1,0 +1,19 @@
+{
+    "name": "trees_1", 
+    "path": "entities/environment/trees_aut_01.png",
+    "sprites": [
+        { 
+            "name": "big_tree",
+            "frames": [
+                {"l": 48, "t": 64, "w": 96, "h": 128}
+            ],
+            "offset_y" : -32
+        },
+        { 
+            "name": "med_tree",
+            "frames": [
+                {"l": 0, "t": 0, "w": 48, "h": 64}
+            ]
+        }
+    ]
+}

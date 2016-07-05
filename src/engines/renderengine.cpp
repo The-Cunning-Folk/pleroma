@@ -114,7 +114,19 @@ void RenderEngine::wake()
                         r.height = frames[k]["h"].GetInt();
                         rects.push_back(r);
                     }
-                    s.addSprite(sprName,rects);
+
+
+                    Sprite tspr;
+                    if(animationsJson[j].HasMember("offset_x"))
+                    {
+                        tspr.offset.x = animationsJson[j]["offset_x"].GetInt();
+                    }
+                    if(animationsJson[j].HasMember("offset_y"))
+                    {
+                        tspr.offset.y = animationsJson[j]["offset_y"].GetInt();
+                    }
+                    tspr.frames = rects;
+                    s.addSprite(sprName,tspr);
                 }
             }
 
@@ -145,7 +157,9 @@ void RenderEngine::wake()
                         r.width = width;
                         r.height = height;
                         rects.push_back(r);
-                        s.addSprite(sprName,rects);
+                        Sprite tspr;
+                        tspr.frames = rects;
+                        s.addSprite(sprName,tspr);
                     }
                 }
 
@@ -178,13 +192,13 @@ void BQ::RenderEngine::run()
         s.depth = componentLoader->getTransform(s.transform).position.y + s.depthOffset;
 
 
-            if(sheet.spriteFrames.find(s.clip) != sheet.spriteFrames.end())
+            if(sheet.sprites.find(s.clip) != sheet.sprites.end())
             {
 
             }
-            else if(sheet.spriteFrames.size()>0)
+            else if(sheet.sprites.size()>0)
             {
-                s.clip = sheet.spriteFrames.begin()->first;
+                s.clip = sheet.sprites.begin()->first;
             }
             else
             {
@@ -194,9 +208,9 @@ void BQ::RenderEngine::run()
             if(s.clip != "NONE")
             {
                 bool spritefound = true;
-                if(s.frame < 0 || s.frame >= sheet.spriteFrames[s.clip].size())
+                if(s.frame < 0 || s.frame >= sheet.sprites[s.clip].frames.size())
                 {
-                    if(sheet.spriteFrames[s.clip].size() > 0)
+                    if(sheet.sprites[s.clip].frames.size() > 0)
                     {
                         s.frame = 0;
                     }
@@ -249,7 +263,7 @@ void BQ::RenderEngine::drawDebug()
 
             sf::Vector2f gPos = grid->getCentre(g.position);
 
-            sf::IntRect & tRect = tSheet.getSprite(t.index)[0];
+            sf::IntRect & tRect = tSheet.getSprite(t.index).frames[0];
 
             int tSize = 8;
 
@@ -287,7 +301,7 @@ void BQ::RenderEngine::drawDebug()
 
         SpriteSheet& sheet = spriteSheets[s.spritesheet];
         spr.setTexture(resourceLoader->getTexture(sheet.texture));
-        spr.setTextureRect(sheet.spriteFrames[s.clip][s.frame]);
+        spr.setTextureRect(sheet.sprites[s.clip].frames[s.frame]);
 
         sf::Vector2f pos = componentLoader->getTransform(s.transform).position;
         if(s.centreOrigin)

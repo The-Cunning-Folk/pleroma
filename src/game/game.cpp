@@ -338,25 +338,25 @@ void Game::initialiseTests()
     //GameObject& coll = gameObjectFactory.newPathingObject();
 
 
-    for(int i=1; i<=100; i++)
+    for(int i=1; i<=50; i++)
     {
-        for(int j=1; j<=100; j++)
+        for(int j=1; j<=50; j++)
         {
             int spinner = math.randomInt(0,50);
-            if(spinner <= 1)
+            if(spinner <= 10)
             {
                 GameObject& coll = gameObjectFactory.newImmovableObject();
-                coll.loadTransform().setPosition(sf::Vector2f(i*32 - 1280,j*32-1280));
+                coll.loadTransform().setPosition(sf::Vector2f(i*64+math.randomInt(-16,16) - 1280,j*64+math.randomInt(-16,16)-1280));
                 if(math.randomInt(0,2) == 1)
                 {
-                    componentLoader.getCollidableFromObject(coll,"hitbox").immovable = false;
-                    componentLoader.getSpriteRendererFromObject(coll,"sprite").textureRect = sf::IntRect(96,0,32,64);
+                    //componentLoader.getCollidableFromObject(coll,"hitbox").immovable = false;
+                    //componentLoader.getSpriteRendererFromObject(coll,"sprite").textureRect = sf::IntRect(96,0,32,64);
                 }
             }
-            else if(spinner > 40)
+            else if(spinner > 45)
             {
                 GameObject& coll = gameObjectFactory.newPathingObject();
-                coll.loadTransform().setPosition(sf::Vector2f(i*32 - 1280,j*32-1280));
+                coll.loadTransform().setPosition(sf::Vector2f(i*64 - 1280,j*64-1280));
             }
 
         }

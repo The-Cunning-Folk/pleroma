@@ -7,25 +7,25 @@ SpriteSheet::SpriteSheet()
     texture = "";
 }
 
-void SpriteSheet::addSprite(std::string name, std::vector<sf::IntRect> frames)
+void SpriteSheet::addSprite(std::string name, Sprite spr)
 {
-    spriteFrames[name] = frames;
+    sprites[name] = spr;
     spriteFrameMap[spriteFrameMap.size()] = name;
 }
 
-std::vector<sf::IntRect> &SpriteSheet::getSprite(std::string sprite)
+Sprite &SpriteSheet::getSprite(std::string sprite)
 {
-    if(spriteFrames.find(sprite) != spriteFrames.end())
+    if(sprites.find(sprite) != sprites.end())
     {
-        return spriteFrames[sprite];
+        return sprites[sprite];
     }
     else
     {
-        return spriteFrames.begin()->second;
+        return sprites.begin()->second;
     }
 }
 
-std::vector<sf::IntRect> &SpriteSheet::getSprite(int index)
+Sprite &SpriteSheet::getSprite(int index)
 {
     return getSprite(spriteFrameMap[index]);
 }

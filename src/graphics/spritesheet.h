@@ -2,6 +2,7 @@
 #define SPRITESHEET_H
 
 #include <SFML/Graphics.hpp>
+#include <sprite.h>
 
 namespace BQ{
 class SpriteSheet
@@ -10,13 +11,13 @@ public:
     SpriteSheet();
 
     std::string texture;
-    std::map<std::string,std::vector<sf::IntRect>> spriteFrames;
+    std::map<std::string,Sprite> sprites;
     std::map<int,std::string> spriteFrameMap;
 
-    void addSprite(std::string,std::vector<sf::IntRect>);
+    void addSprite(std::string,Sprite);
 
-    std::vector<sf::IntRect> & getSprite(std::string);
-    std::vector<sf::IntRect> & getSprite(int);
+    Sprite & getSprite(std::string);
+    Sprite & getSprite(int);
 
 };
 }

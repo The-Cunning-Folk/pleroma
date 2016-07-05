@@ -54,22 +54,24 @@ GameObject &GameObjectFactory::newCollisionObject()
 GameObject &GameObjectFactory::newImmovableObject()
 {
     GameObject& o = newObject();
-    float size = 16;
+    float sizeX = 24;
+    float sizeY = 12;
     std::vector<sf::Vector2f> points;
 
-    points.push_back(sf::Vector2f(-size,-size+4));
-    points.push_back(sf::Vector2f(size,-size+4));
-    points.push_back(sf::Vector2f(size,size-4));
-    points.push_back(sf::Vector2f(-size,size-4));
+    points.push_back(sf::Vector2f(-sizeX,-sizeY));
+    points.push_back(sf::Vector2f(sizeX,-sizeY));
+    points.push_back(sf::Vector2f(sizeX,sizeY));
+    points.push_back(sf::Vector2f(-sizeX,sizeY));
     Collidable & hitbox = componentFactory->newCollidable(points);
     hitbox.setTransform(o.getTransform());
     hitbox.immovable = true;
 
     //temporary hardcode
     SpriteRenderer & sprite = componentFactory->newSpriteRenderer();
-    sprite.spritesheet = "demo_blocks";
-    sprite.offset = sf::Vector2f(0,-18);
-    sprite.depthOffset = 10;
+    sprite.spritesheet = "trees_1";
+    sprite.clip = "big_tree";
+    sprite.offset = sf::Vector2f(0,-48);
+    sprite.depthOffset = 0;
 
     sprite.setTransform(o.getTransform());
     o.addComponent("sprite",sprite);
