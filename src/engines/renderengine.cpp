@@ -267,15 +267,38 @@ void BQ::RenderEngine::drawDebug()
 
             int tSize = 8;
 
-            tileArray[i*4].position = sf::Vector2f(gPos.x-tSize,gPos.y-tSize);
-            tileArray[i*4+1].position = sf::Vector2f(gPos.x+tSize,gPos.y-tSize);
-            tileArray[i*4+2].position = sf::Vector2f(gPos.x+tSize,gPos.y+tSize);
-            tileArray[i*4+3].position = sf::Vector2f(gPos.x-tSize,gPos.y+tSize);
+            std::vector<sf::Vector2f> corners;
 
-            tileArray[i*4].texCoords = sf::Vector2f(sf::Vector2f(tRect.left,tRect.top));
-            tileArray[i*4+1].texCoords = sf::Vector2f(sf::Vector2f(tRect.left+tRect.width,tRect.top));
-            tileArray[i*4+2].texCoords = sf::Vector2f(sf::Vector2f(tRect.left+tRect.width,tRect.top+tRect.height));
-            tileArray[i*4+3].texCoords = sf::Vector2f(sf::Vector2f(tRect.left,tRect.top+tRect.height));
+            corners.push_back(sf::Vector2f(tRect.left,tRect.top));
+            corners.push_back(sf::Vector2f(tRect.left+tRect.width,tRect.top));
+            corners.push_back(sf::Vector2f(tRect.left+tRect.width,tRect.top+tRect.height));
+            corners.push_back(sf::Vector2f(tRect.left,tRect.top+tRect.height));
+
+            int tIndex = i*4;
+
+            tileArray[tIndex].position = sf::Vector2f(gPos.x-tSize,gPos.y-tSize);
+            tileArray[tIndex+1].position = sf::Vector2f(gPos.x+tSize,gPos.y-tSize);
+            tileArray[tIndex+2].position = sf::Vector2f(gPos.x+tSize,gPos.y+tSize);
+            tileArray[tIndex+3].position = sf::Vector2f(gPos.x-tSize,gPos.y+tSize);
+
+
+
+            for(int j=0; j<4; j++)
+            {
+                int corCorner = (j + t.rot)%4;
+                if(t.flipX)
+                {
+                    if(corCorner==0 || corCorner == 2)
+                    {
+                        corCorner++;
+                    }
+                    else
+                    {
+                        corCorner --;
+                    }
+                }
+                tileArray[tIndex+j].texCoords = corners[corCorner];
+            }
 
         }
         sf::RenderStates states;
