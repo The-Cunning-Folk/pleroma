@@ -19,16 +19,6 @@ Collidable::Collidable()
 
 }
 
-int Collidable::getTransform() const
-{
-    return transform;
-}
-
-void Collidable::setTransform(int value)
-{
-    transform = value;
-}
-
 void Collidable::setBBoxRectColor(sf::Color color)
 {
     //rectShape.setOutlineColor(color);
@@ -78,8 +68,5 @@ void Collidable::wake()
     update();
 }
 
-Transform & Collidable::loadTransform()
-{
-    return componentLoader->getTransform(transform);
-}
+
 

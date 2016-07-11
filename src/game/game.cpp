@@ -338,25 +338,25 @@ void Game::initialiseTests()
     //GameObject& coll = gameObjectFactory.newPathingObject();
 
 
-//    for(int i=1; i<=100; i++)
+//    for(int i=1; i<=50; i++)
 //    {
-//        for(int j=1; j<=100; j++)
+//        for(int j=1; j<=50; j++)
 //        {
 //            int spinner = math.randomInt(0,50);
-//            if(spinner <= 5)
+//            if(spinner <= 10)
 //            {
 //                GameObject& coll = gameObjectFactory.newImmovableObject();
-//                coll.loadTransform().setPosition(sf::Vector2f(i*32 - 1280,j*32-1280));
+//                coll.loadTransform().setPosition(sf::Vector2f(i*64+math.randomInt(-16,16) - 1280,j*64+math.randomInt(-16,16)-1280));
 //                if(math.randomInt(0,2) == 1)
 //                {
-//                    componentLoader.getCollidableFromObject(coll,"hitbox").immovable = false;
-//                    componentLoader.getSpriteRendererFromObject(coll,"sprite").textureRect = sf::IntRect(96,0,32,64);
+//                    //componentLoader.getCollidableFromObject(coll,"hitbox").immovable = false;
+//                    //componentLoader.getSpriteRendererFromObject(coll,"sprite").textureRect = sf::IntRect(96,0,32,64);
 //                }
 //            }
-//            else if(spinner == 9)
+//            else if(spinner > 45)
 //            {
 //                GameObject& coll = gameObjectFactory.newPathingObject();
-//                coll.loadTransform().setPosition(sf::Vector2f(i*32 - 1280,j*32-1280));
+//                coll.loadTransform().setPosition(sf::Vector2f(i*64 - 1280,j*64-1280));
 //            }
 
 //        }
@@ -388,29 +388,77 @@ void Game::initialiseEnvironment()
         rapidjson::Document levelJson = resourceLoader.loadJsonFile(lDir + "/" + files[i].GetString());
 
         assert(levelJson["name"].IsString());
-        assert(levelJson["ground"].IsObject());
 
+        //entities
+
+        assert(levelJson["entities"].IsArray());
+
+        for(rapidjson::SizeType e = 0; e<levelJson["entities"].Size(); e++)
+        {
+            rapidjson::Value ent = levelJson["entities"][e].GetObject();
+
+            int xPos = ent["x"].GetInt();
+            int yPos = ent["y"].GetInt();
+
+            GameObject& entity = ent.HasMember("id") ? gameObjectFactory.newObject(ent["id"].GetString()) : gameObjectFactory.newObject();
+            entity.loadTransform().setPosition(grid.getCentre(xPos,yPos));
+
+            if(ent.HasMember("sprite"))
+            {
+                rapidjson::Value spr = ent["sprite"].GetObject();
+                SpriteRenderer & sprite = componentFactory.newSpriteRenderer();
+
+                sprite.spritesheet = spr["sheet"].GetString();
+
+                if(spr.HasMember("clip"))
+                {
+                    sprite.clip = spr["clip"].GetString();
+                }
+                if(spr.HasMember("offset"))
+                {
+                    rapidjson::Value offset = spr["offset"].GetObject();
+                    sprite.offset.x = offset.HasMember("x") ? offset["x"].GetFloat() : 0;
+                    sprite.offset.y = offset.HasMember("y") ? offset["y"].GetFloat() : 0;
+                }
+
+                sprite.depthOffset = spr.HasMember("depth_offset") ? spr["depth_offset"].GetFloat() : 0;
+
+                entity.addComponent(sprite);
+
+            }
+
+            if(ent.HasMember("hitbox"))
+            {
+                rapidjson::Value box = ent["hitbox"].GetObject();
+                Collidable & collidable = componentFactory.newCollidable();
+                collidable.immovable = box.HasMember("immovable") ? box["immovable"].GetBool() : false;
+
+                if(box.HasMember("polygon"))
+                {
+                    for(rapidjson::SizeType p = 0; p<box["polygon"].Size(); p++)
+                    {
+                        rapidjson::Value point = box["polygon"][p].GetObject();
+                        collidable.polygon.addPoint(point["x"].GetFloat(),point["y"].GetFloat());
+                    }
+                }
+
+                entity.addComponent(collidable);
+
+            }
+
+        }
+
+        //ground sheet
+        assert(levelJson["ground"].IsObject());
         std::string levelName = levelJson["name"].GetString();
         rapidjson::Value ground = levelJson["ground"].GetObject();
-
-        assert(ground["left"].IsInt());
-        assert(ground["top"].IsInt());
-        assert(ground["width"].IsInt());
-        assert(ground["height"].IsInt());
         assert(ground["default_sheet"].IsString());
 
-        int l = ground["left"].GetInt();
-        int t = ground["top"].GetInt();
-        int w = ground["width"].GetInt();
-        int h = ground["height"].GetInt();
-
         Tile defaultTile;
-
         defaultTile.index = ground["default_tile"].GetInt();
 
         lvl.tileMap.tileset = ground["default_sheet"].GetString();
         lvl.tileMap.defaultTile = defaultTile;
-
         lvl.tileMap.tileLayers.resize(ground["layers"].GetArray().Size());
 
         assert(ground["layers"].IsArray());
@@ -418,8 +466,6 @@ void Game::initialiseEnvironment()
         for(rapidjson::SizeType lnum = 0; lnum<ground["layers"].Size(); lnum++)
         {
             TileLayer & layer = lvl.tileMap.tileLayers[lnum];
-            int row = 0;
-            int col = 0;
             rapidjson::Value layerJson = ground["layers"][lnum].GetObject();
 
             if(layerJson.HasMember("sheet"))
@@ -443,19 +489,24 @@ void Game::initialiseEnvironment()
 
             for(rapidjson::SizeType j=0; j<layerJson["map"].Size();j++)
             {
-                if(j!=0 && j%w == 0)
-                {
-                    row++;
-                    col=0;
-                }
                 Tile tile;
-                int sheetIndex = layerJson["map"][j].GetInt();
+                rapidjson::Value tileJson = layerJson["map"][j].GetObject();
+                int sheetIndex = tileJson["tile"].GetInt();
+                int xpos = tileJson["x"].GetInt();
+                int ypos = tileJson["y"].GetInt();
+                int rot = tileJson["rot"].GetInt();
+                bool flipX = tileJson["flipX"].GetBool();
                 tile.index = sheetIndex;
-                layer.tiles[t+col][l+row] = tile;
-                col++;
+                tile.x = xpos;
+                tile.y = ypos;
+                tile.rot = rot;
+                tile.flipX = flipX;
+                layer.tiles[xpos][ypos] = tile;
             }
 
         }
+
+        //finish groundsheet
 
         levels[levelName] = lvl;
     }

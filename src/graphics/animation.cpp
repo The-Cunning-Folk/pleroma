@@ -8,6 +8,7 @@ Animation::Animation()
     rate = 1.0f;
     running = true;
     spf = 0.120f;
+    stopped = false;
 }
 
 void Animation::update()
@@ -17,7 +18,12 @@ void Animation::update()
     {
         clock.restart();
     }
-    if(rate*clock.getElapsedTime().asSeconds() >= spf)
+
+    if(stopped)
+    {
+        frame = 0;
+    }
+    else if(running && rate*clock.getElapsedTime().asSeconds() >= spf)
     {
         frame++;
         clock.restart();
@@ -31,12 +37,13 @@ void Animation::pause()
 
 void Animation::play()
 {
+    stopped = false;
     running = true;
 }
 
 void Animation::stop()
 {
-    frame = 0;
+    stopped = true;
     running = false;
 }
 

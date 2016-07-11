@@ -3,11 +3,27 @@
 #include <gameobject.h>
 #include <componentloader.h>
 #include <gameobjectloader.h>
+#include <transform.h>
 
 using namespace BQ;
 
 Component::Component()
 {
+}
+
+int Component::getTransform() const
+{
+    return transform;
+}
+
+void Component::setTransform(int value)
+{
+    transform = value;
+}
+
+Transform &Component::loadTransform()
+{
+    return componentLoader->getTransform(transform);
 }
 
 

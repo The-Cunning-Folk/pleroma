@@ -20,18 +20,13 @@ SpriteRenderer::SpriteRenderer()
     clip = "";
 }
 
-int SpriteRenderer::getTransform() const
-{
-    return transform;
-}
-
-void SpriteRenderer::setTransform(int value)
-{
-    transform = value;
-}
 
 void SpriteRenderer::update()
 {
+    animation.frame = frame;
+    animation.update();
+    frame = animation.frame;
+
 }
 
 void SpriteRenderer::wake()

@@ -54,22 +54,24 @@ GameObject &GameObjectFactory::newCollisionObject()
 GameObject &GameObjectFactory::newImmovableObject()
 {
     GameObject& o = newObject();
-    float size = 16;
+    float sizeX = 24;
+    float sizeY = 12;
     std::vector<sf::Vector2f> points;
 
-    points.push_back(sf::Vector2f(-size,-size+4));
-    points.push_back(sf::Vector2f(size,-size+4));
-    points.push_back(sf::Vector2f(size,size-4));
-    points.push_back(sf::Vector2f(-size,size-4));
+    points.push_back(sf::Vector2f(-sizeX,-sizeY));
+    points.push_back(sf::Vector2f(sizeX,-sizeY));
+    points.push_back(sf::Vector2f(sizeX,sizeY));
+    points.push_back(sf::Vector2f(-sizeX,sizeY));
     Collidable & hitbox = componentFactory->newCollidable(points);
     hitbox.setTransform(o.getTransform());
     hitbox.immovable = true;
 
     //temporary hardcode
     SpriteRenderer & sprite = componentFactory->newSpriteRenderer();
-    sprite.spritesheet = "demo_blocks";
-    sprite.offset = sf::Vector2f(0,-18);
-    sprite.depthOffset = 10;
+    sprite.spritesheet = "trees_1";
+    sprite.clip = "big_tree";
+    sprite.offset = sf::Vector2f(0,-48);
+    sprite.depthOffset = 0;
 
     sprite.setTransform(o.getTransform());
     o.addComponent("sprite",sprite);
@@ -122,6 +124,7 @@ GameObject& GameObjectFactory::newPlayerObject() //builds behaviours for the pla
     sprite.setTransform(player.getTransform());
 
     sprite.spritesheet = "clo_walk";
+    sprite.clip = "walk_down";
     sprite.offset = sf::Vector2f(0,-6);
 
     //add components
@@ -163,6 +166,8 @@ GameObject &GameObjectFactory::newPathingObject()
                 );
 
     SpriteRenderer & sprite = componentFactory->newSpriteRenderer("enemy_spr");
+    sprite.spritesheet = "butterfly";
+    sprite.animation.spf = 0.04f;
     sprite.setTransform(seeker.transform);
     seeker.addComponent(sprite);
 
@@ -202,11 +207,11 @@ GameObject &GameObjectFactory::makePhysicsObject(GameObject & o)
 
 GameObject &GameObjectFactory::makePathingObject(GameObject & o)
 {
-    Collidable & hitbox = componentFactory->newRandomCollidable();
+    Collidable & hitbox = componentFactory->newRectCollidable(sf::FloatRect(-2,-2,4,4));
     hitbox.setTransform(o.getTransform());
     hitbox.pathable = true;
     hitbox.immovable = false;
-    hitbox.diminutive = false;
+    hitbox.diminutive = true;
     hitbox.opaque = false;
 
 
@@ -227,4 +232,5 @@ GameObject &GameObjectFactory::makePlayerSeekingObject(GameObject & o)
     o.addComponent(e);
     return o;
 }
+
 

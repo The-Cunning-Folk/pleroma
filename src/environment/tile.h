@@ -9,6 +9,10 @@ class Tile
 public:
     Tile();
     int index;
+    int x;
+    int y;
+    int rot;
+    bool flipX;
 };
 }
 

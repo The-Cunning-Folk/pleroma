@@ -4,7 +4,10 @@
         "example_1.json",
         "demo_blocks.json",
         "clo_walk.json",
-        "ts_demo_1.json"
+        "ts_demo_1.json",
+        "ts_demo_1_1.json",
+        "butterfly.json",
+        "trees_1.json"
         
     ]
 }

@@ -11,6 +11,7 @@ public:
     Animation();
 
     bool running;
+    bool stopped;
 
     float spf;
     float rate;

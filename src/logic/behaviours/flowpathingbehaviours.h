@@ -11,8 +11,11 @@ public:
     FlowPathingBehaviours();
 
     float pathSpeed;
+    bool active;
     bool path;
+    bool hasLOS;
     float targetProximity;
+    std::string target;
 
     void collisionWith(GameObject &, std::string, std::string);
 

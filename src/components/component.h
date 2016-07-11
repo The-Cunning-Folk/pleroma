@@ -11,6 +11,7 @@ namespace BQ{
 class GameObject;
 class ComponentLoader;
 class GameObjectLoader;
+class Transform;
 
 class Component
 {
@@ -27,6 +28,7 @@ public:
     std::string typeId; //what type of component am I?
     int uniqueId; //a unique component id... not sure how I'll track this but we'll try
     int index;
+    int transform;
 
     void setName(std::string);
 
@@ -58,6 +60,10 @@ public:
 
     Grid *getGrid() const;
     void setGrid(Grid *value);
+
+    int getTransform() const;
+    void setTransform(int value);
+    Transform & loadTransform();
 
 protected:
 
