@@ -388,20 +388,37 @@ void Game::initialiseEnvironment()
         rapidjson::Document levelJson = resourceLoader.loadJsonFile(lDir + "/" + files[i].GetString());
 
         assert(levelJson["name"].IsString());
-        assert(levelJson["ground"].IsObject());
 
+        //entities
+
+        assert(levelJson["entities"].IsArray());
+
+        for(rapidjson::SizeType e = 0; e<levelJson["entities"].Size(); e++)
+        {
+            rapidjson::Value ent = levelJson["entities"][e].GetObject();
+
+            std::string entId = ent["id"].GetString();
+            std::string entType = ent["type"].GetString();
+            int xPos = ent["x"].GetInt();
+            int yPos = ent["y"].GetInt();
+
+            GameObject& coll = gameObjectFactory.newImmovableObject();
+            coll.name = entId;
+            coll.loadTransform().setPosition(grid.getCentre(xPos,yPos));
+
+        }
+
+        //ground sheet
+        assert(levelJson["ground"].IsObject());
         std::string levelName = levelJson["name"].GetString();
         rapidjson::Value ground = levelJson["ground"].GetObject();
-
         assert(ground["default_sheet"].IsString());
 
         Tile defaultTile;
-
         defaultTile.index = ground["default_tile"].GetInt();
 
         lvl.tileMap.tileset = ground["default_sheet"].GetString();
         lvl.tileMap.defaultTile = defaultTile;
-
         lvl.tileMap.tileLayers.resize(ground["layers"].GetArray().Size());
 
         assert(ground["layers"].IsArray());
@@ -448,6 +465,8 @@ void Game::initialiseEnvironment()
             }
 
         }
+
+        //finish groundsheet
 
         levels[levelName] = lvl;
     }

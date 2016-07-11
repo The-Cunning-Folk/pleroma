@@ -1,5 +1,10 @@
 {
     "name": "butterfly_demo",
+
+    "entities" : [
+        {"id": "magic_box", "type": "wooden_box_1", "x" : -3, "y" : -3}
+    ],
+
     "ground" : {
         "default_tile" : 11,
         "default_sheet" : "ts_demo_1_1",
@@ -13,10 +18,10 @@
             "map" : [
             {
                     "y": 0,
-                    "flipX": false,
+                    "flipX": true,
                     "tile": 15,
                     "rot": 0,
-                    "index": 0,
+                    "index": 30,
                     "x": 0
                 },
                 {
