@@ -2,7 +2,27 @@
     "name": "butterfly_demo",
 
     "entities" : [
-        {"id": "magic_box", "type": "wooden_box_1", "x" : -3, "y" : -3}
+        {
+            "id": "box_1",
+            "x" : 10, 
+            "y" : -3, 
+            "sprite" : {
+                "sheet" : "trees_1",
+                "clip" : "big_tree",
+                "offset" : {"x":0,"y":-48},
+                "depth_offset" : 0
+            },
+            "hitbox" : {
+                "immovable" : true,
+                "polygon" : [
+                    {"x": -24, "y": -12},
+                    {"x": 24, "y": -12},
+                    {"x": 24, "y": 12},
+                    {"x": -24, "y": 12}
+                ]
+            }
+
+        }
     ],
 
     "ground" : {

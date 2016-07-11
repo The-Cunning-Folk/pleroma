@@ -397,14 +397,54 @@ void Game::initialiseEnvironment()
         {
             rapidjson::Value ent = levelJson["entities"][e].GetObject();
 
-            std::string entId = ent["id"].GetString();
-            std::string entType = ent["type"].GetString();
             int xPos = ent["x"].GetInt();
             int yPos = ent["y"].GetInt();
 
-            GameObject& coll = gameObjectFactory.newImmovableObject();
-            coll.name = entId;
-            coll.loadTransform().setPosition(grid.getCentre(xPos,yPos));
+            GameObject& entity = ent.HasMember("id") ? gameObjectFactory.newObject(ent["id"].GetString()) : gameObjectFactory.newObject();
+            entity.loadTransform().setPosition(grid.getCentre(xPos,yPos));
+
+            if(ent.HasMember("sprite"))
+            {
+                rapidjson::Value spr = ent["sprite"].GetObject();
+                SpriteRenderer & sprite = componentFactory.newSpriteRenderer();
+
+                sprite.spritesheet = spr["sheet"].GetString();
+
+                if(spr.HasMember("clip"))
+                {
+                    sprite.clip = spr["clip"].GetString();
+                }
+                if(spr.HasMember("offset"))
+                {
+                    rapidjson::Value offset = spr["offset"].GetObject();
+                    sprite.offset.x = offset.HasMember("x") ? offset["x"].GetFloat() : 0;
+                    sprite.offset.y = offset.HasMember("y") ? offset["y"].GetFloat() : 0;
+                }
+
+                sprite.depthOffset = spr.HasMember("depth_offset") ? spr["depth_offset"].GetFloat() : 0;
+
+                entity.addComponent(sprite);
+
+            }
+
+            if(ent.HasMember("hitbox"))
+            {
+                rapidjson::Value box = ent["hitbox"].GetObject();
+                Collidable & collidable = componentFactory.newCollidable();
+                collidable.immovable = box.HasMember("immovable") ? box["immovable"].GetBool() : false;
+
+                if(box.HasMember("polygon"))
+                {
+                    for(rapidjson::SizeType p = 0; p<box["polygon"].Size(); p++)
+                    {
+                        rapidjson::Value point = box["polygon"][p].GetObject();
+                        collidable.polygon.addPoint(point["x"].GetFloat(),point["y"].GetFloat());
+                    }
+                }
+
+                entity.addComponent(collidable);
+
+            }
 
         }
 

@@ -11,8 +11,6 @@ class Collidable : public Component
 public:
     Collidable();
 
-    int transform;
-
     int quadtreeLevel;
 
     //sf::RectangleShape rectShape;
@@ -44,9 +42,6 @@ public:
     std::vector<sf::Vector2i> gridEdges;
     std::vector<sf::Vector2i> gridInnerArea;
 
-    Transform & loadTransform();
-    int getTransform() const;
-    void setTransform(int value);
 
 private:
 

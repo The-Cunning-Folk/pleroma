@@ -12,8 +12,6 @@ class SpriteRenderer : public Component
 public:
     SpriteRenderer();
 
-    int transform;
-
     Animation animation;
 
     bool centreOrigin;
@@ -31,8 +29,6 @@ public:
 
     sf::IntRect textureRect;
 
-    int getTransform() const;
-    void setTransform(int value);
 
     void update();
     void wake();

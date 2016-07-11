@@ -14,16 +14,6 @@ RigidBody::RigidBody()
     friction = 0;
 }
 
-int RigidBody::getTransform() const
-{
-    return transform;
-}
-
-void RigidBody::setTransform(int value)
-{
-    transform = value;
-}
-
 float RigidBody::getInvmass() const
 {
     return invmass;
