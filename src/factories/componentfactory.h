@@ -15,6 +15,8 @@
 #include <raycastingengine.h>
 #include <renderengine.h>
 
+#include <datafileparser.h>
+
 #include <componentloader.h>
 #include <gameobjectloader.h>
 #include <grid.h>
@@ -26,9 +28,14 @@ class ComponentFactory : public Factory
 public:
     ComponentFactory();
 
+    DataFileParser dataFileParser;
+
     ComponentLoader* componentLoader;
     GameObjectLoader* gameObjectLoader;
     Grid* grid;
+
+    Collidable & buildCollidableFromJson(rapidjson::Value & );
+    SpriteRenderer & buildSpriteRendererFromJson(rapidjson::Value &);
 
     Transform& newTransform();
     Transform& newTransform(std::string);
@@ -45,6 +52,8 @@ public:
     //basic methods
     Collidable& newCollidable();
     Collidable& newCollidable(std::string);
+
+
 
     //nice easy way to make square collidables
     Collidable& newRectCollidable(std::string, sf::FloatRect);
@@ -103,6 +112,8 @@ public:
 
     RenderEngine *getRenderEngine() const;
     void setRenderEngine(RenderEngine *value);
+
+
 
 private:
 

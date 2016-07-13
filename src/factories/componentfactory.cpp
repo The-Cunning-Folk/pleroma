@@ -154,6 +154,20 @@ Collidable & ComponentFactory::newCollidable(std::string name)
     return(c);
 }
 
+Collidable &ComponentFactory::buildCollidableFromJson(rapidjson::Value & json)
+{
+    Collidable & c = newCollidable();
+    dataFileParser.parseCollidable(json,c);
+    return c;
+}
+
+SpriteRenderer &ComponentFactory::buildSpriteRendererFromJson(rapidjson::Value & json)
+{
+    SpriteRenderer & s = newSpriteRenderer();
+    dataFileParser.parseSpriteRenderer(json,s);
+    return s;
+}
+
 Collidable &ComponentFactory::newRectCollidable(sf::FloatRect r)
 {
     Collidable & c = newCollidable();
