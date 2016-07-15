@@ -43,7 +43,6 @@ bool DataFileParser::parseSpriteRenderer(rapidjson::Value & json, SpriteRenderer
     {
         return false;
     }
-
     sprite.spritesheet = json["sheet"].GetString();
 
     if(json.HasMember("clip"))

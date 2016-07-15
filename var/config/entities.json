@@ -1,0 +1,6 @@
+{
+    "parentdirectory" : "data/ent_data",
+    "entities": [
+        "trees_1.json"
+    ]
+}

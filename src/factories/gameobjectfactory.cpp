@@ -14,6 +14,38 @@ void GameObjectFactory::setStack(GameObjectStack * stack)
     gameObjects = stack;
 }
 
+GameObject &GameObjectFactory::buildGameObjectFromJson(rapidjson::Value & json)
+{
+    GameObject& entity = newObject();
+    buildGameObjectComponentsFromJson(json,entity);
+    return entity;
+}
+
+GameObject &GameObjectFactory::buildGameObjectFromJson(rapidjson::Value & json, std::string id)
+{
+    GameObject& entity = newObject(id);
+    buildGameObjectComponentsFromJson(json,entity);
+    return entity;
+}
+
+GameObject &GameObjectFactory::buildGameObjectComponentsFromJson(rapidjson::Value & json, GameObject & entity)
+{
+    if(json.HasMember("sprite"))
+    {
+        rapidjson::Value spr = json["sprite"].GetObject();
+        SpriteRenderer & sprite = componentFactory->buildSpriteRendererFromJson(spr);
+        entity.addComponent(sprite);
+    }
+
+    if(json.HasMember("hitbox"))
+    {
+        rapidjson::Value box = json["hitbox"].GetObject();
+        Collidable & collidable = componentFactory->buildCollidableFromJson(box);
+        entity.addComponent(collidable);
+    }
+    return entity;
+}
+
 
 ComponentFactory *GameObjectFactory::getComponentFactory() const
 {

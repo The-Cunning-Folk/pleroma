@@ -334,34 +334,6 @@ void Game::initialiseTests()
     transformEngine.setWrapAround(false);
     debug->println(std::to_string(gameWindow->getWidth()));
 
-    //remove later!
-
-    //GameObject& coll = gameObjectFactory.newPathingObject();
-
-
-//    for(int i=1; i<=50; i++)
-//    {
-//        for(int j=1; j<=50; j++)
-//        {
-//            int spinner = math.randomInt(0,50);
-//            if(spinner <= 10)
-//            {
-//                GameObject& coll = gameObjectFactory.newImmovableObject();
-//                coll.loadTransform().setPosition(sf::Vector2f(i*64+math.randomInt(-16,16) - 1280,j*64+math.randomInt(-16,16)-1280));
-//                if(math.randomInt(0,2) == 1)
-//                {
-//                    //componentLoader.getCollidableFromObject(coll,"hitbox").immovable = false;
-//                    //componentLoader.getSpriteRendererFromObject(coll,"sprite").textureRect = sf::IntRect(96,0,32,64);
-//                }
-//            }
-//            else if(spinner > 45)
-//            {
-//                GameObject& coll = gameObjectFactory.newPathingObject();
-//                coll.loadTransform().setPosition(sf::Vector2f(i*64 - 1280,j*64-1280));
-//            }
-
-//        }
-//    }
 }
 
 void Game::initialisePlayers()
@@ -374,19 +346,39 @@ void Game::initialisePlayers()
 
 void Game::initialiseEnvironment()
 {
+    std::map<std::string,rapidjson::Value> entities;
+    rapidjson::Document entityConfig = resourceLoader.loadJsonFile("config/entities.json");
+    assert(entityConfig["parentdirectory"].IsString());
+    assert(entityConfig["entities"].IsArray());
+
+    std::string eDir = entityConfig["parentdirectory"].GetString();
+    const rapidjson::Value & entitiesJson = entityConfig["entities"];
+
+    for (rapidjson::SizeType i = 0; i < entitiesJson.Size(); i++)
+    {
+        debug->println(eDir + "/" + entitiesJson[i].GetString());
+        rapidjson::Document entityJson = resourceLoader.loadJsonFile(eDir + "/" + entitiesJson[i].GetString());
+        for (rapidjson::SizeType j = 0; j < entityJson["types"].Size(); j++)
+        {
+            rapidjson::Value entityTypeJson = entityJson["types"][j].GetObject();
+            std::string name = entityTypeJson["name"].GetString();
+            //entities[name] = gameObjectFactory.buildGameObjectFromJson(entityTypeJson);
+        }
+
+    }
+
     rapidjson::Document levelConfig = resourceLoader.loadJsonFile("config/levels.json");
     assert(levelConfig["parentdirectory"].IsString());
     assert(levelConfig["levels"].IsArray());
 
     std::string lDir = levelConfig["parentdirectory"].GetString();
-    const rapidjson::Value & files = levelConfig["levels"];
-    assert(files.IsArray());
+    const rapidjson::Value & levelsJson = levelConfig["levels"];
 
-    for (rapidjson::SizeType i = 0; i < files.Size(); i++)
+    for (rapidjson::SizeType i = 0; i < levelsJson.Size(); i++)
     {
         Level lvl;
-        debug->println(lDir + "/" + files[i].GetString());
-        rapidjson::Document levelJson = resourceLoader.loadJsonFile(lDir + "/" + files[i].GetString());
+        debug->println(lDir + "/" + levelsJson[i].GetString());
+        rapidjson::Document levelJson = resourceLoader.loadJsonFile(lDir + "/" + levelsJson[i].GetString());
 
         assert(levelJson["name"].IsString());
 
@@ -397,27 +389,28 @@ void Game::initialiseEnvironment()
         for(rapidjson::SizeType e = 0; e<levelJson["entities"].Size(); e++)
         {
             rapidjson::Value ent = levelJson["entities"][e].GetObject();
+            rapidjson::Value entityType;
+
+            if(ent.HasMember("type"))
+            {
+                //entityType = entities[ent["type"].GetString()];
+                //debug->println(entityType["name"].GetString());
+            }
+            else
+            {
+                entityType = ent;
+            }
+
+//            GameObject & entity = ent.HasMember("id")
+//                    ? gameObjectFactory.buildGameObjectFromJson(entityType,ent["id"].GetString())
+//                    : gameObjectFactory.buildGameObjectFromJson(entityType);
 
             int xPos = ent["x"].GetInt();
             int yPos = ent["y"].GetInt();
 
-            GameObject& entity = ent.HasMember("id") ? gameObjectFactory.newObject(ent["id"].GetString()) : gameObjectFactory.newObject();
-            entity.loadTransform().setPosition(grid.getCentre(xPos,yPos));
+            //entity.loadTransform().setPosition(grid.getCentre(xPos,yPos));
 
-            if(ent.HasMember("sprite"))
-            {
-                rapidjson::Value spr = ent["sprite"].GetObject();
-                SpriteRenderer & sprite = componentFactory.buildSpriteRendererFromJson(spr);
-                entity.addComponent(sprite);
-            }
 
-            if(ent.HasMember("hitbox"))
-            {
-                rapidjson::Value box = ent["hitbox"].GetObject();
-                Collidable & collidable = componentFactory.buildCollidableFromJson(box);
-                entity.addComponent(collidable);
-
-            }
 
         }
 

@@ -101,7 +101,8 @@ HEADERS += $$SRCDIR/window/gamewindow.h \
     src/environment/tile.h \
     src/environment/tilelayer.h \
     src/graphics/sprite.h \
-    src/data/datafileparser.h
+    src/data/datafileparser.h \
+    src/patterns/gameobjectpattern.h
 
 SOURCES += src/main.cpp \
     $$SRCDIR/window/gamewindow.cpp \
@@ -177,7 +178,8 @@ SOURCES += src/main.cpp \
     src/environment/tile.cpp \
     src/environment/tilelayer.cpp \
     src/graphics/sprite.cpp \
-    src/data/datafileparser.cpp
+    src/data/datafileparser.cpp \
+    src/patterns/gameobjectpattern.cpp
 
 LIBS += -L"$$PWD/SFML/lib"
 
