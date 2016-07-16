@@ -10,7 +10,8 @@ class Level
 {
 public:
     Level();
-    TileMap tileMap;
+    TileMap groundMap;
+    TileMap ceilingMap;
 };
 }
 

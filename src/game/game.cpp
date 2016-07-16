@@ -381,89 +381,142 @@ void Game::initialiseEnvironment()
         debug->println(lDir + "/" + levelsJson[i].GetString());
         rapidjson::Document levelJson = resourceLoader.loadJsonFile(lDir + "/" + levelsJson[i].GetString());
 
+
         assert(levelJson["name"].IsString());
+        std::string levelName = levelJson["name"].GetString();
 
         //entities
 
-        assert(levelJson["entities"].IsArray());
-
-        for(rapidjson::SizeType e = 0; e<levelJson["entities"].Size(); e++)
+        if(levelJson.HasMember("entities"))
         {
-            rapidjson::Value ent = levelJson["entities"][e].GetObject();
-            rapidjson::Value entityType;
 
-            if(ent.HasMember("type"))
+            assert(levelJson["entities"].IsArray());
+
+            for(rapidjson::SizeType e = 0; e<levelJson["entities"].Size(); e++)
             {
-                GameObject & entity = ent.HasMember("id")
-                        ? gameObjectFactory.buildGameObjectFromPattern(entities[ent["type"].GetString()],ent["id"].GetString())
-                        : gameObjectFactory.buildGameObjectFromPattern(entities[ent["type"].GetString()]);
+                rapidjson::Value ent = levelJson["entities"][e].GetObject();
+                rapidjson::Value entityType;
 
-                int xPos = ent["x"].GetInt();
-                int yPos = ent["y"].GetInt();
+                if(ent.HasMember("type"))
+                {
+                    GameObject & entity = ent.HasMember("id")
+                            ? gameObjectFactory.buildGameObjectFromPattern(entities[ent["type"].GetString()],ent["id"].GetString())
+                            : gameObjectFactory.buildGameObjectFromPattern(entities[ent["type"].GetString()]);
 
-                entity.loadTransform().setPosition(grid.getCentre(xPos,yPos));
+                    int xPos = ent["x"].GetInt();
+                    int yPos = ent["y"].GetInt();
+
+                    entity.loadTransform().setPosition(grid.getCentre(xPos,yPos));
+                }
+
             }
-
         }
 
         //ground sheet
-        assert(levelJson["ground"].IsObject());
-        std::string levelName = levelJson["name"].GetString();
-        rapidjson::Value ground = levelJson["ground"].GetObject();
-        assert(ground["default_sheet"].IsString());
-
-        Tile defaultTile;
-        defaultTile.index = ground["default_tile"].GetInt();
-
-        lvl.tileMap.tileset = ground["default_sheet"].GetString();
-        lvl.tileMap.defaultTile = defaultTile;
-        lvl.tileMap.tileLayers.resize(ground["layers"].GetArray().Size());
-
-        assert(ground["layers"].IsArray());
-
-        for(rapidjson::SizeType lnum = 0; lnum<ground["layers"].Size(); lnum++)
+        if(levelJson.HasMember("ground"))
         {
-            TileLayer & layer = lvl.tileMap.tileLayers[lnum];
-            rapidjson::Value layerJson = ground["layers"][lnum].GetObject();
+            assert(levelJson["ground"].IsObject());
+            rapidjson::Value ground = levelJson["ground"].GetObject();
 
-            if(layerJson.HasMember("sheet"))
-            {
-                layer.tileset = layerJson["sheet"].GetString();
-            }
-            else
-            {
-                layer.tileset = ground["default_sheet"].GetString();
-            }
-            if(layerJson.HasMember("default"))
-            {
-                layer.defaultTile.index = layerJson["default"].GetInt();
-            }
-            else if(lnum == 0)
-            {
-                layer.defaultTile = defaultTile;
-            }
+            assert(ground["default_sheet"].IsString());
 
-            assert(layerJson["map"].IsArray());
+            Tile defaultTile;
+            defaultTile.index = ground["default_tile"].GetInt();
 
-            for(rapidjson::SizeType j=0; j<layerJson["map"].Size();j++)
+            lvl.groundMap.tileset = ground["default_sheet"].GetString();
+            lvl.groundMap.defaultTile = defaultTile;
+            lvl.groundMap.tileLayers.resize(ground["layers"].GetArray().Size());
+
+            assert(ground["layers"].IsArray());
+
+            for(rapidjson::SizeType lnum = 0; lnum<ground["layers"].Size(); lnum++)
             {
-                Tile tile;
-                rapidjson::Value tileJson = layerJson["map"][j].GetObject();
-                int sheetIndex = tileJson["tile"].GetInt();
-                int xpos = tileJson["x"].GetInt();
-                int ypos = tileJson["y"].GetInt();
-                int rot = tileJson["rot"].GetInt();
-                bool flipX = tileJson["flipX"].GetBool();
-                tile.index = sheetIndex;
-                tile.x = xpos;
-                tile.y = ypos;
-                tile.rot = rot;
-                tile.flipX = flipX;
-                layer.tiles[xpos][ypos] = tile;
-            }
+                TileLayer & layer = lvl.groundMap.tileLayers[lnum];
+                rapidjson::Value layerJson = ground["layers"][lnum].GetObject();
 
+                if(layerJson.HasMember("sheet"))
+                {
+                    layer.tileset = layerJson["sheet"].GetString();
+                }
+                else
+                {
+                    layer.tileset = ground["default_sheet"].GetString();
+                }
+                if(layerJson.HasMember("default"))
+                {
+                    layer.defaultTile.index = layerJson["default"].GetInt();
+                }
+                else if(lnum == 0)
+                {
+                    layer.defaultTile = defaultTile;
+                }
+
+                assert(layerJson["map"].IsArray());
+
+                for(rapidjson::SizeType j=0; j<layerJson["map"].Size();j++)
+                {
+                    Tile tile;
+                    rapidjson::Value tileJson = layerJson["map"][j].GetObject();
+                    int sheetIndex = tileJson["tile"].GetInt();
+                    int xpos = tileJson["x"].GetInt();
+                    int ypos = tileJson["y"].GetInt();
+                    int rot = tileJson["rot"].GetInt();
+                    bool flipX = tileJson["flipX"].GetBool();
+                    tile.index = sheetIndex;
+                    tile.x = xpos;
+                    tile.y = ypos;
+                    tile.rot = rot;
+                    tile.flipX = flipX;
+                    layer.tiles[xpos][ypos] = tile;
+                }
+
+            }
         }
 
+        if(levelJson.HasMember("ceiling"))
+        {
+            assert(levelJson["ceiling"].IsObject());
+            rapidjson::Value ceiling = levelJson["ceiling"].GetObject();
+
+            assert(ceiling["layers"].IsArray());
+
+            lvl.ceilingMap.tileset = ceiling["default_sheet"].GetString();
+            lvl.ceilingMap.tileLayers.resize(ceiling["layers"].GetArray().Size());
+
+            for(rapidjson::SizeType lnum = 0; lnum<ceiling["layers"].Size(); lnum++)
+            {
+                TileLayer & layer = lvl.ceilingMap.tileLayers[lnum];
+                rapidjson::Value layerJson = ceiling["layers"][lnum].GetObject();
+
+                if(layerJson.HasMember("sheet"))
+                {
+                    layer.tileset = layerJson["sheet"].GetString();
+                }
+                else
+                {
+                    layer.tileset = ceiling["default_sheet"].GetString();
+                }
+
+                assert(layerJson["map"].IsArray());
+
+                for(rapidjson::SizeType j=0; j<layerJson["map"].Size();j++)
+                {
+                    Tile tile;
+                    rapidjson::Value tileJson = layerJson["map"][j].GetObject();
+                    int sheetIndex = tileJson["tile"].GetInt();
+                    int xpos = tileJson["x"].GetInt();
+                    int ypos = tileJson["y"].GetInt();
+                    int rot = tileJson["rot"].GetInt();
+                    bool flipX = tileJson["flipX"].GetBool();
+                    tile.index = sheetIndex;
+                    tile.x = xpos;
+                    tile.y = ypos;
+                    tile.rot = rot;
+                    tile.flipX = flipX;
+                    layer.tiles[xpos][ypos] = tile;
+                }
+            }
+        }
         //finish groundsheet
 
         levels[levelName] = lvl;
