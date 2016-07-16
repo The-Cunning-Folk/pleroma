@@ -14,36 +14,35 @@ void GameObjectFactory::setStack(GameObjectStack * stack)
     gameObjects = stack;
 }
 
-GameObject &GameObjectFactory::buildGameObjectFromJson(rapidjson::Value & json)
+GameObject &GameObjectFactory::buildGameObjectFromPattern(GameObjectPattern & pattern)
 {
-    GameObject& entity = newObject();
-    buildGameObjectComponentsFromJson(json,entity);
-    return entity;
+    GameObject & g = newObject();
+    buildComponentsFromPattern(pattern,g);
+    return g;
 }
 
-GameObject &GameObjectFactory::buildGameObjectFromJson(rapidjson::Value & json, std::string id)
+GameObject &GameObjectFactory::buildGameObjectFromPattern(GameObjectPattern & pattern, std::string id)
 {
-    GameObject& entity = newObject(id);
-    buildGameObjectComponentsFromJson(json,entity);
-    return entity;
+    GameObject & g = newObject(id);
+    buildComponentsFromPattern(pattern,g);
+    return g;
 }
 
-GameObject &GameObjectFactory::buildGameObjectComponentsFromJson(rapidjson::Value & json, GameObject & entity)
+GameObject &GameObjectFactory::buildComponentsFromPattern(GameObjectPattern & pattern, GameObject & g)
 {
-    if(json.HasMember("sprite"))
+    for(int i=0; i<pattern.spriteRendererPatterns.size(); i++)
     {
-        rapidjson::Value spr = json["sprite"].GetObject();
-        SpriteRenderer & sprite = componentFactory->buildSpriteRendererFromJson(spr);
-        entity.addComponent(sprite);
+        SpriteRenderer & s = componentFactory->newSpriteRenderer();
+        componentFactory->buildSpriteRendererFromPattern(pattern.spriteRendererPatterns[i],s);
+        g.addComponent(s.name,s);
     }
-
-    if(json.HasMember("hitbox"))
+    for(int i=0; i<pattern.collidablePatterns.size(); i++)
     {
-        rapidjson::Value box = json["hitbox"].GetObject();
-        Collidable & collidable = componentFactory->buildCollidableFromJson(box);
-        entity.addComponent(collidable);
+        Collidable & c = componentFactory->newCollidable();
+        componentFactory->buildCollidableFromPattern(pattern.collidablePatterns[i],c);
+        g.addComponent(c.name,c);
     }
-    return entity;
+    return g;
 }
 
 

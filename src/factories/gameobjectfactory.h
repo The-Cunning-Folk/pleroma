@@ -5,6 +5,7 @@
 #include <gameobjectstack.h>
 
 #include <componentfactory.h>
+#include <gameobjectpattern.h>
 
 #include<factory.h>
 
@@ -20,10 +21,12 @@ public:
     void setStack(GameObjectStack*);
 
     //ridiculous number of add functions go here, need some way to generate archetypes for items from file
-    GameObject& buildGameObjectFromJson(rapidjson::Value &);
-    GameObject& buildGameObjectFromJson(rapidjson::Value &, std::string);
 
-    GameObject & buildGameObjectComponentsFromJson(rapidjson::Value & ,GameObject &);
+    GameObject& buildGameObjectFromPattern(GameObjectPattern &);
+    GameObject& buildGameObjectFromPattern(GameObjectPattern &, std::string);
+
+    GameObject& buildComponentsFromPattern(GameObjectPattern &, GameObject & g);
+
 
     ComponentFactory* componentFactory;
 

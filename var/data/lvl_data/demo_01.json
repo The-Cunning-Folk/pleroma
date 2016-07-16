@@ -2,7 +2,9 @@
     "name": "butterfly_demo",
 
     "entities" : [
-        {"id": "tree_1", "x" : 10, "y" : -3, "type" : "big_tree"}
+        {"x" : 10, "y" : -3, "type" : "big_tree"},
+        {"x" : 0, "y" : -1, "type" : "big_tree"},
+        {"x" : -3, "y" : -4, "type" : "med_tree"}
     ],
 
     "ground" : {

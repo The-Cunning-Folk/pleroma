@@ -1,12 +1,12 @@
 {
-    "name" : "big_tree",
+    "name" : "med_tree",
     "components" : {
         "spriterenderers" :
         [
             {
-                "name" : "big_tree_sprite",
+                "name" : "med_tree_sprite",
                 "sheet" : "trees_1",
-                "clip" : "big_tree",
+                "clip" : "med_tree",
                 "offset" : {"x":0,"y":-48},
                 "depth_offset" : 0
             }

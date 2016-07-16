@@ -5,6 +5,7 @@
 #include <component.h>
 #include <transform.h>
 #include <gameobject.h>
+#include <gameobjectpattern.h>
 
 #include <transformengine.h>
 #include <inputengine.h>
@@ -34,8 +35,8 @@ public:
     GameObjectLoader* gameObjectLoader;
     Grid* grid;
 
-    Collidable & buildCollidableFromJson(rapidjson::Value & );
-    SpriteRenderer & buildSpriteRendererFromJson(rapidjson::Value &);
+    void buildCollidableFromPattern(CollidablePattern &, Collidable & c);
+    void buildSpriteRendererFromPattern(SpriteRendererPattern &, SpriteRenderer & s);
 
     Transform& newTransform();
     Transform& newTransform(std::string);

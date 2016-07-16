@@ -346,8 +346,10 @@ void Game::initialisePlayers()
 
 void Game::initialiseEnvironment()
 {
-    std::map<std::string,rapidjson::Value> entities;
-    rapidjson::Document entityConfig = resourceLoader.loadJsonFile("config/entities.json");
+    std::map<std::string,GameObjectPattern> entities;
+    std::string rawJson = resourceLoader.loadFileAsString("config/entities.json");
+    rapidjson::Document entityConfig;
+    entityConfig.Parse(rawJson.c_str());
     assert(entityConfig["parentdirectory"].IsString());
     assert(entityConfig["entities"].IsArray());
 
@@ -357,14 +359,13 @@ void Game::initialiseEnvironment()
     for (rapidjson::SizeType i = 0; i < entitiesJson.Size(); i++)
     {
         debug->println(eDir + "/" + entitiesJson[i].GetString());
-        rapidjson::Document entityJson = resourceLoader.loadJsonFile(eDir + "/" + entitiesJson[i].GetString());
-        for (rapidjson::SizeType j = 0; j < entityJson["types"].Size(); j++)
-        {
-            rapidjson::Value entityTypeJson = entityJson["types"][j].GetObject();
-            std::string name = entityTypeJson["name"].GetString();
-            //entities[name] = gameObjectFactory.buildGameObjectFromJson(entityTypeJson);
-        }
-
+        std::string entJsonString = resourceLoader.loadFileAsString(eDir + "/" + entitiesJson[i].GetString());
+        rapidjson::Document entityJson;
+        entityJson.Parse(entJsonString.c_str());
+        std::string name = entityJson["name"].GetString();
+        GameObjectPattern g;
+        g.parseFromJson(entJsonString);
+        entities[name] = g;
     }
 
     rapidjson::Document levelConfig = resourceLoader.loadJsonFile("config/levels.json");
@@ -393,24 +394,15 @@ void Game::initialiseEnvironment()
 
             if(ent.HasMember("type"))
             {
-                //entityType = entities[ent["type"].GetString()];
-                //debug->println(entityType["name"].GetString());
+                GameObject & entity = ent.HasMember("id")
+                        ? gameObjectFactory.buildGameObjectFromPattern(entities[ent["type"].GetString()],ent["id"].GetString())
+                        : gameObjectFactory.buildGameObjectFromPattern(entities[ent["type"].GetString()]);
+
+                int xPos = ent["x"].GetInt();
+                int yPos = ent["y"].GetInt();
+
+                entity.loadTransform().setPosition(grid.getCentre(xPos,yPos));
             }
-            else
-            {
-                entityType = ent;
-            }
-
-//            GameObject & entity = ent.HasMember("id")
-//                    ? gameObjectFactory.buildGameObjectFromJson(entityType,ent["id"].GetString())
-//                    : gameObjectFactory.buildGameObjectFromJson(entityType);
-
-            int xPos = ent["x"].GetInt();
-            int yPos = ent["y"].GetInt();
-
-            //entity.loadTransform().setPosition(grid.getCentre(xPos,yPos));
-
-
 
         }
 
