@@ -2,27 +2,9 @@
     "name": "butterfly_demo",
 
     "entities" : [
-        {
-            "id": "box_1",
-            "x" : 10, 
-            "y" : -3, 
-            "sprite" : {
-                "sheet" : "trees_1",
-                "clip" : "big_tree",
-                "offset" : {"x":0,"y":-48},
-                "depth_offset" : 0
-            },
-            "hitbox" : {
-                "immovable" : true,
-                "polygon" : [
-                    {"x": -24, "y": -12},
-                    {"x": 24, "y": -12},
-                    {"x": 24, "y": 12},
-                    {"x": -24, "y": 12}
-                ]
-            }
-
-        }
+        {"x" : 10, "y" : -3, "type" : "big_tree"},
+        {"x" : 0, "y" : -1, "type" : "big_tree"},
+        {"x" : -3, "y" : -4, "type" : "med_tree"}
     ],
 
     "ground" : {

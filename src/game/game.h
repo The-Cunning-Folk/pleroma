@@ -35,6 +35,8 @@
 #include<resourceloader.h>
 #include<gameobjectloader.h>
 
+#include<datafileparser.h>
+
 #include<occlusionmanager.h>
 
 typedef std::shared_ptr<BQ::GameWindow> window_ptr;
@@ -76,6 +78,8 @@ public:
     ComponentLoader componentLoader;
     ResourceLoader resourceLoader;
     GameObjectLoader gameObjectLoader;
+
+    DataFileParser dataFileParser;
 
     GameObjectFactory gameObjectFactory;
     ComponentFactory componentFactory;

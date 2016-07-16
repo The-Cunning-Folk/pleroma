@@ -297,6 +297,7 @@ void Game::initialiseInjections()
    logicEngine.setGame(this);
    rayCastingEngine.setGame(this);
    renderEngine.setGame(this);
+   dataFileParser.setGame(this);
 
    componentFactory.setGame(this);
    gameObjectFactory.setGame(this);
@@ -333,34 +334,6 @@ void Game::initialiseTests()
     transformEngine.setWrapAround(false);
     debug->println(std::to_string(gameWindow->getWidth()));
 
-    //remove later!
-
-    //GameObject& coll = gameObjectFactory.newPathingObject();
-
-
-//    for(int i=1; i<=50; i++)
-//    {
-//        for(int j=1; j<=50; j++)
-//        {
-//            int spinner = math.randomInt(0,50);
-//            if(spinner <= 10)
-//            {
-//                GameObject& coll = gameObjectFactory.newImmovableObject();
-//                coll.loadTransform().setPosition(sf::Vector2f(i*64+math.randomInt(-16,16) - 1280,j*64+math.randomInt(-16,16)-1280));
-//                if(math.randomInt(0,2) == 1)
-//                {
-//                    //componentLoader.getCollidableFromObject(coll,"hitbox").immovable = false;
-//                    //componentLoader.getSpriteRendererFromObject(coll,"sprite").textureRect = sf::IntRect(96,0,32,64);
-//                }
-//            }
-//            else if(spinner > 45)
-//            {
-//                GameObject& coll = gameObjectFactory.newPathingObject();
-//                coll.loadTransform().setPosition(sf::Vector2f(i*64 - 1280,j*64-1280));
-//            }
-
-//        }
-//    }
 }
 
 void Game::initialisePlayers()
@@ -373,19 +346,40 @@ void Game::initialisePlayers()
 
 void Game::initialiseEnvironment()
 {
+    std::map<std::string,GameObjectPattern> entities;
+    std::string rawJson = resourceLoader.loadFileAsString("config/entities.json");
+    rapidjson::Document entityConfig;
+    entityConfig.Parse(rawJson.c_str());
+    assert(entityConfig["parentdirectory"].IsString());
+    assert(entityConfig["entities"].IsArray());
+
+    std::string eDir = entityConfig["parentdirectory"].GetString();
+    const rapidjson::Value & entitiesJson = entityConfig["entities"];
+
+    for (rapidjson::SizeType i = 0; i < entitiesJson.Size(); i++)
+    {
+        debug->println(eDir + "/" + entitiesJson[i].GetString());
+        std::string entJsonString = resourceLoader.loadFileAsString(eDir + "/" + entitiesJson[i].GetString());
+        rapidjson::Document entityJson;
+        entityJson.Parse(entJsonString.c_str());
+        std::string name = entityJson["name"].GetString();
+        GameObjectPattern g;
+        g.parseFromJson(entJsonString);
+        entities[name] = g;
+    }
+
     rapidjson::Document levelConfig = resourceLoader.loadJsonFile("config/levels.json");
     assert(levelConfig["parentdirectory"].IsString());
     assert(levelConfig["levels"].IsArray());
 
     std::string lDir = levelConfig["parentdirectory"].GetString();
-    const rapidjson::Value & files = levelConfig["levels"];
-    assert(files.IsArray());
+    const rapidjson::Value & levelsJson = levelConfig["levels"];
 
-    for (rapidjson::SizeType i = 0; i < files.Size(); i++)
+    for (rapidjson::SizeType i = 0; i < levelsJson.Size(); i++)
     {
         Level lvl;
-        debug->println(lDir + "/" + files[i].GetString());
-        rapidjson::Document levelJson = resourceLoader.loadJsonFile(lDir + "/" + files[i].GetString());
+        debug->println(lDir + "/" + levelsJson[i].GetString());
+        rapidjson::Document levelJson = resourceLoader.loadJsonFile(lDir + "/" + levelsJson[i].GetString());
 
         assert(levelJson["name"].IsString());
 
@@ -396,54 +390,18 @@ void Game::initialiseEnvironment()
         for(rapidjson::SizeType e = 0; e<levelJson["entities"].Size(); e++)
         {
             rapidjson::Value ent = levelJson["entities"][e].GetObject();
+            rapidjson::Value entityType;
 
-            int xPos = ent["x"].GetInt();
-            int yPos = ent["y"].GetInt();
-
-            GameObject& entity = ent.HasMember("id") ? gameObjectFactory.newObject(ent["id"].GetString()) : gameObjectFactory.newObject();
-            entity.loadTransform().setPosition(grid.getCentre(xPos,yPos));
-
-            if(ent.HasMember("sprite"))
+            if(ent.HasMember("type"))
             {
-                rapidjson::Value spr = ent["sprite"].GetObject();
-                SpriteRenderer & sprite = componentFactory.newSpriteRenderer();
+                GameObject & entity = ent.HasMember("id")
+                        ? gameObjectFactory.buildGameObjectFromPattern(entities[ent["type"].GetString()],ent["id"].GetString())
+                        : gameObjectFactory.buildGameObjectFromPattern(entities[ent["type"].GetString()]);
 
-                sprite.spritesheet = spr["sheet"].GetString();
+                int xPos = ent["x"].GetInt();
+                int yPos = ent["y"].GetInt();
 
-                if(spr.HasMember("clip"))
-                {
-                    sprite.clip = spr["clip"].GetString();
-                }
-                if(spr.HasMember("offset"))
-                {
-                    rapidjson::Value offset = spr["offset"].GetObject();
-                    sprite.offset.x = offset.HasMember("x") ? offset["x"].GetFloat() : 0;
-                    sprite.offset.y = offset.HasMember("y") ? offset["y"].GetFloat() : 0;
-                }
-
-                sprite.depthOffset = spr.HasMember("depth_offset") ? spr["depth_offset"].GetFloat() : 0;
-
-                entity.addComponent(sprite);
-
-            }
-
-            if(ent.HasMember("hitbox"))
-            {
-                rapidjson::Value box = ent["hitbox"].GetObject();
-                Collidable & collidable = componentFactory.newCollidable();
-                collidable.immovable = box.HasMember("immovable") ? box["immovable"].GetBool() : false;
-
-                if(box.HasMember("polygon"))
-                {
-                    for(rapidjson::SizeType p = 0; p<box["polygon"].Size(); p++)
-                    {
-                        rapidjson::Value point = box["polygon"][p].GetObject();
-                        collidable.polygon.addPoint(point["x"].GetFloat(),point["y"].GetFloat());
-                    }
-                }
-
-                entity.addComponent(collidable);
-
+                entity.loadTransform().setPosition(grid.getCentre(xPos,yPos));
             }
 
         }

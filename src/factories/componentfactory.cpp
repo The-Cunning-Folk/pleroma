@@ -7,6 +7,26 @@ ComponentFactory::ComponentFactory()
 
 }
 
+void ComponentFactory::buildCollidableFromPattern(CollidablePattern & pattern, Collidable & c)
+{
+    c.name = pattern.name;
+    c.immovable = pattern.immovable;
+    for(int i=0; i<pattern.polygon.size(); i++)
+    {
+        c.polygon.addPoint(pattern.polygon[i]);
+    }
+}
+
+void ComponentFactory::buildSpriteRendererFromPattern(SpriteRendererPattern & pattern, SpriteRenderer & s)
+{
+    s.name = pattern.name;
+    s.spritesheet = pattern.sheet;
+    s.depthOffset = pattern.depthOffset;
+    s.clip = pattern.clip;
+    s.offset = pattern.offset;
+
+}
+
 Grid *ComponentFactory::getGrid() const
 {
     return grid;
@@ -153,6 +173,7 @@ Collidable & ComponentFactory::newCollidable(std::string name)
 //    c.polygon.points.push_back(sf::Vector2f(-10,-10));
     return(c);
 }
+
 
 Collidable &ComponentFactory::newRectCollidable(sf::FloatRect r)
 {

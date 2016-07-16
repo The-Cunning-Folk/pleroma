@@ -14,6 +14,37 @@ void GameObjectFactory::setStack(GameObjectStack * stack)
     gameObjects = stack;
 }
 
+GameObject &GameObjectFactory::buildGameObjectFromPattern(GameObjectPattern & pattern)
+{
+    GameObject & g = newObject();
+    buildComponentsFromPattern(pattern,g);
+    return g;
+}
+
+GameObject &GameObjectFactory::buildGameObjectFromPattern(GameObjectPattern & pattern, std::string id)
+{
+    GameObject & g = newObject(id);
+    buildComponentsFromPattern(pattern,g);
+    return g;
+}
+
+GameObject &GameObjectFactory::buildComponentsFromPattern(GameObjectPattern & pattern, GameObject & g)
+{
+    for(int i=0; i<pattern.spriteRendererPatterns.size(); i++)
+    {
+        SpriteRenderer & s = componentFactory->newSpriteRenderer();
+        componentFactory->buildSpriteRendererFromPattern(pattern.spriteRendererPatterns[i],s);
+        g.addComponent(s.name,s);
+    }
+    for(int i=0; i<pattern.collidablePatterns.size(); i++)
+    {
+        Collidable & c = componentFactory->newCollidable();
+        componentFactory->buildCollidableFromPattern(pattern.collidablePatterns[i],c);
+        g.addComponent(c.name,c);
+    }
+    return g;
+}
+
 
 ComponentFactory *GameObjectFactory::getComponentFactory() const
 {

@@ -1,0 +1,28 @@
+{
+    "name" : "med_tree",
+    "components" : {
+        "spriterenderers" :
+        [
+            {
+                "name" : "med_tree_sprite",
+                "sheet" : "trees_1",
+                "clip" : "med_tree",
+                "offset" : {"x":0,"y":-48},
+                "depth_offset" : 0
+            }
+        ],
+        "collidables" : [
+            {
+                "name" : "main_hitbox",
+                "immovable" : true,
+                "polygon" : [
+                    {"x": -24, "y": -12},
+                    {"x": 24, "y": -12},
+                    {"x": 24, "y": 12},
+                    {"x": -24, "y": 12}
+                ]
+            }
+        ]
+    }
+
+}
