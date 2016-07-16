@@ -19,7 +19,7 @@ bool GameObjectPattern::parseFromJson(std::string rawJson)
         rapidjson::Value spriteRenderers = components["spriterenderers"].GetArray();
         for (rapidjson::SizeType i = 0; i < spriteRenderers.Size(); i++)
         {
-            parseSpriteRenderer(spriteRenderers[i]);
+            spriteRendererPatterns.push_back(parseSpriteRenderer(spriteRenderers[i]));
         }
     }
 
@@ -28,20 +28,35 @@ bool GameObjectPattern::parseFromJson(std::string rawJson)
         rapidjson::Value collidables = components["collidables"].GetArray();
         for (rapidjson::SizeType i = 0; i < collidables.Size(); i++)
         {
-            parseCollidable(collidables[i]);
+            CollidablePattern c = parseCollidable(collidables[i]);
+            if(collidables[i].HasMember("polygon"))
+            {
+                for(rapidjson::SizeType p = 0; p<collidables[i]["polygon"].Size(); p++)
+                {
+
+                    rapidjson::Value point = collidables[i]["polygon"][p].GetObject();
+                    c.polygon.push_back(sf::Vector2f(point["x"].GetFloat(),point["y"].GetFloat()));
+                }
+            }
+            collidablePatterns.push_back(c);
         }
     }
     return true;
 }
 
-bool GameObjectPattern::parseSpriteRenderer(rapidjson::Value & json)
+std::vector<sf::Vector2f> GameObjectPattern::parsePolygon(rapidjson::Value & json)
+{
+
+}
+
+SpriteRendererPattern GameObjectPattern::parseSpriteRenderer(rapidjson::Value & json)
 {
 
     SpriteRendererPattern sprite;
 
     if(!json.HasMember("sheet"))
     {
-        return false;
+        return sprite;
     }
     sprite.sheet = json["sheet"].GetString();
 
@@ -58,26 +73,15 @@ bool GameObjectPattern::parseSpriteRenderer(rapidjson::Value & json)
 
     sprite.depthOffset = json.HasMember("depth_offset") ? json["depth_offset"].GetFloat() : 0;
 
-    spriteRendererPatterns.push_back(sprite);
-
-    return true;
+    return sprite;
 }
 
-bool GameObjectPattern::parseCollidable(rapidjson::Value & json)
+CollidablePattern GameObjectPattern::parseCollidable(rapidjson::Value & json)
 {
     CollidablePattern collidable;
 
     collidable.immovable = json.HasMember("immovable") ? json["immovable"].GetBool() : false;
 
-    if(json.HasMember("polygon"))
-    {
-        for(rapidjson::SizeType p = 0; p<json["polygon"].Size(); p++)
-        {
-            rapidjson::Value point = json["polygon"][p].GetObject();
-            collidable.polygon.push_back(sf::Vector2f(point["x"].GetFloat(),point["y"].GetFloat()));
-        }
-    }
-
-    return true;
+    return collidable;
 }
 

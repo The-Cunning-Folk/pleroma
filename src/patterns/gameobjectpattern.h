@@ -16,8 +16,10 @@ public:
 
     bool parseFromJson(std::string);
 
-    bool parseSpriteRenderer(rapidjson::Value &);
-    bool parseCollidable(rapidjson::Value &);
+    SpriteRendererPattern parseSpriteRenderer(rapidjson::Value &);
+    CollidablePattern parseCollidable(rapidjson::Value &);
+
+    std::vector<sf::Vector2f> parsePolygon(rapidjson::Value &);
 
     std::string typeName;
 
