@@ -41,6 +41,75 @@ SpriteRenderer &RenderEngine::getSpriteRenderer(int index)
     }
 }
 
+void RenderEngine::drawTileMap(TileMap & map)
+{
+    for(int j = 0; j<map.tileLayers.size(); j++)
+    {
+
+        TileLayer & layer = map.tileLayers[j];
+        SpriteSheet & tSheet = spriteSheets[layer.tileset];
+        sf::Texture & layerTexture = resourceLoader->getTexture(tSheet.texture);
+
+        sf::VertexArray tileArray;
+        tileArray.setPrimitiveType(sf::Quads);
+        tileArray.resize(grid->activeSquares.size()*4);
+
+        for(int i=0; i<grid->activeSquares.size(); i++)
+        {
+            GridSquare & g = grid->activeSquares[i];
+
+            Tile & t = map.getTile(j,g.position);
+
+            if(t.index < 0)
+            {
+                continue;
+            }
+
+            sf::Vector2f gPos = grid->getCentre(g.position);
+
+            sf::IntRect & tRect = tSheet.getSprite(t.index).frames[0];
+
+            int tSize = 8;
+
+            std::vector<sf::Vector2f> corners;
+
+            corners.push_back(sf::Vector2f(tRect.left,tRect.top));
+            corners.push_back(sf::Vector2f(tRect.left+tRect.width,tRect.top));
+            corners.push_back(sf::Vector2f(tRect.left+tRect.width,tRect.top+tRect.height));
+            corners.push_back(sf::Vector2f(tRect.left,tRect.top+tRect.height));
+
+            int tIndex = i*4;
+
+            tileArray[tIndex].position = sf::Vector2f(gPos.x-tSize,gPos.y-tSize);
+            tileArray[tIndex+1].position = sf::Vector2f(gPos.x+tSize,gPos.y-tSize);
+            tileArray[tIndex+2].position = sf::Vector2f(gPos.x+tSize,gPos.y+tSize);
+            tileArray[tIndex+3].position = sf::Vector2f(gPos.x-tSize,gPos.y+tSize);
+
+
+
+            for(int j=0; j<4; j++)
+            {
+                int corCorner = (j + t.rot)%4;
+                if(t.flipX)
+                {
+                    if(corCorner==0 || corCorner == 2)
+                    {
+                        corCorner++;
+                    }
+                    else
+                    {
+                        corCorner --;
+                    }
+                }
+                tileArray[tIndex+j].texCoords = corners[corCorner];
+            }
+        }
+        sf::RenderStates states;
+        states.texture = &layerTexture;
+        game->gameWindow->window.draw(tileArray,states);
+    }
+}
+
 void RenderEngine::wake()
 {
     //load sprite sheets
@@ -237,74 +306,9 @@ void BQ::RenderEngine::drawDebug()
     Level & l = game->levels["butterfly_demo"];
 
 
+    drawTileMap(l.groundMap);
 
 
-    for(int j = 0; j<l.tileMap.tileLayers.size(); j++)
-    {
-
-        TileLayer & layer = l.tileMap.tileLayers[j];
-        SpriteSheet & tSheet = spriteSheets[layer.tileset];
-        sf::Texture & layerTexture = resourceLoader->getTexture(tSheet.texture);
-
-        sf::VertexArray tileArray;
-        tileArray.setPrimitiveType(sf::Quads);
-        tileArray.resize(grid->activeSquares.size()*4);
-
-        for(int i=0; i<grid->activeSquares.size(); i++)
-        {
-            GridSquare & g = grid->activeSquares[i];
-
-            Tile & t = l.tileMap.getTile(j,g.position);
-
-            if(t.index < 0)
-            {
-                continue;
-            }
-
-            sf::Vector2f gPos = grid->getCentre(g.position);
-
-            sf::IntRect & tRect = tSheet.getSprite(t.index).frames[0];
-
-            int tSize = 8;
-
-            std::vector<sf::Vector2f> corners;
-
-            corners.push_back(sf::Vector2f(tRect.left,tRect.top));
-            corners.push_back(sf::Vector2f(tRect.left+tRect.width,tRect.top));
-            corners.push_back(sf::Vector2f(tRect.left+tRect.width,tRect.top+tRect.height));
-            corners.push_back(sf::Vector2f(tRect.left,tRect.top+tRect.height));
-
-            int tIndex = i*4;
-
-            tileArray[tIndex].position = sf::Vector2f(gPos.x-tSize,gPos.y-tSize);
-            tileArray[tIndex+1].position = sf::Vector2f(gPos.x+tSize,gPos.y-tSize);
-            tileArray[tIndex+2].position = sf::Vector2f(gPos.x+tSize,gPos.y+tSize);
-            tileArray[tIndex+3].position = sf::Vector2f(gPos.x-tSize,gPos.y+tSize);
-
-
-
-            for(int j=0; j<4; j++)
-            {
-                int corCorner = (j + t.rot)%4;
-                if(t.flipX)
-                {
-                    if(corCorner==0 || corCorner == 2)
-                    {
-                        corCorner++;
-                    }
-                    else
-                    {
-                        corCorner --;
-                    }
-                }
-                tileArray[tIndex+j].texCoords = corners[corCorner];
-            }
-
-        }
-        sf::RenderStates states;
-        states.texture = &layerTexture;
-        game->gameWindow->window.draw(tileArray,states);
-    }
 
     for(int i=0; i<activeComponents.size(); i++)
     {
@@ -335,4 +339,5 @@ void BQ::RenderEngine::drawDebug()
         spr.setPosition(maths->round(pos + s.offset));
         gameWindow->draw(spr);
     }
+    drawTileMap(l.ceilingMap);
 }

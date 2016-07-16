@@ -3,6 +3,7 @@
 
 #include<engine.h>
 #include<spriterenderer.h>
+#include<tilemap.h>
 
 namespace BQ{
 
@@ -15,6 +16,8 @@ public:
 
     SpriteRenderer& addSpriteRenderer();
     SpriteRenderer& getSpriteRenderer(int);
+
+    void drawTileMap(TileMap &);
 
     std::map<std::string,SpriteSheet> spriteSheets;
 
