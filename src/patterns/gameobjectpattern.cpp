@@ -44,11 +44,6 @@ bool GameObjectPattern::parseFromJson(std::string rawJson)
     return true;
 }
 
-std::vector<sf::Vector2f> GameObjectPattern::parsePolygon(rapidjson::Value & json)
-{
-
-}
-
 SpriteRendererPattern GameObjectPattern::parseSpriteRenderer(rapidjson::Value & json)
 {
 

@@ -19,8 +19,6 @@ public:
     SpriteRendererPattern parseSpriteRenderer(rapidjson::Value &);
     CollidablePattern parseCollidable(rapidjson::Value &);
 
-    std::vector<sf::Vector2f> parsePolygon(rapidjson::Value &);
-
     std::string typeName;
 
     std::vector<SpriteRendererPattern> spriteRendererPatterns;

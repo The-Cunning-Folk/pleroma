@@ -122,7 +122,7 @@ void Game::run()
 
     bool transformDebug = false;
     bool collisionDebug = false;
-    bool fpsDebug = true;
+    bool fpsDebug = false;
     bool pathingDebug = false;
     bool raycastingDebug = false;
 
