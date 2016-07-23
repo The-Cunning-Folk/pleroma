@@ -17,6 +17,8 @@ public:
     std::string tileset;
     std::map<int,std::map<int,Tile>> tiles;
 
+    bool parse(const rapidjson::Value &);
+
     Tile & getTile(sf::Vector2i);
 
 };

@@ -230,80 +230,80 @@ void Game::run()
 
 void Game::initialiseInjections()
 {
-   debug->println("injecting dependencies");
+    debug->println("injecting dependencies");
 
-   occlusionManager.setGame(this);
-   occlusionManager.setComponentLoader(&componentLoader);
-   occlusionManager.setGameObjectLoader(&gameObjectLoader);
+    occlusionManager.setGame(this);
+    occlusionManager.setComponentLoader(&componentLoader);
+    occlusionManager.setGameObjectLoader(&gameObjectLoader);
 
-   viewPort.setComponentLoader(&componentLoader);
-   viewPort.setMaths(&math);
+    viewPort.setComponentLoader(&componentLoader);
+    viewPort.setMaths(&math);
 
-   resourceLoader.setDebug(debug);
+    resourceLoader.setDebug(debug);
 
 
-   gameObjectLoader.setGameObjects(&gameObjects);
+    gameObjectLoader.setGameObjects(&gameObjects);
 
-   //component loader injections
+    //component loader injections
 
-   componentLoader.setGameObjectLoader(&gameObjectLoader);
+    componentLoader.setGameObjectLoader(&gameObjectLoader);
 
-   componentLoader.setTransformEngine(&transformEngine);
-   componentLoader.setCollisionEngine(&collisionEngine);
-   componentLoader.setPhysicsEngine(&physicsEngine);
-   componentLoader.setEventEngine(&eventEngine);
-   componentLoader.setLogicEngine(&logicEngine);
-   componentLoader.setRenderEngine(&renderEngine);
-   componentLoader.setRayCastingEngines(&rayCastingEngine);
+    componentLoader.setTransformEngine(&transformEngine);
+    componentLoader.setCollisionEngine(&collisionEngine);
+    componentLoader.setPhysicsEngine(&physicsEngine);
+    componentLoader.setEventEngine(&eventEngine);
+    componentLoader.setLogicEngine(&logicEngine);
+    componentLoader.setRenderEngine(&renderEngine);
+    componentLoader.setRayCastingEngines(&rayCastingEngine);
 
-   //end of component loader injections
+    //end of component loader injections
 
-   //component factory injections
+    //component factory injections
 
-   componentFactory.setGrid(&grid);
-   componentFactory.setComponentLoader(&componentLoader);
-   componentFactory.setGameObjectLoader(&gameObjectLoader);
+    componentFactory.setGrid(&grid);
+    componentFactory.setComponentLoader(&componentLoader);
+    componentFactory.setGameObjectLoader(&gameObjectLoader);
 
-   componentFactory.setCollisionEngine(&collisionEngine);
-   componentFactory.setTransformEngine(&transformEngine);
-   componentFactory.setInputEngine(&inputEngine);
-   componentFactory.setEventEngine(&eventEngine);
-   componentFactory.setCollisionEngine(&collisionEngine);
-   componentFactory.setPhysicsEngine(&physicsEngine);
-   componentFactory.setLogicEngine(&logicEngine);
-   componentFactory.setRayCastingEngine(&rayCastingEngine);
-   componentFactory.setRenderEngine(&renderEngine);
+    componentFactory.setCollisionEngine(&collisionEngine);
+    componentFactory.setTransformEngine(&transformEngine);
+    componentFactory.setInputEngine(&inputEngine);
+    componentFactory.setEventEngine(&eventEngine);
+    componentFactory.setCollisionEngine(&collisionEngine);
+    componentFactory.setPhysicsEngine(&physicsEngine);
+    componentFactory.setLogicEngine(&logicEngine);
+    componentFactory.setRayCastingEngine(&rayCastingEngine);
+    componentFactory.setRenderEngine(&renderEngine);
 
-   //end of component factory injections
+    //end of component factory injections
 
-   gameObjectFactory.setStack(&gameObjects);
-   gameObjectFactory.setComponentFactory(&componentFactory);
+    gameObjectFactory.setStack(&gameObjects);
+    gameObjectFactory.setComponentFactory(&componentFactory);
 
-   physicsEventFactory.setPhysicsEngine(&physicsEngine);
-   eventFactory.setEventEngine(&eventEngine);
-   inputFactory.setInputEngine(&inputEngine);
+    physicsEventFactory.setPhysicsEngine(&physicsEngine);
+    eventFactory.setEventEngine(&eventEngine);
+    inputFactory.setInputEngine(&inputEngine);
 
-   gameObjects.setComponentLoader(&componentLoader);
+    gameObjects.setComponentLoader(&componentLoader);
 
-   grid.setDebug(debug);
+    grid.setDebug(debug);
 
-   physicsEngine.setGame(this);
-   eventEngine.setGame(this);
-   inputEngine.setGame(this);
-   transformEngine.setGame(this);
-   collisionEngine.setGame(this);
-   debugDisplayEngine.setGame(this);
-   pathingEngine.setGame(this);
-   logicEngine.setGame(this);
-   rayCastingEngine.setGame(this);
-   renderEngine.setGame(this);
-   dataFileParser.setGame(this);
+    physicsEngine.setGame(this);
+    eventEngine.setGame(this);
+    inputEngine.setGame(this);
+    transformEngine.setGame(this);
+    collisionEngine.setGame(this);
+    debugDisplayEngine.setGame(this);
+    pathingEngine.setGame(this);
+    logicEngine.setGame(this);
+    rayCastingEngine.setGame(this);
+    renderEngine.setGame(this);
+    dataFileParser.setGame(this);
 
-   componentFactory.setGame(this);
-   gameObjectFactory.setGame(this);
-   eventFactory.setGame(this);
-   inputFactory.setGame(this);
-   physicsEventFactory.setGame(this);
+    componentFactory.setGame(this);
+    gameObjectFactory.setGame(this);
+    eventFactory.setGame(this);
+    inputFactory.setGame(this);
+    physicsEventFactory.setGame(this);
 }
 
 void Game::initialiseClocks()
@@ -346,7 +346,7 @@ void Game::initialisePlayers()
 
 void Game::initialiseEnvironment()
 {
-    std::map<std::string,GameObjectPattern> entities;
+
     std::string rawJson = resourceLoader.loadFileAsString("config/entities.json");
     rapidjson::Document entityConfig;
     entityConfig.Parse(rawJson.c_str());
@@ -373,153 +373,18 @@ void Game::initialiseEnvironment()
     assert(levelConfig["levels"].IsArray());
 
     std::string lDir = levelConfig["parentdirectory"].GetString();
+
     const rapidjson::Value & levelsJson = levelConfig["levels"];
 
     for (rapidjson::SizeType i = 0; i < levelsJson.Size(); i++)
     {
+        debug->println("loading " + lDir + "/" + levelsJson[i].GetString());
         Level lvl;
-        debug->println(lDir + "/" + levelsJson[i].GetString());
-        rapidjson::Document levelJson = resourceLoader.loadJsonFile(lDir + "/" + levelsJson[i].GetString());
+        lvl.setGame(this);
 
+        lvl.loadLevelFromFile(lDir + "/" + levelsJson[i].GetString());
 
-        assert(levelJson["name"].IsString());
-        std::string levelName = levelJson["name"].GetString();
-
-        //entities
-
-        if(levelJson.HasMember("entities"))
-        {
-
-            assert(levelJson["entities"].IsArray());
-
-            for(rapidjson::SizeType e = 0; e<levelJson["entities"].Size(); e++)
-            {
-                rapidjson::Value ent = levelJson["entities"][e].GetObject();
-                rapidjson::Value entityType;
-
-                if(ent.HasMember("type"))
-                {
-                    GameObject & entity = ent.HasMember("id")
-                            ? gameObjectFactory.buildGameObjectFromPattern(entities[ent["type"].GetString()],ent["id"].GetString())
-                            : gameObjectFactory.buildGameObjectFromPattern(entities[ent["type"].GetString()]);
-
-                    int xPos = ent["x"].GetInt();
-                    int yPos = ent["y"].GetInt();
-
-                    entity.loadTransform().setPosition(grid.getCentre(xPos,yPos));
-                }
-
-            }
-        }
-
-        //ground sheet
-        if(levelJson.HasMember("ground"))
-        {
-            assert(levelJson["ground"].IsObject());
-            rapidjson::Value ground = levelJson["ground"].GetObject();
-
-            assert(ground["default_sheet"].IsString());
-
-            Tile defaultTile;
-            defaultTile.index = ground["default_tile"].GetInt();
-
-            lvl.groundMap.tileset = ground["default_sheet"].GetString();
-            lvl.groundMap.defaultTile = defaultTile;
-            lvl.groundMap.tileLayers.resize(ground["layers"].GetArray().Size());
-
-            assert(ground["layers"].IsArray());
-
-            for(rapidjson::SizeType lnum = 0; lnum<ground["layers"].Size(); lnum++)
-            {
-                TileLayer & layer = lvl.groundMap.tileLayers[lnum];
-                rapidjson::Value layerJson = ground["layers"][lnum].GetObject();
-
-                if(layerJson.HasMember("sheet"))
-                {
-                    layer.tileset = layerJson["sheet"].GetString();
-                }
-                else
-                {
-                    layer.tileset = ground["default_sheet"].GetString();
-                }
-                if(layerJson.HasMember("default"))
-                {
-                    layer.defaultTile.index = layerJson["default"].GetInt();
-                }
-                else if(lnum == 0)
-                {
-                    layer.defaultTile = defaultTile;
-                }
-
-                assert(layerJson["map"].IsArray());
-
-                for(rapidjson::SizeType j=0; j<layerJson["map"].Size();j++)
-                {
-                    Tile tile;
-                    rapidjson::Value tileJson = layerJson["map"][j].GetObject();
-                    int sheetIndex = tileJson["tile"].GetInt();
-                    int xpos = tileJson["x"].GetInt();
-                    int ypos = tileJson["y"].GetInt();
-                    int rot = tileJson["rot"].GetInt();
-                    bool flipX = tileJson["flipX"].GetBool();
-                    tile.index = sheetIndex;
-                    tile.x = xpos;
-                    tile.y = ypos;
-                    tile.rot = rot;
-                    tile.flipX = flipX;
-                    layer.tiles[xpos][ypos] = tile;
-                }
-
-            }
-        }
-
-        if(levelJson.HasMember("ceiling"))
-        {
-            assert(levelJson["ceiling"].IsObject());
-            rapidjson::Value ceiling = levelJson["ceiling"].GetObject();
-
-            assert(ceiling["layers"].IsArray());
-
-            lvl.ceilingMap.tileset = ceiling["default_sheet"].GetString();
-            lvl.ceilingMap.tileLayers.resize(ceiling["layers"].GetArray().Size());
-
-            for(rapidjson::SizeType lnum = 0; lnum<ceiling["layers"].Size(); lnum++)
-            {
-                TileLayer & layer = lvl.ceilingMap.tileLayers[lnum];
-                rapidjson::Value layerJson = ceiling["layers"][lnum].GetObject();
-
-                if(layerJson.HasMember("sheet"))
-                {
-                    layer.tileset = layerJson["sheet"].GetString();
-                }
-                else
-                {
-                    layer.tileset = ceiling["default_sheet"].GetString();
-                }
-
-                assert(layerJson["map"].IsArray());
-
-                for(rapidjson::SizeType j=0; j<layerJson["map"].Size();j++)
-                {
-                    Tile tile;
-                    rapidjson::Value tileJson = layerJson["map"][j].GetObject();
-                    int sheetIndex = tileJson["tile"].GetInt();
-                    int xpos = tileJson["x"].GetInt();
-                    int ypos = tileJson["y"].GetInt();
-                    int rot = tileJson["rot"].GetInt();
-                    bool flipX = tileJson["flipX"].GetBool();
-                    tile.index = sheetIndex;
-                    tile.x = xpos;
-                    tile.y = ypos;
-                    tile.rot = rot;
-                    tile.flipX = flipX;
-                    layer.tiles[xpos][ypos] = tile;
-                }
-            }
-        }
-        //finish groundsheet
-
-        levels[levelName] = lvl;
+        levels[lvl.name] = lvl;
     }
 
 }

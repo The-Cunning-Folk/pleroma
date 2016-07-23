@@ -13,8 +13,11 @@ public:
 
     std::string tileset;
     Tile defaultTile;
+    int layers;
 
     std::vector<TileLayer> tileLayers;
+
+    bool parse(const rapidjson::Value &);
 
     Tile & getTile(int,sf::Vector2i);
 
