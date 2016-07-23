@@ -4,7 +4,7 @@ using namespace BQ;
 
 ResourceLoader::ResourceLoader()
 {
-    baseDirectory = "var";
+    baseDirectory = "";
     fontDirectory = "fonts";
     textureDirectory = "textures";
 }
@@ -33,6 +33,20 @@ DebugUtils *ResourceLoader::getDebug() const
 void ResourceLoader::setDebug(DebugUtils *value)
 {
     debug = value;
+}
+
+void ResourceLoader::loadConfig(std::string path)
+{
+    std::ifstream ifs(path);
+    std::string content( (std::istreambuf_iterator<char>(ifs) ),
+                         (std::istreambuf_iterator<char>()    ) );
+    rapidjson::Document config;
+    config.Parse(content.c_str());
+
+    if(config.HasMember("base_directory"))
+    {
+        baseDirectory = config["base_directory"].GetString();
+    }
 }
 
 sf::Font &ResourceLoader::getFont(std::string name)

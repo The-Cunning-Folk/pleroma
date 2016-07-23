@@ -240,7 +240,7 @@ void Game::initialiseInjections()
     viewPort.setMaths(&math);
 
     resourceLoader.setDebug(debug);
-
+    resourceLoader.loadConfig("var/config.json");
 
     gameObjectLoader.setGameObjects(&gameObjects);
 
