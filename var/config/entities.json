@@ -1,7 +1,0 @@
-{
-    "parentdirectory" : "data/ent_data",
-    "entities": [
-        "trees_1.json",
-        "trees_2.json"
-    ]
-}
