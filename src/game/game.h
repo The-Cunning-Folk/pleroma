@@ -52,6 +52,7 @@ public:
     window_ptr getGameWindow();
 
     std::map<std::string,Level> levels;
+    std::map<std::string,GameObjectPattern> entities;
 
     void setFrameRate(float);
     float getFrameRate();
