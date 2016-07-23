@@ -2,6 +2,7 @@
 #define GAMEWINDOW_H
 
 #include <SFML/Graphics.hpp>
+#include <viewport.h>
 
 namespace BQ{
     class GameWindow
@@ -11,6 +12,8 @@ namespace BQ{
         GameWindow(int,int,std::string);
         GameWindow(int,int,std::string,int);
         GameWindow(GameWindow&);
+
+        ViewPort primaryView;
 
         void updateEvents();
 

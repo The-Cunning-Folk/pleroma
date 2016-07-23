@@ -72,7 +72,7 @@ bool Level::loadLevelFromFile(std::string path)
                     layer.tileset = ground["default_sheet"].GetString();
                 }
 
-                if(lnum == 0)
+                if(lnum == 0 && layer.defaultTile.index == -1)
                 {
                     layer.defaultTile.index = groundMap.defaultTile.index;
                 }
