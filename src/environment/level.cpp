@@ -50,45 +50,54 @@ bool Level::loadLevelFromFile(std::string path)
         assert(levelJson["ground"].IsObject());
         rapidjson::Value ground = levelJson["ground"].GetObject();
 
-        groundMap.parse(ground);
-
-        for(rapidjson::SizeType lnum = 0; lnum<groundMap.tileLayers.size(); lnum++)
+        if(!groundMap.parse(ground))
         {
-            TileLayer & layer = groundMap.tileLayers[lnum];
-            rapidjson::Value layerJson = ground["layers"][lnum].GetObject();
-
-            layer.parse(layerJson);
-
-            if(layer.tileset=="")
+            debug->println("load error in ground object");
+        }
+        else
+        {
+            for(rapidjson::SizeType lnum = 0; lnum<groundMap.tileLayers.size(); lnum++)
             {
-                layer.tileset = ground["default_sheet"].GetString();
-            }
+                TileLayer & layer = groundMap.tileLayers[lnum];
+                rapidjson::Value layerJson = ground["layers"][lnum].GetObject();
 
-            if(lnum == 0)
-            {
-                layer.defaultTile.index = groundMap.defaultTile.index;
-            }
-
-            if(layerJson.HasMember("map") && layerJson["map"].IsArray())
-            {
-                assert(layerJson["map"].IsArray());
-
-                for(rapidjson::SizeType j=0; j<layerJson["map"].Size();j++)
+                if(!layer.parse(layerJson))
                 {
-                    if(!layerJson["map"][j].IsObject())
+                    debug->println("load error in ground layer " + std::to_string(lnum));
+                    continue;
+                }
+
+                if(layer.tileset=="")
+                {
+                    layer.tileset = ground["default_sheet"].GetString();
+                }
+
+                if(lnum == 0)
+                {
+                    layer.defaultTile.index = groundMap.defaultTile.index;
+                }
+
+                if(layerJson.HasMember("map") && layerJson["map"].IsArray())
+                {
+                    assert(layerJson["map"].IsArray());
+
+                    for(rapidjson::SizeType j=0; j<layerJson["map"].Size();j++)
                     {
-                        game->debug->println("tile " + std::to_string(j) + " in layer " + std::to_string(lnum) + " has a syntax error");
-                        continue;
-                    }
-                    rapidjson::Value tileJson = layerJson["map"][j].GetObject();
-                    Tile tile;
-                    if(tile.parse(tileJson))
-                    {
-                        layer.tiles[tile.x][tile.y] = tile;
-                    }
-                    else
-                    {
-                        debug->println("error in ground tile " + std::to_string(j) + " in layer " + std::to_string(lnum));
+                        if(!layerJson["map"][j].IsObject())
+                        {
+                            game->debug->println("tile " + std::to_string(j) + " in layer " + std::to_string(lnum) + " has a syntax error");
+                            continue;
+                        }
+                        rapidjson::Value tileJson = layerJson["map"][j].GetObject();
+                        Tile tile;
+                        if(tile.parse(tileJson))
+                        {
+                            layer.tiles[tile.x][tile.y] = tile;
+                        }
+                        else
+                        {
+                            debug->println("error in ground tile " + std::to_string(j) + " in layer " + std::to_string(lnum));
+                        }
                     }
                 }
             }
@@ -100,38 +109,49 @@ bool Level::loadLevelFromFile(std::string path)
         assert(levelJson["ceiling"].IsObject());
         rapidjson::Value ceiling = levelJson["ceiling"].GetObject();
 
-        ceilingMap.parse(ceiling);
-
-        for(rapidjson::SizeType lnum = 0; lnum<ceilingMap.tileLayers.size(); lnum++)
+        if(!ceilingMap.parse(ceiling))
         {
-            TileLayer & layer = ceilingMap.tileLayers[lnum];
-            rapidjson::Value layerJson = ceiling["layers"][lnum].GetObject();
+            debug->println("load error in ceiling object");
+        }
+        else
+        {
 
-            layer.parse(layerJson);
-
-            if(layer.tileset=="")
+            for(rapidjson::SizeType lnum = 0; lnum<ceilingMap.tileLayers.size(); lnum++)
             {
-                layer.tileset = ceiling["default_sheet"].GetString();
-            }
+                TileLayer & layer = ceilingMap.tileLayers[lnum];
+                rapidjson::Value layerJson = ceiling["layers"][lnum].GetObject();
 
-            if(layerJson.HasMember("map") && layerJson["map"].IsArray())
-            {
-                for(rapidjson::SizeType j=0; j<layerJson["map"].Size();j++)
+                if(!layer.parse(layerJson))
                 {
-                    if(!layerJson["map"][j].IsObject())
+                    debug->println("load error in ceiling layer " + std::to_string(lnum));
+                    continue;
+                }
+
+
+                if(layer.tileset=="")
+                {
+                    layer.tileset = ceiling["default_sheet"].GetString();
+                }
+
+                if(layerJson.HasMember("map") && layerJson["map"].IsArray())
+                {
+                    for(rapidjson::SizeType j=0; j<layerJson["map"].Size();j++)
                     {
-                        game->debug->println("tile " + std::to_string(j) + " in layer " + std::to_string(lnum) + " has a syntax error");
-                        continue;
-                    }
-                    rapidjson::Value tileJson = layerJson["map"][j].GetObject();
-                    Tile tile;
-                    if(tile.parse(tileJson))
-                    {
-                        layer.tiles[tile.x][tile.y] = tile;
-                    }
-                    else
-                    {
-                        debug->println("error in ceiling tile " + std::to_string(j) + " in layer " + std::to_string(lnum));
+                        if(!layerJson["map"][j].IsObject())
+                        {
+                            game->debug->println("tile " + std::to_string(j) + " in layer " + std::to_string(lnum) + " has a syntax error");
+                            continue;
+                        }
+                        rapidjson::Value tileJson = layerJson["map"][j].GetObject();
+                        Tile tile;
+                        if(tile.parse(tileJson))
+                        {
+                            layer.tiles[tile.x][tile.y] = tile;
+                        }
+                        else
+                        {
+                            debug->println("error in ceiling tile " + std::to_string(j) + " in layer " + std::to_string(lnum));
+                        }
                     }
                 }
             }
