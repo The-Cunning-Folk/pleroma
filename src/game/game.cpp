@@ -19,7 +19,7 @@ void Game::runTests()
 void Game::runEngines()
 {
 
-    viewPort.update();
+    ViewPort & viewPort = gameWindow->primaryView;
 
     GameObject & player = gameObjectLoader.loadGameObject("player_1");
 
@@ -78,8 +78,6 @@ void Game::runEngines()
     rayCastingEngine.finish();
     renderEngine.finish();
 
-    viewPort.update();
-
 }
 
 void Game::run()
@@ -94,6 +92,7 @@ void Game::run()
         return;
     }
 
+    ViewPort & viewPort = gameWindow->primaryView;
 
     initialiseInjections(); //injections
     initialiseInput();
@@ -140,6 +139,7 @@ void Game::run()
 
         window.updateEvents();
 
+
         //get time since last window.clear call
         //logictime is for calculating how long it's been since the engines were last updated
 
@@ -165,9 +165,9 @@ void Game::run()
         //temporary behaviours
 
         runTests();
-
+        viewPort.update();
         runEngines();
-
+        viewPort.update();
         //end logic
 
 
@@ -193,6 +193,8 @@ void Game::run()
             rayCastingEngine.drawDebug();
 
         std::string winPosStr = "w_pos - " + debug->formatVector(window.window.getView().getCenter(),1);
+
+
 
 
         //get the default viewport back
@@ -231,6 +233,7 @@ void Game::run()
 
 void Game::initialiseInjections()
 {
+    ViewPort & viewPort = gameWindow->primaryView;
     debug->println("injecting dependencies");
 
     occlusionManager.setGame(this);
@@ -339,6 +342,7 @@ void Game::initialiseTests()
 
 void Game::initialisePlayers()
 {
+    ViewPort & viewPort = gameWindow->primaryView;
     inputFactory.detectControllers();
     debug->println("adding players");
     GameObject& player = gameObjectFactory.newPlayerObject();

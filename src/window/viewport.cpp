@@ -1,5 +1,8 @@
 #include "viewport.h"
 
+#include <componentloader.h>
+#include <mathsutils.h>
+
 using namespace BQ;
 
 ViewPort::ViewPort()
@@ -47,6 +50,17 @@ sf::FloatRect ViewPort::getRenderRegion() const
 void ViewPort::setRenderRegion(const sf::FloatRect &value)
 {
     renderRegion = value;
+}
+
+void ViewPort::rescaleMaintainingRatio(float width, float height)
+{
+
+
+}
+
+void ViewPort::rescale(float width, float height)
+{
+    view.setSize(width,height);
 }
 
 void ViewPort::focus()

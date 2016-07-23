@@ -2,11 +2,13 @@
 #define VIEWPORT_H
 
 #include <SFML/Graphics.hpp>
-#include <componentloader.h>
-#include <mathsutils.h>
+
 
 
 namespace BQ{
+
+class ComponentLoader;
+class MathsUtils;
 
 class ViewPort
 {
@@ -28,6 +30,9 @@ public:
     void setDrawRegion(const sf::FloatRect &value);
     sf::FloatRect getRenderRegion() const;
     void setRenderRegion(const sf::FloatRect &value);
+
+    void rescaleMaintainingRatio(float,float);
+    void rescale(float,float);
 
     void focus();
 

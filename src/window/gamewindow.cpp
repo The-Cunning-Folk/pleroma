@@ -94,6 +94,18 @@ void GameWindow::updateEvents()
         if(event.type == sf::Event::Resized){
             width = window.getSize().x;
             height = window.getSize().y;
+
+            if(width<480 || height < 270)
+            {
+                primaryView.view.setSize(sf::Vector2f(width + width%4,height + height%4));
+            }
+            else if(width > 480 || height > 270)
+            {
+                float ratio = ((float)width)/((float)height);
+                int newHeight = (int) floor(480/ratio);
+                primaryView.view.setSize(sf::Vector2f(480+width%2,newHeight+height%2));
+            }
+
         }
     }
 

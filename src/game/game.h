@@ -152,7 +152,6 @@ private:
     //global properties
 
     InputMap input;
-    ViewPort viewPort;
 
     //variables
     float frameRate;
