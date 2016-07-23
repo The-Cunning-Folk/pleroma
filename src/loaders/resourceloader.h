@@ -33,6 +33,8 @@ public:
 
     std::map<std::string,sf::Font> fonts;
 
+    void loadConfig(std::string);
+
     std::map<std::string,sf::Texture> textures;
 
     sf::Font& getFont(std::string);
