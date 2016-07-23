@@ -29,6 +29,8 @@ public:
     sf::FloatRect getRenderRegion() const;
     void setRenderRegion(const sf::FloatRect &value);
 
+    void focus();
+
     void update();
 
     ComponentLoader *getComponentLoader() const;

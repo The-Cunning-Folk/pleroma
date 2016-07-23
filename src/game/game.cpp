@@ -126,6 +126,7 @@ void Game::run()
     bool pathingDebug = false;
     bool raycastingDebug = false;
 
+    viewPort.focus();
 
 
     //end temporary behaviours
