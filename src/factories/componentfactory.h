@@ -35,8 +35,9 @@ public:
     GameObjectLoader* gameObjectLoader;
     Grid* grid;
 
-    void buildCollidableFromPattern(CollidablePattern &, Collidable & c);
-    void buildSpriteRendererFromPattern(SpriteRendererPattern &, SpriteRenderer & s);
+    void buildCollidableFromPattern(CollidablePattern &, Collidable &);
+    void buildSpriteRendererFromPattern(SpriteRendererPattern &, SpriteRenderer &);
+    void buildRigidBodyFromPattern(RigidBodyPattern &, RigidBody &);
 
     Transform& newTransform();
     Transform& newTransform(std::string);

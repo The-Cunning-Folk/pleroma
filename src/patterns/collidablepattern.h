@@ -1,20 +1,23 @@
 #ifndef COLLIDABLEPATTERN_H
 #define COLLIDABLEPATTERN_H
 
-#include <SFML/Graphics.hpp>
-#include <vector>
-#include <string>
+#include <factorypattern.h>
 
 namespace BQ
 {
 
-class CollidablePattern
+class CollidablePattern : public FactoryPattern
 {
 public:
     CollidablePattern();
 
-    std::string name;
     bool immovable;
+    bool solid;
+    bool physical;
+    bool diminutive;
+    bool pathable;
+    bool opaque;
+
     std::vector<sf::Vector2f> polygon;
 };
 

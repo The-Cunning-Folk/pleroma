@@ -11,6 +11,10 @@ void ComponentFactory::buildCollidableFromPattern(CollidablePattern & pattern, C
 {
     c.name = pattern.name;
     c.immovable = pattern.immovable;
+    c.solid = pattern.solid;
+    c.pathable = pattern.pathable;
+    c.opaque = pattern.opaque;
+    c.diminutive = pattern.diminutive;
     for(int i=0; i<pattern.polygon.size(); i++)
     {
         c.polygon.addPoint(pattern.polygon[i]);
@@ -24,7 +28,23 @@ void ComponentFactory::buildSpriteRendererFromPattern(SpriteRendererPattern & pa
     s.depthOffset = pattern.depthOffset;
     s.clip = pattern.clip;
     s.offset = pattern.offset;
+    if(pattern.paused)
+    {
+        s.animation.stop();
+    }
+    else
+    {
+        s.animation.play();
+    }
+}
 
+void ComponentFactory::buildRigidBodyFromPattern(RigidBodyPattern & pattern, RigidBody & r)
+{
+    r.setMass(pattern.mass);
+    r.name = pattern.name;
+    r.restitution = pattern.restitution;
+    r.friction = pattern.friction;
+    r.momentum = pattern.momentum;
 }
 
 Grid *ComponentFactory::getGrid() const

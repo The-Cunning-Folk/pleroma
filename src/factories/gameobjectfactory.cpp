@@ -42,6 +42,12 @@ GameObject &GameObjectFactory::buildComponentsFromPattern(GameObjectPattern & pa
         componentFactory->buildCollidableFromPattern(pattern.collidablePatterns[i],c);
         g.addComponent(c.name,c);
     }
+    for(int i=0; i<pattern.rigidBodyPatterns.size(); i++)
+    {
+        RigidBody & r = componentFactory->newRigidBody();
+        componentFactory->buildRigidBodyFromPattern(pattern.rigidBodyPatterns[i],r);
+        g.addComponent(r.name,r);
+    }
     return g;
 }
 

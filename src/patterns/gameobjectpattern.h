@@ -1,15 +1,15 @@
 #ifndef GAMEOBJECTPATTERN_H
 #define GAMEOBJECTPATTERN_H
 
-#include <vector>
-#include <rapidjson/document.h>
+#include <factorypattern.h>
 #include <spriterendererpattern.h>
 #include <collidablepattern.h>
+#include <rigidbodypattern.h>
 
 namespace BQ
 {
 
-class GameObjectPattern
+class GameObjectPattern : public FactoryPattern
 {
 public:
     GameObjectPattern();
@@ -23,6 +23,7 @@ public:
 
     std::vector<SpriteRendererPattern> spriteRendererPatterns;
     std::vector<CollidablePattern> collidablePatterns;
+    std::vector<RigidBodyPattern> rigidBodyPatterns;
 
 };
 }

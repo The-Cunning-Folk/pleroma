@@ -41,6 +41,17 @@ bool GameObjectPattern::parseFromJson(std::string rawJson)
             collidablePatterns.push_back(c);
         }
     }
+    if(components.HasMember("rigidbodies"))
+    {
+        rapidjson::Value rigidbodies = components["rigidbodies"].GetArray();
+        for (rapidjson::SizeType i = 0; i < rigidbodies.Size(); i++)
+        {
+            RigidBodyPattern r;
+            r.parse(rigidbodies[i]);
+            rigidBodyPatterns.push_back(r);
+        }
+    }
+
     return true;
 }
 
@@ -68,6 +79,8 @@ SpriteRendererPattern GameObjectPattern::parseSpriteRenderer(rapidjson::Value & 
 
     sprite.depthOffset = json.HasMember("depth_offset") ? json["depth_offset"].GetFloat() : 0;
 
+    sprite.paused = json.HasMember("paused") ? json["paused"].GetBool() : false;
+
     return sprite;
 }
 
@@ -76,6 +89,10 @@ CollidablePattern GameObjectPattern::parseCollidable(rapidjson::Value & json)
     CollidablePattern collidable;
 
     collidable.immovable = json.HasMember("immovable") ? json["immovable"].GetBool() : false;
+    collidable.solid = json.HasMember("solid") ? json["solid"].GetBool() : true;
+    collidable.diminutive = json.HasMember("diminutive") ? json["diminutive"].GetBool() : false;
+    collidable.opaque = json.HasMember("opaque") ? json["opaque"].GetBool() : true;
+    collidable.pathable = json.HasMember("pathable") ? json["pathable"].GetBool() : false;
 
     return collidable;
 }
