@@ -36,6 +36,7 @@ void ComponentFactory::buildSpriteRendererFromPattern(SpriteRendererPattern & pa
     {
         s.animation.play();
     }
+    s.animation.spf = pattern.spf;
 }
 
 void ComponentFactory::buildRigidBodyFromPattern(RigidBodyPattern & pattern, RigidBody & r)

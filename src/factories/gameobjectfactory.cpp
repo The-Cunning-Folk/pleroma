@@ -82,42 +82,6 @@ GameObject &GameObjectFactory::newObject(std::string name)
     return object;
 }
 
-GameObject &GameObjectFactory::newCollisionObject()
-{
-    GameObject& collisionObj = newObject();
-    return makePhysicsObject(collisionObj);
-}
-
-GameObject &GameObjectFactory::newImmovableObject()
-{
-    GameObject& o = newObject();
-    float sizeX = 24;
-    float sizeY = 12;
-    std::vector<sf::Vector2f> points;
-
-    points.push_back(sf::Vector2f(-sizeX,-sizeY));
-    points.push_back(sf::Vector2f(sizeX,-sizeY));
-    points.push_back(sf::Vector2f(sizeX,sizeY));
-    points.push_back(sf::Vector2f(-sizeX,sizeY));
-    Collidable & hitbox = componentFactory->newCollidable(points);
-    hitbox.setTransform(o.getTransform());
-    hitbox.immovable = true;
-
-    //temporary hardcode
-    SpriteRenderer & sprite = componentFactory->newSpriteRenderer();
-    sprite.spritesheet = "trees_1";
-    sprite.clip = "big_tree";
-    sprite.offset = sf::Vector2f(0,-48);
-    sprite.depthOffset = 0;
-
-    sprite.setTransform(o.getTransform());
-    o.addComponent("sprite",sprite);
-
-    o.addComponent("hitbox",hitbox);
-    hitbox.update();
-    return o;
-}
-
 GameObject& GameObjectFactory::newPlayerObject() //builds behaviours for the player
 {
     GameObject& player = newObject("player_1");
@@ -219,27 +183,6 @@ GameObject &GameObjectFactory::newPathingObject(std::string name)
                     )
                 );
     return seeker;
-}
-
-GameObject &GameObjectFactory::makePhysicsObject(GameObject & o)
-{
-    Collidable & hitbox = componentFactory->newRandomCollidable();
-    hitbox.setTransform(o.getTransform());
-
-    RigidBody & body = componentFactory->newRigidBody();
-    body.restitution = maths->randomFloat(0.5,0.999);
-    body.friction = 1E-10;
-    body.setMass(maths->randomFloat(5,50));
-    float momR = body.getMass()*500;
-    body.momentum = sf::Vector2f(maths->randomFloat(-momR,momR),maths->randomFloat(-momR,momR));
-    body.setTransform(o.getTransform());
-
-
-    o.addComponent("hitbox",hitbox);
-    o.addComponent("body",body);
-
-    hitbox.update();
-    return o;
 }
 
 GameObject &GameObjectFactory::makePathingObject(GameObject & o)

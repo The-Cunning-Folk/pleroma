@@ -55,8 +55,6 @@ public:
     Collidable& newCollidable();
     Collidable& newCollidable(std::string);
 
-
-
     //nice easy way to make square collidables
     Collidable& newRectCollidable(std::string, sf::FloatRect);
     Collidable& newRectCollidable(sf::FloatRect);

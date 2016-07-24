@@ -21,28 +21,20 @@ public:
     void setStack(GameObjectStack*);
 
     //ridiculous number of add functions go here, need some way to generate archetypes for items from file
-
-    GameObject& buildGameObjectFromPattern(GameObjectPattern &);
-    GameObject& buildGameObjectFromPattern(GameObjectPattern &, std::string);
-
-    GameObject& buildComponentsFromPattern(GameObjectPattern &, GameObject & g);
-
-
     ComponentFactory* componentFactory;
 
     GameObject& newObject();
     GameObject& newObject(std::string);
 
-    GameObject& newCollisionObject();
-
-    GameObject & newImmovableObject();
+    GameObject& buildGameObjectFromPattern(GameObjectPattern &);
+    GameObject& buildGameObjectFromPattern(GameObjectPattern &, std::string);
+    GameObject& buildComponentsFromPattern(GameObjectPattern &, GameObject & g);
 
     GameObject& newPlayerObject();
 
     GameObject& newPathingObject();
     GameObject& newPathingObject(std::string);
 
-    GameObject & makePhysicsObject(GameObject &);
     GameObject & makePathingObject(GameObject &);
     GameObject & makePlayerSeekingObject(GameObject &);
     GameObject & makeFlockingObject(GameObject &);

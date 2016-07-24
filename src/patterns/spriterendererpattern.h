@@ -16,6 +16,7 @@ public:
     sf::Vector2f offset;
     float depthOffset;
     bool paused;
+    float spf;
 
 };
 

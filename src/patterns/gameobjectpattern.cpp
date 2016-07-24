@@ -80,6 +80,11 @@ SpriteRendererPattern GameObjectPattern::parseSpriteRenderer(rapidjson::Value & 
     sprite.depthOffset = json.HasMember("depth_offset") ? json["depth_offset"].GetFloat() : 0;
 
     sprite.paused = json.HasMember("paused") ? json["paused"].GetBool() : false;
+    sprite.spf = json.HasMember("spf")
+            ? json["spf"].GetFloat()
+            : json.HasMember("fps")
+                ? 1.0f/json["fps"].GetFloat()
+                : 0.05;
 
     return sprite;
 }
