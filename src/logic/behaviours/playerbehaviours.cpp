@@ -294,22 +294,31 @@ void PlayerBehaviours::update()
 
     SpriteRenderer & spr = componentLoader->getSpriteRendererFromObject(g,"sprite");
 
-    if(facing[0] == 'd')
-        spr.clip = "walk_down";
-    else if(facing[0] == 'u')
-        spr.clip = "walk_up";
-    else if(facing[0] == 'r')
-        spr.clip = "walk_right";
-    else if(facing[0] == 'l')
-        spr.clip = "walk_left";
+
 
 
     if(maths->mag(velocity) < 0.01f)
     {
+        if(facing[0] == 'd')
+            spr.clip = "stand_down";
+        else if(facing[0] == 'u')
+            spr.clip = "stand_up";
+        else if(facing[0] == 'r')
+            spr.clip = "stand_right";
+        else if(facing[0] == 'l')
+            spr.clip = "stand_left";
         spr.animation.stop();
     }
     else
     {
+        if(facing[0] == 'd')
+            spr.clip = "walk_down";
+        else if(facing[0] == 'u')
+            spr.clip = "walk_up";
+        else if(facing[0] == 'r')
+            spr.clip = "walk_right";
+        else if(facing[0] == 'l')
+            spr.clip = "walk_left";
         spr.animation.rate = 2*maths->mag(velocity)/speed;
         spr.animation.play();
     }
