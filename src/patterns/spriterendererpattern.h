@@ -1,22 +1,22 @@
 #ifndef SPRITERENDERERPATTERN_H
 #define SPRITERENDERERPATTERN_H
 
-#include <SFML/Graphics.hpp>
-#include <string>
+#include <factorypattern.h>
 
 namespace BQ
 {
 
-class SpriteRendererPattern
+class SpriteRendererPattern : public FactoryPattern
 {
 public:
     SpriteRendererPattern();
 
     std::string clip;
     std::string sheet;
-    std::string name;
     sf::Vector2f offset;
     float depthOffset;
+    bool paused;
+    float spf;
 
 };
 

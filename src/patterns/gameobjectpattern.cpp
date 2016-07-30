@@ -41,6 +41,70 @@ bool GameObjectPattern::parseFromJson(std::string rawJson)
             collidablePatterns.push_back(c);
         }
     }
+    if(components.HasMember("rigidbodies"))
+    {
+        rapidjson::Value rigidbodies = components["rigidbodies"].GetArray();
+        for (rapidjson::SizeType i = 0; i < rigidbodies.Size(); i++)
+        {
+            RigidBodyPattern r;
+            r.parse(rigidbodies[i]);
+            rigidBodyPatterns.push_back(r);
+        }
+    }
+    if(components.HasMember("rayemitters"))
+    {
+        rapidjson:: Value rayemitters = components["rayemitters"].GetArray();
+        for(rapidjson::SizeType i = 0; i<rayemitters.Size(); i++)
+        {
+            RayEmitterPattern r;
+            if(rayemitters[i].HasMember("targets") && rayemitters[i]["targets"].IsArray())
+            {
+                for(rapidjson::SizeType t = 0; t<rayemitters[i]["targets"].Size(); t++)
+                {
+                    if(rayemitters[i]["targets"][t].IsString())
+                    {
+                        r.targets.push_back(rayemitters[i]["targets"][t].GetString());
+                    }
+                }
+            }
+            if(rayemitters[i].HasMember("positions") && rayemitters[i]["positions"].IsArray())
+            {
+                for(rapidjson::SizeType p = 0; p<rayemitters[i]["positions"].Size(); p++)
+                {
+                    if(rayemitters[i]["positions"][p].IsObject())
+                    {
+                        rapidjson::Value jPos = rayemitters[i]["positions"][p].GetObject();
+                        sf::Vector2f pos;
+                        pos.x = jPos.HasMember("x") && jPos["x"].IsNumber() ? jPos["x"].GetFloat() : 0;
+                        pos.y = jPos.HasMember("t") && jPos["y"].IsNumber() ? jPos["y"].GetFloat() : 0;
+                        r.positions.push_back(pos);
+                    }
+                }
+            }
+            rayEmitterPatterns.push_back(r);
+        }
+    }
+
+    if(components.HasMember("gamelogics") && components["gamelogics"].IsArray())
+    {
+        rapidjson::Value gameLogics = components["gamelogics"].GetArray();
+        for(rapidjson::SizeType i = 0; i<gameLogics.Size(); i++)
+        {
+            GameLogicPattern g;
+            if(gameLogics[i].HasMember("behaviours") && gameLogics[i]["behaviours"].IsArray())
+            {
+                for(rapidjson::SizeType b = 0; b<gameLogics[i]["behaviours"].Size(); b++)
+                {
+                    if(gameLogics[i]["behaviours"][b].IsString())
+                    {
+                        g.behaviours.push_back(gameLogics[i]["behaviours"][b].GetString());
+                    }
+                }
+            }
+            gameLogicPatterns.push_back(g);
+        }
+    }
+
     return true;
 }
 
@@ -68,6 +132,13 @@ SpriteRendererPattern GameObjectPattern::parseSpriteRenderer(rapidjson::Value & 
 
     sprite.depthOffset = json.HasMember("depth_offset") ? json["depth_offset"].GetFloat() : 0;
 
+    sprite.paused = json.HasMember("paused") ? json["paused"].GetBool() : false;
+    sprite.spf = json.HasMember("spf")
+            ? json["spf"].GetFloat()
+            : json.HasMember("fps")
+            ? 1.0f/json["fps"].GetFloat()
+            : 0.05;
+
     return sprite;
 }
 
@@ -76,6 +147,10 @@ CollidablePattern GameObjectPattern::parseCollidable(rapidjson::Value & json)
     CollidablePattern collidable;
 
     collidable.immovable = json.HasMember("immovable") ? json["immovable"].GetBool() : false;
+    collidable.solid = json.HasMember("solid") ? json["solid"].GetBool() : true;
+    collidable.diminutive = json.HasMember("diminutive") ? json["diminutive"].GetBool() : false;
+    collidable.opaque = json.HasMember("opaque") ? json["opaque"].GetBool() : true;
+    collidable.pathable = json.HasMember("pathable") ? json["pathable"].GetBool() : false;
 
     return collidable;
 }

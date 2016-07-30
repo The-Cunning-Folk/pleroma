@@ -170,6 +170,11 @@ void RaycastingEngine::drawDebug()
         SimpleRay & r = simpleRays[i];
         drawRays[2*i].position=r.startPosition;
         drawRays[2*i+1].position=r.endPosition;
+        if(r.collidablesInContact.size() > 0)
+        {
+            drawRays[2*i].color = sf::Color::Green;
+            drawRays[2*i+1].color = sf::Color::Green;
+        }
     }
 
     gameWindow->draw(drawRays);

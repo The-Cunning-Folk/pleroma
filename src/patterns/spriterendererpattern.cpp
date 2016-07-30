@@ -9,5 +9,6 @@ SpriteRendererPattern::SpriteRendererPattern()
     depthOffset = 0;
     offset.x = offset.y = 0;
     name = "";
+    paused = false;
 }
 

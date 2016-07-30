@@ -10,8 +10,6 @@ Game::Game()
 void Game::runTests()
 {
     //add temporary stuff here for testing and debugging so the loop doesn't get too cluttered
-    if(input.keyToggled("addObject"))
-        gameObjectFactory.newCollisionObject();
 
 
 }
