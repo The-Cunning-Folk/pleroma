@@ -48,6 +48,19 @@ void ComponentFactory::buildRigidBodyFromPattern(RigidBodyPattern & pattern, Rig
     r.momentum = pattern.momentum;
 }
 
+
+void ComponentFactory::buildRayEmitterFromPattern(BQ::RayEmitterPattern & pattern, BQ::RayEmitter & r)
+{
+    for(int i = 0; i<pattern.targets.size(); i++)
+    {
+        r.addTarget(pattern.targets[i]);
+    }
+    for(int i=0; i<pattern.positions.size(); i++)
+    {
+        r.positions.push_back(pattern.positions[i]);
+    }
+}
+
 Grid *ComponentFactory::getGrid() const
 {
     return grid;
@@ -324,3 +337,4 @@ void ComponentFactory::setCollisionEngine(CollisionEngine *value)
 {
     collisionEngine = value;
 }
+

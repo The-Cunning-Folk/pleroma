@@ -48,6 +48,13 @@ GameObject &GameObjectFactory::buildComponentsFromPattern(GameObjectPattern & pa
         componentFactory->buildRigidBodyFromPattern(pattern.rigidBodyPatterns[i],r);
         g.addComponent(r.name,r);
     }
+    for(int i=0 ; i<pattern.rayEmitterPatterns.size(); i++)
+    {
+        debug->println("hey!");
+        RayEmitter & r = componentFactory->newRayEmitter();
+        componentFactory->buildRayEmitterFromPattern(pattern.rayEmitterPatterns[i],r);
+        g.addComponent(r.name,r);
+    }
     return g;
 }
 

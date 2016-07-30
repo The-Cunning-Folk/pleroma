@@ -5,6 +5,7 @@
 #include <spriterendererpattern.h>
 #include <collidablepattern.h>
 #include <rigidbodypattern.h>
+#include <rayemitterpattern.h>
 
 namespace BQ
 {
@@ -24,6 +25,7 @@ public:
     std::vector<SpriteRendererPattern> spriteRendererPatterns;
     std::vector<CollidablePattern> collidablePatterns;
     std::vector<RigidBodyPattern> rigidBodyPatterns;
+    std::vector<RayEmitterPattern> rayEmitterPatterns;
 
 };
 }

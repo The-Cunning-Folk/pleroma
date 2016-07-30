@@ -38,6 +38,7 @@ public:
     void buildCollidableFromPattern(CollidablePattern &, Collidable &);
     void buildSpriteRendererFromPattern(SpriteRendererPattern &, SpriteRenderer &);
     void buildRigidBodyFromPattern(RigidBodyPattern &, RigidBody &);
+    void buildRayEmitterFromPattern(RayEmitterPattern &, RayEmitter &);
 
     Transform& newTransform();
     Transform& newTransform(std::string);

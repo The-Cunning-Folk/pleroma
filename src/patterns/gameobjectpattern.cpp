@@ -51,6 +51,39 @@ bool GameObjectPattern::parseFromJson(std::string rawJson)
             rigidBodyPatterns.push_back(r);
         }
     }
+    if(components.HasMember("rayemitters"))
+    {
+        rapidjson:: Value rayemitters = components["rayemitters"].GetArray();
+        for(rapidjson::SizeType i = 0; i<rayemitters.Size(); i++)
+        {
+            RayEmitterPattern r;
+            if(rayemitters[i].HasMember("targets") && rayemitters[i]["targets"].IsArray())
+            {
+                for(rapidjson::SizeType t = 0; t<rayemitters[i]["targets"].Size(); t++)
+                {
+                    if(rayemitters[i]["targets"][t].IsString())
+                    {
+                        r.targets.push_back(rayemitters[i]["targets"][t].GetString());
+                    }
+                }
+            }
+            if(rayemitters[i].HasMember("positions") && rayemitters[i]["positions"].IsArray())
+            {
+                for(rapidjson::SizeType p = 0; p<rayemitters[i]["positions"].Size(); p++)
+                {
+                    if(rayemitters[i]["positions"][p].IsObject())
+                    {
+                        rapidjson::Value jPos = rayemitters[i]["positions"][p].GetObject();
+                        sf::Vector2f pos;
+                        pos.x = jPos.HasMember("x") && jPos["x"].IsNumber() ? jPos["x"].GetFloat() : 0;
+                        pos.y = jPos.HasMember("t") && jPos["y"].IsNumber() ? jPos["y"].GetFloat() : 0;
+                        r.positions.push_back(pos);
+                    }
+                }
+            }
+            rayEmitterPatterns.push_back(r);
+        }
+    }
 
     return true;
 }
@@ -83,8 +116,8 @@ SpriteRendererPattern GameObjectPattern::parseSpriteRenderer(rapidjson::Value & 
     sprite.spf = json.HasMember("spf")
             ? json["spf"].GetFloat()
             : json.HasMember("fps")
-                ? 1.0f/json["fps"].GetFloat()
-                : 0.05;
+            ? 1.0f/json["fps"].GetFloat()
+            : 0.05;
 
     return sprite;
 }

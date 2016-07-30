@@ -107,7 +107,8 @@ HEADERS += $$SRCDIR/window/gamewindow.h \
     src/patterns/spriterendererpattern.h \
     src/patterns/collidablepattern.h \
     src/patterns/rigidbodypattern.h \
-    src/patterns/factorypattern.h
+    src/patterns/factorypattern.h \
+    src/patterns/rayemitterpattern.h
 
 SOURCES += src/main.cpp \
     $$SRCDIR/window/gamewindow.cpp \
@@ -188,7 +189,8 @@ SOURCES += src/main.cpp \
     src/patterns/spriterendererpattern.cpp \
     src/patterns/collidablepattern.cpp \
     src/patterns/rigidbodypattern.cpp \
-    src/patterns/factorypattern.cpp
+    src/patterns/factorypattern.cpp \
+    src/patterns/rayemitterpattern.cpp
 
 LIBS += -L"$$PWD/SFML/lib"
 
