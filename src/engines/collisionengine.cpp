@@ -15,7 +15,7 @@ CollisionEngine::CollisionEngine() : Engine()
     quadtree.initialise();
     rectShape.setOutlineThickness(1.0);
     rectShape.setFillColor(sf::Color::Transparent);
-    overlapThreshold = 2.0f;
+    overlapThreshold = 0.1f;
 }
 
 Collidable &CollisionEngine::getCollidable(int index)
@@ -78,9 +78,6 @@ bool CollisionEngine::checkCollision(Collidable & a,Collidable & b)
         sf::Vector2f dDA = tA.position - tA.lastFrame; //displacement of A
         sf::Vector2f dDB = tB.position - tB.lastFrame;
 
-        float mdDA = maths->mag(dDA);
-        float mdDB = maths->mag(dDB);
-
         float flSteps = maths->max(maths->max(dDA.x/0.5*a.bBox.width,dDA.y/0.5*a.bBox.height)
                                    ,maths->max(dDB.x/0.5*b.bBox.width,dDB.y/0.5*b.bBox.height));
 
@@ -93,8 +90,6 @@ bool CollisionEngine::checkCollision(Collidable & a,Collidable & b)
         sf::Vector2f DstepB = dDB*invFlSweepSteps;
 
         sf::Vector2f overlap = sf::Vector2f(0,0);
-        sf::Vector2f cCorA = sf::Vector2f(0,0); //correction for A
-        sf::Vector2f cCorB = sf::Vector2f(0,0); //correction for B
 
         for(int i=0; i<sweepSteps+1; i++)
         {
@@ -112,12 +107,8 @@ bool CollisionEngine::checkCollision(Collidable & a,Collidable & b)
 
                 if(maths->mag(overlap)>overlapThreshold)
                 {
-                    cCorA = tA.position - pPosA;
-                    cCorB = tB.position - pPosB;
-                    //tA.correction -= cCorA;
-                    //tB.correction -= cCorB;
-                    tA.position = pPosA;
-                    tB.position = pPosB;
+                    tA.correction = pPosA -tA.position;
+                    tB.correction = pPosB - tB.position;
                     break;
                 }
             }

@@ -18,7 +18,7 @@ PlayerBehaviours::PlayerBehaviours()
     rollCooled = true;
     rollDuration = 0.25;
     rollCooldown = 0.5;
-    rollBoost = 2.5;
+    rollBoost = 2;
 
     //set the attack area polygons
 
