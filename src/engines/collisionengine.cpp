@@ -81,7 +81,9 @@ bool CollisionEngine::checkCollision(Collidable & a,Collidable & b)
         float mdDA = maths->mag(dDA);
         float mdDB = maths->mag(dDB);
 
-        float flSteps = mdDA >= mdDB ? mdDA/(maths->min(0.5*a.bBox.width,0.5*a.bBox.height)) : mdDB/(maths->min(0.5*b.bBox.width,0.5*b.bBox.height));
+        float flSteps = maths->max(maths->max(dDA.x/0.5*a.bBox.width,dDA.y/0.5*a.bBox.height)
+                                   ,maths->max(dDB.x/0.5*b.bBox.width,dDB.y/0.5*b.bBox.height));
+
         flSteps = flSteps > 1.0f ? flSteps : 2.0f;
         int sweepSteps = maths->roundAndCast(flSteps); //this is always 2 for now
         float flSweepSteps = (float) sweepSteps;
