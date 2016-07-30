@@ -85,6 +85,26 @@ bool GameObjectPattern::parseFromJson(std::string rawJson)
         }
     }
 
+    if(components.HasMember("gamelogics") && components["gamelogics"].IsArray())
+    {
+        rapidjson::Value gameLogics = components["gamelogics"].GetArray();
+        for(rapidjson::SizeType i = 0; i<gameLogics.Size(); i++)
+        {
+            GameLogicPattern g;
+            if(gameLogics[i].HasMember("behaviours") && gameLogics[i]["behaviours"].IsArray())
+            {
+                for(rapidjson::SizeType b = 0; b<gameLogics[i]["behaviours"].Size(); b++)
+                {
+                    if(gameLogics[i]["behaviours"][b].IsString())
+                    {
+                        g.behaviours.push_back(gameLogics[i]["behaviours"][b].GetString());
+                    }
+                }
+            }
+            gameLogicPatterns.push_back(g);
+        }
+    }
+
     return true;
 }
 

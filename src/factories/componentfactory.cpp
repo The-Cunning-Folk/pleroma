@@ -51,6 +51,7 @@ void ComponentFactory::buildRigidBodyFromPattern(RigidBodyPattern & pattern, Rig
 
 void ComponentFactory::buildRayEmitterFromPattern(BQ::RayEmitterPattern & pattern, BQ::RayEmitter & r)
 {
+    r.name = pattern.name;
     for(int i = 0; i<pattern.targets.size(); i++)
     {
         r.addTarget(pattern.targets[i]);
@@ -59,6 +60,11 @@ void ComponentFactory::buildRayEmitterFromPattern(BQ::RayEmitterPattern & patter
     {
         r.positions.push_back(pattern.positions[i]);
     }
+}
+
+void ComponentFactory::buildGameLogicFromPattern(GameLogicPattern & pattern, GameLogic & g)
+{
+    g.name = pattern.name;
 }
 
 Grid *ComponentFactory::getGrid() const

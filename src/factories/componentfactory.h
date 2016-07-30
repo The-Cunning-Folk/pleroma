@@ -39,6 +39,7 @@ public:
     void buildSpriteRendererFromPattern(SpriteRendererPattern &, SpriteRenderer &);
     void buildRigidBodyFromPattern(RigidBodyPattern &, RigidBody &);
     void buildRayEmitterFromPattern(RayEmitterPattern &, RayEmitter &);
+    void buildGameLogicFromPattern(GameLogicPattern &, GameLogic &);
 
     Transform& newTransform();
     Transform& newTransform(std::string);

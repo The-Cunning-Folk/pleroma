@@ -6,6 +6,7 @@
 #include <collidablepattern.h>
 #include <rigidbodypattern.h>
 #include <rayemitterpattern.h>
+#include <gamelogicpattern.h>
 
 namespace BQ
 {
@@ -26,6 +27,7 @@ public:
     std::vector<CollidablePattern> collidablePatterns;
     std::vector<RigidBodyPattern> rigidBodyPatterns;
     std::vector<RayEmitterPattern> rayEmitterPatterns;
+    std::vector<GameLogicPattern> gameLogicPatterns;
 
 };
 }

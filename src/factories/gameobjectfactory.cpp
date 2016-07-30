@@ -50,10 +50,21 @@ GameObject &GameObjectFactory::buildComponentsFromPattern(GameObjectPattern & pa
     }
     for(int i=0 ; i<pattern.rayEmitterPatterns.size(); i++)
     {
-        debug->println("hey!");
         RayEmitter & r = componentFactory->newRayEmitter();
         componentFactory->buildRayEmitterFromPattern(pattern.rayEmitterPatterns[i],r);
         g.addComponent(r.name,r);
+    }
+    for(int i=0 ; i<pattern.gameLogicPatterns.size(); i++)
+    {
+        GameLogic & l = componentFactory->newGameLogic();
+        componentFactory->buildGameLogicFromPattern(pattern.gameLogicPatterns[i],l);
+        g.addComponent(l.name,l);
+        for(int j=0; j<pattern.gameLogicPatterns[i].behaviours.size(); j++)
+        {
+            std::string b = pattern.gameLogicPatterns[i].behaviours[j];
+            componentFactory->bindBehaviour(l,b);
+        }
+
     }
     return g;
 }
