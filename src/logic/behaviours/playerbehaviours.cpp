@@ -8,7 +8,7 @@ using namespace BQ;
 
 PlayerBehaviours::PlayerBehaviours()
 {
-    baseSpeed = 140.0;
+    baseSpeed = 100.0;
     facing = "d";
 
     //roll properties

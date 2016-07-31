@@ -123,6 +123,26 @@ void Game::run()
     bool pathingDebug = false;
     bool raycastingDebug = false;
 
+    rapidjson::Document cameraConfig = resourceLoader.loadJsonFile("config/camera.json");
+
+    if(cameraConfig.HasMember("bounds") && cameraConfig["bounds"].IsObject())
+    {
+        sf::FloatRect cameraBounds;
+
+        if(cameraConfig["bounds"].HasMember("w") && cameraConfig["bounds"].HasMember("h"))
+        {
+            cameraBounds.height = cameraConfig["bounds"]["h"].GetFloat();
+            cameraBounds.width = cameraConfig["bounds"]["w"].GetFloat();
+            cameraBounds.left = cameraConfig["bounds"].HasMember("l") && cameraConfig["bounds"]["l"].IsNumber()
+                    ? cameraConfig["bounds"]["l"].GetFloat()
+                    : 0;
+            cameraBounds.top = cameraConfig["bounds"].HasMember("t") && cameraConfig["bounds"]["t"].IsNumber()
+                    ? cameraConfig["bounds"]["t"].GetFloat()
+                    : 0;
+            viewPort.setBounds(cameraBounds);
+        }
+    }
+
     viewPort.focus();
 
 
