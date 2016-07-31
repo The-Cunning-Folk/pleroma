@@ -89,18 +89,27 @@ void RenderEngine::drawTileMap(TileMap & map)
 
             for(int j=0; j<4; j++)
             {
-                int corCorner = (j + t.rot)%4;
+                int corCorner = j;
+
+                corCorner = corCorner - t.rot;
+                corCorner = corCorner < 0
+                        ? 4 + corCorner
+                        : corCorner;
+
+
                 if(t.flipX)
                 {
-                    if(corCorner==0 || corCorner == 2)
-                    {
-                        corCorner++;
-                    }
-                    else
-                    {
-                        corCorner --;
-                    }
+                        if(corCorner%2==0)
+                        {
+                            corCorner++;
+                        }
+                        else
+                        {
+                            corCorner --;
+                        }
                 }
+                corCorner = (corCorner)%4;
+
                 tileArray[tIndex+j].texCoords = corners[corCorner];
             }
         }
