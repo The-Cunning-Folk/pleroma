@@ -344,6 +344,23 @@ void Game::initialisePlayers()
     inputFactory.detectControllers();
     debug->println("adding players");
     GameObject& player = gameObjectFactory.newPlayerObject();
+    rapidjson::Document config = resourceLoader.loadJsonFile("config/player.json");
+    if(config.HasMember("player_start") && config["player_start"].IsObject())
+    {
+        sf::Vector2i playerStart;
+        playerStart.x = config["player_start"].HasMember("x") && config["player_start"]["x"].IsNumber()
+                ? config["player_start"]["x"].GetInt()
+                : 0;
+
+        playerStart.y = config["player_start"].HasMember("y") && config["player_start"]["y"].IsNumber()
+                ? config["player_start"]["y"].GetInt()
+                : 0;
+
+        sf::Vector2f absPlayerStart = grid.getCentre(playerStart);
+
+        player.loadTransform().setPosition(absPlayerStart);
+    }
+
     viewPort.focusedTransform =  player.getTransform();
 }
 
