@@ -88,10 +88,10 @@ void ViewPort::update()
     float halfWidth = 0.5*walkBox.width;
     float halfHeight = 0.5*walkBox.height;
 
-    sf::Vector2f viewSize = view.getSize();
+    sf::Vector2f windowSize = view.getSize();
 
-    float halfViewWidth = 0.5*viewSize.x;
-    float halfViewHeight = 0.5*viewSize.y;
+    float halfViewWidth = 0.5*windowSize.x;
+    float halfViewHeight = 0.5*windowSize.y;
 
     walkBox.left = view.getCenter().x - halfWidth;
     walkBox.top = view.getCenter().y - halfHeight;
@@ -145,7 +145,7 @@ void ViewPort::update()
 
 
 
-    sf::Vector2f windowSize = view.getSize();
+
     sf::FloatRect windowAbs = sf::FloatRect(view.getCenter().x-0.5*windowSize.x,
                                             view.getCenter().y-0.5*windowSize.y,
                                             windowSize.x,
