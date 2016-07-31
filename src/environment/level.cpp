@@ -158,6 +158,7 @@ bool Level::loadLevelFromFile(std::string path)
         }
     }
     //finish groundsheet
+    return true;
 }
 
 Game *Level::getGame() const
