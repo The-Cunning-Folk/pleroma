@@ -15,7 +15,7 @@ CollisionEngine::CollisionEngine() : Engine()
     quadtree.initialise();
     rectShape.setOutlineThickness(1.0);
     rectShape.setFillColor(sf::Color::Transparent);
-    overlapThreshold = 0.1f;
+    overlapThreshold = 0.5f;
 }
 
 Collidable &CollisionEngine::getCollidable(int index)
