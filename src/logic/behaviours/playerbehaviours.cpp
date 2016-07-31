@@ -16,7 +16,7 @@ PlayerBehaviours::PlayerBehaviours()
     startRoll = false;
     rolling = false;
     rollCooled = true;
-    rollDuration = 0.25;
+    rollDuration = 0.5;
     rollCooldown = 0.5;
     rollBoost = 2.5;
 
@@ -169,7 +169,9 @@ void PlayerBehaviours::checkInputLogic()
     {
         rolling = true;
         startRoll = false;
-        rollDirection = direction;
+        rollDirection = maths->mag(direction) > 0.01f
+                ? direction
+                : getOctDirection();
     }
     if(rolling)
     {
@@ -294,22 +296,65 @@ void PlayerBehaviours::update()
 
     SpriteRenderer & spr = componentLoader->getSpriteRendererFromObject(g,"sprite");
 
-    if(facing[0] == 'd')
-        spr.clip = "walk_down";
-    else if(facing[0] == 'u')
-        spr.clip = "walk_up";
-    else if(facing[0] == 'r')
-        spr.clip = "walk_right";
-    else if(facing[0] == 'l')
-        spr.clip = "walk_left";
 
 
-    if(maths->mag(velocity) < 0.01f)
+
+    if(rolling)
     {
+        if(spr.spritesheet != "clo_roll")
+        {
+            spr.animation.stop();
+            spr.update();
+            spr.spritesheet = "clo_roll";
+        }
+
+        if(facing[0] == 'd')
+        {
+            spr.clip = "roll_down";
+        }
+        else if(facing[0] == 'u')
+        {
+            spr.clip = "roll_up";
+        }
+        else if(facing[0] == 'r')
+        {
+            spr.clip = "roll_right";
+            spr.offset.x = 8;
+        }
+        else if(facing[0] == 'l')
+        {
+            spr.clip = "roll_left";
+            spr.offset.x = -8;
+        }
+        spr.animation.spf = rollDuration/4.0;
+        spr.animation.play();
+    }
+    else if(maths->mag(velocity) < 0.01f)
+    {
+        spr.spritesheet = "clo_walk";
+        spr.offset.x = 0;
+        if(facing[0] == 'd')
+            spr.clip = "stand_down";
+        else if(facing[0] == 'u')
+            spr.clip = "stand_up";
+        else if(facing[0] == 'r')
+            spr.clip = "stand_right";
+        else if(facing[0] == 'l')
+            spr.clip = "stand_left";
         spr.animation.stop();
     }
     else
     {
+        spr.offset.x = 0;
+        spr.spritesheet = "clo_walk";
+        if(facing[0] == 'd')
+            spr.clip = "walk_down";
+        else if(facing[0] == 'u')
+            spr.clip = "walk_up";
+        else if(facing[0] == 'r')
+            spr.clip = "walk_right";
+        else if(facing[0] == 'l')
+            spr.clip = "walk_left";
         spr.animation.rate = 2*maths->mag(velocity)/speed;
         spr.animation.play();
     }
@@ -322,7 +367,7 @@ void PlayerBehaviours::update()
 
     if(rolling)
     {
-        velocity = rollBoost*speed*rollDirection;
+        velocity = rollBoost*baseSpeed*rollDirection;
     }
     if(attacking)
     {

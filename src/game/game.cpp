@@ -148,8 +148,8 @@ void Game::run()
         if(input.keyToggled("debug"))
             fpsDebug = !fpsDebug;
 
-        if(input.keyToggled("transformDebug"))
-            transformDebug = !transformDebug;
+//        if(input.keyToggled("transformDebug"))
+//            transformDebug = !transformDebug;
 
         if(input.keyToggled("collisionDebug"))
             collisionDebug = !collisionDebug;
