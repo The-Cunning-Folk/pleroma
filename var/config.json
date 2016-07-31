@@ -1,3 +1,7 @@
 {
-	"base_directory" : "../old-growth/data"
+	"base_directory" : "../old-growth/data",
+	"player_start" : {
+		"x" : 0,
+		"y" : 20
+	}
 }
