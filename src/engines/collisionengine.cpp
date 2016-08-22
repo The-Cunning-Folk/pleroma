@@ -272,11 +272,26 @@ void CollisionEngine::start()
         Transform & t = components.getTransform(c.getTransform());
         ConvexPolygon& p = c.polygon;
         p.setPosition(t.getPosition());
+
+        sf::FloatRect lastBox=c.polygon.bBox;
+
         c.update();
 
-        //do bresenham border calculations here
+        //bresenham precalc
 
+        c.gridEdges.clear();
 
+        c.gridEdges = grid->bresenhamPolygonEdge(c.polygon);
+
+        for(int k=0; k<c.gridEdges.size(); k++)
+        {
+            GridSquare & g = grid->getActiveGridSquareFromGlobalCoords(c.gridEdges[k]);
+            g.debugColor = sf::Color::Magenta;
+        }
+
+        c.gridInnerArea.clear();
+
+        c.tBox = maths->makeCompoundRect(lastBox,c.polygon.bBox);
 
 
         for(int k=0 ; k<c.gridEdges.size(); k++)

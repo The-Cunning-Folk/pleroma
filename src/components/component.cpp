@@ -21,51 +21,6 @@ void Component::setTransform(int value)
     transform = value;
 }
 
-Transform &Component::loadTransform()
-{
-    return componentLoader->getTransform(transform);
-}
-
-
-Grid *Component::getGrid() const
-{
-    return grid;
-}
-
-void Component::setGrid(Grid *value)
-{
-    grid = value;
-}
-
-MathsUtils *Component::getMaths() const
-{
-    return maths;
-}
-
-void Component::setMaths(MathsUtils *value)
-{
-    maths = value;
-}
-
-GameObjectLoader *Component::getGameObjectLoader() const
-{
-    return gameObjectLoader;
-}
-
-void Component::setGameObjectLoader(GameObjectLoader *value)
-{
-    gameObjectLoader = value;
-}
-
-ComponentLoader *Component::getComponentLoader() const
-{
-    return componentLoader;
-}
-
-void Component::setComponentLoader(ComponentLoader *value)
-{
-    componentLoader = value;
-}
 
 std::string Component::getParent() const
 {
@@ -75,16 +30,6 @@ std::string Component::getParent() const
 void Component::setParent(const std::string &value)
 {
     parent = value;
-}
-
-DebugUtils *Component::getDebug() const
-{
-    return debug;
-}
-
-void Component::setDebug(DebugUtils *value)
-{
-    debug = value;
 }
 
 

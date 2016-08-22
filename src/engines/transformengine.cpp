@@ -199,9 +199,6 @@ void TransformEngine::runCorrections()
 Transform &TransformEngine::addTransform()
 {
     transforms.resize(transforms.size() + 1);
-    if(debug != NULL){
-        transforms.back().setDebug(debug);
-    }
     transforms.back().index = transforms.size()-1;
     transforms.back().name = placeholder + std::to_string(currentId);
     currentId++;

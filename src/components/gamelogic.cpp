@@ -20,44 +20,29 @@ void GameLogic::addBehaviour(int logic)
     behaviours.push_back(logic);
 }
 
-void GameLogic::addEvent(std::string script, std::string triggered,std::map<std::string,std::string> parsed)
+void GameLogic::addEvent(std::string script, std::string triggered,std::map<std::string,std::string> parsed,ComponentLoader & c)
 {
     Event event(script,triggered);
     event.parsedScript = parsed;
     for(unsigned int i = 0; i<behaviours.size(); i++)
     {
-        componentLoader->getBehaviour(behaviours[i]).addEvent(event);
+        c.getBehaviour(behaviours[i]).addEvent(event);
     }
 }
 
 void GameLogic::collisionWith(GameObject & o, const Collidable & a, const Collidable & b)
 {
     //todo: make collisions trigger events
-    for(unsigned int i = 0; i<behaviours.size(); i++)
-    {
-        componentLoader->getBehaviour(behaviours[i]).collisionWith(o,a.name,b.name);
-    }
 }
 
 void GameLogic::setDelta(float delta)
 {
-    for(unsigned int i = 0; i<behaviours.size(); i++)
-    {
 
-        componentLoader->getBehaviour(behaviours[i]).setDelta(delta);
-    }
 }
 
 void GameLogic::update()
 {
     //debug->printVal((int) behaviours.size());
-    for(unsigned int i = 0; i<behaviours.size(); i++)
-    {
-        Behaviour & b = componentLoader->getBehaviour(behaviours[i]);
-        b.resolveEvents();
-        b.update();
-        b.clearEvents();
-    }
 }
 
 void GameLogic::wake()

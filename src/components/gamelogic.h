@@ -13,7 +13,7 @@ public:
 
     void addBehaviour(int);
 
-    void addEvent(std::string,std::string,std::map<std::string,std::string>);
+    void addEvent(std::string,std::string,std::map<std::string,std::string>,ComponentLoader &);
 
     void collisionWith(GameObject&,const Collidable &,const Collidable&);
 

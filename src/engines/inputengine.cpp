@@ -88,9 +88,6 @@ void InputEngine::finish()
 PlayerInput &InputEngine::addPlayerInput()
 {
     inputs.resize(inputs.size() + 1);
-    if(debug != NULL){
-        inputs.back().setDebug(debug);
-    }
     inputs.back().index = inputs.size()-1;
     if(controllers.size() > 0){
         for(unsigned int i = 0; i<controllers.size(); i++)

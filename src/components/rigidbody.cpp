@@ -19,11 +19,6 @@ float RigidBody::getInvmass() const
     return invmass;
 }
 
-Transform &RigidBody::loadTransform()
-{
-    return componentLoader->getTransform(transform);
-}
-
 void RigidBody::update()
 {
 

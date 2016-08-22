@@ -49,8 +49,9 @@ void PhysicsEngine::run()
             sf::Vector2f tB1 = (mA + mB);
             sf::Vector2f tB2 = restB*(vA - vB);
 
-            sf::Vector2f pA = rA.loadTransform().position;
-            sf::Vector2f pB = rA.loadTransform().position;
+
+            sf::Vector2f pA = componentLoader->getTransform(rA.transform).position;
+            sf::Vector2f pB = componentLoader->getTransform(rA.transform).position;
 
             if(maths->dot(pA-pB,mA) > 0.0){
             rA.momentum = (massA/(massA + massB))*(tA1+tA2);

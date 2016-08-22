@@ -49,14 +49,22 @@ void EventEngine::run()
         for(int j=0; j<logicA.size(); j++)
         {
             int index = logicA[j];
-            gameLogics[index].collisionWith(B,cA,cB);
+            GameLogic & g = gameLogics[index];
+            for(unsigned int k = 0; k<g.behaviours.size(); k++)
+            {
+                componentLoader->getBehaviour(g.behaviours[k]).collisionWith(B,cA.name,cB.name);
+            }
             toUpdate.push_back(index);
         }
 
         for(int j=0; j<logicB.size(); j++)
         {
             int index = logicB[j];
-            gameLogics[index].collisionWith(A,cB,cA);
+            GameLogic & g = gameLogics[index];
+            for(unsigned int k = 0; k<g.behaviours.size(); k++)
+            {
+                componentLoader->getBehaviour(g.behaviours[k]).collisionWith(A,cB.name,cA.name);
+            }
             toUpdate.push_back(index);
         }
 
@@ -116,7 +124,7 @@ void EventEngine::run()
             for(int i=0 ; i<groupedEvents.size(); i++)
             {
                 Event & event = groupedEvents[i];
-                l.addEvent(event.script,event.triggeredBy,event.parsedScript);
+                l.addEvent(event.script,event.triggeredBy,event.parsedScript,game->componentLoader);
             }
         }
     }
@@ -139,6 +147,14 @@ void EventEngine::run()
         GameLogic & g = gameLogics[activeComponents[i]];
         g.setDelta(delta);
         g.update();
+        for(int j=0;j<g.behaviours.size();j++)
+        {
+            Behaviour & b =componentLoader->getBehaviour(g.behaviours[j]);
+            b.setDelta(delta);
+            b.resolveEvents();
+            b.update();
+            b.clearEvents();
+        }
     }
 
 }
@@ -205,7 +221,7 @@ void EventEngine::resolveLocally(Event& event)
     {
         int index = logicIndices[i];
         GameLogic & l = game->componentLoader.getGameLogic(index);
-        l.addEvent(event.script,event.triggeredBy,event.parsedScript);
+        l.addEvent(event.script,event.triggeredBy,event.parsedScript,game->componentLoader);
     }
 }
 

@@ -172,11 +172,6 @@ PlayerInput &ComponentFactory::newPlayerInput(std::string name)
 GameLogic &ComponentFactory::newGameLogic()
 {
     GameLogic& gameLogic = eventEngine->addGameLogic();
-    gameLogic.setComponentLoader(componentLoader);
-    gameLogic.setGameObjectLoader(gameObjectLoader);
-    gameLogic.setMaths(maths);
-    gameLogic.setDebug(debug);
-    gameLogic.setGrid(grid);
     return gameLogic;
 }
 
@@ -195,11 +190,6 @@ Behaviour &ComponentFactory::bindBehaviour(GameLogic & g, std::string type)
 Collidable & ComponentFactory::newCollidable()
 {
     Collidable & c = collisionEngine->addCollidable();
-    c.setComponentLoader(componentLoader);
-    c.setGameObjectLoader(gameObjectLoader);
-    c.setMaths(maths);
-    c.setDebug(debug);
-    c.setGrid(grid);
     return c;
 }
 
@@ -265,7 +255,6 @@ Collidable &ComponentFactory::newCollidable(std::vector<sf::Vector2f> points)
 RigidBody &ComponentFactory::newRigidBody()
 {
     RigidBody & rigidBody = physicsEngine->addRigidBody();
-    rigidBody.setComponentLoader(componentLoader);
     return rigidBody;
 }
 
