@@ -9,7 +9,7 @@ GameObjectFactory::GameObjectFactory()
 
 }
 
-void GameObjectFactory::setStack(GameObjectStack * stack)
+void GameObjectFactory::setStack(GameObjectStore * stack)
 {
     gameObjects = stack;
 }

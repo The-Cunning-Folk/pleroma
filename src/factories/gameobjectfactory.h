@@ -2,7 +2,7 @@
 #define GAMEOBJECTFACTORY_H
 
 #include <gameobject.h>
-#include <gameobjectstack.h>
+#include <gameobjectstore.h>
 
 #include <componentfactory.h>
 #include <gameobjectpattern.h>
@@ -18,7 +18,7 @@ class GameObjectFactory : public Factory
 public:
 
     GameObjectFactory();
-    void setStack(GameObjectStack*);
+    void setStack(GameObjectStore*);
 
     //ridiculous number of add functions go here, need some way to generate archetypes for items from file
     ComponentFactory* componentFactory;
@@ -45,7 +45,7 @@ public:
 
 private:
 
-    GameObjectStack * gameObjects;
+    GameObjectStore * gameObjects;
 
 };
 }

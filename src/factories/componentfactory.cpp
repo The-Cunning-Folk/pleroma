@@ -207,10 +207,6 @@ Collidable & ComponentFactory::newCollidable(std::string name)
 {
     Collidable & c = newCollidable();
     c.name = name;
-//    c.polygon.points.push_back(sf::Vector2f(10,-10));
-//    c.polygon.points.push_back(sf::Vector2f(10,10));
-//    c.polygon.points.push_back(sf::Vector2f(-10,10));
-//    c.polygon.points.push_back(sf::Vector2f(-10,-10));
     return(c);
 }
 

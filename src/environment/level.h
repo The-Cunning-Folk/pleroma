@@ -4,6 +4,7 @@
 #include<SFML/Graphics.hpp>
 #include<rapidjson/document.h>
 #include<tilemap.h>
+#include<gameobjectstore.h>
 
 namespace BQ
 {
@@ -18,6 +19,8 @@ public:
     Game * game;
 
     std::string name;
+
+    GameObjectStore objects;
 
     TileMap groundMap;
     TileMap ceilingMap;

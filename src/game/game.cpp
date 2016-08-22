@@ -251,6 +251,7 @@ void Game::run()
 
 void Game::initialiseInjections()
 {
+    currentLevel="butterfly_demo";
     ViewPort & viewPort = gameWindow->primaryView;
     debug->println("injecting dependencies");
 
@@ -557,6 +558,11 @@ void Game::setGameWindow(window_ptr window)
 window_ptr Game::getGameWindow()
 {
     return gameWindow;
+}
+
+Level &Game::getCurrentLevel()
+{
+    return levels[currentLevel];
 }
 
 void Game::setFrameRate(float fps)

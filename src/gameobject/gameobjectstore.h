@@ -1,5 +1,5 @@
-#ifndef GAMEOBJECTSTACK_H
-#define GAMEOBJECTSTACK_H
+#ifndef GAMEOBJECTSTORE_H
+#define GAMEOBJECTSTORE_H
 
 #include <gameobject.h>
 #include <componentloader.h>
@@ -10,10 +10,10 @@
 #include <map>
 
 namespace BQ{
-class GameObjectStack
+class GameObjectStore
 {
 public:
-    GameObjectStack();
+    GameObjectStore();
 
     ComponentLoader* componentLoader;
 
@@ -22,6 +22,17 @@ public:
 
     std::map<std::string,GameObject> objects;
 
+    std::map<int,Transform> transforms;
+    std::map<int,Collidable> collidables;
+    std::map<int,GameLogic> gamelogics;
+    std::map<int,PlayerInput> playerInputs;
+    std::map<int,RayEmitter> rayEmitters;
+    std::map<int,RigidBody> rigidBodies;
+    std::map<int,SpriteRenderer> spriteRenderers;
+
+    int nTransform,nCollidable,nGameLogic,nPlayerInput,nRayEmitter,nRigidBody,nSpriteRenderer;
+
+    Transform & addTransform();
 
     ComponentLoader *getComponentLoader() const;
     void setComponentLoader(ComponentLoader *value);

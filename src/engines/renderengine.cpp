@@ -312,7 +312,7 @@ void BQ::RenderEngine::drawDebug()
 {
     std::vector<SpriteRenderer> renderList;
 
-    Level & l = game->levels["butterfly_demo"];
+    Level & l = game->getCurrentLevel();
 
 
     drawTileMap(l.groundMap);

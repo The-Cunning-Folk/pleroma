@@ -1,36 +1,51 @@
-#include "gameobjectstack.h"
+#include "gameobjectstore.h"
 
 using namespace BQ;
 
-GameObjectStack::GameObjectStack()
+GameObjectStore::GameObjectStore()
 {
     placeholder = "auto_obj_";
     currentId = 1;
+    nTransform=0;
+    nCollidable=0;
+    nGameLogic=0;
+    nPlayerInput=0;
+    nRigidBody=0;
+    nRayEmitter=0;
+    nSpriteRenderer=0;
 }
 
-ComponentLoader *GameObjectStack::getComponentLoader() const
+ComponentLoader *GameObjectStore::getComponentLoader() const
 {
     return componentLoader;
 }
 
-void GameObjectStack::setComponentLoader(ComponentLoader *value)
+void GameObjectStore::setComponentLoader(ComponentLoader *value)
 {
     componentLoader = value;
 }
 
 
-GameObject & GameObjectStack::addObject()
+GameObject & GameObjectStore::addObject()
 {
     std::string name = placeholder + std::to_string(currentId);
     return addObject(name);
 }
 
-GameObject & GameObjectStack::addObject(std::string name)
+GameObject & GameObjectStore::addObject(std::string name)
 {
     return generateObject(name);
 }
 
-GameObject& GameObjectStack::generateObject(std::string name)
+Transform &GameObjectStore::addTransform()
+{
+    Transform t;
+    t.index=nTransform;
+    transforms[nTransform]=t;
+    return transforms[nTransform];
+}
+
+GameObject& GameObjectStore::generateObject(std::string name)
 {
     GameObject object;
     object.setComponentLoader(componentLoader);
