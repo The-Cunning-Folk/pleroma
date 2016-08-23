@@ -68,16 +68,13 @@ public:
     void initialiseInjections();
     void initialiseClocks();
     void initialiseInput();
-    void initialiseTests();
     void initialisePlayers();
     void initialiseEnvironment();
-
+    void initialiseTests();
     void runTests();
     void runEngines();
 
     void setDebug(DebugUtils *value);
-
-    GameObjectStore gameObjects;
 
     //loaders
     ComponentLoader componentLoader;

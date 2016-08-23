@@ -128,7 +128,6 @@ SOURCES += src/main.cpp \
     src/gameobject/gameobject.cpp \
     src/components/component.cpp \
     src/factories/gameobjectfactory.cpp \
-    src/gameobject/gameobjectstack.cpp \
     src/components/transform.cpp \
     src/factories/componentfactory.cpp \
     src/factories/factory.cpp \
@@ -194,7 +193,8 @@ SOURCES += src/main.cpp \
     src/patterns/factorypattern.cpp \
     src/patterns/rayemitterpattern.cpp \
     src/patterns/gamelogicpattern.cpp \
-    src/environment/scene.cpp
+    src/environment/scene.cpp \
+    src/gameobject/gameobjectstore.cpp
 
 LIBS += -L"$$PWD/SFML/lib"
 

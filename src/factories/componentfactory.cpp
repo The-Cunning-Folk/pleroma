@@ -140,7 +140,7 @@ void ComponentFactory::setPhysicsEngine(PhysicsEngine *value)
 
 BQ::Transform & ComponentFactory::newTransform()
 {
-    return transformEngine->addTransform();
+    return game->getCurrentLevel().objects.addTransform();
 }
 
 Transform &ComponentFactory::newTransform(std::string name)

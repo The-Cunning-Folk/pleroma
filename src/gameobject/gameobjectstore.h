@@ -9,7 +9,13 @@
 #include<memory>
 #include <map>
 
+
+
 namespace BQ{
+
+typedef std::map<int, Transform>::iterator it_transform;
+
+
 class GameObjectStore
 {
 public:

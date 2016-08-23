@@ -14,6 +14,7 @@ namespace BQ{
 class EventEngine;
 class GameLogic;
 class GameObjectLoader;
+class Game;
 
 typedef std::map<std::string, int>::iterator it;
 
@@ -75,6 +76,9 @@ public:
     RaycastingEngine *getRayCastingEngines() const;
     void setRayCastingEngines(RaycastingEngine *value);
 
+    Game *getGame() const;
+    void setGame(Game *value);
+
 private:
 
     GameObjectLoader * gameObjectLoader;
@@ -87,6 +91,7 @@ private:
     LogicEngine* logicEngine;
     RaycastingEngine * rayCastingEngine;
     RenderEngine* renderEngine;
+    Game* game;
 };
 }
 

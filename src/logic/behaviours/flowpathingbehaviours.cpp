@@ -53,7 +53,7 @@ void FlowPathingBehaviours::update()
     else if(path && hasLOS & active)
     {
 
-        Transform & tar = gameObjectLoader->loadGameObject(target).loadTransform();
+        Transform & tar = componentLoader->getTransform(gameObjectLoader->loadGameObject(target).transform);
         Transform & me = componentLoader->getTransform( gameObjectLoader->loadGameObject(parent).transform);
         float prox = maths->mag(tar.position - me.position);
         if(prox > targetProximity)
@@ -68,7 +68,7 @@ void FlowPathingBehaviours::update()
     if(!path && active)
     {
 
-        Transform & tar = gameObjectLoader->loadGameObject(target).loadTransform();
+        Transform & tar = componentLoader->getTransform( gameObjectLoader->loadGameObject(target).transform);
         Transform & me = componentLoader->getTransform( gameObjectLoader->loadGameObject(parent).transform);
         float prox = maths->mag(tar.position - me.position);
         if(prox > 2*targetProximity)

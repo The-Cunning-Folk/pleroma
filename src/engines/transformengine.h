@@ -28,15 +28,11 @@ public:
     void runStep();
     void runCorrections();
 
-    std::vector<Transform> transforms;
     std::vector<GridSquare> activeGridLocations;
-
-    Transform& addTransform();
 
     bool getWrapAround() const;
     void setWrapAround(bool value);
 
-    Transform & getTransform(int);
     sf::FloatRect getBounds() const;
     void setBounds(const sf::FloatRect &value);
     std::vector<std::string> getObjectsInRange() const;

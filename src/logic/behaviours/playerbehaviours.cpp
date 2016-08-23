@@ -285,7 +285,7 @@ void PlayerBehaviours::resolveEvent(Event & event)
 void PlayerBehaviours::update()
 {
     GameObject& g = gameObjectLoader->loadGameObject(parent);
-    Transform & transform = g.loadTransform();
+    Transform & transform = componentLoader->getTransform(g.transform);
     sf::Vector2f direction(dx,dy);
     if(maths->mag(direction) > 1.0)
     {
@@ -295,9 +295,6 @@ void PlayerBehaviours::update()
     facing = getFacing(direction.x,direction.y);
 
     SpriteRenderer & spr = componentLoader->getSpriteRendererFromObject(g,"sprite");
-
-
-
 
     if(rolling)
     {

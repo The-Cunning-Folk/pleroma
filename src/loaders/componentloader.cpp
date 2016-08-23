@@ -3,6 +3,7 @@
 #include <gameobject.h>
 #include <eventengine.h>
 #include <gameobjectloader.h>
+#include <game.h>
 
 using namespace BQ;
 ComponentLoader::ComponentLoader()
@@ -12,7 +13,7 @@ ComponentLoader::ComponentLoader()
 
 Transform & ComponentLoader::getTransform(int index)
 {
-    return transformEngine->getTransform(index);
+    return game->getCurrentLevel().objects.transforms[index];
 }
 
 Collidable &ComponentLoader::getCollidable(int index)
@@ -216,5 +217,15 @@ RaycastingEngine *ComponentLoader::getRayCastingEngines() const
 void ComponentLoader::setRayCastingEngines(RaycastingEngine *value)
 {
     rayCastingEngine = value;
+}
+
+Game *ComponentLoader::getGame() const
+{
+    return game;
+}
+
+void ComponentLoader::setGame(Game *value)
+{
+    game = value;
 }
 

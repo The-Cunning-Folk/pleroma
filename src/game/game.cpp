@@ -55,7 +55,7 @@ void Game::runEngines()
     rayCastingEngine.start();
     rayCastingEngine.run();
 
-    pathingEngine.addGoal(player.loadTransform().position);
+    pathingEngine.addGoal(componentLoader.getTransform(player.transform).position);
     pathingEngine.run();
 
 
@@ -96,9 +96,9 @@ void Game::run()
     initialiseInput();
     initialiseClocks(); //clock definitions
     initialiseEnvironment();
-
-    initialiseTests();
     initialisePlayers();
+    initialiseTests();
+
 
     DebugUtils& print = *debug;
 
@@ -265,11 +265,13 @@ void Game::initialiseInjections()
     resourceLoader.setDebug(debug);
     resourceLoader.loadConfig("var/config.json");
 
-    gameObjectLoader.setGameObjects(&gameObjects);
+    gameObjectLoader.setGameObjects(&getCurrentLevel().objects);
 
     //component loader injections
 
     componentLoader.setGameObjectLoader(&gameObjectLoader);
+
+    componentLoader.setGame(this);
 
     componentLoader.setTransformEngine(&transformEngine);
     componentLoader.setCollisionEngine(&collisionEngine);
@@ -299,14 +301,14 @@ void Game::initialiseInjections()
 
     //end of component factory injections
 
-    gameObjectFactory.setStack(&gameObjects);
+    gameObjectFactory.setStack(&getCurrentLevel().objects);
     gameObjectFactory.setComponentFactory(&componentFactory);
 
     physicsEventFactory.setPhysicsEngine(&physicsEngine);
     eventFactory.setEventEngine(&eventEngine);
     inputFactory.setInputEngine(&inputEngine);
 
-    gameObjects.setComponentLoader(&componentLoader);
+    getCurrentLevel().objects.setComponentLoader(&componentLoader);
 
     grid.setDebug(debug);
 
@@ -350,6 +352,12 @@ void Game::initialiseInput()
 
 void Game::initialiseTests()
 {
+    debug->println("size!");
+    debug->printVal((int)getCurrentLevel().objects.transforms.size());
+    for(it_transform it = getCurrentLevel().objects.transforms.begin(); it !=getCurrentLevel().objects.transforms.end(); it++)
+    {
+        debug->printVal(it->second.index);
+    }
     debug->println("setting up tests");
     input.setKeyInput("addObject",sf::Keyboard::F8);
 
@@ -379,7 +387,7 @@ void Game::initialisePlayers()
 
         sf::Vector2f absPlayerStart = grid.getCentre(playerStart);
 
-        player.loadTransform().setPosition(absPlayerStart);
+        componentLoader.getTransform(player.transform).setPosition(absPlayerStart);
     }
 
     viewPort.focusedTransform =  player.getTransform();
@@ -422,10 +430,9 @@ void Game::initialiseEnvironment()
         debug->println("loading " + lDir + "/" + levelsJson[i].GetString());
         Level lvl;
         lvl.setGame(this);
-
         lvl.loadLevelFromFile(lDir + "/" + levelsJson[i].GetString());
 
-        levels[lvl.name] = lvl;
+        levels.insert(std::pair<std::string,Level>(lvl.name,lvl));
     }
 
 }

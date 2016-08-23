@@ -37,18 +37,17 @@ GameObject & GameObjectStore::addObject(std::string name)
     return generateObject(name);
 }
 
-Transform &GameObjectStore::addTransform()
+Transform & GameObjectStore::addTransform()
 {
+    nTransform++;
     Transform t;
     t.index=nTransform;
-    transforms[nTransform]=t;
-    return transforms[nTransform];
+    return transforms.insert(std::pair<int,Transform>(nTransform,t)).first->second;
 }
 
 GameObject& GameObjectStore::generateObject(std::string name)
 {
     GameObject object;
-    object.setComponentLoader(componentLoader);
     object.name = name;
     object.uniqueId = currentId;
     objects[object.name] = object;
