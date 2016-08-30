@@ -9,26 +9,21 @@ GameObjectFactory::GameObjectFactory()
 
 }
 
-void GameObjectFactory::setStack(GameObjectStore * stack)
+GameObject &GameObjectFactory::buildGameObjectFromPattern(GameObjectStore & s, GameObjectPattern & pattern)
 {
-    gameObjects = stack;
-}
-
-GameObject &GameObjectFactory::buildGameObjectFromPattern(GameObjectPattern & pattern)
-{
-    GameObject & g = newObject();
-    buildComponentsFromPattern(pattern,g);
+    GameObject & g = newObject(s);
+    buildComponentsFromPattern(s,pattern,g);
     return g;
 }
 
-GameObject &GameObjectFactory::buildGameObjectFromPattern(GameObjectPattern & pattern, std::string id)
+GameObject &GameObjectFactory::buildGameObjectFromPattern(GameObjectStore & s, GameObjectPattern & pattern, std::string id)
 {
-    GameObject & g = newObject(id);
-    buildComponentsFromPattern(pattern,g);
+    GameObject & g = newObject(s,id);
+    buildComponentsFromPattern(s,pattern,g);
     return g;
 }
 
-GameObject &GameObjectFactory::buildComponentsFromPattern(GameObjectPattern & pattern, GameObject & g)
+GameObject &GameObjectFactory::buildComponentsFromPattern(GameObjectStore & s, GameObjectPattern & pattern, GameObject & g)
 {
     for(int i=0; i<pattern.spriteRendererPatterns.size(); i++)
     {
@@ -80,20 +75,20 @@ void GameObjectFactory::setComponentFactory(ComponentFactory *value)
     componentFactory = value;
 }
 
-GameObject& GameObjectFactory::newObject()
+GameObject& GameObjectFactory::newObject(GameObjectStore & s)
 {
-    GameObject& object = gameObjects->addObject();
-    Transform & t = componentFactory->newTransform();
+    GameObject& object = s.addObject();
+    Transform & t = componentFactory->newTransform(s);
     t.setParent(object.name);
     object.setTransform(t.index);
     //debug->println("generated object: " + object->name);
     return object;
 }
 
-GameObject &GameObjectFactory::newObject(std::string name)
+GameObject &GameObjectFactory::newObject(GameObjectStore & s, std::string name)
 {
-    GameObject& object = gameObjects->addObject(name);
-    Transform & t = componentFactory->newTransform();
+    GameObject& object = s.addObject(name);
+    Transform & t = componentFactory->newTransform(s);
     t.setParent(object.name);
     object.setTransform(t.index);
     //debug->println("generated object: " + object->name);
@@ -102,7 +97,7 @@ GameObject &GameObjectFactory::newObject(std::string name)
 
 GameObject& GameObjectFactory::newPlayerObject() //builds behaviours for the player
 {
-    GameObject& player = newObject("player_1");
+    GameObject& player = newObject(game->getCurrentLevel().objects, "player_1");
     PlayerInput& input = componentFactory->newPlayerInput("player_input");
     GameLogic& logic = componentFactory->newGameLogic("player_logic");
 
@@ -175,60 +170,3 @@ GameObject& GameObjectFactory::newPlayerObject() //builds behaviours for the pla
 
     return player;
 }
-
-GameObject &GameObjectFactory::newPathingObject()
-{
-    GameObject & seeker = makePlayerSeekingObject(
-                makePathingObject(
-                    newObject()
-                    )
-                );
-
-    SpriteRenderer & sprite = componentFactory->newSpriteRenderer("enemy_spr");
-    sprite.spritesheet = "butterfly";
-    sprite.animation.spf = 0.04f;
-    sprite.setTransform(seeker.transform);
-    seeker.addComponent(sprite);
-
-    return seeker;
-}
-
-GameObject &GameObjectFactory::newPathingObject(std::string name)
-{
-    GameObject & seeker = makePlayerSeekingObject(
-                makePathingObject(
-                    newObject(name)
-                    )
-                );
-    return seeker;
-}
-
-GameObject &GameObjectFactory::makePathingObject(GameObject & o)
-{
-    Collidable & hitbox = componentFactory->newRectCollidable(sf::FloatRect(-2,-2,4,4));
-    hitbox.setTransform(o.getTransform());
-    hitbox.pathable = true;
-    hitbox.immovable = false;
-    hitbox.diminutive = true;
-    hitbox.opaque = false;
-
-
-    GameLogic& logic = componentFactory->newGameLogic();
-
-    o.addComponent(hitbox);
-    o.addComponent(logic);
-
-    Behaviour & b = componentFactory->bindBehaviour(logic,"flowPathingBehaviours");
-
-    return o;
-}
-
-GameObject &GameObjectFactory::makePlayerSeekingObject(GameObject & o)
-{
-    RayEmitter & e = componentFactory->newRayEmitter();
-    e.addTarget("player_1");
-    o.addComponent(e);
-    return o;
-}
-
-

@@ -473,7 +473,7 @@ void CollisionEngine::drawDebug()
         {
             int i=activeComponents[j];
             sf::ConvexShape shape;
-            Collidable & c = collidables[i];
+            Collidable & c = game->getCurrentLevel().objects.collidables[i];
             ConvexPolygon& p = collidables[i].polygon;
             shape.setPointCount(p.points.size());
             for(unsigned int k=0; k<p.points.size(); k++)
@@ -484,11 +484,11 @@ void CollisionEngine::drawDebug()
             shape.setPosition(componentLoader->getTransform(c.transform).position);
 
             shape.setFillColor(sf::Color::White);
-            if(!collidables[i].immovable)
+            if(!c.immovable)
             {
                 shape.setFillColor(sf::Color::Yellow);
             }
-            if(collidables[i].colliding)
+            if(c.colliding)
             {
                 //shape.setFillColor(sf::Color::Green);
             }

@@ -131,25 +131,25 @@ void TransformEngine::drawDebug()
         sf::FloatRect f = activeGridLocations[i].region;
         GridSquare & g = grid->getActiveGridSquareFromGlobalCoords(activeGridLocations[i].position);
 
-        gridDebug[i*4].position = sf::Vector2f(f.left + 1,f.top + 1);
-        gridDebug[i*4].color = g.debugColor;
-        gridDebug[i*4 + 1].position = sf::Vector2f(f.left + f.width - 1,f.top + 1);
-        gridDebug[i*4 + 1].color = g.debugColor;
-        gridDebug[i*4 + 2].position = sf::Vector2f(f.left + f.width - 1,f.top + f.height - 1);
-        gridDebug[i*4 + 2].color = g.debugColor;
-        gridDebug[i*4 + 3].position = sf::Vector2f(f.left + 1,f.top + f.width - 1);
-        gridDebug[i*4 + 3].color = g.debugColor;
+//        gridDebug[i*4].position = sf::Vector2f(f.left + 1,f.top + 1);
+//        gridDebug[i*4].color = g.debugColor;
+//        gridDebug[i*4 + 1].position = sf::Vector2f(f.left + f.width - 1,f.top + 1);
+//        gridDebug[i*4 + 1].color = g.debugColor;
+//        gridDebug[i*4 + 2].position = sf::Vector2f(f.left + f.width - 1,f.top + f.height - 1);
+//        gridDebug[i*4 + 2].color = g.debugColor;
+//        gridDebug[i*4 + 3].position = sf::Vector2f(f.left + 1,f.top + f.width - 1);
+//        gridDebug[i*4 + 3].color = g.debugColor;
     }
 
     gameWindow->draw(gridDebug);
 
-//    for(unsigned int j=0; j<activeComponents.size(); j++)
-//    {
-//        int i = activeComponents[j];
-//        cross.setPosition(transforms[i].getPosition());
-//        cross.update();
-//        window.draw(cross);
-    //    }
+    for(unsigned int j=0; j<activeComponents.size(); j++)
+    {
+        int i = activeComponents[j];
+        cross.setPosition(game->getCurrentLevel().objects.transforms[i].getPosition());
+        cross.update();
+        window.draw(cross);
+        }
 }
 
 void TransformEngine::wake()
@@ -167,6 +167,7 @@ void TransformEngine::runStep()
     GameObjectStore & os = game->getCurrentLevel().objects;
     for(unsigned int i=0; i<activeComponents.size(); i++)
     {
+
         int j = activeComponents[i];
         Transform & t = os.transforms[j];
         t.lastFrame = t.position;

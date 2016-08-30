@@ -138,21 +138,21 @@ void ComponentFactory::setPhysicsEngine(PhysicsEngine *value)
 }
 
 
-BQ::Transform & ComponentFactory::newTransform()
+BQ::Transform & ComponentFactory::newTransform(GameObjectStore & s)
 {
-    return game->getCurrentLevel().objects.addTransform();
+    return s.addTransform();
 }
 
-Transform &ComponentFactory::newTransform(std::string name)
+Transform &ComponentFactory::newTransform(GameObjectStore & s, std::string name)
 {
-    Transform & transform = newTransform();
+    Transform & transform = newTransform(s);
     transform.setName(name);
     return(transform);
 }
 
-Transform &ComponentFactory::newChildTransform(Transform& parent)
+Transform &ComponentFactory::newChildTransform(GameObjectStore & s,Transform& parent)
 {
-    Transform & transform = newTransform();
+    Transform & transform = newTransform(s);
     parent.children.push_back(transform.index);
     return(transform);
 }

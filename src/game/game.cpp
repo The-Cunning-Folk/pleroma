@@ -168,8 +168,8 @@ void Game::run()
         if(input.keyToggled("debug"))
             fpsDebug = !fpsDebug;
 
-//        if(input.keyToggled("transformDebug"))
-//            transformDebug = !transformDebug;
+        if(input.keyToggled("transformDebug"))
+            transformDebug = !transformDebug;
 
         if(input.keyToggled("collisionDebug"))
             collisionDebug = !collisionDebug;
@@ -300,8 +300,6 @@ void Game::initialiseInjections()
     componentFactory.setRenderEngine(&renderEngine);
 
     //end of component factory injections
-
-    gameObjectFactory.setStack(&getCurrentLevel().objects);
     gameObjectFactory.setComponentFactory(&componentFactory);
 
     physicsEventFactory.setPhysicsEngine(&physicsEngine);
@@ -431,7 +429,6 @@ void Game::initialiseEnvironment()
         Level lvl;
         lvl.setGame(this);
         lvl.loadLevelFromFile(lDir + "/" + levelsJson[i].GetString());
-
         levels.insert(std::pair<std::string,Level>(lvl.name,lvl));
     }
 

@@ -22,6 +22,8 @@
 #include <gameobjectloader.h>
 #include <grid.h>
 
+#include<gameobjectstore.h>
+
 using namespace BQ;
 
 class ComponentFactory : public Factory
@@ -41,9 +43,9 @@ public:
     void buildRayEmitterFromPattern(RayEmitterPattern &, RayEmitter &);
     void buildGameLogicFromPattern(GameLogicPattern &, GameLogic &);
 
-    Transform& newTransform();
-    Transform& newTransform(std::string);
-    Transform& newChildTransform(Transform&);
+    Transform& newTransform(GameObjectStore &);
+    Transform& newTransform(GameObjectStore &,std::string);
+    Transform& newChildTransform(GameObjectStore & s,Transform&);
 
     PlayerInput& newPlayerInput();
     PlayerInput& newPlayerInput(std::string);
