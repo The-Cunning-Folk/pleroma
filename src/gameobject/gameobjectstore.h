@@ -5,8 +5,8 @@
 #include <componentloader.h>
 #include <iostream>
 #include <vector>
-#include<functional>
-#include<memory>
+#include <functional>
+#include <memory>
 #include <map>
 
 
@@ -20,8 +20,6 @@ typedef std::map<int, PlayerInput>::iterator it_playerinput;
 typedef std::map<int, RayEmitter>::iterator it_rayemitter;
 typedef std::map<int, RigidBody>::iterator it_rigidbody;
 typedef std::map<int, SpriteRenderer>::iterator it_sprrenderer;
-
-
 
 class GameObjectStore
 {

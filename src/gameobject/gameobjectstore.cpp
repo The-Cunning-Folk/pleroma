@@ -94,6 +94,7 @@ SpriteRenderer &GameObjectStore::addSpriteRenderer()
     return spriteRenderers[nSpriteRenderer]=s;
 }
 
+
 GameObject& GameObjectStore::generateObject(std::string name)
 {
     GameObject object;

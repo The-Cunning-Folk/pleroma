@@ -143,9 +143,11 @@ GameLogic &ComponentFactory::newGameLogic(GameObjectStore &s, std::string name)
     return(gameLogic);
 }
 
-Behaviour &ComponentFactory::bindBehaviour(GameLogic & g, std::string type)
+Behaviour &ComponentFactory::bindBehaviour(GameObjectStore & s, GameLogic & g, std::string type)
 {
-    return logicEngine->bindBehaviour(g,type);
+    Behaviour & b = logicEngine->bindBehaviour(g,type);
+    b.setGame(game);
+    return b;
 }
 
 Collidable & ComponentFactory::newCollidable(GameObjectStore & s)

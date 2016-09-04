@@ -57,7 +57,7 @@ GameObject &GameObjectFactory::buildComponentsFromPattern(GameObjectStore & s, G
         for(int j=0; j<pattern.gameLogicPatterns[i].behaviours.size(); j++)
         {
             std::string b = pattern.gameLogicPatterns[i].behaviours[j];
-            componentFactory->bindBehaviour(l,b);
+            componentFactory->bindBehaviour(s,l,b);
         }
 
     }
@@ -161,7 +161,7 @@ GameObject& GameObjectFactory::newPlayerObject() //builds behaviours for the pla
 
     //behaviours
 
-    Behaviour & b = componentFactory->bindBehaviour(logic,"playerBehaviours");
+    Behaviour & b = componentFactory->bindBehaviour(s,logic,"playerBehaviours");
 
     //logic.addBehaviour(new PlayerBehaviours);
 

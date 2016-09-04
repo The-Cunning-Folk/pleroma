@@ -8,7 +8,9 @@
 namespace BQ{
 
 class Behaviour;
+
 typedef std::unique_ptr<Behaviour> logicUnit; // the unique pointer object to a behavioural unit
+
 
 class LogicEngine : public Engine
 {

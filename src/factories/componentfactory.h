@@ -42,7 +42,7 @@ public:
     void buildRayEmitterFromPattern(RayEmitterPattern &, RayEmitter &);
     void buildGameLogicFromPattern(GameLogicPattern &, GameLogic &);
 
-    Behaviour& bindBehaviour(GameLogic &, std::string);
+    Behaviour& bindBehaviour(GameObjectStore &,GameLogic &, std::string);
 
     Transform& newTransform(GameObjectStore &);
     Transform& newTransform(GameObjectStore &,std::string);
