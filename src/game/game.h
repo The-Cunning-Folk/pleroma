@@ -13,7 +13,7 @@
 
 #include<level.h>
 
-#include<gameobjectstack.h>
+#include<gameobjectstore.h>
 
 #include<gameobjectfactory.h>
 #include<eventfactory.h>
@@ -54,6 +54,10 @@ public:
     std::map<std::string,Level> levels;
     std::map<std::string,GameObjectPattern> entities;
 
+    std::string currentLevel;
+
+    Level & getCurrentLevel();
+
     void setFrameRate(float);
     float getFrameRate();
 
@@ -64,16 +68,13 @@ public:
     void initialiseInjections();
     void initialiseClocks();
     void initialiseInput();
-    void initialiseTests();
     void initialisePlayers();
     void initialiseEnvironment();
-
+    void initialiseTests();
     void runTests();
     void runEngines();
 
     void setDebug(DebugUtils *value);
-
-    GameObjectStack gameObjects;
 
     //loaders
     ComponentLoader componentLoader;

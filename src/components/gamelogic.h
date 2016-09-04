@@ -4,6 +4,8 @@
 #include <component.h>
 #include <collidable.h>
 
+
+
 namespace BQ{
 class Behaviour;
 class GameLogic : public Component
@@ -13,7 +15,7 @@ public:
 
     void addBehaviour(int);
 
-    void addEvent(std::string,std::string,std::map<std::string,std::string>);
+    void addEvent(std::string,std::string,std::map<std::string,std::string>,ComponentLoader &);
 
     void collisionWith(GameObject&,const Collidable &,const Collidable&);
 

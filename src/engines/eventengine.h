@@ -24,11 +24,6 @@ public:
 
     PhysicsEventFactory* physicsEventFactory;
 
-    std::vector<GameLogic> gameLogics;
-
-    GameLogic& addGameLogic();
-    GameLogic& getGameLogic(int);
-
     void start();
     void run();
     void finish();

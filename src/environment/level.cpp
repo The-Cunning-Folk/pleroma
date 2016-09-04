@@ -32,13 +32,14 @@ bool Level::loadLevelFromFile(std::string path)
             if(ent.HasMember("type"))
             {
                 GameObject & entity = ent.HasMember("id")
-                        ? gameObjectFactory.buildGameObjectFromPattern(game->entities[ent["type"].GetString()],ent["id"].GetString())
-                    : gameObjectFactory.buildGameObjectFromPattern(game->entities[ent["type"].GetString()]);
+                        ? gameObjectFactory.buildGameObjectFromPattern(objects,game->entities[ent["type"].GetString()],ent["id"].GetString())
+                    : gameObjectFactory.buildGameObjectFromPattern(objects,game->entities[ent["type"].GetString()]);
 
                 int xPos = ent["x"].GetInt();
                 int yPos = ent["y"].GetInt();
 
-                entity.loadTransform().setPosition(game->grid.getCentre(xPos,yPos));
+                objects.transforms[entity.transform].setPosition(game->grid.getCentre(xPos,yPos));
+
             }
 
         }

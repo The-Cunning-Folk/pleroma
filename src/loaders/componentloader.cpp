@@ -3,6 +3,7 @@
 #include <gameobject.h>
 #include <eventengine.h>
 #include <gameobjectloader.h>
+#include <game.h>
 
 using namespace BQ;
 ComponentLoader::ComponentLoader()
@@ -12,22 +13,22 @@ ComponentLoader::ComponentLoader()
 
 Transform & ComponentLoader::getTransform(int index)
 {
-    return transformEngine->getTransform(index);
+    return game->getCurrentLevel().objects.transforms[index];
 }
 
 Collidable &ComponentLoader::getCollidable(int index)
 {
-    return collisionEngine->getCollidable(index);
+    return game->getCurrentLevel().objects.collidables[index];
 }
 
 RigidBody &ComponentLoader::getRigidBody(int index)
 {
-    return physicsEngine->getRigidBody(index);
+    return game->getCurrentLevel().objects.rigidBodies[index];
 }
 
 GameLogic &ComponentLoader::getGameLogic(int index)
 {
-    return eventEngine->getGameLogic(index);
+    return game->getCurrentLevel().objects.gamelogics[index];
 }
 
 Behaviour &ComponentLoader::getBehaviour(int index)
@@ -37,12 +38,12 @@ Behaviour &ComponentLoader::getBehaviour(int index)
 
 RayEmitter &ComponentLoader::getRayEmitter(int index)
 {
-    return rayCastingEngine->getRayEmitter(index);
+    return game->getCurrentLevel().objects.rayEmitters[index];
 }
 
 SpriteRenderer &ComponentLoader::getSpriteRenderer(int index)
 {
-    return renderEngine->getSpriteRenderer(index);
+    return game->getCurrentLevel().objects.spriteRenderers[index];
 }
 
 Transform &ComponentLoader::getTransformFromObject(GameObject & o, std::string name)
@@ -216,5 +217,15 @@ RaycastingEngine *ComponentLoader::getRayCastingEngines() const
 void ComponentLoader::setRayCastingEngines(RaycastingEngine *value)
 {
     rayCastingEngine = value;
+}
+
+Game *ComponentLoader::getGame() const
+{
+    return game;
+}
+
+void ComponentLoader::setGame(Game *value)
+{
+    game = value;
 }
 

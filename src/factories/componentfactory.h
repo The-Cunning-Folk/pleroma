@@ -22,6 +22,8 @@
 #include <gameobjectloader.h>
 #include <grid.h>
 
+#include<gameobjectstore.h>
+
 using namespace BQ;
 
 class ComponentFactory : public Factory
@@ -33,7 +35,6 @@ public:
 
     ComponentLoader* componentLoader;
     GameObjectLoader* gameObjectLoader;
-    Grid* grid;
 
     void buildCollidableFromPattern(CollidablePattern &, Collidable &);
     void buildSpriteRendererFromPattern(SpriteRendererPattern &, SpriteRenderer &);
@@ -41,92 +42,49 @@ public:
     void buildRayEmitterFromPattern(RayEmitterPattern &, RayEmitter &);
     void buildGameLogicFromPattern(GameLogicPattern &, GameLogic &);
 
-    Transform& newTransform();
-    Transform& newTransform(std::string);
-    Transform& newChildTransform(Transform&);
+    Behaviour& bindBehaviour(GameObjectStore &,GameLogic &, std::string);
 
-    PlayerInput& newPlayerInput();
-    PlayerInput& newPlayerInput(std::string);
+    Transform& newTransform(GameObjectStore &);
+    Transform& newTransform(GameObjectStore &,std::string);
+    Transform& newChildTransform(GameObjectStore &,Transform&);
 
-    GameLogic& newGameLogic();
-    GameLogic& newGameLogic(std::string);
+    //creation methods
+    Collidable& newCollidable(GameObjectStore &);
+    Collidable& newCollidable(GameObjectStore &,std::string);
 
-    Behaviour& bindBehaviour(GameLogic &, std::string);
+    Collidable& newCollidable(GameObjectStore &,std::vector<sf::Vector2f>);
+    Collidable& newCollidable(GameObjectStore &,std::string,std::vector<sf::Vector2f>);
 
-    //basic methods
-    Collidable& newCollidable();
-    Collidable& newCollidable(std::string);
+    PlayerInput& newPlayerInput(GameObjectStore &);
+    PlayerInput& newPlayerInput(GameObjectStore &,std::string);
 
-    //nice easy way to make square collidables
-    Collidable& newRectCollidable(std::string, sf::FloatRect);
-    Collidable& newRectCollidable(sf::FloatRect);
+    GameLogic& newGameLogic(GameObjectStore &);
+    GameLogic& newGameLogic(GameObjectStore &, std::string);
 
-    //purely for testing tbh
-    Collidable& newRandomCollidable();
-    Collidable& newRandomCollidable(std::string);
+    RigidBody& newRigidBody(GameObjectStore &);
+    RigidBody& newRigidBody(GameObjectStore &,std::string);
 
-    //define radius
-    Collidable& newRandomCollidable(float);
-    Collidable& newRandomCollidable(std::string,float);
+    RayEmitter & newRayEmitter(GameObjectStore &);
+    RayEmitter & newRayEmitter(GameObjectStore &,std::string);
 
-    //for generic collidables
-    Collidable& newCollidable(std::vector<sf::Vector2f>);
-    Collidable& newCollidable(std::string,std::vector<sf::Vector2f>);
+    SpriteRenderer & newSpriteRenderer(GameObjectStore &);
+    SpriteRenderer & newSpriteRenderer(GameObjectStore &,std::string);
 
-    RigidBody& newRigidBody();
-    RigidBody& newRigidBody(std::string);
-
-    RayEmitter & newRayEmitter();
-    RayEmitter & newRayEmitter(std::string);
-
-    SpriteRenderer & newSpriteRenderer();
-    SpriteRenderer & newSpriteRenderer(std::string);
-
-    TransformEngine *getTransformEngine() const;
-    void setTransformEngine(TransformEngine *value);
-
-    InputEngine *getInputEngine() const;
-    void setInputEngine(InputEngine *value);
-
-    EventEngine *getEventEngine() const;
-    void setEventEngine(EventEngine *value);
-
-    CollisionEngine *getCollisionEngine() const;
-    void setCollisionEngine(CollisionEngine *value);
+    //getters/setters
 
     ComponentLoader *getComponentLoader() const;
     void setComponentLoader(ComponentLoader *value);
 
-    PhysicsEngine *getPhysicsEngine() const;
-    void setPhysicsEngine(PhysicsEngine *value);
-
     GameObjectLoader *getGameObjectLoader() const;
     void setGameObjectLoader(GameObjectLoader *value);
-
-    Grid *getGrid() const;
-    void setGrid(Grid *value);
 
     LogicEngine *getLogicEngine() const;
     void setLogicEngine(LogicEngine *value);
 
-    RaycastingEngine *getRayCastingEngine() const;
-    void setRayCastingEngine(RaycastingEngine *value);
-
-    RenderEngine *getRenderEngine() const;
-    void setRenderEngine(RenderEngine *value);
-
-
 
 private:
 
-    TransformEngine* transformEngine;
-    InputEngine* inputEngine;
-    EventEngine* eventEngine;
-    CollisionEngine* collisionEngine;
-    PhysicsEngine* physicsEngine;
     LogicEngine* logicEngine;
-    RaycastingEngine* rayCastingEngine;
-    RenderEngine* renderEngine;
 
 
 };

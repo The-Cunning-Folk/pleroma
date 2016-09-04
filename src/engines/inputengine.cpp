@@ -34,48 +34,38 @@ void InputEngine::run()
 
     EventFactory& eFactory = game->eventFactory;
 
-    for(unsigned int i = 0; i<inputs.size(); i++)
+    GameObjectStore & os = game->getCurrentLevel().objects;
+
+    for(it_playerinput it = os.playerInputs.begin(); it != os.playerInputs.end(); it++)
     {
-        inputs[i].update();
-        std::vector<std::string> activeInputs = inputs[i].inputMap.getKeysDown();
-        std::vector<std::string> activeButtons = inputs[i].inputMap.getButtonsDown();
-        std::vector<std::string> activeAxes = inputs[i].inputMap.getJoystickInput();
+        PlayerInput & p = it->second;
+        p.update();
+        std::vector<std::string> activeInputs = p.inputMap.getKeysDown();
+        std::vector<std::string> activeButtons = p.inputMap.getButtonsDown();
+        std::vector<std::string> activeAxes = p.inputMap.getJoystickInput();
         if(activeInputs.size() > 0){
             for(unsigned int j = 0; j<activeInputs.size();j++)
             {
-                eFactory.createEvent("key_input{" + activeInputs[j] + "}",inputs[i].getParent());
+                eFactory.createEvent("key_input{" + activeInputs[j] + "}",p.getParent());
             }
         }
         if(activeButtons.size() > 0){
             for(unsigned int j = 0; j<activeButtons.size();j++)
             {
-                eFactory.createEvent("button_input{" + activeButtons[j] + "}",inputs[i].getParent());
+                eFactory.createEvent("button_input{" + activeButtons[j] + "}",p.getParent());
             }
         }
         if(activeAxes.size() > 0){
             for(unsigned int j = 0; j<activeAxes.size(); j++)
             {
-                eFactory.createEvent("joystick_input{" +activeAxes[j] + "}",inputs[i].getParent());
+                eFactory.createEvent("joystick_input{" +activeAxes[j] + "}",p.getParent());
             }
         }
     }
 
     for(unsigned int i = 0; i<controllers.size(); i++)
     {
-//        debug->printVal("X AXIS: ",controllers[i].getXAxis());
-//        debug->printVal("Y AXIS: ",controllers[i].getXAxis());
-//        debug->printVal("Z AXIS: ",controllers[i].getXAxis());
-//        debug->printVal("R AXIS: ",controllers[i].getXAxis());
-//        debug->printVal("U AXIS: ",controllers[i].getXAxis());
-//        debug->printVal("V AXIS: ",controllers[i].getXAxis());
 
-//        for(unsigned int j = 0; j<controllers[i].buttons; j++)
-//        {
-//            if(controllers[i].isButtonPressed(j))
-//            {
-//                debug->println("button: " + std::to_string(j));
-//            }
-//        }
     }
 }
 
@@ -84,26 +74,6 @@ void InputEngine::finish()
 
 }
 
-
-PlayerInput &InputEngine::addPlayerInput()
-{
-    inputs.resize(inputs.size() + 1);
-    if(debug != NULL){
-        inputs.back().setDebug(debug);
-    }
-    inputs.back().index = inputs.size()-1;
-    if(controllers.size() > 0){
-        for(unsigned int i = 0; i<controllers.size(); i++)
-        {
-            if(!controllers[i].isBound())
-            {
-                debug->println("adding controller!");
-                inputs.back().inputMap.setController(&controllers[i]);
-            }
-        }
-    }
-    return(inputs.back());
-}
 
 Controller *InputEngine::addController(Controller ctrl)
 {

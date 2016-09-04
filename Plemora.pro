@@ -44,7 +44,6 @@ HEADERS += $$SRCDIR/window/gamewindow.h \
     src/gameobject/gameobject.h \
     src/components/component.h \
     src/factories/gameobjectfactory.h \
-    src/gameobject/gameobjectstack.h \
     src/components/transform.h \
     src/factories/componentfactory.h \
     src/factories/factory.h \
@@ -109,7 +108,9 @@ HEADERS += $$SRCDIR/window/gamewindow.h \
     src/patterns/rigidbodypattern.h \
     src/patterns/factorypattern.h \
     src/patterns/rayemitterpattern.h \
-    src/patterns/gamelogicpattern.h
+    src/patterns/gamelogicpattern.h \
+    src/environment/scene.h \
+    src/gameobject/gameobjectstore.h
 
 SOURCES += src/main.cpp \
     $$SRCDIR/window/gamewindow.cpp \
@@ -127,7 +128,6 @@ SOURCES += src/main.cpp \
     src/gameobject/gameobject.cpp \
     src/components/component.cpp \
     src/factories/gameobjectfactory.cpp \
-    src/gameobject/gameobjectstack.cpp \
     src/components/transform.cpp \
     src/factories/componentfactory.cpp \
     src/factories/factory.cpp \
@@ -192,7 +192,9 @@ SOURCES += src/main.cpp \
     src/patterns/rigidbodypattern.cpp \
     src/patterns/factorypattern.cpp \
     src/patterns/rayemitterpattern.cpp \
-    src/patterns/gamelogicpattern.cpp
+    src/patterns/gamelogicpattern.cpp \
+    src/environment/scene.cpp \
+    src/gameobject/gameobjectstore.cpp
 
 LIBS += -L"$$PWD/SFML/lib"
 

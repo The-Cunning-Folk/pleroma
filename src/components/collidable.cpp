@@ -43,22 +43,6 @@ void Collidable::update()
 
     polygon.update();
 
-    //bresenham precalc
-
-    gridEdges.clear();
-
-    gridEdges = grid->bresenhamPolygonEdge(polygon);
-
-    for(int i=0; i<gridEdges.size(); i++)
-    {
-        GridSquare & g = grid->getActiveGridSquareFromGlobalCoords(gridEdges[i]);
-        g.debugColor = sf::Color::Magenta;
-    }
-
-    gridInnerArea.clear();
-
-    tBox = maths->makeCompoundRect(lastBox,polygon.bBox);
-
     setBBox(polygon.bBox);
 
 }

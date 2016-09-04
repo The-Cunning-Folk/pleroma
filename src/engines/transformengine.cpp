@@ -40,11 +40,6 @@ void TransformEngine::setBounds(const sf::FloatRect &value)
     bounds = value;
 }
 
-Transform & TransformEngine::getTransform(int index)
-{
-    return transforms[index];
-}
-
 bool TransformEngine::getWrapAround() const
 {
     return wrapAround;
@@ -58,6 +53,7 @@ void TransformEngine::setWrapAround(bool value)
 
 void TransformEngine::run()
 {
+    GameObjectStore & os = game->getCurrentLevel().objects;
     int scale = grid->getScale();
     float rightEdge =(float) (bounds.left + bounds.width)*scale;
     float leftEdge =(float)  bounds.left*scale;
@@ -70,16 +66,18 @@ void TransformEngine::run()
     activeGridLocations = grid->activeSquares;
 
 
-    for(unsigned int i=0; i<transforms.size(); i++)
+    for(it_transform it = os.transforms.begin(); it != os.transforms.end(); it++)
     {
         //update all the transforms!
+        Transform & t = it->second;
 
-        const sf::Vector2f & gpos = transforms[i].getPosition();
+        sf::Vector2f gpos = t.getPosition();
         if(bounds.contains(gpos))
         {
-            activeComponents.push_back(i);
-            objectsInRange.push_back(transforms[i].getParent());
+            activeComponents.push_back(it->first);
+            objectsInRange.push_back(t.getParent());
         }
+
 
 
         if(wrapAround)
@@ -90,31 +88,27 @@ void TransformEngine::run()
                 if(leftEdge > gpos.x || rightEdge < gpos.x || topEdge > gpos.y || topEdge < gpos.y )
                 {
                     //out of bounds
-                    sf::Vector2f pos = transforms[i].getPosition();
+                    sf::Vector2f pos = t.getPosition();
                     if(pos.x > rightEdge)
                     {
-                        transforms[i].setPosition(sf::Vector2f(leftEdge,pos.y));
+                        t.setPosition(sf::Vector2f(leftEdge,pos.y));
                     }
                     if(pos.x < leftEdge)
                     {
-                        transforms[i].setPosition(sf::Vector2f(rightEdge,pos.y));
+                        t.setPosition(sf::Vector2f(rightEdge,pos.y));
                     }
-                    pos = transforms[i].getPosition();
+                    pos = t.getPosition();
                     if(pos.y > bottomEdge)
                     {
-                        transforms[i].setPosition(sf::Vector2f(pos.x,topEdge));
+                        t.setPosition(sf::Vector2f(pos.x,topEdge));
                     }
                     if(pos.y < topEdge)
                     {
-                        transforms[i].setPosition(sf::Vector2f(pos.x,bottomEdge));
+                        t.setPosition(sf::Vector2f(pos.x,bottomEdge));
                     }
                 }
             }
         }
-
-
-
-
 
     }
 
@@ -138,42 +132,45 @@ void TransformEngine::drawDebug()
         sf::FloatRect f = activeGridLocations[i].region;
         GridSquare & g = grid->getActiveGridSquareFromGlobalCoords(activeGridLocations[i].position);
 
-        gridDebug[i*4].position = sf::Vector2f(f.left + 1,f.top + 1);
-        gridDebug[i*4].color = g.debugColor;
-        gridDebug[i*4 + 1].position = sf::Vector2f(f.left + f.width - 1,f.top + 1);
-        gridDebug[i*4 + 1].color = g.debugColor;
-        gridDebug[i*4 + 2].position = sf::Vector2f(f.left + f.width - 1,f.top + f.height - 1);
-        gridDebug[i*4 + 2].color = g.debugColor;
-        gridDebug[i*4 + 3].position = sf::Vector2f(f.left + 1,f.top + f.width - 1);
-        gridDebug[i*4 + 3].color = g.debugColor;
+//        gridDebug[i*4].position = sf::Vector2f(f.left + 1,f.top + 1);
+//        gridDebug[i*4].color = g.debugColor;
+//        gridDebug[i*4 + 1].position = sf::Vector2f(f.left + f.width - 1,f.top + 1);
+//        gridDebug[i*4 + 1].color = g.debugColor;
+//        gridDebug[i*4 + 2].position = sf::Vector2f(f.left + f.width - 1,f.top + f.height - 1);
+//        gridDebug[i*4 + 2].color = g.debugColor;
+//        gridDebug[i*4 + 3].position = sf::Vector2f(f.left + 1,f.top + f.width - 1);
+//        gridDebug[i*4 + 3].color = g.debugColor;
     }
 
     gameWindow->draw(gridDebug);
 
-//    for(unsigned int j=0; j<activeComponents.size(); j++)
-//    {
-//        int i = activeComponents[j];
-//        cross.setPosition(transforms[i].getPosition());
-//        cross.update();
-//        window.draw(cross);
-    //    }
+    for(unsigned int j=0; j<activeComponents.size(); j++)
+    {
+        int i = activeComponents[j];
+        cross.setPosition(game->getCurrentLevel().objects.transforms[i].getPosition());
+        cross.update();
+        window.draw(cross);
+        }
 }
 
 void TransformEngine::wake()
 {
-    for(int i=0; i<transforms.size(); i++)
+    GameObjectStore & os = game->getCurrentLevel().objects;
+    for(it_transform it = os.transforms.begin(); it != os.transforms.end(); it++)
     {
-        Transform & t = transforms[i];
+        Transform & t = it->second;
         t.wake();
     }
 }
 
 void TransformEngine::runStep()
 {
+    GameObjectStore & os = game->getCurrentLevel().objects;
     for(unsigned int i=0; i<activeComponents.size(); i++)
     {
+
         int j = activeComponents[i];
-        Transform & t = transforms[j];
+        Transform & t = os.transforms[j];
         t.lastFrame = t.position;
         t.update();
         t.move(delta*(t.step));
@@ -185,25 +182,13 @@ void TransformEngine::runStep()
 
 void TransformEngine::runCorrections()
 {
+    GameObjectStore & os = game->getCurrentLevel().objects;
     for(unsigned int i=0; i<activeComponents.size(); i++)
     {
         int j = activeComponents[i];
-        Transform & t = transforms[j];
+        Transform & t = os.transforms[j];
         t.move(t.correction);
         t.setGridPosition(grid->getGridPosition(t.getPosition()));
         t.correction.x = t.correction.y = 0;
     }
-}
-
-
-Transform &TransformEngine::addTransform()
-{
-    transforms.resize(transforms.size() + 1);
-    if(debug != NULL){
-        transforms.back().setDebug(debug);
-    }
-    transforms.back().index = transforms.size()-1;
-    transforms.back().name = placeholder + std::to_string(currentId);
-    currentId++;
-    return(transforms.back());
 }

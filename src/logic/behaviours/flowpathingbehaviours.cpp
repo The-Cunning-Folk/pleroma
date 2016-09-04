@@ -1,9 +1,7 @@
 #include "flowpathingbehaviours.h"
 
 #include <gameobject.h>
-#include<componentloader.h>
-#include<gameobjectloader.h>
-
+#include <game.h>
 
 using namespace BQ;
 
@@ -40,25 +38,28 @@ void FlowPathingBehaviours::resolveEvent(Event & e)
 
 void FlowPathingBehaviours::update()
 {
-
+    Grid & grid = game->grid;
+    ComponentLoader & componentLoader = game->componentLoader;
+    GameObjectLoader & gameObjectLoader = game->gameObjectLoader;
+    MathsUtils & maths = game->math;
 
     if(path && !hasLOS && active)
     {
-        Transform & t = componentLoader->getTransform( gameObjectLoader->loadGameObject(parent).transform);
-        sf::Vector2i gPos = grid->getGridPosition(t.position);
-        GridSquare & g = grid->getActiveGridSquareFromGlobalCoords(gPos);
+        Transform & t = componentLoader.getTransform( gameObjectLoader.loadGameObject(parent).transform);
+        sf::Vector2i gPos = grid.getGridPosition(t.position);
+        GridSquare & g = grid.getActiveGridSquareFromGlobalCoords(gPos);
 
-        t.velocity += pathSpeed*maths->unit(g.pathVector);
+        t.velocity += pathSpeed*maths.unit(g.pathVector);
     }
     else if(path && hasLOS & active)
     {
 
-        Transform & tar = gameObjectLoader->loadGameObject(target).loadTransform();
-        Transform & me = componentLoader->getTransform( gameObjectLoader->loadGameObject(parent).transform);
-        float prox = maths->mag(tar.position - me.position);
+        Transform & tar = componentLoader.getTransform(gameObjectLoader.loadGameObject(target).transform);
+        Transform & me = componentLoader.getTransform( gameObjectLoader.loadGameObject(parent).transform);
+        float prox = maths.mag(tar.position - me.position);
         if(prox > targetProximity)
         {
-            me.velocity += pathSpeed*maths->unit(tar.position - me.position);
+            me.velocity += pathSpeed*maths.unit(tar.position - me.position);
         }
         else
         {
@@ -68,21 +69,21 @@ void FlowPathingBehaviours::update()
     if(!path && active)
     {
 
-        Transform & tar = gameObjectLoader->loadGameObject(target).loadTransform();
-        Transform & me = componentLoader->getTransform( gameObjectLoader->loadGameObject(parent).transform);
-        float prox = maths->mag(tar.position - me.position);
+        Transform & tar = componentLoader.getTransform( gameObjectLoader.loadGameObject(target).transform);
+        Transform & me = componentLoader.getTransform( gameObjectLoader.loadGameObject(parent).transform);
+        float prox = maths.mag(tar.position - me.position);
         if(prox > 2*targetProximity)
         {
             path = true;
         }
         else if(prox < 0.5*targetProximity)
         {
-            me.velocity -= pathSpeed*maths->unit(tar.position - me.position);
+            me.velocity -= pathSpeed*maths.unit(tar.position - me.position);
         }
         else
         {
 
-            sf::Vector2f norm = pathSpeed*maths->unitNormal(tar.position - me.position);
+            sf::Vector2f norm = pathSpeed*maths.unitNormal(tar.position - me.position);
             me.velocity += norm;
         }
     }

@@ -7,15 +7,6 @@ GameObject::GameObject()
 
 }
 
-ComponentLoader *GameObject::getComponentLoader() const
-{
-    return componentLoader;
-}
-
-void GameObject::setComponentLoader(ComponentLoader *value)
-{
-    componentLoader = value;
-}
 
 std::map<std::string, std::map<std::string, int> > GameObject::getComponents() const
 {
@@ -30,16 +21,6 @@ int GameObject::getTransform() const
 void GameObject::setTransform(int value)
 {
     transform = value;
-}
-
-Transform &GameObject::loadTransform()
-{
-    return componentLoader->getTransform(transform);
-}
-
-std::vector<int> GameObject::loadComponents(std::string type)
-{
-    return componentLoader->getComponentsFromObject(*this,type);
 }
 
 void GameObject::addComponent(Component& component)

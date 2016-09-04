@@ -9,19 +9,6 @@ using namespace BQ;
 EventEngine::EventEngine() : Engine()
 {
     placeholder = "event_";
-    gameLogics.resize(0);
-}
-
-GameLogic &EventEngine::addGameLogic()
-{
-    gameLogics.resize(gameLogics.size() + 1);
-    gameLogics.back().index = gameLogics.size()-1;
-    return gameLogics.back();
-}
-
-GameLogic &EventEngine::getGameLogic(int index)
-{
-    return gameLogics[index];
 }
 
 void EventEngine::start()
@@ -32,6 +19,7 @@ void EventEngine::start()
 void EventEngine::run()
 {
     TimeUtils& time = (debug->time);
+    GameObjectStore & os = game->getCurrentLevel().objects;
     for(int i=0; i<collisions.size(); i++)
     {
         //collision logic here
@@ -49,14 +37,22 @@ void EventEngine::run()
         for(int j=0; j<logicA.size(); j++)
         {
             int index = logicA[j];
-            gameLogics[index].collisionWith(B,cA,cB);
+            GameLogic & g = os.gamelogics[index];
+            for(unsigned int k = 0; k<g.behaviours.size(); k++)
+            {
+                componentLoader->getBehaviour(g.behaviours[k]).collisionWith(B,cA.name,cB.name);
+            }
             toUpdate.push_back(index);
         }
 
         for(int j=0; j<logicB.size(); j++)
         {
             int index = logicB[j];
-            gameLogics[index].collisionWith(A,cB,cA);
+            GameLogic & g = os.gamelogics[index];
+            for(unsigned int k = 0; k<g.behaviours.size(); k++)
+            {
+                componentLoader->getBehaviour(g.behaviours[k]).collisionWith(A,cB.name,cA.name);
+            }
             toUpdate.push_back(index);
         }
 
@@ -116,7 +112,7 @@ void EventEngine::run()
             for(int i=0 ; i<groupedEvents.size(); i++)
             {
                 Event & event = groupedEvents[i];
-                l.addEvent(event.script,event.triggeredBy,event.parsedScript);
+                l.addEvent(event.script,event.triggeredBy,event.parsedScript,game->componentLoader);
             }
         }
     }
@@ -125,20 +121,20 @@ void EventEngine::run()
 
 
     delta = time.getSeconds("logicTime");
-//    for(unsigned int i=0; i<toUpdate.size();i++)
-//    {
-//        int j = toUpdate[i];
-//        gameLogics[j].setDelta(delta);
-//        gameLogics[j].update();
-//    }
-
-    //debug->printVal((int) gameLogics.size());
 
     for(int i=0; i<activeComponents.size(); i++)
     {
-        GameLogic & g = gameLogics[activeComponents[i]];
+        GameLogic & g = os.gamelogics[activeComponents[i]];
         g.setDelta(delta);
         g.update();
+        for(int j=0;j<g.behaviours.size();j++)
+        {
+            Behaviour & b =componentLoader->getBehaviour(g.behaviours[j]);
+            b.setDelta(delta);
+            b.resolveEvents();
+            b.update();
+            b.clearEvents();
+        }
     }
 
 }
@@ -152,9 +148,10 @@ void EventEngine::finish()
 
 void EventEngine::wake()
 {
-    for(int i=0; i<gameLogics.size();i++)
+    GameObjectStore & os = game->getCurrentLevel().objects;
+    for(it_gamelogic it = os.gamelogics.begin(); it != os.gamelogics.end(); it++)
     {
-        GameLogic & g = gameLogics[i];
+        GameLogic & g = it->second;
         g.wake();
     }
 }
@@ -205,7 +202,7 @@ void EventEngine::resolveLocally(Event& event)
     {
         int index = logicIndices[i];
         GameLogic & l = game->componentLoader.getGameLogic(index);
-        l.addEvent(event.script,event.triggeredBy,event.parsedScript);
+        l.addEvent(event.script,event.triggeredBy,event.parsedScript,game->componentLoader);
     }
 }
 

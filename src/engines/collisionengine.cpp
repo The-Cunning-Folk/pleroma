@@ -18,38 +18,6 @@ CollisionEngine::CollisionEngine() : Engine()
     overlapThreshold = 0.5f;
 }
 
-Collidable &CollisionEngine::getCollidable(int index)
-{
-    if(index < collidables.size() && index >= 0)
-    {
-        return(collidables[index]);
-    }
-    else
-    {
-        debug->printerr("requested collidable out of bounds");
-        return collidables[0]; //todo: this could cause a segfault! Very bad >:(
-    }
-
-}
-
-
-Collidable & CollisionEngine::addCollidable()
-{
-    int currentSize = collidables.size();
-    collidables.resize(currentSize+1);
-    Collidable & c = collidables.back();
-    c.index = currentSize;
-    c.name = placeholder + std::to_string(currentSize);
-    return c;
-}
-
-Collidable & CollisionEngine::addCollidable(Collidable c)
-{
-    c.index = collidables.size();
-    collidables.push_back(c);
-    return collidables.back();
-}
-
 bool CollisionEngine::checkCollision(Collidable & a,Collidable & b)
 {
 
@@ -267,16 +235,31 @@ void CollisionEngine::start()
 
         int i=activeComponents[j];
 
-        Collidable & c = collidables[i];
+        Collidable & c = game->getCurrentLevel().objects.collidables[i];
 
         Transform & t = components.getTransform(c.getTransform());
         ConvexPolygon& p = c.polygon;
         p.setPosition(t.getPosition());
+
+        sf::FloatRect lastBox=c.polygon.bBox;
+
         c.update();
 
-        //do bresenham border calculations here
+        //bresenham precalc
 
+        c.gridEdges.clear();
 
+        c.gridEdges = grid->bresenhamPolygonEdge(c.polygon);
+
+        for(int k=0; k<c.gridEdges.size(); k++)
+        {
+            GridSquare & g = grid->getActiveGridSquareFromGlobalCoords(c.gridEdges[k]);
+            g.debugColor = sf::Color::Magenta;
+        }
+
+        c.gridInnerArea.clear();
+
+        c.tBox = maths->makeCompoundRect(lastBox,c.polygon.bBox);
 
 
         for(int k=0 ; k<c.gridEdges.size(); k++)
@@ -378,7 +361,7 @@ void CollisionEngine::start()
 
         }
 
-        quadtree.addObject(collidables[i],i);
+        quadtree.addObject(c,i);
     }
 
     quadtree.build();
@@ -400,8 +383,8 @@ void CollisionEngine::run()
                 {
                     if(k==j){continue;}
                     int kIndex = node.objects[k].cIndex;
-                    Collidable & A = collidables[jIndex];
-                    Collidable & B = collidables[kIndex];
+                    Collidable & A = game->getCurrentLevel().objects.collidables[jIndex];
+                    Collidable & B = game->getCurrentLevel().objects.collidables[kIndex];
                     if(checkCollision(A,B))
                     {
 
@@ -443,11 +426,12 @@ void CollisionEngine::drawDebug()
         for(unsigned int j=0; j<activeComponents.size(); j++)
         {
             int i = activeComponents[j];
-            sf::FloatRect bBox = collidables[i].tBox;
+            Collidable & c = game->getCurrentLevel().objects.collidables[i];
+            sf::FloatRect bBox = c.tBox;
             rectShape.setOutlineColor(sf::Color::Red);
             rectShape.setPosition(bBox.left+1,bBox.top);
             rectShape.setSize(sf::Vector2f(bBox.width-1,bBox.height));
-            if(collidables[i].colliding)
+            if(c.colliding)
             {
                 rectShape.setOutlineColor(sf::Color::Green);
             }
@@ -458,24 +442,24 @@ void CollisionEngine::drawDebug()
         {
             int i=activeComponents[j];
             sf::ConvexShape shape;
-            Collidable & c = collidables[i];
-            ConvexPolygon& p = collidables[i].polygon;
+            Collidable & c = game->getCurrentLevel().objects.collidables[i];
+            ConvexPolygon& p = c.polygon;
             shape.setPointCount(p.points.size());
             for(unsigned int k=0; k<p.points.size(); k++)
             {
                 shape.setPoint(k,p.points[k]);
             }
-            //debug->printVal(componentLoader->getTransform(c.transform).position);
-            shape.setPosition(componentLoader->getTransform(c.transform).position);
+
+            shape.setPosition(p.position);
 
             shape.setFillColor(sf::Color::White);
-            if(!collidables[i].immovable)
+            if(c.immovable)
             {
                 shape.setFillColor(sf::Color::Yellow);
             }
-            if(collidables[i].colliding)
+            if(c.colliding)
             {
-                //shape.setFillColor(sf::Color::Green);
+                shape.setFillColor(sf::Color::Green);
             }
             window.draw(shape);
         }
@@ -486,9 +470,10 @@ void CollisionEngine::drawDebug()
 
 void CollisionEngine::wake()
 {
-    for(int i=0; i<collidables.size();i++)
+    GameObjectStore & os = game->getCurrentLevel().objects;
+    for(it_collidable it = os.collidables.begin(); it != os.collidables.end(); it++)
     {
-        Collidable & c = collidables[i];
+        Collidable & c = it->second;
         c.polygon.setPosition(componentLoader->getTransform(c.transform).position);
         c.wake();
 

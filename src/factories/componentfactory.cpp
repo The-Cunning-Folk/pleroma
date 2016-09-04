@@ -67,16 +67,6 @@ void ComponentFactory::buildGameLogicFromPattern(GameLogicPattern & pattern, Gam
     g.name = pattern.name;
 }
 
-Grid *ComponentFactory::getGrid() const
-{
-    return grid;
-}
-
-void ComponentFactory::setGrid(Grid *value)
-{
-    grid = value;
-}
-
 LogicEngine *ComponentFactory::getLogicEngine() const
 {
     return logicEngine;
@@ -87,25 +77,6 @@ void ComponentFactory::setLogicEngine(LogicEngine *value)
     logicEngine = value;
 }
 
-RaycastingEngine *ComponentFactory::getRayCastingEngine() const
-{
-    return rayCastingEngine;
-}
-
-void ComponentFactory::setRayCastingEngine(RaycastingEngine *value)
-{
-    rayCastingEngine = value;
-}
-
-RenderEngine *ComponentFactory::getRenderEngine() const
-{
-    return renderEngine;
-}
-
-void ComponentFactory::setRenderEngine(RenderEngine *value)
-{
-    renderEngine = value;
-}
 
 GameObjectLoader *ComponentFactory::getGameObjectLoader() const
 {
@@ -127,137 +98,74 @@ void ComponentFactory::setComponentLoader(ComponentLoader *value)
     componentLoader = value;
 }
 
-PhysicsEngine *ComponentFactory::getPhysicsEngine() const
+
+BQ::Transform & ComponentFactory::newTransform(GameObjectStore & s)
 {
-    return physicsEngine;
+    return s.addTransform();
 }
 
-void ComponentFactory::setPhysicsEngine(PhysicsEngine *value)
+Transform &ComponentFactory::newTransform(GameObjectStore & s, std::string name)
 {
-    physicsEngine = value;
-}
-
-
-BQ::Transform & ComponentFactory::newTransform()
-{
-    return transformEngine->addTransform();
-}
-
-Transform &ComponentFactory::newTransform(std::string name)
-{
-    Transform & transform = newTransform();
+    Transform & transform = newTransform(s);
     transform.setName(name);
     return(transform);
 }
 
-Transform &ComponentFactory::newChildTransform(Transform& parent)
+Transform &ComponentFactory::newChildTransform(GameObjectStore & s,Transform& parent)
 {
-    Transform & transform = newTransform();
+    Transform & transform = newTransform(s);
     parent.children.push_back(transform.index);
     return(transform);
 }
 
-PlayerInput &ComponentFactory::newPlayerInput()
+PlayerInput &ComponentFactory::newPlayerInput(GameObjectStore & s)
 {
-    return inputEngine->addPlayerInput();
+    return s.addPlayerInput();
 }
 
-PlayerInput &ComponentFactory::newPlayerInput(std::string name)
+PlayerInput &ComponentFactory::newPlayerInput(GameObjectStore & s, std::string name)
 {
-    PlayerInput & input = newPlayerInput();
+    PlayerInput & input = newPlayerInput(s);
     input.setName(name);
     return(input);
 }
 
-GameLogic &ComponentFactory::newGameLogic()
+GameLogic &ComponentFactory::newGameLogic(GameObjectStore & s)
 {
-    GameLogic& gameLogic = eventEngine->addGameLogic();
-    gameLogic.setComponentLoader(componentLoader);
-    gameLogic.setGameObjectLoader(gameObjectLoader);
-    gameLogic.setMaths(maths);
-    gameLogic.setDebug(debug);
-    gameLogic.setGrid(grid);
+    GameLogic& gameLogic = s.addGameLogic();
     return gameLogic;
 }
 
-GameLogic &ComponentFactory::newGameLogic(std::string name)
+GameLogic &ComponentFactory::newGameLogic(GameObjectStore &s, std::string name)
 {
-    GameLogic& gameLogic = newGameLogic();
+    GameLogic& gameLogic = newGameLogic(s);
     gameLogic.setName(name);
     return(gameLogic);
 }
 
-Behaviour &ComponentFactory::bindBehaviour(GameLogic & g, std::string type)
+Behaviour &ComponentFactory::bindBehaviour(GameObjectStore & s, GameLogic & g, std::string type)
 {
-    return logicEngine->bindBehaviour(g,type);
+    Behaviour & b = logicEngine->bindBehaviour(g,type);
+    b.setGame(game);
+    return b;
 }
 
-Collidable & ComponentFactory::newCollidable()
+Collidable & ComponentFactory::newCollidable(GameObjectStore & s)
 {
-    Collidable & c = collisionEngine->addCollidable();
-    c.setComponentLoader(componentLoader);
-    c.setGameObjectLoader(gameObjectLoader);
-    c.setMaths(maths);
-    c.setDebug(debug);
-    c.setGrid(grid);
+    Collidable & c = s.addCollidable();
     return c;
 }
 
-Collidable & ComponentFactory::newCollidable(std::string name)
+Collidable & ComponentFactory::newCollidable(GameObjectStore & s,std::string name)
 {
-    Collidable & c = newCollidable();
+    Collidable & c = newCollidable(s);
     c.name = name;
-//    c.polygon.points.push_back(sf::Vector2f(10,-10));
-//    c.polygon.points.push_back(sf::Vector2f(10,10));
-//    c.polygon.points.push_back(sf::Vector2f(-10,10));
-//    c.polygon.points.push_back(sf::Vector2f(-10,-10));
     return(c);
 }
 
-
-Collidable &ComponentFactory::newRectCollidable(sf::FloatRect r)
+Collidable &ComponentFactory::newCollidable(GameObjectStore & s,std::vector<sf::Vector2f> points)
 {
-    Collidable & c = newCollidable();
-    c.polygon.addPoint(sf::Vector2f(r.left,r.top));
-    c.polygon.addPoint(sf::Vector2f(r.left + r.width, r.top));
-    c.polygon.addPoint(sf::Vector2f(r.left+r.width,r.top+r.height));
-    c.polygon.addPoint(sf::Vector2f(r.left, r.top+r.height));
-    return c;
-}
-
-Collidable &ComponentFactory::newRandomCollidable()
-{
-    float r = maths->randomFloat(1,10);
-    return newRandomCollidable(r);
-}
-
-Collidable &ComponentFactory::newRandomCollidable(float r)
-{
-
-    Collidable & c = newCollidable();
-
-    sf::Vector2f point;
-    float a = 0.0;
-
-    while(a<360.0)
-    {
-        point.x = r*maths->fcosDeg(a);
-        point.y = r*maths->fsinDeg(a);
-        c.polygon.addPoint(point);
-        a += maths->randomFloat(10,80);
-    }
-
-    return c;
-}
-
-Collidable &ComponentFactory::newCollidable(std::vector<sf::Vector2f> points)
-{
-    if(points.size() < 2){
-        debug->println("requested a collidable with only one point, returning a random");
-        return newRandomCollidable();
-    }
-
-    Collidable & c = newCollidable();
+    Collidable & c = newCollidable(s);
 
     for(int i=0; i<points.size(); i++)
     {
@@ -266,81 +174,39 @@ Collidable &ComponentFactory::newCollidable(std::vector<sf::Vector2f> points)
     return c;
 }
 
-RigidBody &ComponentFactory::newRigidBody()
+RigidBody &ComponentFactory::newRigidBody(GameObjectStore & s)
 {
-    RigidBody & rigidBody = physicsEngine->addRigidBody();
-    rigidBody.setComponentLoader(componentLoader);
+    RigidBody & rigidBody = s.addRigidBody();
     return rigidBody;
 }
 
-RigidBody &ComponentFactory::newRigidBody(std::string name)
+RigidBody &ComponentFactory::newRigidBody(GameObjectStore & s,std::string name)
 {
-    RigidBody & rigidBody = newRigidBody();
+    RigidBody & rigidBody = newRigidBody(s);
     rigidBody.setName(name);
     return rigidBody;
 }
 
-RayEmitter &ComponentFactory::newRayEmitter()
+RayEmitter &ComponentFactory::newRayEmitter(GameObjectStore & s)
 {
-    return rayCastingEngine->addRayEmitter();
+    return s.addRayEmitter();
 }
 
-RayEmitter &ComponentFactory::newRayEmitter(std::string name)
+RayEmitter &ComponentFactory::newRayEmitter(GameObjectStore & s,std::string name)
 {
-    RayEmitter & rayEmitter = rayCastingEngine->addRayEmitter();
+    RayEmitter & rayEmitter = newRayEmitter(s);
     rayEmitter.setName(name);
     return rayEmitter;
 }
 
-SpriteRenderer &ComponentFactory::newSpriteRenderer()
+SpriteRenderer &ComponentFactory::newSpriteRenderer(GameObjectStore & s)
 {
-    return renderEngine->addSpriteRenderer();
+    return s.addSpriteRenderer();
 }
 
-SpriteRenderer &ComponentFactory::newSpriteRenderer(std::string name)
+SpriteRenderer &ComponentFactory::newSpriteRenderer(GameObjectStore & s,std::string name)
 {
-    SpriteRenderer & spriteRenderer = renderEngine->addSpriteRenderer();
+    SpriteRenderer & spriteRenderer = newSpriteRenderer(s);
     spriteRenderer.setName(name);
     return spriteRenderer;
 }
-
-TransformEngine *ComponentFactory::getTransformEngine() const
-{
-    return transformEngine;
-}
-
-void ComponentFactory::setTransformEngine(TransformEngine *value)
-{
-    transformEngine = value;
-}
-
-InputEngine *ComponentFactory::getInputEngine() const
-{
-    return inputEngine;
-}
-
-void ComponentFactory::setInputEngine(InputEngine *value)
-{
-    inputEngine = value;
-}
-
-EventEngine *ComponentFactory::getEventEngine() const
-{
-    return eventEngine;
-}
-
-void ComponentFactory::setEventEngine(EventEngine *value)
-{
-    eventEngine = value;
-}
-
-CollisionEngine *ComponentFactory::getCollisionEngine() const
-{
-    return collisionEngine;
-}
-
-void ComponentFactory::setCollisionEngine(CollisionEngine *value)
-{
-    collisionEngine = value;
-}
-

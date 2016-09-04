@@ -18,10 +18,6 @@ public:
 
     std::vector<Controller> controllers;
 
-    std::vector<PlayerInput> inputs;
-
-    PlayerInput& addPlayerInput();
-
     Controller* addController(Controller);
 
 };

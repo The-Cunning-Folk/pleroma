@@ -20,8 +20,6 @@ public:
     void setMass(float value);
     float getInvmass() const;
 
-    Transform & loadTransform();
-
     void update();
     void wake();
 

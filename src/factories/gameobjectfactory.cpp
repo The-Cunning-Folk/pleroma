@@ -9,60 +9,55 @@ GameObjectFactory::GameObjectFactory()
 
 }
 
-void GameObjectFactory::setStack(GameObjectStack * stack)
+GameObject &GameObjectFactory::buildGameObjectFromPattern(GameObjectStore & s, GameObjectPattern & pattern)
 {
-    gameObjects = stack;
-}
-
-GameObject &GameObjectFactory::buildGameObjectFromPattern(GameObjectPattern & pattern)
-{
-    GameObject & g = newObject();
-    buildComponentsFromPattern(pattern,g);
+    GameObject & g = newObject(s);
+    buildComponentsFromPattern(s,pattern,g);
     return g;
 }
 
-GameObject &GameObjectFactory::buildGameObjectFromPattern(GameObjectPattern & pattern, std::string id)
+GameObject &GameObjectFactory::buildGameObjectFromPattern(GameObjectStore & s, GameObjectPattern & pattern, std::string id)
 {
-    GameObject & g = newObject(id);
-    buildComponentsFromPattern(pattern,g);
+    GameObject & g = newObject(s,id);
+    buildComponentsFromPattern(s,pattern,g);
     return g;
 }
 
-GameObject &GameObjectFactory::buildComponentsFromPattern(GameObjectPattern & pattern, GameObject & g)
+GameObject &GameObjectFactory::buildComponentsFromPattern(GameObjectStore & s, GameObjectPattern & pattern, GameObject & g)
 {
     for(int i=0; i<pattern.spriteRendererPatterns.size(); i++)
     {
-        SpriteRenderer & s = componentFactory->newSpriteRenderer();
-        componentFactory->buildSpriteRendererFromPattern(pattern.spriteRendererPatterns[i],s);
-        g.addComponent(s.name,s);
+        SpriteRenderer & sp = componentFactory->newSpriteRenderer(s);
+        componentFactory->buildSpriteRendererFromPattern(pattern.spriteRendererPatterns[i],sp);
+        g.addComponent(sp.name,sp);
     }
     for(int i=0; i<pattern.collidablePatterns.size(); i++)
     {
-        Collidable & c = componentFactory->newCollidable();
+        Collidable & c = componentFactory->newCollidable(s);
         componentFactory->buildCollidableFromPattern(pattern.collidablePatterns[i],c);
         g.addComponent(c.name,c);
     }
     for(int i=0; i<pattern.rigidBodyPatterns.size(); i++)
     {
-        RigidBody & r = componentFactory->newRigidBody();
+        RigidBody & r = componentFactory->newRigidBody(s);
         componentFactory->buildRigidBodyFromPattern(pattern.rigidBodyPatterns[i],r);
         g.addComponent(r.name,r);
     }
     for(int i=0 ; i<pattern.rayEmitterPatterns.size(); i++)
     {
-        RayEmitter & r = componentFactory->newRayEmitter();
+        RayEmitter & r = componentFactory->newRayEmitter(s);
         componentFactory->buildRayEmitterFromPattern(pattern.rayEmitterPatterns[i],r);
         g.addComponent(r.name,r);
     }
     for(int i=0 ; i<pattern.gameLogicPatterns.size(); i++)
     {
-        GameLogic & l = componentFactory->newGameLogic();
+        GameLogic & l = componentFactory->newGameLogic(s);
         componentFactory->buildGameLogicFromPattern(pattern.gameLogicPatterns[i],l);
         g.addComponent(l.name,l);
         for(int j=0; j<pattern.gameLogicPatterns[i].behaviours.size(); j++)
         {
             std::string b = pattern.gameLogicPatterns[i].behaviours[j];
-            componentFactory->bindBehaviour(l,b);
+            componentFactory->bindBehaviour(s,l,b);
         }
 
     }
@@ -80,20 +75,20 @@ void GameObjectFactory::setComponentFactory(ComponentFactory *value)
     componentFactory = value;
 }
 
-GameObject& GameObjectFactory::newObject()
+GameObject& GameObjectFactory::newObject(GameObjectStore & s)
 {
-    GameObject& object = gameObjects->addObject();
-    Transform & t = componentFactory->newTransform();
+    GameObject& object = s.addObject();
+    Transform & t = componentFactory->newTransform(s);
     t.setParent(object.name);
     object.setTransform(t.index);
     //debug->println("generated object: " + object->name);
     return object;
 }
 
-GameObject &GameObjectFactory::newObject(std::string name)
+GameObject &GameObjectFactory::newObject(GameObjectStore & s, std::string name)
 {
-    GameObject& object = gameObjects->addObject(name);
-    Transform & t = componentFactory->newTransform();
+    GameObject& object = s.addObject(name);
+    Transform & t = componentFactory->newTransform(s);
     t.setParent(object.name);
     object.setTransform(t.index);
     //debug->println("generated object: " + object->name);
@@ -102,16 +97,17 @@ GameObject &GameObjectFactory::newObject(std::string name)
 
 GameObject& GameObjectFactory::newPlayerObject() //builds behaviours for the player
 {
-    GameObject& player = newObject("player_1");
-    PlayerInput& input = componentFactory->newPlayerInput("player_input");
-    GameLogic& logic = componentFactory->newGameLogic("player_logic");
+    GameObjectStore & s = game->getCurrentLevel().objects;
+    GameObject& player = newObject(s, "player_1");
+    PlayerInput& input = componentFactory->newPlayerInput(s,"player_input");
+    GameLogic& logic = componentFactory->newGameLogic(s,"player_logic");
 
 
-    RigidBody & body = componentFactory->newRigidBody("player_rigidbody");
-    RayEmitter & rays = componentFactory->newRayEmitter("player_ray1");
-    SpriteRenderer & sprite = componentFactory->newSpriteRenderer("player_spr");
+    RigidBody & body = componentFactory->newRigidBody(s,"player_rigidbody");
+    RayEmitter & rays = componentFactory->newRayEmitter(s,"player_ray1");
+    SpriteRenderer & sprite = componentFactory->newSpriteRenderer(s,"player_spr");
 
-    Collidable & hitbox = componentFactory->newCollidable("player_hitbox");
+    Collidable & hitbox = componentFactory->newCollidable(s,"player_hitbox");
     hitbox.pathable = true;
     hitbox.setTransform(player.getTransform());
 
@@ -129,7 +125,7 @@ GameObject& GameObjectFactory::newPlayerObject() //builds behaviours for the pla
     player.addComponent("hitbox",hitbox);
     hitbox.update();
 
-    Collidable & attack = componentFactory->newCollidable("player_attack");
+    Collidable & attack = componentFactory->newCollidable(s,"player_attack");
 
     attack.physical = false;
     attack.pathable = true;
@@ -165,7 +161,7 @@ GameObject& GameObjectFactory::newPlayerObject() //builds behaviours for the pla
 
     //behaviours
 
-    Behaviour & b = componentFactory->bindBehaviour(logic,"playerBehaviours");
+    Behaviour & b = componentFactory->bindBehaviour(s,logic,"playerBehaviours");
 
     //logic.addBehaviour(new PlayerBehaviours);
 
@@ -175,60 +171,3 @@ GameObject& GameObjectFactory::newPlayerObject() //builds behaviours for the pla
 
     return player;
 }
-
-GameObject &GameObjectFactory::newPathingObject()
-{
-    GameObject & seeker = makePlayerSeekingObject(
-                makePathingObject(
-                    newObject()
-                    )
-                );
-
-    SpriteRenderer & sprite = componentFactory->newSpriteRenderer("enemy_spr");
-    sprite.spritesheet = "butterfly";
-    sprite.animation.spf = 0.04f;
-    sprite.setTransform(seeker.transform);
-    seeker.addComponent(sprite);
-
-    return seeker;
-}
-
-GameObject &GameObjectFactory::newPathingObject(std::string name)
-{
-    GameObject & seeker = makePlayerSeekingObject(
-                makePathingObject(
-                    newObject(name)
-                    )
-                );
-    return seeker;
-}
-
-GameObject &GameObjectFactory::makePathingObject(GameObject & o)
-{
-    Collidable & hitbox = componentFactory->newRectCollidable(sf::FloatRect(-2,-2,4,4));
-    hitbox.setTransform(o.getTransform());
-    hitbox.pathable = true;
-    hitbox.immovable = false;
-    hitbox.diminutive = true;
-    hitbox.opaque = false;
-
-
-    GameLogic& logic = componentFactory->newGameLogic();
-
-    o.addComponent(hitbox);
-    o.addComponent(logic);
-
-    Behaviour & b = componentFactory->bindBehaviour(logic,"flowPathingBehaviours");
-
-    return o;
-}
-
-GameObject &GameObjectFactory::makePlayerSeekingObject(GameObject & o)
-{
-    RayEmitter & e = componentFactory->newRayEmitter();
-    e.addTarget("player_1");
-    o.addComponent(e);
-    return o;
-}
-
-

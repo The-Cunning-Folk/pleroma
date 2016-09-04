@@ -40,6 +40,7 @@ public:
     void printVal(sf::FloatRect);
     void printVal(sf::Vector2f);
     void printVal(sf::Vector2i);
+    void printVal(bool);
 
     std::string formatVector(sf::Vector2f,int);
 

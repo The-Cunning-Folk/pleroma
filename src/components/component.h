@@ -18,12 +18,6 @@ class Component
 public:
     Component();
 
-    MathsUtils* maths;
-    DebugUtils* debug;
-    ComponentLoader* componentLoader;
-    GameObjectLoader* gameObjectLoader;
-    Grid* grid;
-
     std::string name; //name of the component. All components should be named
     std::string typeId; //what type of component am I?
     int uniqueId; //a unique component id... not sure how I'll track this but we'll try
@@ -41,25 +35,8 @@ public:
         //nothing here
     }
 
-
-    DebugUtils *getDebug() const;
-    void setDebug(DebugUtils *value);
-
-
-    ComponentLoader *getComponentLoader() const;
-    void setComponentLoader(ComponentLoader *value);
-
     std::string getParent() const;
     void setParent(const std::string &value);
-
-    GameObjectLoader *getGameObjectLoader() const;
-    void setGameObjectLoader(GameObjectLoader *value);
-
-    MathsUtils *getMaths() const;
-    void setMaths(MathsUtils *value);
-
-    Grid *getGrid() const;
-    void setGrid(Grid *value);
 
     int getTransform() const;
     void setTransform(int value);

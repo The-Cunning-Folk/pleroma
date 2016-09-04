@@ -28,14 +28,15 @@ SimpleRay &RaycastingEngine::createOwnedRay(sf::Vector2f v1, sf::Vector2f v2, Ga
 
 SimpleRay &RaycastingEngine::createOwnedRay(GameObject & owner, sf::Vector2f relativePosition)
 {
-    sf::Vector2f start = owner.loadTransform().position;
+    sf::Vector2f start = componentLoader->getTransform(owner.transform).position;
     sf::Vector2f end = start + relativePosition;
     return createOwnedRay(start,end,owner);
 }
 
 SimpleRay &RaycastingEngine::createTargettedRay(GameObject & owner, GameObject & target)
 {
-    SimpleRay & r = createOwnedRay(owner.loadTransform().position,target.loadTransform().position,owner);
+    SimpleRay & r = createOwnedRay(componentLoader->getTransform(owner.transform).position,
+                                   componentLoader->getTransform(target.transform).position,owner);
     r.target = target.name;
     return r;
 }
@@ -55,26 +56,6 @@ void RaycastingEngine::setSimpleRays(const std::vector<SimpleRay> &value)
     simpleRays = value;
 }
 
-RayEmitter &RaycastingEngine::addRayEmitter()
-{
-    rayEmitters.resize(rayEmitters.size()+1);
-    rayEmitters.back().index = rayEmitters.size()-1;
-    return rayEmitters.back();
-}
-
-RayEmitter &RaycastingEngine::getRayEmitter(int index)
-{
-    if(index >=0 && index < rayEmitters.size())
-    {
-        return rayEmitters[index];
-    }
-    else
-    {
-        debug->printerr("requested rayemitter out of bounds");
-        return rayEmitters[0]; //todo: this could cause a segfault! Very bad >:(
-    }
-}
-
 void RaycastingEngine::start()
 {
     //get rid of the rays from the last frame
@@ -83,10 +64,10 @@ void RaycastingEngine::start()
 
 void RaycastingEngine::run()
 {
-
+    GameObjectStore & os = game->getCurrentLevel().objects;
     for(int i=0; i<activeComponents.size(); i++)
     {
-        RayEmitter & e = rayEmitters[activeComponents[i]];
+        RayEmitter & e = os.rayEmitters[activeComponents[i]];
         GameObject & oA = gameObjectLoader->loadGameObject(e.getParent());
 
         for(int j=0; j<e.targets.size(); j++)

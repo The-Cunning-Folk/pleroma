@@ -78,6 +78,11 @@ void DebugUtils::printVal(sf::Vector2i v)
     println(" x: " + std::to_string(v.x) + ", y: " + std::to_string(v.y));
 }
 
+void DebugUtils::printVal(bool b)
+{
+    b==true ? println("true") : println("false");
+}
+
 std::string DebugUtils::formatVector(sf::Vector2f v, int dec_places)
 {
     std::stringstream streamX;

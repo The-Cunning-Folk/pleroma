@@ -2,7 +2,7 @@
 #define GAMEOBJECTLOADER_H
 
 #include <gameobject.h>
-#include <gameobjectstack.h>
+#include <gameobjectstore.h>
 
 namespace BQ {
 class GameObjectLoader
@@ -10,10 +10,10 @@ class GameObjectLoader
 public:
     GameObjectLoader();
 
-    GameObjectStack * gameObjects;
+    GameObjectStore * gameObjects;
 
-    GameObjectStack *getGameObjects() const;
-    void setGameObjects(GameObjectStack *value);
+    GameObjectStore *getGameObjects() const;
+    void setGameObjects(GameObjectStore *value);
 
     GameObject & loadGameObject(std::string);
 };

@@ -7,12 +7,12 @@ GameObjectLoader::GameObjectLoader()
 }
 
 
-GameObjectStack *GameObjectLoader::getGameObjects() const
+GameObjectStore *GameObjectLoader::getGameObjects() const
 {
     return gameObjects;
 }
 
-void GameObjectLoader::setGameObjects(GameObjectStack *value)
+void GameObjectLoader::setGameObjects(GameObjectStore *value)
 {
     gameObjects = value;
 }

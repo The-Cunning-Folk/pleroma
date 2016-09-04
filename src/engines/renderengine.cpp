@@ -9,40 +9,15 @@ RenderEngine::RenderEngine()
 
 }
 
-
-std::vector<SpriteRenderer> RenderEngine::getSprites() const
-{
-    return sprites;
-}
-
-void RenderEngine::setSprites(const std::vector<SpriteRenderer> &value)
-{
-    sprites = value;
-}
-
-BQ::SpriteRenderer &BQ::RenderEngine::addSpriteRenderer()
-{
-    sprites.resize(sprites.size()+1);
-    sprites.back().index = sprites.size()-1;
-    sprites.back().name = placeholder + std::to_string(sprites.size());
-    return sprites.back();
-}
-
-SpriteRenderer &RenderEngine::getSpriteRenderer(int index)
-{
-    if(index >=0 && index < sprites.size())
-    {
-        return sprites[index];
-    }
-    else
-    {
-        debug->printerr("requested spriterenderer out of bounds");
-        return sprites[0]; //todo: this could cause a segfault! Very bad >:(
-    }
-}
-
 void RenderEngine::drawTileMap(TileMap & map)
 {
+    sf::FloatRect gridRegion=visibleRegion;
+    gridRegion.left-=16;
+    gridRegion.top-=16;
+    gridRegion.height+=32;
+    gridRegion.width+=32;
+    std::vector<GridSquare> visibleGrid=grid->getBox(gridRegion);
+
     for(int j = 0; j<map.tileLayers.size(); j++)
     {
 
@@ -52,11 +27,11 @@ void RenderEngine::drawTileMap(TileMap & map)
 
         sf::VertexArray tileArray;
         tileArray.setPrimitiveType(sf::Quads);
-        tileArray.resize(grid->activeSquares.size()*4);
+        tileArray.resize(visibleGrid.size()*4);
 
-        for(int i=0; i<grid->activeSquares.size(); i++)
+        for(int i=0; i<visibleGrid.size(); i++)
         {
-            GridSquare & g = grid->activeSquares[i];
+            GridSquare & g = visibleGrid[i];
 
             Tile & t = map.getTile(j,g.position);
 
@@ -118,6 +93,12 @@ void RenderEngine::drawTileMap(TileMap & map)
         game->gameWindow->window.draw(tileArray,states);
     }
 }
+
+void RenderEngine::setVisibleRegion(const sf::FloatRect & r)
+{
+    visibleRegion=r;
+}
+
 
 void RenderEngine::wake()
 {
@@ -260,11 +241,11 @@ void BQ::RenderEngine::start()
 
 void BQ::RenderEngine::run()
 {
-
+    GameObjectStore & os = game->getCurrentLevel().objects;
     for(int i=0; i<activeComponents.size(); i++)
     {
 
-        SpriteRenderer & s = sprites[activeComponents[i]];
+        SpriteRenderer & s = os.spriteRenderers[activeComponents[i]];
         SpriteSheet& sheet = spriteSheets[s.spritesheet];
         s.update();
         s.depth = componentLoader->getTransform(s.transform).position.y + s.depthOffset;
@@ -312,16 +293,14 @@ void BQ::RenderEngine::drawDebug()
 {
     std::vector<SpriteRenderer> renderList;
 
-    Level & l = game->levels["butterfly_demo"];
+    Level & l = game->getCurrentLevel();
 
 
     drawTileMap(l.groundMap);
 
-
-
     for(int i=0; i<activeComponents.size(); i++)
     {
-        renderList.push_back(sprites[activeComponents[i]]);
+        renderList.push_back(l.objects.spriteRenderers[activeComponents[i]]);
     }
 
     std::sort(renderList.begin(),renderList.end());

@@ -31,6 +31,7 @@ void Game::runEngines()
     transformEngine.run();
 
     grid.setActiveBounds(transformEngine.bounds);
+    renderEngine.setVisibleRegion(viewPort.drawRegion);
 
     float deltaT = debug->time.getSecondsAndRestart("logicTime");
 
@@ -55,7 +56,7 @@ void Game::runEngines()
     rayCastingEngine.start();
     rayCastingEngine.run();
 
-    pathingEngine.addGoal(player.loadTransform().position);
+    pathingEngine.addGoal(componentLoader.getTransform(player.transform).position);
     pathingEngine.run();
 
 
@@ -96,9 +97,9 @@ void Game::run()
     initialiseInput();
     initialiseClocks(); //clock definitions
     initialiseEnvironment();
-
-    initialiseTests();
     initialisePlayers();
+    initialiseTests();
+
 
     DebugUtils& print = *debug;
 
@@ -168,8 +169,8 @@ void Game::run()
         if(input.keyToggled("debug"))
             fpsDebug = !fpsDebug;
 
-//        if(input.keyToggled("transformDebug"))
-//            transformDebug = !transformDebug;
+        if(input.keyToggled("transformDebug"))
+            transformDebug = !transformDebug;
 
         if(input.keyToggled("collisionDebug"))
             collisionDebug = !collisionDebug;
@@ -196,10 +197,10 @@ void Game::run()
 
         window.window.setView(viewPort.view);
 
+        renderEngine.drawDebug();
+
         if(transformDebug)
             transformEngine.drawDebug();
-
-        renderEngine.drawDebug();
 
         if(collisionDebug)
             collisionEngine.drawDebug();
@@ -251,6 +252,7 @@ void Game::run()
 
 void Game::initialiseInjections()
 {
+    currentLevel="butterfly_demo";
     ViewPort & viewPort = gameWindow->primaryView;
     debug->println("injecting dependencies");
 
@@ -264,11 +266,13 @@ void Game::initialiseInjections()
     resourceLoader.setDebug(debug);
     resourceLoader.loadConfig("var/config.json");
 
-    gameObjectLoader.setGameObjects(&gameObjects);
+    gameObjectLoader.setGameObjects(&getCurrentLevel().objects);
 
     //component loader injections
 
     componentLoader.setGameObjectLoader(&gameObjectLoader);
+
+    componentLoader.setGame(this);
 
     componentLoader.setTransformEngine(&transformEngine);
     componentLoader.setCollisionEngine(&collisionEngine);
@@ -282,30 +286,19 @@ void Game::initialiseInjections()
 
     //component factory injections
 
-    componentFactory.setGrid(&grid);
     componentFactory.setComponentLoader(&componentLoader);
     componentFactory.setGameObjectLoader(&gameObjectLoader);
 
-    componentFactory.setCollisionEngine(&collisionEngine);
-    componentFactory.setTransformEngine(&transformEngine);
-    componentFactory.setInputEngine(&inputEngine);
-    componentFactory.setEventEngine(&eventEngine);
-    componentFactory.setCollisionEngine(&collisionEngine);
-    componentFactory.setPhysicsEngine(&physicsEngine);
     componentFactory.setLogicEngine(&logicEngine);
-    componentFactory.setRayCastingEngine(&rayCastingEngine);
-    componentFactory.setRenderEngine(&renderEngine);
 
     //end of component factory injections
-
-    gameObjectFactory.setStack(&gameObjects);
     gameObjectFactory.setComponentFactory(&componentFactory);
 
     physicsEventFactory.setPhysicsEngine(&physicsEngine);
     eventFactory.setEventEngine(&eventEngine);
     inputFactory.setInputEngine(&inputEngine);
 
-    gameObjects.setComponentLoader(&componentLoader);
+    getCurrentLevel().objects.setComponentLoader(&componentLoader);
 
     grid.setDebug(debug);
 
@@ -354,7 +347,6 @@ void Game::initialiseTests()
 
     //for testing only
     transformEngine.setWrapAround(false);
-    debug->println(std::to_string(gameWindow->getWidth()));
 
 }
 
@@ -378,7 +370,7 @@ void Game::initialisePlayers()
 
         sf::Vector2f absPlayerStart = grid.getCentre(playerStart);
 
-        player.loadTransform().setPosition(absPlayerStart);
+        componentLoader.getTransform(player.transform).setPosition(absPlayerStart);
     }
 
     viewPort.focusedTransform =  player.getTransform();
@@ -421,10 +413,8 @@ void Game::initialiseEnvironment()
         debug->println("loading " + lDir + "/" + levelsJson[i].GetString());
         Level lvl;
         lvl.setGame(this);
-
         lvl.loadLevelFromFile(lDir + "/" + levelsJson[i].GetString());
-
-        levels[lvl.name] = lvl;
+        levels[lvl.name]=lvl;
     }
 
 }
@@ -432,14 +422,6 @@ void Game::initialiseEnvironment()
 void Game::stabiliseFrameRate(float currentFrameDuration)
 {
     sf::Time sleepTime = sf::seconds(targetFrameDuration - currentFrameDuration);
-    if(sleepTime.asSeconds() < 0){
-
-        std::string targetString = std::to_string(targetFrameDuration);
-        std::string currentString = std::to_string(currentFrameDuration);
-
-        std::string warning = "frame duration exceeded target";
-        //debug->printwarn(warning);
-    }
     sf::sleep(sleepTime);
 }
 
@@ -557,6 +539,11 @@ void Game::setGameWindow(window_ptr window)
 window_ptr Game::getGameWindow()
 {
     return gameWindow;
+}
+
+Level &Game::getCurrentLevel()
+{
+    return levels[currentLevel];
 }
 
 void Game::setFrameRate(float fps)
