@@ -31,6 +31,7 @@ void Game::runEngines()
     transformEngine.run();
 
     grid.setActiveBounds(transformEngine.bounds);
+    renderEngine.setVisibleRegion(viewPort.drawRegion);
 
     float deltaT = debug->time.getSecondsAndRestart("logicTime");
 

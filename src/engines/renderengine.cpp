@@ -43,6 +43,13 @@ SpriteRenderer &RenderEngine::getSpriteRenderer(int index)
 
 void RenderEngine::drawTileMap(TileMap & map)
 {
+    sf::FloatRect gridRegion=visibleRegion;
+    gridRegion.left-=16;
+    gridRegion.top-=16;
+    gridRegion.height+=32;
+    gridRegion.width+=32;
+    std::vector<GridSquare> visibleGrid=grid->getBox(gridRegion);
+
     for(int j = 0; j<map.tileLayers.size(); j++)
     {
 
@@ -52,13 +59,11 @@ void RenderEngine::drawTileMap(TileMap & map)
 
         sf::VertexArray tileArray;
         tileArray.setPrimitiveType(sf::Quads);
-        tileArray.resize(grid->activeSquares.size()*4);
+        tileArray.resize(visibleGrid.size()*4);
 
-
-
-        for(int i=0; i<grid->activeSquares.size(); i++)
+        for(int i=0; i<visibleGrid.size(); i++)
         {
-            GridSquare & g = grid->activeSquares[i];
+            GridSquare & g = visibleGrid[i];
 
             Tile & t = map.getTile(j,g.position);
 
@@ -120,6 +125,12 @@ void RenderEngine::drawTileMap(TileMap & map)
         game->gameWindow->window.draw(tileArray,states);
     }
 }
+
+void RenderEngine::setVisibleRegion(const sf::FloatRect & r)
+{
+    visibleRegion=r;
+}
+
 
 void RenderEngine::wake()
 {
@@ -318,8 +329,6 @@ void BQ::RenderEngine::drawDebug()
 
 
     drawTileMap(l.groundMap);
-
-
 
     for(int i=0; i<activeComponents.size(); i++)
     {
