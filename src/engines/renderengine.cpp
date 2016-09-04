@@ -54,6 +54,8 @@ void RenderEngine::drawTileMap(TileMap & map)
         tileArray.setPrimitiveType(sf::Quads);
         tileArray.resize(grid->activeSquares.size()*4);
 
+
+
         for(int i=0; i<grid->activeSquares.size(); i++)
         {
             GridSquare & g = grid->activeSquares[i];

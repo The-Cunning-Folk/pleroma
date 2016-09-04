@@ -42,7 +42,7 @@ Transform & GameObjectStore::addTransform()
     nTransform++;
     Transform t;
     t.index=nTransform;
-    return transforms.insert(std::pair<int,Transform>(nTransform,t)).first->second;
+    return transforms[nTransform]=t;
 }
 
 GameObject& GameObjectStore::generateObject(std::string name)

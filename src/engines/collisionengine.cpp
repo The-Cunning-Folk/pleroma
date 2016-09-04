@@ -480,8 +480,8 @@ void CollisionEngine::drawDebug()
             {
                 shape.setPoint(k,p.points[k]);
             }
-            //debug->printVal(componentLoader->getTransform(c.transform).position);
-            shape.setPosition(componentLoader->getTransform(c.transform).position);
+
+            shape.setPosition(p.position);
 
             shape.setFillColor(sf::Color::White);
             if(!c.immovable)

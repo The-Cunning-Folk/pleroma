@@ -42,7 +42,7 @@ void GameLogic::setDelta(float delta)
 
 void GameLogic::update()
 {
-    //debug->printVal((int) behaviours.size());
+
 }
 
 void GameLogic::wake()

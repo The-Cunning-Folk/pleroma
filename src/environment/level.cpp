@@ -38,7 +38,7 @@ bool Level::loadLevelFromFile(std::string path)
                 int xPos = ent["x"].GetInt();
                 int yPos = ent["y"].GetInt();
 
-                game->componentLoader.getTransform(entity.transform).setPosition(game->grid.getCentre(xPos,yPos));
+                objects.transforms[entity.transform].setPosition(game->grid.getCentre(xPos,yPos));
 
             }
 

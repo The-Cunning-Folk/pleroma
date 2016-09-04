@@ -350,18 +350,11 @@ void Game::initialiseInput()
 
 void Game::initialiseTests()
 {
-    debug->println("size!");
-    debug->printVal((int)getCurrentLevel().objects.transforms.size());
-    for(it_transform it = getCurrentLevel().objects.transforms.begin(); it !=getCurrentLevel().objects.transforms.end(); it++)
-    {
-        debug->printVal(it->second.index);
-    }
     debug->println("setting up tests");
     input.setKeyInput("addObject",sf::Keyboard::F8);
 
     //for testing only
     transformEngine.setWrapAround(false);
-    debug->println(std::to_string(gameWindow->getWidth()));
 
 }
 
@@ -429,7 +422,7 @@ void Game::initialiseEnvironment()
         Level lvl;
         lvl.setGame(this);
         lvl.loadLevelFromFile(lDir + "/" + levelsJson[i].GetString());
-        levels.insert(std::pair<std::string,Level>(lvl.name,lvl));
+        levels[lvl.name]=lvl;
     }
 
 }
@@ -437,14 +430,6 @@ void Game::initialiseEnvironment()
 void Game::stabiliseFrameRate(float currentFrameDuration)
 {
     sf::Time sleepTime = sf::seconds(targetFrameDuration - currentFrameDuration);
-    if(sleepTime.asSeconds() < 0){
-
-        std::string targetString = std::to_string(targetFrameDuration);
-        std::string currentString = std::to_string(currentFrameDuration);
-
-        std::string warning = "frame duration exceeded target";
-        //debug->printwarn(warning);
-    }
     sf::sleep(sleepTime);
 }
 

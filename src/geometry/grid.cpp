@@ -27,7 +27,6 @@ void Grid::setScale(int value)
     if(value <= 0){
         value = 2;
     }
-    debug->println(std::to_string(value));
     if(value%2 != 0){
         scale = math.nxtPow2(value);
     }
@@ -382,7 +381,6 @@ std::vector<GridSquare> Grid::getBox(sf::Vector2i tl, sf::Vector2i br)
             GridSquare g = getGridSquare(sf::Vector2i(i,j));
             g.index = ps.size();
             ps.push_back(g);
-            //debug->println("X: " + std::to_string(i) + " , Y: " + std::to_string(j) );
         }
     }
     return ps;

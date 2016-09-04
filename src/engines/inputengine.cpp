@@ -62,20 +62,7 @@ void InputEngine::run()
 
     for(unsigned int i = 0; i<controllers.size(); i++)
     {
-//        debug->printVal("X AXIS: ",controllers[i].getXAxis());
-//        debug->printVal("Y AXIS: ",controllers[i].getXAxis());
-//        debug->printVal("Z AXIS: ",controllers[i].getXAxis());
-//        debug->printVal("R AXIS: ",controllers[i].getXAxis());
-//        debug->printVal("U AXIS: ",controllers[i].getXAxis());
-//        debug->printVal("V AXIS: ",controllers[i].getXAxis());
 
-//        for(unsigned int j = 0; j<controllers[i].buttons; j++)
-//        {
-//            if(controllers[i].isButtonPressed(j))
-//            {
-//                debug->println("button: " + std::to_string(j));
-//            }
-//        }
     }
 }
 

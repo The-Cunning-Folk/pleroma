@@ -71,12 +71,13 @@ void TransformEngine::run()
         //update all the transforms!
         Transform & t = it->second;
 
-        const sf::Vector2f & gpos = t.getPosition();
+        sf::Vector2f gpos = t.getPosition();
         if(bounds.contains(gpos))
         {
             activeComponents.push_back(it->first);
             objectsInRange.push_back(t.getParent());
         }
+
 
 
         if(wrapAround)

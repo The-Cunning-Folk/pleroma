@@ -133,14 +133,6 @@ void EventEngine::run()
 
 
     delta = time.getSeconds("logicTime");
-//    for(unsigned int i=0; i<toUpdate.size();i++)
-//    {
-//        int j = toUpdate[i];
-//        gameLogics[j].setDelta(delta);
-//        gameLogics[j].update();
-//    }
-
-    //debug->printVal((int) gameLogics.size());
 
     for(int i=0; i<activeComponents.size(); i++)
     {
