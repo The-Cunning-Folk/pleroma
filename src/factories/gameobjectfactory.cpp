@@ -39,7 +39,7 @@ GameObject &GameObjectFactory::buildComponentsFromPattern(GameObjectStore & s, G
     }
     for(int i=0; i<pattern.rigidBodyPatterns.size(); i++)
     {
-        RigidBody & r = componentFactory->newRigidBody();
+        RigidBody & r = componentFactory->newRigidBody(s);
         componentFactory->buildRigidBodyFromPattern(pattern.rigidBodyPatterns[i],r);
         g.addComponent(r.name,r);
     }
@@ -103,7 +103,7 @@ GameObject& GameObjectFactory::newPlayerObject() //builds behaviours for the pla
     GameLogic& logic = componentFactory->newGameLogic("player_logic");
 
 
-    RigidBody & body = componentFactory->newRigidBody("player_rigidbody");
+    RigidBody & body = componentFactory->newRigidBody(s,"player_rigidbody");
     RayEmitter & rays = componentFactory->newRayEmitter("player_ray1");
     SpriteRenderer & sprite = componentFactory->newSpriteRenderer("player_spr");
 

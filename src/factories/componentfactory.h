@@ -62,8 +62,8 @@ public:
     GameLogic& newGameLogic();
     GameLogic& newGameLogic(std::string);
 
-    RigidBody& newRigidBody();
-    RigidBody& newRigidBody(std::string);
+    RigidBody& newRigidBody(GameObjectStore &);
+    RigidBody& newRigidBody(GameObjectStore &,std::string);
 
     RayEmitter & newRayEmitter();
     RayEmitter & newRayEmitter(std::string);

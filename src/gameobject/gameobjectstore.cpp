@@ -61,6 +61,14 @@ PlayerInput &GameObjectStore::addPlayerInput()
     return playerInputs[nPlayerInput]=p;
 }
 
+RigidBody &GameObjectStore::addRigidBody()
+{
+    nRigidBody++;
+    RigidBody r;
+    r.index=nRigidBody;
+    return rigidBodies[nRigidBody]=r;
+}
+
 GameObject& GameObjectStore::generateObject(std::string name)
 {
     GameObject object;

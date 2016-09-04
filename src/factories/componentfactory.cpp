@@ -211,15 +211,15 @@ Collidable &ComponentFactory::newCollidable(GameObjectStore & s,std::vector<sf::
     return c;
 }
 
-RigidBody &ComponentFactory::newRigidBody()
+RigidBody &ComponentFactory::newRigidBody(GameObjectStore & s)
 {
-    RigidBody & rigidBody = physicsEngine->addRigidBody();
+    RigidBody & rigidBody = s.addRigidBody();
     return rigidBody;
 }
 
-RigidBody &ComponentFactory::newRigidBody(std::string name)
+RigidBody &ComponentFactory::newRigidBody(GameObjectStore & s,std::string name)
 {
-    RigidBody & rigidBody = newRigidBody();
+    RigidBody & rigidBody = newRigidBody(s);
     rigidBody.setName(name);
     return rigidBody;
 }

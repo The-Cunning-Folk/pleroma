@@ -22,13 +22,14 @@ void PhysicsEngine::start()
 
 void PhysicsEngine::run()
 {
+    GameObjectStore & os = game->getCurrentLevel().objects;
     for(int i=0; i<collisions.size(); i++)
     {
         PhysicalCollision & p = collisions[i];
 
 
-            RigidBody & rA = rigidbodies[p.rigidBodyA];
-            RigidBody & rB = rigidbodies[p.rigidBodyB];
+            RigidBody & rA = os.rigidBodies[p.rigidBodyA];
+            RigidBody & rB = os.rigidBodies[p.rigidBodyB];
 
             sf::Vector2f uOver = maths->unit(p.overlap);
 
@@ -65,7 +66,7 @@ void PhysicsEngine::run()
     for(unsigned int j=0; j<activeComponents.size(); j++)
     {
         int i = activeComponents[j];
-        RigidBody& r = rigidbodies[i];
+        RigidBody& r = os.rigidBodies[i];
         componentLoader->getTransform(r.transform).setVelocity(r.getInvmass()*r.momentum);
         if(r.friction > 1E-12) //floating point inprecision check
         {
@@ -95,24 +96,4 @@ void PhysicsEngine::finish()
 void PhysicsEngine::addCollision(const PhysicalCollision & c)
 {
     collisions.push_back(c);
-}
-
-RigidBody &PhysicsEngine::addRigidBody()
-{
-    rigidbodies.resize(rigidbodies.size()+1);
-    rigidbodies.back().index = rigidbodies.size()-1;
-    return rigidbodies.back();
-}
-
-RigidBody &PhysicsEngine::getRigidBody(int index)
-{
-    if(index >=0 && index < rigidbodies.size())
-    {
-        return rigidbodies[index];
-    }
-    else
-    {
-        debug->printerr("requested rigidbody out of bounds");
-        return rigidbodies[0]; //todo: this could cause a segfault! Very bad >:(
-    }
 }

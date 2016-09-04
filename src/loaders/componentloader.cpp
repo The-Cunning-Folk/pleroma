@@ -23,7 +23,7 @@ Collidable &ComponentLoader::getCollidable(int index)
 
 RigidBody &ComponentLoader::getRigidBody(int index)
 {
-    return physicsEngine->getRigidBody(index);
+    return game->getCurrentLevel().objects.rigidBodies[index];
 }
 
 GameLogic &ComponentLoader::getGameLogic(int index)

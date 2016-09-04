@@ -19,14 +19,10 @@ public:
 
     float grav;
 
-    std::vector<RigidBody> rigidbodies;
-
     void addCollision(const PhysicalCollision &);
 
     std::vector<PhysicalCollision> collisions;
 
-    RigidBody & addRigidBody();
-    RigidBody & getRigidBody(int);
 };
 }
 
