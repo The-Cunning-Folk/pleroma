@@ -157,14 +157,14 @@ Transform &ComponentFactory::newChildTransform(GameObjectStore & s,Transform& pa
     return(transform);
 }
 
-PlayerInput &ComponentFactory::newPlayerInput()
+PlayerInput &ComponentFactory::newPlayerInput(GameObjectStore & s)
 {
-    return inputEngine->addPlayerInput();
+    return s.addPlayerInput();
 }
 
-PlayerInput &ComponentFactory::newPlayerInput(std::string name)
+PlayerInput &ComponentFactory::newPlayerInput(GameObjectStore & s, std::string name)
 {
-    PlayerInput & input = newPlayerInput();
+    PlayerInput & input = newPlayerInput(s);
     input.setName(name);
     return(input);
 }

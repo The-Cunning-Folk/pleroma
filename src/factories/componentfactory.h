@@ -56,8 +56,8 @@ public:
     Collidable& newCollidable(GameObjectStore &,std::vector<sf::Vector2f>);
     Collidable& newCollidable(GameObjectStore &,std::string,std::vector<sf::Vector2f>);
 
-    PlayerInput& newPlayerInput();
-    PlayerInput& newPlayerInput(std::string);
+    PlayerInput& newPlayerInput(GameObjectStore &);
+    PlayerInput& newPlayerInput(GameObjectStore &,std::string);
 
     GameLogic& newGameLogic();
     GameLogic& newGameLogic(std::string);

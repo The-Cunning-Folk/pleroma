@@ -99,7 +99,7 @@ GameObject& GameObjectFactory::newPlayerObject() //builds behaviours for the pla
 {
     GameObjectStore & s = game->getCurrentLevel().objects;
     GameObject& player = newObject(s, "player_1");
-    PlayerInput& input = componentFactory->newPlayerInput("player_input");
+    PlayerInput& input = componentFactory->newPlayerInput(s,"player_input");
     GameLogic& logic = componentFactory->newGameLogic("player_logic");
 
 

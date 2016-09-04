@@ -53,6 +53,14 @@ Collidable &GameObjectStore::addCollidable()
     return collidables[nCollidable]=c;
 }
 
+PlayerInput &GameObjectStore::addPlayerInput()
+{
+    nPlayerInput++;
+    PlayerInput p;
+    p.index=nPlayerInput;
+    return playerInputs[nPlayerInput]=p;
+}
+
 GameObject& GameObjectStore::generateObject(std::string name)
 {
     GameObject object;
