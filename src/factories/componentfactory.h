@@ -43,37 +43,24 @@ public:
     void buildRayEmitterFromPattern(RayEmitterPattern &, RayEmitter &);
     void buildGameLogicFromPattern(GameLogicPattern &, GameLogic &);
 
+    Behaviour& bindBehaviour(GameLogic &, std::string);
+
     Transform& newTransform(GameObjectStore &);
     Transform& newTransform(GameObjectStore &,std::string);
-    Transform& newChildTransform(GameObjectStore & s,Transform&);
+    Transform& newChildTransform(GameObjectStore &,Transform&);
+
+    //creation methods
+    Collidable& newCollidable(GameObjectStore &);
+    Collidable& newCollidable(GameObjectStore &,std::string);
+
+    Collidable& newCollidable(GameObjectStore &,std::vector<sf::Vector2f>);
+    Collidable& newCollidable(GameObjectStore &,std::string,std::vector<sf::Vector2f>);
 
     PlayerInput& newPlayerInput();
     PlayerInput& newPlayerInput(std::string);
 
     GameLogic& newGameLogic();
     GameLogic& newGameLogic(std::string);
-
-    Behaviour& bindBehaviour(GameLogic &, std::string);
-
-    //basic methods
-    Collidable& newCollidable();
-    Collidable& newCollidable(std::string);
-
-    //nice easy way to make square collidables
-    Collidable& newRectCollidable(std::string, sf::FloatRect);
-    Collidable& newRectCollidable(sf::FloatRect);
-
-    //purely for testing tbh
-    Collidable& newRandomCollidable();
-    Collidable& newRandomCollidable(std::string);
-
-    //define radius
-    Collidable& newRandomCollidable(float);
-    Collidable& newRandomCollidable(std::string,float);
-
-    //for generic collidables
-    Collidable& newCollidable(std::vector<sf::Vector2f>);
-    Collidable& newCollidable(std::string,std::vector<sf::Vector2f>);
 
     RigidBody& newRigidBody();
     RigidBody& newRigidBody(std::string);
@@ -83,6 +70,8 @@ public:
 
     SpriteRenderer & newSpriteRenderer();
     SpriteRenderer & newSpriteRenderer(std::string);
+
+    //getters/setters
 
     TransformEngine *getTransformEngine() const;
     void setTransformEngine(TransformEngine *value);

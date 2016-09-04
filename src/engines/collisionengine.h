@@ -16,11 +16,6 @@ public:
 
     float overlapThreshold;
 
-    Collidable & getCollidable(int);
-
-    Collidable& addCollidable();
-    Collidable& addCollidable(Collidable);
-
     bool checkCollision(Collidable &,Collidable &);
     sf::Vector2f findMovingCollisionCorrection(Collidable &, Collidable &);
     sf::Vector2f separatingAxisCheck(ConvexPolygon &, ConvexPolygon &);
@@ -40,7 +35,6 @@ public:
 
 protected:
 
-    std::vector<Collidable> collidables;
 };
 }
 

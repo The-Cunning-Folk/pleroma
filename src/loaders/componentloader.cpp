@@ -18,7 +18,7 @@ Transform & ComponentLoader::getTransform(int index)
 
 Collidable &ComponentLoader::getCollidable(int index)
 {
-    return collisionEngine->getCollidable(index);
+    return game->getCurrentLevel().objects.collidables[index];
 }
 
 RigidBody &ComponentLoader::getRigidBody(int index)

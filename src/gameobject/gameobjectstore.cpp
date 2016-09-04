@@ -45,6 +45,14 @@ Transform & GameObjectStore::addTransform()
     return transforms[nTransform]=t;
 }
 
+Collidable &GameObjectStore::addCollidable()
+{
+    nCollidable++;
+    Collidable c;
+    c.index=nCollidable;
+    return collidables[nCollidable]=c;
+}
+
 GameObject& GameObjectStore::generateObject(std::string name)
 {
     GameObject object;

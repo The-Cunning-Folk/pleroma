@@ -187,63 +187,22 @@ Behaviour &ComponentFactory::bindBehaviour(GameLogic & g, std::string type)
     return logicEngine->bindBehaviour(g,type);
 }
 
-Collidable & ComponentFactory::newCollidable()
+Collidable & ComponentFactory::newCollidable(GameObjectStore & s)
 {
-    Collidable & c = collisionEngine->addCollidable();
+    Collidable & c = s.addCollidable();
     return c;
 }
 
-Collidable & ComponentFactory::newCollidable(std::string name)
+Collidable & ComponentFactory::newCollidable(GameObjectStore & s,std::string name)
 {
-    Collidable & c = newCollidable();
+    Collidable & c = newCollidable(s);
     c.name = name;
     return(c);
 }
 
-
-Collidable &ComponentFactory::newRectCollidable(sf::FloatRect r)
+Collidable &ComponentFactory::newCollidable(GameObjectStore & s,std::vector<sf::Vector2f> points)
 {
-    Collidable & c = newCollidable();
-    c.polygon.addPoint(sf::Vector2f(r.left,r.top));
-    c.polygon.addPoint(sf::Vector2f(r.left + r.width, r.top));
-    c.polygon.addPoint(sf::Vector2f(r.left+r.width,r.top+r.height));
-    c.polygon.addPoint(sf::Vector2f(r.left, r.top+r.height));
-    return c;
-}
-
-Collidable &ComponentFactory::newRandomCollidable()
-{
-    float r = maths->randomFloat(1,10);
-    return newRandomCollidable(r);
-}
-
-Collidable &ComponentFactory::newRandomCollidable(float r)
-{
-
-    Collidable & c = newCollidable();
-
-    sf::Vector2f point;
-    float a = 0.0;
-
-    while(a<360.0)
-    {
-        point.x = r*maths->fcosDeg(a);
-        point.y = r*maths->fsinDeg(a);
-        c.polygon.addPoint(point);
-        a += maths->randomFloat(10,80);
-    }
-
-    return c;
-}
-
-Collidable &ComponentFactory::newCollidable(std::vector<sf::Vector2f> points)
-{
-    if(points.size() < 2){
-        debug->println("requested a collidable with only one point, returning a random");
-        return newRandomCollidable();
-    }
-
-    Collidable & c = newCollidable();
+    Collidable & c = newCollidable(s);
 
     for(int i=0; i<points.size(); i++)
     {

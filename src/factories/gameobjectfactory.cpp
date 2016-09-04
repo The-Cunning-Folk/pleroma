@@ -33,7 +33,7 @@ GameObject &GameObjectFactory::buildComponentsFromPattern(GameObjectStore & s, G
     }
     for(int i=0; i<pattern.collidablePatterns.size(); i++)
     {
-        Collidable & c = componentFactory->newCollidable();
+        Collidable & c = componentFactory->newCollidable(s);
         componentFactory->buildCollidableFromPattern(pattern.collidablePatterns[i],c);
         g.addComponent(c.name,c);
     }
@@ -97,7 +97,8 @@ GameObject &GameObjectFactory::newObject(GameObjectStore & s, std::string name)
 
 GameObject& GameObjectFactory::newPlayerObject() //builds behaviours for the player
 {
-    GameObject& player = newObject(game->getCurrentLevel().objects, "player_1");
+    GameObjectStore & s = game->getCurrentLevel().objects;
+    GameObject& player = newObject(s, "player_1");
     PlayerInput& input = componentFactory->newPlayerInput("player_input");
     GameLogic& logic = componentFactory->newGameLogic("player_logic");
 
@@ -106,7 +107,7 @@ GameObject& GameObjectFactory::newPlayerObject() //builds behaviours for the pla
     RayEmitter & rays = componentFactory->newRayEmitter("player_ray1");
     SpriteRenderer & sprite = componentFactory->newSpriteRenderer("player_spr");
 
-    Collidable & hitbox = componentFactory->newCollidable("player_hitbox");
+    Collidable & hitbox = componentFactory->newCollidable(s,"player_hitbox");
     hitbox.pathable = true;
     hitbox.setTransform(player.getTransform());
 
@@ -124,7 +125,7 @@ GameObject& GameObjectFactory::newPlayerObject() //builds behaviours for the pla
     player.addComponent("hitbox",hitbox);
     hitbox.update();
 
-    Collidable & attack = componentFactory->newCollidable("player_attack");
+    Collidable & attack = componentFactory->newCollidable(s,"player_attack");
 
     attack.physical = false;
     attack.pathable = true;
