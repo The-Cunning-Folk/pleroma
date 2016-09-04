@@ -224,14 +224,14 @@ RigidBody &ComponentFactory::newRigidBody(GameObjectStore & s,std::string name)
     return rigidBody;
 }
 
-RayEmitter &ComponentFactory::newRayEmitter()
+RayEmitter &ComponentFactory::newRayEmitter(GameObjectStore & s)
 {
-    return rayCastingEngine->addRayEmitter();
+    return s.addRayEmitter();
 }
 
-RayEmitter &ComponentFactory::newRayEmitter(std::string name)
+RayEmitter &ComponentFactory::newRayEmitter(GameObjectStore & s,std::string name)
 {
-    RayEmitter & rayEmitter = newRayEmitter();
+    RayEmitter & rayEmitter = newRayEmitter(s);
     rayEmitter.setName(name);
     return rayEmitter;
 }

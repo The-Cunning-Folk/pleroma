@@ -45,7 +45,7 @@ GameObject &GameObjectFactory::buildComponentsFromPattern(GameObjectStore & s, G
     }
     for(int i=0 ; i<pattern.rayEmitterPatterns.size(); i++)
     {
-        RayEmitter & r = componentFactory->newRayEmitter();
+        RayEmitter & r = componentFactory->newRayEmitter(s);
         componentFactory->buildRayEmitterFromPattern(pattern.rayEmitterPatterns[i],r);
         g.addComponent(r.name,r);
     }
@@ -104,7 +104,7 @@ GameObject& GameObjectFactory::newPlayerObject() //builds behaviours for the pla
 
 
     RigidBody & body = componentFactory->newRigidBody(s,"player_rigidbody");
-    RayEmitter & rays = componentFactory->newRayEmitter("player_ray1");
+    RayEmitter & rays = componentFactory->newRayEmitter(s,"player_ray1");
     SpriteRenderer & sprite = componentFactory->newSpriteRenderer(s,"player_spr");
 
     Collidable & hitbox = componentFactory->newCollidable(s,"player_hitbox");

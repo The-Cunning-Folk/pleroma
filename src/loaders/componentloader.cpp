@@ -38,7 +38,7 @@ Behaviour &ComponentLoader::getBehaviour(int index)
 
 RayEmitter &ComponentLoader::getRayEmitter(int index)
 {
-    return rayCastingEngine->getRayEmitter(index);
+    return game->getCurrentLevel().objects.rayEmitters[index];
 }
 
 SpriteRenderer &ComponentLoader::getSpriteRenderer(int index)

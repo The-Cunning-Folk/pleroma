@@ -61,6 +61,14 @@ PlayerInput &GameObjectStore::addPlayerInput()
     return playerInputs[nPlayerInput]=p;
 }
 
+RayEmitter &GameObjectStore::addRayEmitter()
+{
+    nRayEmitter++;
+    RayEmitter r;
+    r.index=nRayEmitter;
+    return rayEmitters[nRayEmitter]=r;
+}
+
 RigidBody &GameObjectStore::addRigidBody()
 {
     nRigidBody++;

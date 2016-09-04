@@ -65,8 +65,8 @@ public:
     RigidBody& newRigidBody(GameObjectStore &);
     RigidBody& newRigidBody(GameObjectStore &,std::string);
 
-    RayEmitter & newRayEmitter();
-    RayEmitter & newRayEmitter(std::string);
+    RayEmitter & newRayEmitter(GameObjectStore &);
+    RayEmitter & newRayEmitter(GameObjectStore &,std::string);
 
     SpriteRenderer & newSpriteRenderer(GameObjectStore &);
     SpriteRenderer & newSpriteRenderer(GameObjectStore &,std::string);
