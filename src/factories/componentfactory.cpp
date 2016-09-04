@@ -231,19 +231,19 @@ RayEmitter &ComponentFactory::newRayEmitter()
 
 RayEmitter &ComponentFactory::newRayEmitter(std::string name)
 {
-    RayEmitter & rayEmitter = rayCastingEngine->addRayEmitter();
+    RayEmitter & rayEmitter = newRayEmitter();
     rayEmitter.setName(name);
     return rayEmitter;
 }
 
-SpriteRenderer &ComponentFactory::newSpriteRenderer()
+SpriteRenderer &ComponentFactory::newSpriteRenderer(GameObjectStore & s)
 {
-    return renderEngine->addSpriteRenderer();
+    return s.addSpriteRenderer();
 }
 
-SpriteRenderer &ComponentFactory::newSpriteRenderer(std::string name)
+SpriteRenderer &ComponentFactory::newSpriteRenderer(GameObjectStore & s,std::string name)
 {
-    SpriteRenderer & spriteRenderer = renderEngine->addSpriteRenderer();
+    SpriteRenderer & spriteRenderer = newSpriteRenderer(s);
     spriteRenderer.setName(name);
     return spriteRenderer;
 }

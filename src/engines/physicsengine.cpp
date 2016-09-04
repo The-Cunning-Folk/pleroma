@@ -31,8 +31,6 @@ void PhysicsEngine::run()
             RigidBody & rA = os.rigidBodies[p.rigidBodyA];
             RigidBody & rB = os.rigidBodies[p.rigidBodyB];
 
-            sf::Vector2f uOver = maths->unit(p.overlap);
-
             //do momentum transfer here
 
             sf::Vector2f mA = rA.momentum;

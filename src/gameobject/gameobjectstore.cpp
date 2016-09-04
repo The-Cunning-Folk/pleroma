@@ -69,6 +69,14 @@ RigidBody &GameObjectStore::addRigidBody()
     return rigidBodies[nRigidBody]=r;
 }
 
+SpriteRenderer &GameObjectStore::addSpriteRenderer()
+{
+    nSpriteRenderer++;
+    SpriteRenderer s;
+    s.index=nSpriteRenderer;
+    return spriteRenderers[nSpriteRenderer]=s;
+}
+
 GameObject& GameObjectStore::generateObject(std::string name)
 {
     GameObject object;

@@ -68,8 +68,8 @@ public:
     RayEmitter & newRayEmitter();
     RayEmitter & newRayEmitter(std::string);
 
-    SpriteRenderer & newSpriteRenderer();
-    SpriteRenderer & newSpriteRenderer(std::string);
+    SpriteRenderer & newSpriteRenderer(GameObjectStore &);
+    SpriteRenderer & newSpriteRenderer(GameObjectStore &,std::string);
 
     //getters/setters
 

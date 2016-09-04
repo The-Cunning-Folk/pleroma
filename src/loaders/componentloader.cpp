@@ -43,7 +43,7 @@ RayEmitter &ComponentLoader::getRayEmitter(int index)
 
 SpriteRenderer &ComponentLoader::getSpriteRenderer(int index)
 {
-    return renderEngine->getSpriteRenderer(index);
+    return game->getCurrentLevel().objects.spriteRenderers[index];
 }
 
 Transform &ComponentLoader::getTransformFromObject(GameObject & o, std::string name)

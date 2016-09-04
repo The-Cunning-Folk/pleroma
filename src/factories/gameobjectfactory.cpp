@@ -27,9 +27,9 @@ GameObject &GameObjectFactory::buildComponentsFromPattern(GameObjectStore & s, G
 {
     for(int i=0; i<pattern.spriteRendererPatterns.size(); i++)
     {
-        SpriteRenderer & s = componentFactory->newSpriteRenderer();
-        componentFactory->buildSpriteRendererFromPattern(pattern.spriteRendererPatterns[i],s);
-        g.addComponent(s.name,s);
+        SpriteRenderer & sp = componentFactory->newSpriteRenderer(s);
+        componentFactory->buildSpriteRendererFromPattern(pattern.spriteRendererPatterns[i],sp);
+        g.addComponent(sp.name,sp);
     }
     for(int i=0; i<pattern.collidablePatterns.size(); i++)
     {
@@ -105,7 +105,7 @@ GameObject& GameObjectFactory::newPlayerObject() //builds behaviours for the pla
 
     RigidBody & body = componentFactory->newRigidBody(s,"player_rigidbody");
     RayEmitter & rays = componentFactory->newRayEmitter("player_ray1");
-    SpriteRenderer & sprite = componentFactory->newSpriteRenderer("player_spr");
+    SpriteRenderer & sprite = componentFactory->newSpriteRenderer(s,"player_spr");
 
     Collidable & hitbox = componentFactory->newCollidable(s,"player_hitbox");
     hitbox.pathable = true;

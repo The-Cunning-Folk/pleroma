@@ -9,38 +9,6 @@ RenderEngine::RenderEngine()
 
 }
 
-
-std::vector<SpriteRenderer> RenderEngine::getSprites() const
-{
-    return sprites;
-}
-
-void RenderEngine::setSprites(const std::vector<SpriteRenderer> &value)
-{
-    sprites = value;
-}
-
-BQ::SpriteRenderer &BQ::RenderEngine::addSpriteRenderer()
-{
-    sprites.resize(sprites.size()+1);
-    sprites.back().index = sprites.size()-1;
-    sprites.back().name = placeholder + std::to_string(sprites.size());
-    return sprites.back();
-}
-
-SpriteRenderer &RenderEngine::getSpriteRenderer(int index)
-{
-    if(index >=0 && index < sprites.size())
-    {
-        return sprites[index];
-    }
-    else
-    {
-        debug->printerr("requested spriterenderer out of bounds");
-        return sprites[0]; //todo: this could cause a segfault! Very bad >:(
-    }
-}
-
 void RenderEngine::drawTileMap(TileMap & map)
 {
     sf::FloatRect gridRegion=visibleRegion;
@@ -273,11 +241,11 @@ void BQ::RenderEngine::start()
 
 void BQ::RenderEngine::run()
 {
-
+    GameObjectStore & os = game->getCurrentLevel().objects;
     for(int i=0; i<activeComponents.size(); i++)
     {
 
-        SpriteRenderer & s = sprites[activeComponents[i]];
+        SpriteRenderer & s = os.spriteRenderers[activeComponents[i]];
         SpriteSheet& sheet = spriteSheets[s.spritesheet];
         s.update();
         s.depth = componentLoader->getTransform(s.transform).position.y + s.depthOffset;
@@ -332,7 +300,7 @@ void BQ::RenderEngine::drawDebug()
 
     for(int i=0; i<activeComponents.size(); i++)
     {
-        renderList.push_back(sprites[activeComponents[i]]);
+        renderList.push_back(l.objects.spriteRenderers[activeComponents[i]]);
     }
 
     std::sort(renderList.begin(),renderList.end());
