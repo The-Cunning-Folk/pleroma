@@ -1,8 +1,7 @@
 #include "playerbehaviours.h"
 
 #include <gameobject.h>
-#include<componentloader.h>
-#include<gameobjectloader.h>
+#include <game.h>
 
 using namespace BQ;
 
@@ -159,7 +158,7 @@ sf::Vector2f PlayerBehaviours::getOctDirection()
     {
         octDir = sf::Vector2f(-1,1);
     }
-    octDir = maths->unit(octDir);
+    octDir = game->math.unit(octDir);
     return octDir;
 }
 
@@ -169,7 +168,7 @@ void PlayerBehaviours::checkInputLogic()
     {
         rolling = true;
         startRoll = false;
-        rollDirection = maths->mag(direction) > 0.01f
+        rollDirection = game->math.mag(direction) > 0.01f
                 ? direction
                 : getOctDirection();
     }
@@ -215,10 +214,11 @@ void PlayerBehaviours::collisionWith(GameObject &o, std::string me, std::string 
 {
     if(compare(me,"attack"))
     {
-        std::vector<int> rs = componentLoader->getRigidBodiesFromObject(o);
+
+        std::vector<int> rs = game->componentLoader.getRigidBodiesFromObject(o);
         for(int i=0; i<rs.size(); i++)
         {
-            RigidBody & r = componentLoader->getRigidBody(rs[i]);
+            RigidBody & r = game->componentLoader.getRigidBody(rs[i]);
             r.momentum += attackMom*attackDirection;
         }
     }
@@ -284,17 +284,19 @@ void PlayerBehaviours::resolveEvent(Event & event)
 
 void PlayerBehaviours::update()
 {
-    GameObject& g = gameObjectLoader->loadGameObject(parent);
-    Transform & transform = componentLoader->getTransform(g.transform);
+    GameObjectLoader & gameObjectLoader = game->gameObjectLoader;
+    ComponentLoader & componentLoader = game->componentLoader;
+    GameObject& g = gameObjectLoader.loadGameObject(parent);
+    Transform & transform = componentLoader.getTransform(g.transform);
     sf::Vector2f direction(dx,dy);
-    if(maths->mag(direction) > 1.0)
+    if(game->math.mag(direction) > 1.0)
     {
-        direction = maths->unit(direction);
+        direction = game->math.unit(direction);
     }
     sf::Vector2f velocity = speed*direction;
     facing = getFacing(direction.x,direction.y);
 
-    SpriteRenderer & spr = componentLoader->getSpriteRendererFromObject(g,"sprite");
+    SpriteRenderer & spr = componentLoader.getSpriteRendererFromObject(g,"sprite");
 
     if(rolling)
     {
@@ -326,7 +328,7 @@ void PlayerBehaviours::update()
         spr.animation.spf = rollDuration/4.0;
         spr.animation.play();
     }
-    else if(maths->mag(velocity) < 0.01f)
+    else if(game->math.mag(velocity) < 0.01f)
     {
         spr.spritesheet = "clo_walk";
         spr.offset.x = 0;
@@ -352,7 +354,7 @@ void PlayerBehaviours::update()
             spr.clip = "walk_right";
         else if(facing[0] == 'l')
             spr.clip = "walk_left";
-        spr.animation.rate = 2*maths->mag(velocity)/speed;
+        spr.animation.rate = 2*game->math.mag(velocity)/speed;
         spr.animation.play();
     }
 
@@ -373,16 +375,16 @@ void PlayerBehaviours::update()
         if(attackFrame >= attackFrames.size()) {attackFrame = attackFrames.size()-1;}
         velocity.x = 0;
         velocity.y = 0;
-        Collidable & attack = componentLoader->getCollidableFromObject(gameObjectLoader->loadGameObject(parent),"attack");
-        ConvexPolygon scaled = maths->scale(attackFrames[attackFrame],attackScaleFactor);
-        scaled = maths->rotateClockwise(scaled,maths->getBearing(attackDirection));
+        Collidable & attack = componentLoader.getCollidableFromObject(gameObjectLoader.loadGameObject(parent),"attack");
+        ConvexPolygon scaled = game->math.scale(attackFrames[attackFrame],attackScaleFactor);
+        scaled = game->math.rotateClockwise(scaled,game->math.getBearing(attackDirection));
         scaled.position = attack.polygon.position;
         attack.polygon = scaled;
 
     }
     else
     {
-        Collidable & attack = componentLoader->getCollidableFromObject(gameObjectLoader->loadGameObject(parent),"attack");
+        Collidable & attack = componentLoader.getCollidableFromObject(gameObjectLoader.loadGameObject(parent),"attack");
         attack.polygon.clearPoints();
     }
 

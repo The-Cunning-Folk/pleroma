@@ -13,6 +13,7 @@ GameObjectStore::GameObjectStore()
     nRigidBody=0;
     nRayEmitter=0;
     nSpriteRenderer=0;
+    nBehaviour=0;
 }
 
 ComponentLoader *GameObjectStore::getComponentLoader() const

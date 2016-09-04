@@ -12,19 +12,14 @@
 namespace BQ{
 
 class GameObject;
-class GameObjectLoader;
-class ComponentLoader;
+class Game;
 
 class Behaviour
 {
 public:
     Behaviour();
 
-    ComponentLoader* componentLoader;
-    GameObjectLoader* gameObjectLoader;
-    MathsUtils* maths;
-    DebugUtils* debug;
-    Grid* grid;
+    Game* game;
 
     int index;
 
@@ -49,16 +44,9 @@ public:
 
     float getDelta() const;
     void setDelta(float value);
-    ComponentLoader *getComponentLoader() const;
-    void setComponentLoader(ComponentLoader *value);
-    GameObjectLoader *getGameObjectLoader() const;
-    void setGameObjectLoader(GameObjectLoader *value);
-    MathsUtils *getMaths() const;
-    void setMaths(MathsUtils *value);
-    DebugUtils *getDebug() const;
-    void setDebug(DebugUtils *value);
-    Grid *getGrid() const;
-    void setGrid(Grid *value);
+
+    Game *getGame() const;
+    void setGame(Game *value);
 };
 }
 

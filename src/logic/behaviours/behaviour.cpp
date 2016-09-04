@@ -1,8 +1,7 @@
 #include "behaviour.h"
 
 #include<gameobject.h>
-#include<componentloader.h>
-#include<gameobjectloader.h>
+#include<game.h>
 
 using namespace BQ;
 
@@ -11,54 +10,14 @@ Behaviour::Behaviour()
 
 }
 
-Grid *Behaviour::getGrid() const
+Game *Behaviour::getGame() const
 {
-    return grid;
+    return game;
 }
 
-void Behaviour::setGrid(Grid *value)
+void Behaviour::setGame(Game *value)
 {
-    grid = value;
-}
-
-DebugUtils *Behaviour::getDebug() const
-{
-    return debug;
-}
-
-void Behaviour::setDebug(DebugUtils *value)
-{
-    debug = value;
-}
-
-MathsUtils *Behaviour::getMaths() const
-{
-    return maths;
-}
-
-void Behaviour::setMaths(MathsUtils *value)
-{
-    maths = value;
-}
-
-GameObjectLoader *Behaviour::getGameObjectLoader() const
-{
-    return gameObjectLoader;
-}
-
-void Behaviour::setGameObjectLoader(GameObjectLoader *value)
-{
-    gameObjectLoader = value;
-}
-
-ComponentLoader *Behaviour::getComponentLoader() const
-{
-    return componentLoader;
-}
-
-void Behaviour::setComponentLoader(ComponentLoader *value)
-{
-    componentLoader = value;
+    game = value;
 }
 
 float Behaviour::getDelta() const

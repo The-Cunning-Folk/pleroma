@@ -22,6 +22,7 @@ typedef std::map<int, RigidBody>::iterator it_rigidbody;
 typedef std::map<int, SpriteRenderer>::iterator it_sprrenderer;
 
 
+
 class GameObjectStore
 {
 public:
@@ -42,7 +43,7 @@ public:
     std::map<int,RigidBody> rigidBodies;
     std::map<int,SpriteRenderer> spriteRenderers;
 
-    int nTransform,nCollidable,nGameLogic,nPlayerInput,nRayEmitter,nRigidBody,nSpriteRenderer;
+    int nTransform,nCollidable,nGameLogic,nPlayerInput,nRayEmitter,nRigidBody,nSpriteRenderer,nBehaviour;
 
     Transform & addTransform();
     Collidable & addCollidable();

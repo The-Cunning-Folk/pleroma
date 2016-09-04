@@ -25,11 +25,7 @@ Behaviour &LogicEngine::bindBehaviour(GameLogic & g, std::string type)
     }
 
     newBehaviour->parent = g.getParent();
-    newBehaviour->setComponentLoader(componentLoader);
-    newBehaviour->setGameObjectLoader(gameObjectLoader);
-    newBehaviour->setMaths(maths);
-    newBehaviour->setDebug(debug);
-    newBehaviour->setGrid(grid);
+    newBehaviour->setGame(game);
     newBehaviour->index = behaviours.size();
 
     behaviours.push_back(std::move(newBehaviour));
