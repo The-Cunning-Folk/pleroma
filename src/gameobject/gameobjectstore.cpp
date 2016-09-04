@@ -53,6 +53,14 @@ Collidable &GameObjectStore::addCollidable()
     return collidables[nCollidable]=c;
 }
 
+GameLogic &GameObjectStore::addGameLogic()
+{
+    nGameLogic++;
+    GameLogic g;
+    g.index=nGameLogic;
+    return gamelogics[nGameLogic]=g;
+}
+
 PlayerInput &GameObjectStore::addPlayerInput()
 {
     nPlayerInput++;

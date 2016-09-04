@@ -35,7 +35,6 @@ public:
 
     ComponentLoader* componentLoader;
     GameObjectLoader* gameObjectLoader;
-    Grid* grid;
 
     void buildCollidableFromPattern(CollidablePattern &, Collidable &);
     void buildSpriteRendererFromPattern(SpriteRendererPattern &, SpriteRenderer &);
@@ -59,8 +58,8 @@ public:
     PlayerInput& newPlayerInput(GameObjectStore &);
     PlayerInput& newPlayerInput(GameObjectStore &,std::string);
 
-    GameLogic& newGameLogic();
-    GameLogic& newGameLogic(std::string);
+    GameLogic& newGameLogic(GameObjectStore &);
+    GameLogic& newGameLogic(GameObjectStore &, std::string);
 
     RigidBody& newRigidBody(GameObjectStore &);
     RigidBody& newRigidBody(GameObjectStore &,std::string);
@@ -73,51 +72,19 @@ public:
 
     //getters/setters
 
-    TransformEngine *getTransformEngine() const;
-    void setTransformEngine(TransformEngine *value);
-
-    InputEngine *getInputEngine() const;
-    void setInputEngine(InputEngine *value);
-
-    EventEngine *getEventEngine() const;
-    void setEventEngine(EventEngine *value);
-
-    CollisionEngine *getCollisionEngine() const;
-    void setCollisionEngine(CollisionEngine *value);
-
     ComponentLoader *getComponentLoader() const;
     void setComponentLoader(ComponentLoader *value);
-
-    PhysicsEngine *getPhysicsEngine() const;
-    void setPhysicsEngine(PhysicsEngine *value);
 
     GameObjectLoader *getGameObjectLoader() const;
     void setGameObjectLoader(GameObjectLoader *value);
 
-    Grid *getGrid() const;
-    void setGrid(Grid *value);
-
     LogicEngine *getLogicEngine() const;
     void setLogicEngine(LogicEngine *value);
-
-    RaycastingEngine *getRayCastingEngine() const;
-    void setRayCastingEngine(RaycastingEngine *value);
-
-    RenderEngine *getRenderEngine() const;
-    void setRenderEngine(RenderEngine *value);
-
 
 
 private:
 
-    TransformEngine* transformEngine;
-    InputEngine* inputEngine;
-    EventEngine* eventEngine;
-    CollisionEngine* collisionEngine;
-    PhysicsEngine* physicsEngine;
     LogicEngine* logicEngine;
-    RaycastingEngine* rayCastingEngine;
-    RenderEngine* renderEngine;
 
 
 };

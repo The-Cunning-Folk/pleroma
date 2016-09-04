@@ -286,19 +286,10 @@ void Game::initialiseInjections()
 
     //component factory injections
 
-    componentFactory.setGrid(&grid);
     componentFactory.setComponentLoader(&componentLoader);
     componentFactory.setGameObjectLoader(&gameObjectLoader);
 
-    componentFactory.setCollisionEngine(&collisionEngine);
-    componentFactory.setTransformEngine(&transformEngine);
-    componentFactory.setInputEngine(&inputEngine);
-    componentFactory.setEventEngine(&eventEngine);
-    componentFactory.setCollisionEngine(&collisionEngine);
-    componentFactory.setPhysicsEngine(&physicsEngine);
     componentFactory.setLogicEngine(&logicEngine);
-    componentFactory.setRayCastingEngine(&rayCastingEngine);
-    componentFactory.setRenderEngine(&renderEngine);
 
     //end of component factory injections
     gameObjectFactory.setComponentFactory(&componentFactory);

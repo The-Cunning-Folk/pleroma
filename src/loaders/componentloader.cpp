@@ -28,7 +28,7 @@ RigidBody &ComponentLoader::getRigidBody(int index)
 
 GameLogic &ComponentLoader::getGameLogic(int index)
 {
-    return eventEngine->getGameLogic(index);
+    return game->getCurrentLevel().objects.gamelogics[index];
 }
 
 Behaviour &ComponentLoader::getBehaviour(int index)

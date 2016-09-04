@@ -51,7 +51,7 @@ GameObject &GameObjectFactory::buildComponentsFromPattern(GameObjectStore & s, G
     }
     for(int i=0 ; i<pattern.gameLogicPatterns.size(); i++)
     {
-        GameLogic & l = componentFactory->newGameLogic();
+        GameLogic & l = componentFactory->newGameLogic(s);
         componentFactory->buildGameLogicFromPattern(pattern.gameLogicPatterns[i],l);
         g.addComponent(l.name,l);
         for(int j=0; j<pattern.gameLogicPatterns[i].behaviours.size(); j++)
@@ -100,7 +100,7 @@ GameObject& GameObjectFactory::newPlayerObject() //builds behaviours for the pla
     GameObjectStore & s = game->getCurrentLevel().objects;
     GameObject& player = newObject(s, "player_1");
     PlayerInput& input = componentFactory->newPlayerInput(s,"player_input");
-    GameLogic& logic = componentFactory->newGameLogic("player_logic");
+    GameLogic& logic = componentFactory->newGameLogic(s,"player_logic");
 
 
     RigidBody & body = componentFactory->newRigidBody(s,"player_rigidbody");

@@ -67,16 +67,6 @@ void ComponentFactory::buildGameLogicFromPattern(GameLogicPattern & pattern, Gam
     g.name = pattern.name;
 }
 
-Grid *ComponentFactory::getGrid() const
-{
-    return grid;
-}
-
-void ComponentFactory::setGrid(Grid *value)
-{
-    grid = value;
-}
-
 LogicEngine *ComponentFactory::getLogicEngine() const
 {
     return logicEngine;
@@ -87,25 +77,6 @@ void ComponentFactory::setLogicEngine(LogicEngine *value)
     logicEngine = value;
 }
 
-RaycastingEngine *ComponentFactory::getRayCastingEngine() const
-{
-    return rayCastingEngine;
-}
-
-void ComponentFactory::setRayCastingEngine(RaycastingEngine *value)
-{
-    rayCastingEngine = value;
-}
-
-RenderEngine *ComponentFactory::getRenderEngine() const
-{
-    return renderEngine;
-}
-
-void ComponentFactory::setRenderEngine(RenderEngine *value)
-{
-    renderEngine = value;
-}
 
 GameObjectLoader *ComponentFactory::getGameObjectLoader() const
 {
@@ -125,16 +96,6 @@ ComponentLoader *ComponentFactory::getComponentLoader() const
 void ComponentFactory::setComponentLoader(ComponentLoader *value)
 {
     componentLoader = value;
-}
-
-PhysicsEngine *ComponentFactory::getPhysicsEngine() const
-{
-    return physicsEngine;
-}
-
-void ComponentFactory::setPhysicsEngine(PhysicsEngine *value)
-{
-    physicsEngine = value;
 }
 
 
@@ -169,15 +130,15 @@ PlayerInput &ComponentFactory::newPlayerInput(GameObjectStore & s, std::string n
     return(input);
 }
 
-GameLogic &ComponentFactory::newGameLogic()
+GameLogic &ComponentFactory::newGameLogic(GameObjectStore & s)
 {
-    GameLogic& gameLogic = eventEngine->addGameLogic();
+    GameLogic& gameLogic = s.addGameLogic();
     return gameLogic;
 }
 
-GameLogic &ComponentFactory::newGameLogic(std::string name)
+GameLogic &ComponentFactory::newGameLogic(GameObjectStore &s, std::string name)
 {
-    GameLogic& gameLogic = newGameLogic();
+    GameLogic& gameLogic = newGameLogic(s);
     gameLogic.setName(name);
     return(gameLogic);
 }
@@ -247,44 +208,3 @@ SpriteRenderer &ComponentFactory::newSpriteRenderer(GameObjectStore & s,std::str
     spriteRenderer.setName(name);
     return spriteRenderer;
 }
-
-TransformEngine *ComponentFactory::getTransformEngine() const
-{
-    return transformEngine;
-}
-
-void ComponentFactory::setTransformEngine(TransformEngine *value)
-{
-    transformEngine = value;
-}
-
-InputEngine *ComponentFactory::getInputEngine() const
-{
-    return inputEngine;
-}
-
-void ComponentFactory::setInputEngine(InputEngine *value)
-{
-    inputEngine = value;
-}
-
-EventEngine *ComponentFactory::getEventEngine() const
-{
-    return eventEngine;
-}
-
-void ComponentFactory::setEventEngine(EventEngine *value)
-{
-    eventEngine = value;
-}
-
-CollisionEngine *ComponentFactory::getCollisionEngine() const
-{
-    return collisionEngine;
-}
-
-void ComponentFactory::setCollisionEngine(CollisionEngine *value)
-{
-    collisionEngine = value;
-}
-
