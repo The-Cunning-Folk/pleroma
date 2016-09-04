@@ -196,10 +196,10 @@ void Game::run()
 
         window.window.setView(viewPort.view);
 
+        renderEngine.drawDebug();
+
         if(transformDebug)
             transformEngine.drawDebug();
-
-        renderEngine.drawDebug();
 
         if(collisionDebug)
             collisionEngine.drawDebug();
