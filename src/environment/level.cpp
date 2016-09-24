@@ -95,7 +95,9 @@ bool Level::loadLevelFromFile(std::string path)
                 points.push_back(sf::Vector2f(0,h));
 
                 GameObject & wall = gameObjectFactory.newObject(objects);
-                wall.addComponent(componentFactory.newCollidable(objects));
+                Collidable & c = componentFactory.newCollidable(objects,points);
+                c.immovable = true;
+                wall.addComponent("hitbox",c);
 
                 Transform & wt = objects.transforms[wall.transform];
                 wt.setPosition(sf::Vector2f(l,r));

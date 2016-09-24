@@ -4,7 +4,7 @@ using namespace BQ;
 
 SpriteSheet::SpriteSheet()
 {
-    texture = "";
+    texture = "error.png";
 }
 
 void SpriteSheet::addSprite(std::string name, Sprite spr)
