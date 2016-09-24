@@ -14,6 +14,8 @@ public:
     std::vector<sf::IntRect> frames;
     sf::Vector2i offset;
     float depthOffset;
+
+    sf::IntRect getFrame(int);
 };
 }
 

@@ -20,9 +20,8 @@ void Game::runTests()
         {
             changeLevel("butterfly_demo");
         }
-
-
     }
+
 
 
 }
@@ -134,6 +133,7 @@ void Game::run()
     bool transformDebug = false;
     bool collisionDebug = false;
     bool fpsDebug = false;
+    bool objectDebug = false;
     bool pathingDebug = false;
     bool raycastingDebug = false;
 
@@ -174,6 +174,8 @@ void Game::run()
         if(input.keyToggled("raycastingDebug"))
             raycastingDebug = !raycastingDebug;
 
+        if(input.keyToggled("objectDebug"))
+            objectDebug = !objectDebug;
         //temporary behaviours
 
         runTests();
@@ -203,6 +205,9 @@ void Game::run()
 
         if(raycastingDebug)
             rayCastingEngine.drawDebug();
+
+        if(objectDebug)
+            printObjectDebug();
 
         std::string winPosStr = "w_pos - " + debug->formatVector(window.window.getView().getCenter(),1);
 
@@ -241,6 +246,39 @@ void Game::run()
 
 
     }
+}
+
+void Game::printObjectDebug()
+{
+    GameObjectStore & store = getCurrentLevel().objects;
+    for(it_object it = store.objects.begin(); it != store.objects.end(); it++) {
+        GameObject & g = it->second;
+        debug->println(" --- " + g.name + " --- ");
+        for(it_complist itl = g.components.begin(); itl != g.components.end() ; itl++)
+        {
+            debug->println("    [" + itl->first + "]");
+            std::map<std::string,int> & m = itl->second;
+            for(it_component itc = m.begin(); itc != m.end() ; itc++)
+            {
+                debug->println("        " + itc->first + ": " + std::to_string(itc->second));
+            }
+
+        }
+        debug->println("    ------ ");
+    }
+//        debug->println("--- sprite renderers ---");
+//        for(it_sprrenderer it = store.spriteRenderers.begin(); it != store.spriteRenderers.end(); it++) {
+//            debug->println(std::to_string(it->first) + ": " + it->second.name + ", " + it->second.getParent());
+//        }
+//        debug->println("--- collidables ---");
+//        for(it_collidable it = store.collidables.begin(); it != store.collidables.end(); it++) {
+//            debug->println(std::to_string(it->first) + ": " + it->second.name + ", " + it->second.getParent());
+//            debug->println("    points:" + std::to_string(it->second.polygon.points.size()));
+//            debug->println("    position:" +
+//                           std::to_string(store.transforms[it->second.transform].position.x) +
+//                            ", " +
+//                           std::to_string(store.transforms[it->second.transform].position.y));
+//        }
 }
 
 void Game::initialiseInjections()
@@ -325,11 +363,13 @@ void Game::initialiseInput()
 {
     debug->println("initialising global inputs");
     input.setKeyInput("menu",sf::Keyboard::Escape);
+    input.setKeyInput("objectDebug",sf::Keyboard::F2);
     input.setKeyInput("debug",sf::Keyboard::F3);
     input.setKeyInput("transformDebug",sf::Keyboard::F4);
     input.setKeyInput("collisionDebug",sf::Keyboard::F5);
     input.setKeyInput("pathingDebug",sf::Keyboard::F6);
     input.setKeyInput("raycastingDebug",sf::Keyboard::F7);
+
 
 }
 
@@ -539,6 +579,7 @@ window_ptr Game::getGameWindow()
 void Game::changeLevel(std::string level)
 {
     currentLevel = level;
+    gameObjectLoader.setGameObjects(&getCurrentLevel().objects);
     ViewPort & viewPort = gameWindow->primaryView;
     GameObject & player = getCurrentLevel().objects.objects["player_1"];
     viewPort.focusedTransform = player.getTransform();
