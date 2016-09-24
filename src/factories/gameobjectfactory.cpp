@@ -81,7 +81,6 @@ GameObject& GameObjectFactory::newObject(GameObjectStore & s)
     Transform & t = componentFactory->newTransform(s);
     t.setParent(object.name);
     object.setTransform(t.index);
-    //debug->println("generated object: " + object->name);
     return object;
 }
 
@@ -91,7 +90,6 @@ GameObject &GameObjectFactory::newObject(GameObjectStore & s, std::string name)
     Transform & t = componentFactory->newTransform(s);
     t.setParent(object.name);
     object.setTransform(t.index);
-    //debug->println("generated object: " + object->name);
     return object;
 }
 
