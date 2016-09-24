@@ -13,6 +13,7 @@
 
 namespace BQ{
 
+typedef std::map<std::string, GameObject>::iterator it_object;
 typedef std::map<int, Transform>::iterator it_transform;
 typedef std::map<int, Collidable>::iterator it_collidable;
 typedef std::map<int, GameLogic>::iterator it_gamelogic;

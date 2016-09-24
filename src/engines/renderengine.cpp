@@ -308,6 +308,10 @@ void BQ::RenderEngine::drawDebug()
     for(int i=0; i<renderList.size(); i++)
     {
         SpriteRenderer & s = renderList[i];
+        if(s.getParent()=="")
+        {
+            debug->println(s.name);
+        }
         sf::Sprite spr;
 
         if ( spriteSheets.find(s.spritesheet) == spriteSheets.end() ) {
@@ -316,7 +320,7 @@ void BQ::RenderEngine::drawDebug()
 
         SpriteSheet& sheet = spriteSheets[s.spritesheet];
         spr.setTexture(resourceLoader->getTexture(sheet.texture));
-        spr.setTextureRect(sheet.sprites[s.clip].frames[s.frame]);
+        spr.setTextureRect(sheet.getSprite(s.clip).getFrame(s.frame));
 
         sf::Vector2f pos = componentLoader->getTransform(s.transform).position;
         if(s.centreOrigin)

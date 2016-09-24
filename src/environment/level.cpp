@@ -12,6 +12,7 @@ Level::Level()
 bool Level::loadLevelFromFile(std::string path)
 {
     GameObjectFactory & gameObjectFactory = game->gameObjectFactory;
+    ComponentFactory & componentFactory = game->componentFactory;
     DebugUtils * debug = game->debug;
 
     rapidjson::Document levelJson = game->resourceLoader.loadJsonFile(path);
@@ -19,8 +20,32 @@ bool Level::loadLevelFromFile(std::string path)
     assert(levelJson["name"].IsString());
     name = levelJson["name"].GetString();
 
-    gameObjectFactory.newPlayerObject(objects);
+    //player
+    GameObject & player = gameObjectFactory.newPlayerObject(objects);
 
+    if(levelJson.HasMember("player"))
+    {
+        rapidjson::Value playerJson = levelJson["player"].GetObject();
+        if(playerJson.HasMember("start"))
+        {
+            rapidjson::Value playerStartJson = playerJson["start"].GetObject();
+            sf::Vector2i pos;
+
+            pos.x = playerStartJson.HasMember("x") && playerStartJson["x"].IsNumber()
+                        ? playerStartJson["x"].GetInt()
+                        : 0;
+
+            pos.y = playerStartJson.HasMember("y") && playerStartJson["y"].IsNumber()
+                        ? playerStartJson["y"].GetInt()
+                        : 0;
+
+            Transform & pt = objects.transforms[player.transform];
+            pt.setPosition(game->grid.getCentre(pos));
+
+        }
+    }
+
+    //camera
     if(levelJson.HasMember("camera") && levelJson["camera"].IsObject())
     {
         rapidjson::Value cameraConfig = levelJson["camera"].GetObject();
@@ -45,6 +70,42 @@ bool Level::loadLevelFromFile(std::string path)
         }
     }
 
+    //walls
+    if(levelJson.HasMember("walls") && levelJson["walls"].IsArray())
+    {
+        for(rapidjson::SizeType w = 0; w<levelJson["walls"].Size(); w++)
+        {
+            rapidjson::Value wallJson = levelJson["walls"][w].GetObject();
+            if (    wallJson.HasMember("l")
+                    && wallJson.HasMember("r")
+                    && wallJson.HasMember("h")
+                    && wallJson.HasMember("w") )
+            {
+
+                float l = wallJson["l"].GetFloat();
+                float r = wallJson["r"].GetFloat();
+                float w = wallJson["w"].GetFloat();
+                float h = wallJson["h"].GetFloat();
+
+                std::vector<sf::Vector2f> points;
+
+                points.push_back(sf::Vector2f(0,0));
+                points.push_back(sf::Vector2f(w,0));
+                points.push_back(sf::Vector2f(w,h));
+                points.push_back(sf::Vector2f(0,h));
+
+                GameObject & wall = gameObjectFactory.newObject(objects);
+                Collidable & c = componentFactory.newCollidable(objects,points);
+                c.immovable = true;
+                wall.addComponent("hitbox",c);
+
+                Transform & wt = objects.transforms[wall.transform];
+                wt.setPosition(sf::Vector2f(l,r));
+
+            }
+
+        }
+    }
 
     //entities
     if(levelJson.HasMember("entities"))
@@ -137,6 +198,8 @@ bool Level::loadLevelFromFile(std::string path)
             }
         }
     }
+
+    //ceiling
     if(levelJson.HasMember("ceiling"))
     {
 
@@ -197,7 +260,6 @@ bool Level::loadLevelFromFile(std::string path)
             }
         }
     }
-    //finish groundsheet
     return true;
 }
 

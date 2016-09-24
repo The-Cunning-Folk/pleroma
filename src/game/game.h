@@ -67,6 +67,7 @@ public:
 
     void run();
 
+    void printObjectDebug();
     void initialiseInjections();
     void initialiseClocks();
     void initialiseInput();

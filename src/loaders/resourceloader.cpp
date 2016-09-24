@@ -79,10 +79,15 @@ sf::Texture &ResourceLoader::getTexture(std::string name)
 
     sf::Texture texture;
 
+    if(name == "")
+    {
+        texture.loadFromFile(baseDirectory + "/" + textureDirectory + "/" + "error.png");
+        return texture;
+    }
+
     if(!texture.loadFromFile(baseDirectory + "/" + textureDirectory + "/" + name))
     {
-        debug->println("texture not found");
-        debug->printerr("texture " + name + " not found");
+        debug->println("texture " + baseDirectory + "/" + textureDirectory + "/" + name + " not found");
         texture.loadFromFile(baseDirectory + "/" + textureDirectory + "/" + "error.png");
     }
 

@@ -40,7 +40,6 @@ std::vector<int> OcclusionManager::getActiveComponents(std::string tag)
         std::map<std::string,int> m = o.components[tag];
         std::vector<int> thisComponents(0);
         for(it iterator = m.begin(); iterator != m.end(); iterator++) {
-
             thisComponents.push_back(iterator->second);
         }
 

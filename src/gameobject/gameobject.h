@@ -7,6 +7,10 @@
 #include<map>
 
 namespace BQ{
+
+typedef std::map<std::string,std::map<std::string,int>>::iterator it_complist;
+typedef std::map<std::string,int>::iterator it_component;
+
 class GameObject
 {
 public:
