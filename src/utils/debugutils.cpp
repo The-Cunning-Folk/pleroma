@@ -68,6 +68,11 @@ void DebugUtils::printVal(sf::FloatRect r)
     println(" l: " + std::to_string(r.left) + ", t: " + std::to_string(r.top) + ", w: " + std::to_string(r.width) + ", h: " + std::to_string(r.height));
 }
 
+void DebugUtils::printVal(sf::IntRect r)
+{
+    println(" l: " + std::to_string(r.left) + ", t: " + std::to_string(r.top) + ", w: " + std::to_string(r.width) + ", h: " + std::to_string(r.height));
+}
+
 void DebugUtils::printVal(sf::Vector2f v)
 {
     println(" x: " + std::to_string(v.x) + ", y: " + std::to_string(v.y));

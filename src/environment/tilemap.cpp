@@ -5,6 +5,7 @@ TileMap::TileMap()
 {
     layers = 0;
     tileLayers.resize(0);
+    defaultTile.index = -1;
 }
 
 bool TileMap::parse(const rapidjson::Value & json)

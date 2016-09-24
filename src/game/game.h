@@ -54,6 +54,8 @@ public:
     std::map<std::string,Level> levels;
     std::map<std::string,GameObjectPattern> entities;
 
+    void changeLevel(std::string);
+
     std::string currentLevel;
 
     Level & getCurrentLevel();

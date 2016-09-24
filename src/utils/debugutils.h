@@ -38,6 +38,7 @@ public:
     void printVal(std::string, int);
     void printVal(std::string, unsigned int);
     void printVal(sf::FloatRect);
+    void printVal(sf::IntRect);
     void printVal(sf::Vector2f);
     void printVal(sf::Vector2i);
     void printVal(bool);

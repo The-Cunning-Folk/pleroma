@@ -95,9 +95,8 @@ GameObject &GameObjectFactory::newObject(GameObjectStore & s, std::string name)
     return object;
 }
 
-GameObject& GameObjectFactory::newPlayerObject() //builds behaviours for the player
+GameObject& GameObjectFactory::newPlayerObject(GameObjectStore & s) //builds behaviours for the player
 {
-    GameObjectStore & s = game->getCurrentLevel().objects;
     GameObject& player = newObject(s, "player_1");
     PlayerInput& input = componentFactory->newPlayerInput(s,"player_input");
     GameLogic& logic = componentFactory->newGameLogic(s,"player_logic");

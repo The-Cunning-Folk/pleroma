@@ -26,7 +26,8 @@ INCLUDEPATH += "SFML/include" \
     "$$SRCDIR/graphics" \
     "$$SRCDIR/environment"\
     "$$SRCDIR/data"\
-    "$$SRCDIR/patterns"
+    "$$SRCDIR/patterns"\
+    "$$SRCDIR/settings"
 
 HEADERS += $$SRCDIR/window/gamewindow.h \
     src/window/windowmanager.h \
@@ -110,7 +111,9 @@ HEADERS += $$SRCDIR/window/gamewindow.h \
     src/patterns/rayemitterpattern.h \
     src/patterns/gamelogicpattern.h \
     src/environment/scene.h \
-    src/gameobject/gameobjectstore.h
+    src/gameobject/gameobjectstore.h \
+    src/settings/camerasettings.h \
+    src/structures/floatrect.h
 
 SOURCES += src/main.cpp \
     $$SRCDIR/window/gamewindow.cpp \
@@ -194,7 +197,9 @@ SOURCES += src/main.cpp \
     src/patterns/rayemitterpattern.cpp \
     src/patterns/gamelogicpattern.cpp \
     src/environment/scene.cpp \
-    src/gameobject/gameobjectstore.cpp
+    src/gameobject/gameobjectstore.cpp \
+    src/settings/camerasettings.cpp \
+    src/structures/floatrect.cpp
 
 LIBS += -L"$$PWD/SFML/lib"
 

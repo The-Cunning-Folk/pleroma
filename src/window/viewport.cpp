@@ -80,7 +80,26 @@ void ViewPort::rescale(float width, float height)
 void ViewPort::focus()
 {
     Transform & t = componentLoader->getTransform(focusedTransform);
-    view.setCenter(maths->round(t.position));
+
+    sf::Vector2f pos = t.position;
+
+    sf::Vector2f windowSize = view.getSize();
+    float halfViewWidth = 0.5*windowSize.x;
+    float halfViewHeight = 0.5*windowSize.y;
+
+    if(pos.y + halfViewHeight > bounds.top + bounds.height)
+        pos.y = bounds.top + bounds.height - halfViewHeight;
+
+    if(pos.y - halfViewHeight < bounds.top)
+        pos.y = bounds.top + halfViewHeight;
+
+    if(pos.x + halfViewWidth > bounds.left + bounds.width)
+        pos.x = bounds.left + bounds.width - halfViewWidth;
+
+    if(pos.x - halfViewWidth < bounds.left)
+        pos.x = bounds.left + halfViewWidth;
+
+    view.setCenter(maths->round(pos));
 }
 
 void ViewPort::update()

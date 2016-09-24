@@ -5,6 +5,7 @@
 #include<rapidjson/document.h>
 #include<tilemap.h>
 #include<gameobjectstore.h>
+#include<camerasettings.h>
 
 namespace BQ
 {
@@ -19,6 +20,8 @@ public:
     Game * game;
 
     std::string name;
+
+    CameraSettings cameraSettings;
 
     GameObjectStore objects;
 
