@@ -4,7 +4,9 @@ using namespace BQ;
 
 Tile::Tile()
 {
-
+    index = -1;
+    flipX = false;
+    rot = 0;
 }
 
 bool Tile::parse(const rapidjson::Value & tileJson)

@@ -17,7 +17,7 @@ void App::run(){
 
     window_ptr gameWindow = windowManager.addWindow("game",480,270,"Dev Build",sf::Style::Default);
 
-    game.setFrameRate(1000);
+    game.setFrameRate(120);
 
     game.setGameWindow(gameWindow);
 

@@ -10,6 +10,19 @@ Game::Game()
 void Game::runTests()
 {
     //add temporary stuff here for testing and debugging so the loop doesn't get too cluttered
+    if(input.keyToggled("changeScene"))
+    {
+        if(currentLevel == "butterfly_demo")
+        {
+            changeLevel("qa_space");
+        }
+        else
+        {
+            changeLevel("butterfly_demo");
+        }
+
+
+    }
 
 
 }
@@ -123,26 +136,6 @@ void Game::run()
     bool fpsDebug = false;
     bool pathingDebug = false;
     bool raycastingDebug = false;
-
-    rapidjson::Document cameraConfig = resourceLoader.loadJsonFile("config/camera.json");
-
-    if(cameraConfig.HasMember("bounds") && cameraConfig["bounds"].IsObject())
-    {
-        sf::FloatRect cameraBounds;
-
-        if(cameraConfig["bounds"].HasMember("w") && cameraConfig["bounds"].HasMember("h"))
-        {
-            cameraBounds.height = cameraConfig["bounds"]["h"].GetFloat();
-            cameraBounds.width = cameraConfig["bounds"]["w"].GetFloat();
-            cameraBounds.left = cameraConfig["bounds"].HasMember("l") && cameraConfig["bounds"]["l"].IsNumber()
-                    ? cameraConfig["bounds"]["l"].GetFloat()
-                    : 0;
-            cameraBounds.top = cameraConfig["bounds"].HasMember("t") && cameraConfig["bounds"]["t"].IsNumber()
-                    ? cameraConfig["bounds"]["t"].GetFloat()
-                    : 0;
-            viewPort.setBounds(cameraBounds);
-        }
-    }
 
     viewPort.focus();
 
@@ -344,6 +337,7 @@ void Game::initialiseTests()
 {
     debug->println("setting up tests");
     input.setKeyInput("addObject",sf::Keyboard::F8);
+    input.setKeyInput("changeScene",sf::Keyboard::F10);
 
     //for testing only
     transformEngine.setWrapAround(false);
@@ -355,7 +349,7 @@ void Game::initialisePlayers()
     ViewPort & viewPort = gameWindow->primaryView;
     inputFactory.detectControllers();
     debug->println("adding players");
-    GameObject& player = gameObjectFactory.newPlayerObject();
+    GameObject& player = getCurrentLevel().objects.objects["player_1"];
     rapidjson::Document config = resourceLoader.loadJsonFile("config/player.json");
     if(config.HasMember("player_start") && config["player_start"].IsObject())
     {
@@ -373,6 +367,7 @@ void Game::initialisePlayers()
         componentLoader.getTransform(player.transform).setPosition(absPlayerStart);
     }
 
+    viewPort.bounds = getCurrentLevel().cameraSettings.bounds.asSFFloatRect();
     viewPort.focusedTransform =  player.getTransform();
 }
 
@@ -539,6 +534,16 @@ void Game::setGameWindow(window_ptr window)
 window_ptr Game::getGameWindow()
 {
     return gameWindow;
+}
+
+void Game::changeLevel(std::string level)
+{
+    currentLevel = level;
+    ViewPort & viewPort = gameWindow->primaryView;
+    GameObject & player = getCurrentLevel().objects.objects["player_1"];
+    viewPort.focusedTransform = player.getTransform();
+    viewPort.bounds = getCurrentLevel().cameraSettings.bounds.asSFFloatRect();
+    viewPort.focus();
 }
 
 Level &Game::getCurrentLevel()

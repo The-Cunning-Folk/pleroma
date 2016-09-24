@@ -28,7 +28,7 @@ public:
     GameObject& buildGameObjectFromPattern(GameObjectStore &,GameObjectPattern &, std::string);
     GameObject& buildComponentsFromPattern(GameObjectStore &,GameObjectPattern &, GameObject & g);
 
-    GameObject& newPlayerObject();
+    GameObject& newPlayerObject(GameObjectStore &);
 
     ComponentFactory *getComponentFactory() const;
     void setComponentFactory(ComponentFactory *value);

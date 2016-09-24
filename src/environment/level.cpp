@@ -19,6 +19,33 @@ bool Level::loadLevelFromFile(std::string path)
     assert(levelJson["name"].IsString());
     name = levelJson["name"].GetString();
 
+    gameObjectFactory.newPlayerObject(objects);
+
+    if(levelJson.HasMember("camera") && levelJson["camera"].IsObject())
+    {
+        rapidjson::Value cameraConfig = levelJson["camera"].GetObject();
+
+        if(cameraConfig.HasMember("bounds"))
+        {
+            if (cameraConfig["bounds"].IsObject())
+            {
+                rapidjson::Value cameraBoundsConfig = cameraConfig["bounds"].GetObject();
+                if(cameraBoundsConfig.HasMember("w") && cameraBoundsConfig.HasMember("h"))
+                {
+                    cameraSettings.bounds.height = cameraBoundsConfig["h"].GetFloat();
+                    cameraSettings.bounds.width = cameraBoundsConfig["w"].GetFloat();
+                    cameraSettings.bounds.left = cameraBoundsConfig.HasMember("l") && cameraBoundsConfig["l"].IsNumber()
+                            ? cameraBoundsConfig["l"].GetFloat()
+                            : 0;
+                    cameraSettings.bounds.top = cameraBoundsConfig.HasMember("t") && cameraBoundsConfig["t"].IsNumber()
+                            ? cameraBoundsConfig["t"].GetFloat()
+                            : 0;
+                }
+            }
+        }
+    }
+
+
     //entities
     if(levelJson.HasMember("entities"))
     {
