@@ -77,13 +77,13 @@ bool Level::loadLevelFromFile(std::string path)
         {
             rapidjson::Value wallJson = levelJson["walls"][w].GetObject();
             if (    wallJson.HasMember("l")
-                    && wallJson.HasMember("r")
+                    && wallJson.HasMember("t")
                     && wallJson.HasMember("h")
                     && wallJson.HasMember("w") )
             {
 
                 float l = wallJson["l"].GetFloat();
-                float r = wallJson["r"].GetFloat();
+                float t = wallJson["t"].GetFloat();
                 float w = wallJson["w"].GetFloat();
                 float h = wallJson["h"].GetFloat();
 
@@ -100,7 +100,7 @@ bool Level::loadLevelFromFile(std::string path)
                 wall.addComponent("hitbox",c);
 
                 Transform & wt = objects.transforms[wall.transform];
-                wt.setPosition(sf::Vector2f(l,r));
+                wt.setPosition(sf::Vector2f(l,t));
 
             }
 

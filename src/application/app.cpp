@@ -17,9 +17,11 @@ void App::run(){
 
     window_ptr gameWindow = windowManager.addWindow("game",480,270,"Dev Build",sf::Style::Default);
 
-    game.setFrameRate(120);
+    game.setFrameRate(60);
 
     game.setGameWindow(gameWindow);
+
+    gameWindow->window.setVerticalSyncEnabled(true);
 
     game.run();
 

@@ -15,7 +15,7 @@ CollisionEngine::CollisionEngine() : Engine()
     quadtree.initialise();
     rectShape.setOutlineThickness(1.0);
     rectShape.setFillColor(sf::Color::Transparent);
-    overlapThreshold = 0.5f;
+    overlapThreshold = 0.1f;
 }
 
 bool CollisionEngine::checkCollision(Collidable & a,Collidable & b)
@@ -46,12 +46,13 @@ bool CollisionEngine::checkCollision(Collidable & a,Collidable & b)
         sf::Vector2f dDA = tA.position - tA.lastFrame; //displacement of A
         sf::Vector2f dDB = tB.position - tB.lastFrame;
 
-        float flSteps = maths->max(maths->max(dDA.x/0.5*a.bBox.width,dDA.y/0.5*a.bBox.height)
-                                   ,maths->max(dDB.x/0.5*b.bBox.width,dDB.y/0.5*b.bBox.height));
+        float flSteps = maths->max(maths->max(dDA.x/(0.5*a.bBox.width),dDA.y/(0.5*a.bBox.height))
+                                   ,maths->max(dDB.x/(0.5*b.bBox.width),dDB.y/(0.5*b.bBox.height)));
 
-        flSteps = flSteps > 1.0f ? flSteps : 2.0f;
-        int sweepSteps = maths->roundAndCast(flSteps); //this is always 2 for now
-        float flSweepSteps = (float) sweepSteps;
+        flSteps = flSteps > 1.0f ? flSteps : 1.0f;
+
+        float flSweepSteps = ceil(flSteps);
+        int sweepSteps = (int) flSweepSteps;
         float invFlSweepSteps = 1.0f/flSweepSteps;
 
         sf::Vector2f DstepA = dDA*invFlSweepSteps;
@@ -71,7 +72,7 @@ bool CollisionEngine::checkCollision(Collidable & a,Collidable & b)
             pB.update();
             if(pA.bBox.intersects(pB.bBox))
             {
-                overlap = separatingAxisCheck(pA,pB);
+                overlap = separatingAxisCheck(pA,pB,tA,tB);
 
                 if(maths->mag(overlap)>overlapThreshold)
                 {
@@ -95,13 +96,7 @@ bool CollisionEngine::checkCollision(Collidable & a,Collidable & b)
             a.collidingWith.push_back(b.index);
             b.collidingWith.push_back(a.index);
 
-            //check if tunelling has occurred
-            if(maths->dot(tA.position - tB.position,tA.lastFrame - tB.lastFrame) < 0)
-            {
-
-            }
-
-            if((maths->dot(tA.position - tB.position,overlap)) > 0)
+            if((maths->dot(tA.lastFrame - tB.lastFrame,overlap)) > 0)
             {
                 overlap = -overlap;
             }
@@ -144,11 +139,15 @@ bool CollisionEngine::checkCollision(Collidable & a,Collidable & b)
     }
 }
 
-sf::Vector2f CollisionEngine::separatingAxisCheck(ConvexPolygon & a, ConvexPolygon & b)
+sf::Vector2f CollisionEngine::separatingAxisCheck(ConvexPolygon & a, ConvexPolygon & b, Transform& tA, Transform& tB)
 {
     //first poly
     std::vector<sf::Vector2f> axes;
     MTV mtv;
+    sf::Vector2f dA = tA.position - tA.lastFrame;
+    sf::Vector2f dB = tB.position - tB.lastFrame;
+    float dMA = maths->mag(dA);
+    float dMB = maths->mag(dB);
     if(a.points.size() < 1 || b.points.size() < 1) {return sf::Vector2f(0,0);}
     for(int i=1; i<a.points.size();i++)
     {
@@ -157,6 +156,7 @@ sf::Vector2f CollisionEngine::separatingAxisCheck(ConvexPolygon & a, ConvexPolyg
         //find normal vector
         sf::Vector2f normAxis = maths->unitNormal(axis);
         if(maths->dot(a.points[i],normAxis) < 0) {normAxis = -normAxis;}
+
         axes.push_back(normAxis);
     }
     for(int i=1; i<b.points.size();i++)
@@ -165,7 +165,10 @@ sf::Vector2f CollisionEngine::separatingAxisCheck(ConvexPolygon & a, ConvexPolyg
         sf::Vector2f axis = b.points[i] - b.points[i-1];
         //find normal vector
         sf::Vector2f normAxis = maths->unitNormal(axis);
+        if(maths->dot(b.points[i],normAxis) < 0) {normAxis = -normAxis;}
+
         axes.push_back(normAxis);
+
     }
     for(int i=0; i<axes.size(); i++)
     {
@@ -176,7 +179,10 @@ sf::Vector2f CollisionEngine::separatingAxisCheck(ConvexPolygon & a, ConvexPolyg
 
         float o = pA.getOverlap(pB);
 
-        if(o < mtv.overlap)
+        float dotA = maths->dot(dA,axes[i]);
+        float dotB = maths->dot(dB,axes[i]);
+
+        if(o < mtv.overlap && dotA >=0 && dotB>=0)
         {
             mtv.overlap = o;
             mtv.direction = axes[i];
@@ -369,7 +375,6 @@ void CollisionEngine::start()
 
 void CollisionEngine::run()
 {
-    ComponentLoader& components = *componentLoader;
     for(unsigned int i=0; i<quadtree.flatNodes.size(); i++)
     {
         QuadtreeNode & node = quadtree.flatNodes[i];
