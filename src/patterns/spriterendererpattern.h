@@ -14,6 +14,7 @@ public:
     std::string clip;
     std::string sheet;
     sf::Vector2f offset;
+    int frame;
     float depthOffset;
     bool paused;
     float spf;

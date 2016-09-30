@@ -28,9 +28,10 @@ void ComponentFactory::buildSpriteRendererFromPattern(SpriteRendererPattern & pa
     s.depthOffset = pattern.depthOffset;
     s.clip = pattern.clip;
     s.offset = pattern.offset;
+    s.frame = pattern.frame;
     if(pattern.paused)
     {
-        s.animation.stop();
+        s.animation.pause();
     }
     else
     {

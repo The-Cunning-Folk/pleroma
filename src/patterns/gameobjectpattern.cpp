@@ -1,4 +1,5 @@
 #include "gameobjectpattern.h"
+#include <iostream>
 
 using namespace BQ;
 
@@ -122,6 +123,42 @@ SpriteRendererPattern GameObjectPattern::parseSpriteRenderer(rapidjson::Value & 
     if(json.HasMember("clip"))
     {
         sprite.clip = json["clip"].GetString();
+    }
+    if(json.HasMember("frame"))
+    {
+        if(json["frame"].IsNumber())
+        {
+            sprite.frame = json["frame"].GetInt();
+        }
+        else if(json["frame"].IsString())
+        {
+            std::string frameStr = json["frame"].GetString();
+            int rpos = frameStr.find("rand");
+            int ppos = frameStr.find("%");
+            int mod = 0;
+            if (ppos != std::string::npos && frameStr.size() > ppos)
+            {
+                std::string modS = frameStr.substr(ppos+1,frameStr.size()-ppos+1);
+                try
+                {
+                    mod = std::stoi(modS);
+                }
+                catch(const std::exception& e)
+                {
+                    mod = 0;
+                }
+            }
+            if (rpos != std::string::npos)
+            {
+                sprite.frame = mod > 0
+                        ? rand()%mod
+                        : rand();
+            }
+        }
+        else
+        {
+            sprite.frame = 0;
+        }
     }
     if(json.HasMember("offset"))
     {
