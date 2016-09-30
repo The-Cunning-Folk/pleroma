@@ -30,6 +30,10 @@ void ConvexPolygon::clearPoints()
 
 void ConvexPolygon::update()
 {
+    float totalX = 0.0;
+    float totalY = 0.0;
+    float avgX = 0.0;
+    float avgY = 0.0;
     if(points.size() >= 1)
     {
         float left = points[0].x;
@@ -38,10 +42,13 @@ void ConvexPolygon::update()
         float bottom = points[0].y;
         for(unsigned int i=1; i<points.size();i++)
         {
-
+            sf::Vector2f & point = points[i];
             //bbox calculation
-            float tx = points[i].x;
-            float ty = points[i].y;
+            float tx = point.x;
+            float ty = point.y;
+            //running average of positions
+            totalX += tx;
+            totalY += ty;
             if(tx < left)
             {
                 left = tx;
@@ -63,6 +70,11 @@ void ConvexPolygon::update()
         bBox.top = position.y + top;
         bBox.width = right - left;
         bBox.height = bottom - top;
+        float fpoints = ((float)points.size());
+        avgX = totalX/fpoints;
+        avgY = totalY/fpoints;
+        centreOffset = sf::Vector2f(avgX,avgY);
+        centre = position + centreOffset;
     }
     else
     {

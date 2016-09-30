@@ -18,7 +18,7 @@ public:
 
     bool checkCollision(Collidable &,Collidable &);
     sf::Vector2f findMovingCollisionCorrection(Collidable &, Collidable &);
-    sf::Vector2f separatingAxisCheck(ConvexPolygon &, ConvexPolygon &);
+    sf::Vector2f separatingAxisCheck(ConvexPolygon &, ConvexPolygon &, Transform &, Transform &);
     Projection projection(ConvexPolygon &, sf::Vector2f);
 
     std::vector<Collision> collisions;

@@ -584,6 +584,11 @@ void Game::changeLevel(std::string level)
     GameObject & player = getCurrentLevel().objects.objects["player_1"];
     viewPort.focusedTransform = player.getTransform();
     viewPort.bounds = getCurrentLevel().cameraSettings.bounds.asSFFloatRect();
+
+    transformEngine.wake();
+    collisionEngine.wake();
+    renderEngine.wake();
+
     viewPort.focus();
 }
 
