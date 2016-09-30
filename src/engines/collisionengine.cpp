@@ -76,16 +76,14 @@ bool CollisionEngine::checkCollision(Collidable & a,Collidable & b)
 
                 if(maths->mag(overlap)>overlapThreshold)
                 {
-                    tA.correction = pPosA -tA.position;
-                    tB.correction = pPosB - tB.position;
+                    tA.correction += pPosA -tA.position;
+                    tB.correction += pPosB - tB.position;
                     break;
                 }
             }
         }
 
         //end polygon sweep
-
-        //sf::Vector2f overlap = separatingAxisCheck(a.polygon,b.polygon);
         float oMag = maths->mag(overlap);
 
         if(oMag > overlapThreshold) //allow for a 0.1% floating point error
@@ -119,6 +117,12 @@ bool CollisionEngine::checkCollision(Collidable & a,Collidable & b)
                 {
                     tA.correction -= overlap;
                 }
+//                debug->println("----");
+//                debug->printVal(overlap);
+//                debug->println("o1: " + a.getParent());
+//                debug->printVal(tA.correction);
+//                debug->println("o2: " + b.getParent());
+//                debug->printVal(tB.correction);
 
             }
 
@@ -129,6 +133,7 @@ bool CollisionEngine::checkCollision(Collidable & a,Collidable & b)
             c.collidableB = b.index;
             c.overlap = overlap;
             collisions.push_back(c);
+
 
 
             return true;
@@ -182,7 +187,7 @@ sf::Vector2f CollisionEngine::separatingAxisCheck(ConvexPolygon & a, ConvexPolyg
         float dotA = maths->dot(dA,axes[i]);
         float dotB = maths->dot(dB,axes[i]);
 
-        if(o < mtv.overlap && dotA >=0 && dotB>=0)
+        if(o < mtv.overlap && (dotA >=0 || dotB>=0))
         {
             mtv.overlap = o;
             mtv.direction = axes[i];
@@ -362,8 +367,6 @@ void CollisionEngine::start()
                 p1 = 0;
             }
 
-            sf::Vector2f v0 = p.points[p0];
-            sf::Vector2f v1 = p.points[p1];
 
         }
 

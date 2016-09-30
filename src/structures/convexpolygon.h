@@ -15,6 +15,8 @@ public:
     sf::Vector2f position;
 
     sf::FloatRect bBox;
+    sf::Vector2f centreOffset;
+    sf::Vector2f centre;
 
     void addPoint(sf::Vector2f);
     void addPoint(float,float);

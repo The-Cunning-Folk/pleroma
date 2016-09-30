@@ -89,10 +89,12 @@ bool Level::loadLevelFromFile(std::string path)
 
                 std::vector<sf::Vector2f> points;
 
-                points.push_back(sf::Vector2f(0,0));
-                points.push_back(sf::Vector2f(w,0));
-                points.push_back(sf::Vector2f(w,h));
-                points.push_back(sf::Vector2f(0,h));
+                float hw = 0.5*w;
+                float hh = 0.5*h;
+                points.push_back(sf::Vector2f(-hw,-hh));
+                points.push_back(sf::Vector2f(hw,-hh));
+                points.push_back(sf::Vector2f(hw,hh));
+                points.push_back(sf::Vector2f(-hw,hh));
 
                 GameObject & wall = gameObjectFactory.newObject(objects);
                 Collidable & c = componentFactory.newCollidable(objects,points);
@@ -100,7 +102,7 @@ bool Level::loadLevelFromFile(std::string path)
                 wall.addComponent("hitbox",c);
 
                 Transform & wt = objects.transforms[wall.transform];
-                wt.setPosition(sf::Vector2f(l,t));
+                wt.setPosition(sf::Vector2f(l+hw,t+hh));
 
             }
 
