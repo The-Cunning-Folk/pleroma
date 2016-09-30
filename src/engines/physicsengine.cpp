@@ -65,7 +65,7 @@ void PhysicsEngine::run()
     {
         int i = activeComponents[j];
         RigidBody& r = os.rigidBodies[i];
-        componentLoader->getTransform(r.transform).setVelocity(r.getInvmass()*r.momentum);
+        componentLoader->getTransform(r.transform).velocity += (r.getInvmass()*r.momentum);
         if(r.friction > 1E-12) //floating point inprecision check
         {
             float fric = delta*r.friction*r.getMass()*grav;
