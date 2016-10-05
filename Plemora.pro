@@ -27,7 +27,8 @@ INCLUDEPATH += "SFML/include" \
     "$$SRCDIR/environment"\
     "$$SRCDIR/data"\
     "$$SRCDIR/patterns"\
-    "$$SRCDIR/settings"
+    "$$SRCDIR/settings" \
+    "$$SRCDIR/physics"
 
 HEADERS += $$SRCDIR/window/gamewindow.h \
     src/window/windowmanager.h \
@@ -113,7 +114,7 @@ HEADERS += $$SRCDIR/window/gamewindow.h \
     src/gameobject/gameobjectstore.h \
     src/settings/camerasettings.h \
     src/structures/floatrect.h \
-    src/logic/physicalexchange.h
+    src/physics/physicalexchange.h
 
 SOURCES += src/main.cpp \
     $$SRCDIR/window/gamewindow.cpp \
@@ -199,7 +200,7 @@ SOURCES += src/main.cpp \
     src/gameobject/gameobjectstore.cpp \
     src/settings/camerasettings.cpp \
     src/structures/floatrect.cpp \
-    src/logic/physicalexchange.cpp
+    src/physics/physicalexchange.cpp
 
 LIBS += -L"$$PWD/SFML/lib"
 
