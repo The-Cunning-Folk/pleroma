@@ -124,7 +124,7 @@ GameObject& GameObjectFactory::newPlayerObject(GameObjectStore & s) //builds beh
 
     Collidable & attack = componentFactory->newCollidable(s,"player_attack");
 
-    attack.physical = false;
+    attack.interactsWithPhysics = true;
     attack.pathable = true;
     attack.setTransform(player.getTransform());
     attack.solid = false;

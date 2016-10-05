@@ -81,7 +81,6 @@ HEADERS += $$SRCDIR/window/gamewindow.h \
     src/components/rigidbody.h \
     src/engines/physicsengine.h \
     src/factories/physicseventfactory.h \
-    src/logic/physicalcollision.h \
     src/window/viewport.h \
     src/managers/occlusionmanager.h \
     src/engines/pathingengine.h \
@@ -113,7 +112,8 @@ HEADERS += $$SRCDIR/window/gamewindow.h \
     src/environment/scene.h \
     src/gameobject/gameobjectstore.h \
     src/settings/camerasettings.h \
-    src/structures/floatrect.h
+    src/structures/floatrect.h \
+    src/logic/physicalexchange.h
 
 SOURCES += src/main.cpp \
     $$SRCDIR/window/gamewindow.cpp \
@@ -167,7 +167,6 @@ SOURCES += src/main.cpp \
     src/components/rigidbody.cpp \
     src/engines/physicsengine.cpp \
     src/factories/physicseventfactory.cpp \
-    src/logic/physicalcollision.cpp \
     src/window/viewport.cpp \
     src/managers/occlusionmanager.cpp \
     src/engines/pathingengine.cpp \
@@ -199,7 +198,8 @@ SOURCES += src/main.cpp \
     src/environment/scene.cpp \
     src/gameobject/gameobjectstore.cpp \
     src/settings/camerasettings.cpp \
-    src/structures/floatrect.cpp
+    src/structures/floatrect.cpp \
+    src/logic/physicalexchange.cpp
 
 LIBS += -L"$$PWD/SFML/lib"
 

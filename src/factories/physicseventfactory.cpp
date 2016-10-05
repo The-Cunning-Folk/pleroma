@@ -9,7 +9,7 @@ PhysicsEventFactory::PhysicsEventFactory()
 
 }
 
-void PhysicsEventFactory::newCollision(PhysicalCollision c)
+void PhysicsEventFactory::newCollision(PhysicalExchange c)
 {
    physicsEngine->addCollision(c);
 }

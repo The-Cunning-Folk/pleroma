@@ -59,7 +59,7 @@ void EventEngine::run()
         std::vector<int> physA = componentLoader->getRigidBodiesFromObject(A);
         std::vector<int> physB = componentLoader->getRigidBodiesFromObject(B);
 
-        if(cA.physical && cB.physical)
+        if(cA.interactsWithPhysics && cB.interactsWithPhysics)
         {
             for(int j=0; j<physA.size(); j++)
             {
@@ -68,7 +68,7 @@ void EventEngine::run()
                 {
 
                     int iB = physB[k];
-                    PhysicalCollision p;
+                    PhysicalExchange p;
                     p.gameObjectA = c.objectA;
                     p.gameObjectB = c.objectB;
                     p.collidableA = c.collidableA;

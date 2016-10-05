@@ -25,7 +25,7 @@ void PhysicsEngine::run()
     GameObjectStore & os = game->getCurrentLevel().objects;
     for(int i=0; i<collisions.size(); i++)
     {
-        PhysicalCollision & p = collisions[i];
+        PhysicalExchange & p = collisions[i];
 
 
             RigidBody & rA = os.rigidBodies[p.rigidBodyA];
@@ -91,7 +91,7 @@ void PhysicsEngine::finish()
 
 }
 
-void PhysicsEngine::addCollision(const PhysicalCollision & c)
+void PhysicsEngine::addCollision(const PhysicalExchange & c)
 {
     collisions.push_back(c);
 }

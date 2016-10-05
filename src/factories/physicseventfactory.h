@@ -12,7 +12,7 @@ public:
 
     PhysicsEngine* physicsEngine;
 
-    void newCollision(PhysicalCollision);
+    void newCollision(PhysicalExchange);
 
     PhysicsEngine *getPhysicsEngine() const;
     void setPhysicsEngine(PhysicsEngine *value);

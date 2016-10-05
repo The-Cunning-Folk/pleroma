@@ -188,7 +188,7 @@ CollidablePattern GameObjectPattern::parseCollidable(rapidjson::Value & json)
     collidable.diminutive = json.HasMember("diminutive") ? json["diminutive"].GetBool() : false;
     collidable.opaque = json.HasMember("opaque") ? json["opaque"].GetBool() : true;
     collidable.pathable = json.HasMember("pathable") ? json["pathable"].GetBool() : false;
-
+    collidable.physical = json.HasMember("physical") ? json["physical"].GetBool() : true;
     return collidable;
 }
 
