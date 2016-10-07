@@ -128,6 +128,7 @@ GameObject& GameObjectFactory::newPlayerObject(GameObjectStore & s) //builds beh
     attack.pathable = true;
     attack.setTransform(player.getTransform());
     attack.solid = false;
+    attack.interactsWithPhysics = false;
     player.addComponent("attack",attack);
     attack.update();
 

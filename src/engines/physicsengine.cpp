@@ -101,11 +101,6 @@ void PhysicsEngine::resolveTwoBodyCollision(RigidBody & rA, RigidBody & rB)
     sf::Vector2f tB1 = (mA + mB);
     sf::Vector2f tB2 = restB*(vA - vB);
 
-    sf::Vector2f pA = componentLoader->getTransform(rA.transform).position;
-    sf::Vector2f pB = componentLoader->getTransform(rA.transform).position;
-
-    sf::Vector2f diff = pA-pB;
-
     rA.momentum = (massA/(massA + massB))*(tA1+tA2);
     rB.momentum = (massB/(massA + massB))*(tB1+tB2);
 

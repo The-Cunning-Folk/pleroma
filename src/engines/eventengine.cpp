@@ -59,7 +59,7 @@ void EventEngine::run()
         std::vector<int> physA = componentLoader->getRigidBodiesFromObject(A);
         std::vector<int> physB = componentLoader->getRigidBodiesFromObject(B);
 
-        if(cA.interactsWithPhysics || cB.interactsWithPhysics)
+        if(cA.interactsWithPhysics && cB.interactsWithPhysics)
         {
 
             PhysicalExchange p;
