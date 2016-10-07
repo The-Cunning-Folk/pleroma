@@ -22,8 +22,6 @@ public:
     std::vector<Collision> collisions;
     std::vector<int> toUpdate;
 
-    PhysicsEventFactory* physicsEventFactory;
-
     void start();
     void run();
     void finish();

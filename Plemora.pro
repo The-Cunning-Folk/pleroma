@@ -81,7 +81,6 @@ HEADERS += $$SRCDIR/window/gamewindow.h \
     src/loaders/gameobjectloader.h \
     src/components/rigidbody.h \
     src/engines/physicsengine.h \
-    src/factories/physicseventfactory.h \
     src/window/viewport.h \
     src/managers/occlusionmanager.h \
     src/engines/pathingengine.h \
@@ -167,7 +166,6 @@ SOURCES += src/main.cpp \
     src/loaders/gameobjectloader.cpp \
     src/components/rigidbody.cpp \
     src/engines/physicsengine.cpp \
-    src/factories/physicseventfactory.cpp \
     src/window/viewport.cpp \
     src/managers/occlusionmanager.cpp \
     src/engines/pathingengine.cpp \

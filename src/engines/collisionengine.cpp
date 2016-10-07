@@ -117,13 +117,6 @@ bool CollisionEngine::checkCollision(Collidable & a,Collidable & b)
                 {
                     tA.correction -= overlap;
                 }
-//                debug->println("----");
-//                debug->printVal(overlap);
-//                debug->println("o1: " + a.getParent());
-//                debug->printVal(tA.correction);
-//                debug->println("o2: " + b.getParent());
-//                debug->printVal(tB.correction);
-
             }
 
             Collision c;

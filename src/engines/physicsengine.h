@@ -20,6 +20,8 @@ public:
     float grav;
 
     void addCollision(const PhysicalExchange &);
+    void resolveTwoBodyCollision(RigidBody &, RigidBody &);
+    void resolveReflection(RigidBody &, sf::Vector2f);
 
     std::vector<PhysicalExchange> collisions;
 

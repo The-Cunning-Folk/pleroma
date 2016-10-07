@@ -15,8 +15,7 @@ public:
     int rigidBodyB;
     int collidableA;
     int collidableB;
-
-    sf::Vector2f overlap;
+    sf::Vector2f reflectionAxis;
 };
 
 #endif // PHYSICALCOLLISION_H

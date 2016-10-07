@@ -59,29 +59,50 @@ void EventEngine::run()
         std::vector<int> physA = componentLoader->getRigidBodiesFromObject(A);
         std::vector<int> physB = componentLoader->getRigidBodiesFromObject(B);
 
-        if(cA.interactsWithPhysics && cB.interactsWithPhysics)
+        if(cA.interactsWithPhysics || cB.interactsWithPhysics)
         {
-            for(int j=0; j<physA.size(); j++)
+
+            PhysicalExchange p;
+            p.gameObjectA = c.objectA;
+            p.gameObjectB = c.objectB;
+            p.collidableA = c.collidableA;
+            p.collidableB = c.collidableB;
+            p.reflectionAxis = maths->unit(c.overlap);
+
+            if(physA.size()>0 && physB.size() > 0)
             {
-                int iA = physA[j];
-                for(int k=0; k<physB.size(); k++)
+
+                for(int j=0; j<physA.size(); j++)
                 {
-
-                    int iB = physB[k];
-                    PhysicalExchange p;
-                    p.gameObjectA = c.objectA;
-                    p.gameObjectB = c.objectB;
-                    p.collidableA = c.collidableA;
-                    p.collidableB = c.collidableB;
+                    int iA = physA[j];
+                    for(int k=0; k<physB.size(); k++)
+                    {
+                        int iB = physB[k];
+                        p.rigidBodyA = iA;
+                        p.rigidBodyB = iB;
+                        game->eventFactory.createPhysicsExchange(p);
+                    }
+                }
+            }
+            else if(physA.size() > 0)
+            {
+                for(int j=0; j<physA.size(); j++)
+                {
+                    int iA = physA[j];
                     p.rigidBodyA = iA;
-                    p.rigidBodyB = iB;
-                    p.overlap = c.overlap;
-                    game->physicsEventFactory.newCollision(p);
-
+                    game->eventFactory.createPhysicsExchange(p);
+                }
+            }
+            else if(physB.size() > 0)
+            {
+                for(int j=0; j<physB.size(); j++)
+                {
+                    int iB = physB[j];
+                    p.rigidBodyA = iB;
+                    game->eventFactory.createPhysicsExchange(p);
                 }
             }
         }
-
     }
 
     std::map<std::string,std::vector<Event>> groupedEvents;

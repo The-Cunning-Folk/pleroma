@@ -6,12 +6,14 @@
 #include<physicalexchange.h>
 
 namespace BQ{
+class Game;
 class EventFactory : public Factory
 {
 public:
     EventFactory();
 
     EventEngine* eventEngine;
+    Game* game;
 
     void createEvent(std::string,std::string);
     void createEvent(std::string,GameObject&);
@@ -20,6 +22,9 @@ public:
 
     EventEngine *getEventEngine() const;
     void setEventEngine(EventEngine *value);
+
+    Game *getGame() const;
+    void setGame(Game *value);
 };
 }
 

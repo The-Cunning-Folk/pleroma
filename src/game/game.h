@@ -19,7 +19,6 @@
 #include<eventfactory.h>
 #include<componentfactory.h>
 #include<inputfactory.h>
-#include<physicseventfactory.h>
 
 #include<transformengine.h>
 #include<eventengine.h>
@@ -90,7 +89,6 @@ public:
     ComponentFactory componentFactory;
     EventFactory eventFactory;
     InputFactory inputFactory;
-    PhysicsEventFactory physicsEventFactory;
 
 
     //inherited properties
@@ -132,14 +130,6 @@ public:
     RaycastingEngine getRayCastingEngine() const;
     void setRayCastingEngine(const RaycastingEngine &value);
 
-private:
-
-    //managers
-    OcclusionManager occlusionManager;
-
-    //factories
-
-
     //engines
     TransformEngine transformEngine;
     InputEngine inputEngine;
@@ -151,6 +141,16 @@ private:
     LogicEngine logicEngine;
     RaycastingEngine rayCastingEngine;
     RenderEngine renderEngine;
+
+private:
+
+    //managers
+    OcclusionManager occlusionManager;
+
+    //factories
+
+
+
 
 
     //global properties
