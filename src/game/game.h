@@ -38,6 +38,8 @@
 
 #include<occlusionmanager.h>
 
+#include<lua/lua.h>
+
 typedef std::shared_ptr<BQ::GameWindow> window_ptr;
 
 namespace BQ

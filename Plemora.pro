@@ -5,8 +5,7 @@ CONFIG -= qt
 
 SRCDIR = "src"
 
-INCLUDEPATH += "SFML/include" \
-    "$$SRCDIR/window" \
+INCLUDEPATH += "$$SRCDIR/window" \
     "$$SRCDIR/application" \
     "$$SRCDIR/utils" \
     "$$SRCDIR/game" \
@@ -200,8 +199,7 @@ SOURCES += src/main.cpp \
     src/structures/floatrect.cpp \
     src/physics/physicalexchange.cpp
 
-LIBS += -L"$$PWD/SFML/lib"
-
+LIBS += -L"$$PWD/lib"
 
 unix {
 # Copies the given files to the destination directory
@@ -227,10 +225,8 @@ OBJECTS_DIR=obj #Intermediate object files directory
 MOC_DIR=moc #Intermediate moc files directory
 
 
-CONFIG(release, debug|release): LIBS += -lsfml-audio -lsfml-graphics -lsfml-network -lsfml-window -lsfml-system
-CONFIG(debug, debug|release): LIBS += -lsfml-audio-d -lsfml-graphics-d -lsfml-network-d -lsfml-window-d -lsfml-system-d
+CONFIG(release, debug|release): LIBS += -llua -lsfml-audio -lsfml-graphics -lsfml-network -lsfml-window -lsfml-system
+CONFIG(debug, debug|release): LIBS += -llua -lsfml-audio-d -lsfml-graphics-d -lsfml-network-d -lsfml-window-d -lsfml-system-d
 
-INCLUDEPATH += "SFML/include"
-DEPENDPATH += "SFML/include"
 INCLUDEPATH += "include"
 DEPENDPATH += "include"
