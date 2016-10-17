@@ -1,11 +1,18 @@
 TEMPLATE = app
-CONFIG += console c++11
+CONFIG += c++14
 CONFIG -= app_bundle
 CONFIG -= qt
 
+QMAKE_CXX               = g++-4.9
+QMAKE_LINK              = g++-4.9
+QMAKE_CXXFLAGS += -std=c++1y
+
 SRCDIR = "src"
 
-INCLUDEPATH += "$$SRCDIR/window" \
+INCLUDEPATH += "include" \
+    "include/lua" \
+    "include/sol" \
+    "$$SRCDIR/window" \
     "$$SRCDIR/application" \
     "$$SRCDIR/utils" \
     "$$SRCDIR/game" \
@@ -204,6 +211,7 @@ LIBS += -L"$$PWD/lib"
 unix {
 # Copies the given files to the destination directory
 copydata.commands = $(COPY_DIR) $$PWD/var $$OUT_PWD
+
 }
 
 win32 {
@@ -223,6 +231,7 @@ QMAKE_EXTRA_TARGETS += first copydata
 
 OBJECTS_DIR=obj #Intermediate object files directory
 MOC_DIR=moc #Intermediate moc files directory
+
 
 
 CONFIG(release, debug|release): LIBS += -llua -lsfml-audio -lsfml-graphics -lsfml-network -lsfml-window -lsfml-system

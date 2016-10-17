@@ -38,7 +38,7 @@
 
 #include<occlusionmanager.h>
 
-#include<lua/lua.h>
+#include<sol.hpp>
 
 typedef std::shared_ptr<BQ::GameWindow> window_ptr;
 
