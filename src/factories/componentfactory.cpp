@@ -15,6 +15,7 @@ void ComponentFactory::buildCollidableFromPattern(CollidablePattern & pattern, C
     c.pathable = pattern.pathable;
     c.opaque = pattern.opaque;
     c.diminutive = pattern.diminutive;
+    c.interactsWithPhysics = pattern.physical;
     for(int i=0; i<pattern.polygon.size(); i++)
     {
         c.polygon.addPoint(pattern.polygon[i]);
@@ -28,9 +29,10 @@ void ComponentFactory::buildSpriteRendererFromPattern(SpriteRendererPattern & pa
     s.depthOffset = pattern.depthOffset;
     s.clip = pattern.clip;
     s.offset = pattern.offset;
+    s.frame = pattern.frame;
     if(pattern.paused)
     {
-        s.animation.stop();
+        s.animation.pause();
     }
     else
     {

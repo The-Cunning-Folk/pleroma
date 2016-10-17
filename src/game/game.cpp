@@ -62,18 +62,17 @@ void Game::runEngines()
     collisionEngine.start();
     collisionEngine.run();
 
-    physicsEngine.setDelta(deltaT);
-    physicsEngine.run();
-
     rayCastingEngine.start();
     rayCastingEngine.run();
 
     pathingEngine.addGoal(componentLoader.getTransform(player.transform).position);
     pathingEngine.run();
 
-
     eventEngine.start();
     eventEngine.run();
+
+    physicsEngine.setDelta(deltaT);
+    physicsEngine.run();
 
     transformEngine.runCorrections();
 
@@ -85,6 +84,7 @@ void Game::runEngines()
     transformEngine.finish();
     eventEngine.finish();
     collisionEngine.finish();
+    physicsEngine.finish();
     pathingEngine.finish();
     rayCastingEngine.finish();
     renderEngine.finish();
@@ -325,7 +325,7 @@ void Game::initialiseInjections()
     //end of component factory injections
     gameObjectFactory.setComponentFactory(&componentFactory);
 
-    physicsEventFactory.setPhysicsEngine(&physicsEngine);
+    eventFactory.setGame(this);
     eventFactory.setEventEngine(&eventEngine);
     inputFactory.setInputEngine(&inputEngine);
 
@@ -349,7 +349,6 @@ void Game::initialiseInjections()
     gameObjectFactory.setGame(this);
     eventFactory.setGame(this);
     inputFactory.setGame(this);
-    physicsEventFactory.setGame(this);
 }
 
 void Game::initialiseClocks()

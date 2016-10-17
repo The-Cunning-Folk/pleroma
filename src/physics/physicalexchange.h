@@ -1,13 +1,13 @@
-#ifndef PHYSICALCOLLISION_H
-#define PHYSICALCOLLISION_H
+#ifndef PHYSICALEXCHANGE_H
+#define PHYSICALEXCHANGE_H
 
 #include <SFML/Graphics.hpp>
 #include <string>
 
-class PhysicalCollision
+class PhysicalExchange
 {
 public:
-    PhysicalCollision();
+    PhysicalExchange();
 
     std::string gameObjectA;
     std::string gameObjectB;
@@ -15,8 +15,7 @@ public:
     int rigidBodyB;
     int collidableA;
     int collidableB;
-
-    sf::Vector2f overlap;
+    sf::Vector2f reflectionAxis;
 };
 
 #endif // PHYSICALCOLLISION_H

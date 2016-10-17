@@ -10,5 +10,6 @@ SpriteRendererPattern::SpriteRendererPattern()
     offset.x = offset.y = 0;
     name = "";
     paused = false;
+    frame = 0;
 }
 

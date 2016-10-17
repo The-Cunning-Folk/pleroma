@@ -28,10 +28,11 @@ public:
 
     bool solid;
     bool immovable;
-    bool physical;
     bool diminutive;
     bool pathable;
     bool opaque;
+
+    bool interactsWithPhysics;
 
     bool colliding;
 

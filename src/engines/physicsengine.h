@@ -3,7 +3,7 @@
 
 #include <engine.h>
 #include <rigidbody.h>
-#include <physicalcollision.h>
+#include <physicalexchange.h>
 
 namespace BQ{
 class PhysicsEngine : public Engine
@@ -19,9 +19,11 @@ public:
 
     float grav;
 
-    void addCollision(const PhysicalCollision &);
+    void addCollision(const PhysicalExchange &);
+    void resolveTwoBodyCollision(RigidBody &, RigidBody &);
+    void resolveReflection(RigidBody &, sf::Vector2f);
 
-    std::vector<PhysicalCollision> collisions;
+    std::vector<PhysicalExchange> collisions;
 
 };
 }

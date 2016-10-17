@@ -30,16 +30,6 @@ void Engine::setGrid(Grid *value)
     grid = value;
 }
 
-PhysicsEventFactory *Engine::getPhysicsEventFactory() const
-{
-    return physicsEventFactory;
-}
-
-void Engine::setPhysicsEventFactory(PhysicsEventFactory *value)
-{
-    physicsEventFactory = value;
-}
-
 GameObjectLoader *Engine::getGameObjectLoader() const
 {
     return gameObjectLoader;
