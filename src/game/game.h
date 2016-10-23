@@ -38,6 +38,7 @@
 
 #include<occlusionmanager.h>
 
+
 typedef std::shared_ptr<BQ::GameWindow> window_ptr;
 
 namespace BQ
