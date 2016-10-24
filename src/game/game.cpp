@@ -22,8 +22,6 @@ void Game::runTests()
         }
     }
 
-
-
 }
 
 void Game::runEngines()
@@ -136,6 +134,7 @@ void Game::run()
     bool objectDebug = false;
     bool pathingDebug = false;
     bool raycastingDebug = false;
+    bool runDebugScript = false;
 
     viewPort.focus();
 
@@ -176,6 +175,9 @@ void Game::run()
 
         if(input.keyToggled("objectDebug"))
             objectDebug = !objectDebug;
+
+        if(input.keyToggled("runDebugScript"))
+            runDebugScript = !runDebugScript;
         //temporary behaviours
 
         runTests();
@@ -208,6 +210,13 @@ void Game::run()
 
         if(objectDebug)
             printObjectDebug();
+
+        if(runDebugScript)
+        {
+            sol::load_result debugScript = resourceLoader.loadLuaScript(luaCtrl.lua,"debug.lua");
+            debugScript();
+        }
+
 
         std::string winPosStr = "w_pos - " + debug->formatVector(window.window.getView().getCenter(),1);
 
@@ -286,6 +295,8 @@ void Game::initialiseInjections()
     currentLevel="butterfly_demo";
     ViewPort & viewPort = gameWindow->primaryView;
     debug->println("injecting dependencies");
+
+    luaCtrl.setGame(this);
 
     occlusionManager.setGame(this);
     occlusionManager.setComponentLoader(&componentLoader);
@@ -368,6 +379,7 @@ void Game::initialiseInput()
     input.setKeyInput("collisionDebug",sf::Keyboard::F5);
     input.setKeyInput("pathingDebug",sf::Keyboard::F6);
     input.setKeyInput("raycastingDebug",sf::Keyboard::F7);
+    input.setKeyInput("runDebugScript",sf::Keyboard::F8);
 
 
 }
@@ -380,6 +392,7 @@ void Game::initialiseTests()
 
     //for testing only
     transformEngine.setWrapAround(false);
+
 
 }
 

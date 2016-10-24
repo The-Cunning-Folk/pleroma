@@ -7,6 +7,7 @@ ResourceLoader::ResourceLoader()
     baseDirectory = "";
     fontDirectory = "fonts";
     textureDirectory = "textures";
+    scriptsDirectory = "scripts";
 }
 
 std::string ResourceLoader::loadFileAsString(std::string path)
@@ -23,6 +24,12 @@ rapidjson::Document ResourceLoader::loadJsonFile(std::string path)
     rapidjson::Document doc;
     doc.Parse(jsonStr.c_str());
     return doc;
+}
+
+sol::load_result ResourceLoader::loadLuaScript(sol::state & lua, std::string path)
+{
+    sol::load_result s = lua.load_file(baseDirectory+"/"+scriptsDirectory+"/"+path);
+    return s;
 }
 
 DebugUtils *ResourceLoader::getDebug() const

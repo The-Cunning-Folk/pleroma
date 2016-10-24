@@ -35,8 +35,9 @@
 #include<gameobjectloader.h>
 
 #include<datafileparser.h>
-
+#include<luacontroller.h>
 #include<occlusionmanager.h>
+
 
 
 typedef std::shared_ptr<BQ::GameWindow> window_ptr;
@@ -91,6 +92,7 @@ public:
     EventFactory eventFactory;
     InputFactory inputFactory;
 
+    LuaController luaCtrl;
 
     //inherited properties
     DebugUtils* debug;

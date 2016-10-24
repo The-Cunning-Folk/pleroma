@@ -11,6 +11,7 @@
 #include <rapidjson/document.h>
 #include <rapidjson/writer.h>
 #include <rapidjson/stringbuffer.h>
+#include <sol.hpp>
 
 namespace BQ{
 class ResourceLoader
@@ -23,6 +24,7 @@ public:
     std::string loadFileAsString(std::string);
 
     rapidjson::Document loadJsonFile(std::string);
+    sol::load_result loadLuaScript(sol::state& ,std::string);
 
     DebugUtils *getDebug() const;
     void setDebug(DebugUtils *value);
@@ -30,6 +32,7 @@ public:
     std::string baseDirectory;
     std::string fontDirectory;
     std::string textureDirectory;
+    std::string scriptsDirectory;
 
     std::map<std::string,sf::Font> fonts;
 
