@@ -387,7 +387,6 @@ void Game::initialiseInput()
 void Game::initialiseTests()
 {
     debug->println("setting up tests");
-    input.setKeyInput("addObject",sf::Keyboard::F8);
     input.setKeyInput("changeScene",sf::Keyboard::F10);
 
     //for testing only
@@ -575,6 +574,16 @@ RaycastingEngine Game::getRayCastingEngine() const
 void Game::setRayCastingEngine(const RaycastingEngine &value)
 {
     rayCastingEngine = value;
+}
+
+InputMap Game::getInput() const
+{
+    return input;
+}
+
+void Game::setInput(const InputMap &value)
+{
+    input = value;
 }
 
 void Game::setGameWindow(window_ptr window)

@@ -36,13 +36,14 @@ public:
     bool keyPressed(std::string);
 
     void setKeyInput(std::string,sf::Keyboard::Key);
-    void setKeyInput(std::string,int);
+    void setKeyInput(std::string,std::string);
 
     std::vector<std::string> getKeysDown();
     std::vector<std::string> getButtonsDown();
     std::vector<std::string> getJoystickInput();
 
     void setButtonInput(std::string,int);
+    sf::Keyboard::Key getKeyCode(std::string);
 
     void update();
 

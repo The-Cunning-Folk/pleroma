@@ -57,8 +57,15 @@ void LuaController::bindTypes()
                                 "stop",&Animation::stop
                                 );
 
-    lua.new_usertype<InputMap>("inputmap"
-                                 );
+    lua.new_usertype<InputMap>("inputmap",
+                               "button_pressed",&InputMap::buttonPressed,
+                               "button_toggled",&InputMap::buttonToggled,
+                               "key_pressed",&InputMap::keyPressed,
+                               "key_toggled",&InputMap::keyToggled,
+                               "set_key_input",
+                               sol::resolve<void(std::string,std::string)>(&InputMap::setKeyInput),
+                               "get_keys_down",&InputMap::getKeysDown
+                               );
 
 
     //object structures
@@ -134,8 +141,9 @@ void LuaController::bindTypes()
                                  );
 
     lua.new_usertype<PlayerInput>("playerinput",
-                                 sol::base_classes,sol::bases<Component>()
-                                 );
+                                  "map",&PlayerInput::inputMap,
+                                  sol::base_classes,sol::bases<Component>()
+                                  );
 
 
 }
@@ -147,8 +155,12 @@ void LuaController::bindFunctions()
         game->changeLevel(s);
     });
 
-    lua.set_function("delta", [&](std::string s) {
+    lua.set_function("delta", [&]() {
         return game->delta;
+    });
+
+    lua.set_function("get_global_input", [&]() {
+        return &(game->input);
     });
 
     //object access functions
@@ -180,6 +192,7 @@ void LuaController::bindFunctions()
     lua.set_function("get_rayemitter", [&](int n) {
         return &(game->componentLoader.getRayEmitter(n));
     });
+
 
 }
 

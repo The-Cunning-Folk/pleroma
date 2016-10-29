@@ -147,6 +147,11 @@ public:
     RaycastingEngine rayCastingEngine;
     RenderEngine renderEngine;
 
+    InputMap getInput() const;
+    void setInput(const InputMap &value);
+
+    InputMap input;
+
 private:
 
     //managers
@@ -154,13 +159,9 @@ private:
 
     //factories
 
-
-
-
-
     //global properties
 
-    InputMap input;
+
 
     //variables
     float frameRate;
