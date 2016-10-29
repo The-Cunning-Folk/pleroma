@@ -76,8 +76,14 @@ bool CollisionEngine::checkCollision(Collidable & a,Collidable & b)
 
                 if(maths->mag(overlap)>overlapThreshold)
                 {
-                    tA.correction += pPosA -tA.position;
-                    tB.correction += pPosB - tB.position;
+                    if(a.solid)
+                    {
+                        tA.correction += pPosA -tA.position;
+                    }
+                    if(b.solid)
+                    {
+                        tB.correction += pPosB - tB.position;
+                    }
                     break;
                 }
             }

@@ -4,7 +4,7 @@ using namespace BQ;
 
 Game::Game()
 {
-
+    delta = 0;
 }
 
 void Game::runTests()
@@ -22,8 +22,6 @@ void Game::runTests()
         }
     }
 
-
-
 }
 
 void Game::runEngines()
@@ -35,8 +33,8 @@ void Game::runEngines()
 
     inputEngine.run();
 
-    float deltaStep = debug->time.getSecondsAndRestart("stepClock");
-    transformEngine.setDelta(deltaStep);
+    delta = debug->time.getSecondsAndRestart("stepClock");
+    transformEngine.setDelta(delta);
     transformEngine.runStep();
 
     transformEngine.setBounds(viewPort.renderRegion);
@@ -136,6 +134,7 @@ void Game::run()
     bool objectDebug = false;
     bool pathingDebug = false;
     bool raycastingDebug = false;
+    bool runDebugScript = false;
 
     viewPort.focus();
 
@@ -176,6 +175,9 @@ void Game::run()
 
         if(input.keyToggled("objectDebug"))
             objectDebug = !objectDebug;
+
+        if(input.keyToggled("runDebugScript"))
+            runDebugScript = !runDebugScript;
         //temporary behaviours
 
         runTests();
@@ -208,6 +210,13 @@ void Game::run()
 
         if(objectDebug)
             printObjectDebug();
+
+        if(runDebugScript)
+        {
+            sol::load_result debugScript = resourceLoader.loadLuaScript(luaCtrl.lua,"debug.lua");
+            debugScript();
+        }
+
 
         std::string winPosStr = "w_pos - " + debug->formatVector(window.window.getView().getCenter(),1);
 
@@ -286,6 +295,8 @@ void Game::initialiseInjections()
     currentLevel="butterfly_demo";
     ViewPort & viewPort = gameWindow->primaryView;
     debug->println("injecting dependencies");
+
+    luaCtrl.setGame(this);
 
     occlusionManager.setGame(this);
     occlusionManager.setComponentLoader(&componentLoader);
@@ -368,6 +379,7 @@ void Game::initialiseInput()
     input.setKeyInput("collisionDebug",sf::Keyboard::F5);
     input.setKeyInput("pathingDebug",sf::Keyboard::F6);
     input.setKeyInput("raycastingDebug",sf::Keyboard::F7);
+    input.setKeyInput("runDebugScript",sf::Keyboard::F8);
 
 
 }
@@ -375,11 +387,11 @@ void Game::initialiseInput()
 void Game::initialiseTests()
 {
     debug->println("setting up tests");
-    input.setKeyInput("addObject",sf::Keyboard::F8);
     input.setKeyInput("changeScene",sf::Keyboard::F10);
 
     //for testing only
     transformEngine.setWrapAround(false);
+
 
 }
 
@@ -562,6 +574,16 @@ RaycastingEngine Game::getRayCastingEngine() const
 void Game::setRayCastingEngine(const RaycastingEngine &value)
 {
     rayCastingEngine = value;
+}
+
+InputMap Game::getInput() const
+{
+    return input;
+}
+
+void Game::setInput(const InputMap &value)
+{
+    input = value;
 }
 
 void Game::setGameWindow(window_ptr window)

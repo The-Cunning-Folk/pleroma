@@ -32,7 +32,8 @@ INCLUDEPATH += "include" \
     "$$SRCDIR/data"\
     "$$SRCDIR/patterns"\
     "$$SRCDIR/settings" \
-    "$$SRCDIR/physics"
+    "$$SRCDIR/physics"\
+    "$$SRCDIR/scripting"
 
 HEADERS += $$SRCDIR/window/gamewindow.h \
     src/window/windowmanager.h \
@@ -117,7 +118,8 @@ HEADERS += $$SRCDIR/window/gamewindow.h \
     src/gameobject/gameobjectstore.h \
     src/settings/camerasettings.h \
     src/structures/floatrect.h \
-    src/physics/physicalexchange.h
+    src/physics/physicalexchange.h \
+    src/scripting/luacontroller.h
 
 SOURCES += src/main.cpp \
     $$SRCDIR/window/gamewindow.cpp \
@@ -202,7 +204,8 @@ SOURCES += src/main.cpp \
     src/gameobject/gameobjectstore.cpp \
     src/settings/camerasettings.cpp \
     src/structures/floatrect.cpp \
-    src/physics/physicalexchange.cpp
+    src/physics/physicalexchange.cpp \
+    src/scripting/luacontroller.cpp
 
 unix {
 # Copies the given files to the destination directory

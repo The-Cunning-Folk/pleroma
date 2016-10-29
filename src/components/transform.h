@@ -20,16 +20,16 @@ public:
     sf::Vector2f position; //this is the position that we do work on so that we can scale things nicely
     sf::Vector2f size;
     sf::Vector2f velocity;
-
-
-    sf::FloatRect getBBox();
+    sf::Vector2f step;
+    sf::Vector2f correction;
 
     std::vector <int> children; //transforms that are bound to this one
 
     void move(sf::Vector2f);
     void move(sf::Vector2i);
     void move(float,float);
-    void move(int,int);
+
+    sf::FloatRect getBBox();
 
     sf::Vector2i getGridPosition() const;
     void setGridPosition(const sf::Vector2i &value);
@@ -49,9 +49,6 @@ public:
 
     sf::Vector2f getVelocity() const;
     void setVelocity(const sf::Vector2f &value);
-
-    sf::Vector2f step;
-    sf::Vector2f correction;
 
     sf::Vector2f getLastFrame() const;
     void setLastFrame(const sf::Vector2f &value);

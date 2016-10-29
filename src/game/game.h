@@ -35,8 +35,9 @@
 #include<gameobjectloader.h>
 
 #include<datafileparser.h>
-
+#include<luacontroller.h>
 #include<occlusionmanager.h>
+
 
 
 typedef std::shared_ptr<BQ::GameWindow> window_ptr;
@@ -57,6 +58,8 @@ public:
     void changeLevel(std::string);
 
     std::string currentLevel;
+
+    float delta;
 
     Level & getCurrentLevel();
 
@@ -91,6 +94,7 @@ public:
     EventFactory eventFactory;
     InputFactory inputFactory;
 
+    LuaController luaCtrl;
 
     //inherited properties
     DebugUtils* debug;
@@ -143,6 +147,11 @@ public:
     RaycastingEngine rayCastingEngine;
     RenderEngine renderEngine;
 
+    InputMap getInput() const;
+    void setInput(const InputMap &value);
+
+    InputMap input;
+
 private:
 
     //managers
@@ -150,13 +159,9 @@ private:
 
     //factories
 
-
-
-
-
     //global properties
 
-    InputMap input;
+
 
     //variables
     float frameRate;

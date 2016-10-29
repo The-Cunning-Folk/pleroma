@@ -31,9 +31,7 @@ public:
     bool diminutive;
     bool pathable;
     bool opaque;
-
     bool interactsWithPhysics;
-
     bool colliding;
 
     ConvexPolygon polygon;
