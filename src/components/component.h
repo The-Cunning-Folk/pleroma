@@ -42,9 +42,9 @@ public:
     void setTransform(int value);
     Transform & loadTransform();
 
-protected:
-
     std::string parent; //shouldn't always need this, but very useful for some things
+
+protected:
 
 };
 }
