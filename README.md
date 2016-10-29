@@ -12,10 +12,10 @@ If for a moment you lose all sense of clarity and want to write a game in the en
 
 Huge thanks to these projects which made our lives much easier:
 
-SFML Project
-rapidjson
-Sol2
-Lua
+SFML Project,
+rapidjson,
+Sol2,
+Lua,
 OpenGL
 
 And huge thanks to all the great people who are still excited whenever we show off the game, despite how slowly we're moving with it, you're all wonderful <3

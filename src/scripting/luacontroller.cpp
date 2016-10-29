@@ -42,7 +42,7 @@ void LuaController::bindTypes()
     lua.new_usertype<ConvexPolygon>("Polygon",
                                     "position",&ConvexPolygon::position,
                                     "points",&ConvexPolygon::points,
-                                    "bBox",&ConvexPolygon::bBox,
+                                    "bbox",&ConvexPolygon::bBox,
                                     "center",&ConvexPolygon::centre
                                    );
 
@@ -54,15 +54,31 @@ void LuaController::bindTypes()
                                  );
 
     //component structures
+    lua.new_usertype<Component>("Component",
+                                "index",&Component::index,
+                                "name",&Component::name,
+                                "parent",&Component::parent,
+                                "transform",&Component::transform,
+                                "type",&Component::typeId,
+                                "id",&Component::uniqueId
+                                );
+
+    lua.new_usertype<Transform>("Transform",
+                                "position", &Transform::position,
+                                "velocity", &Transform::velocity,
+                                "move", sol::resolve<void(float,float)>( &Transform::move),
+                                sol::base_classes,sol::bases<Component>()
+                                 );
+    
     lua.new_usertype<Collidable>("Collidable",
                                  "solid", &Collidable::solid,
                                  "opaque", &Collidable::opaque,
                                  "pathable", &Collidable::pathable,
                                  "diminutive", &Collidable::diminutive,
                                  "immovable", &Collidable::immovable,
-                                 "interactsWithPhysics", &Collidable::interactsWithPhysics,
+                                 "interacts_with_physics", &Collidable::interactsWithPhysics,
                                  "polygon",&Collidable::polygon,
-                                 "parent",&Collidable::parent
+                                 sol::base_classes,sol::bases<Component>()
                                  );
 }
 
@@ -82,8 +98,13 @@ void LuaController::bindFunctions()
 
 
     //direct component access functions
+
+    lua.set_function("get_transform", [&](int n) {
+        return &(game->componentLoader.getTransform(n));
+    });
+
     lua.set_function("get_collidable", [&](int n) {
-        return &(game->componentFactory.componentLoader->getCollidable(n));
+        return &(game->componentLoader.getCollidable(n));
     });
 
 }

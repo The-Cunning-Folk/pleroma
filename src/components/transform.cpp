@@ -102,16 +102,11 @@ void Transform::move(sf::Vector2f value)
 
 void Transform::move(sf::Vector2i value)
 {
-    move(sf::Vector2f(value.x,value.y));
+    this->move(sf::Vector2f(value.x,value.y));
 }
 
 void Transform::move(float x, float y)
 {
-    move(sf::Vector2f(x,y));
-}
-
-void Transform::move(int x, int y)
-{
-    move(sf::Vector2f(x,y));
+    this->move(sf::Vector2f(x,y));
 }
 
