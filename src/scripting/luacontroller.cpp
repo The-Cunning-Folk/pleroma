@@ -57,6 +57,10 @@ void LuaController::bindTypes()
                                 "stop",&Animation::stop
                                 );
 
+    lua.new_usertype<InputMap>("inputmap"
+                                 );
+
+
     //object structures
     lua.new_usertype<GameObject>("gameobject",
                                  "name", sol::readonly(&GameObject::name),
@@ -120,6 +124,20 @@ void LuaController::bindTypes()
                                      "texture_rect",&SpriteRenderer::textureRect,
                                      sol::base_classes,sol::bases<Component>()
                                      );
+
+    lua.new_usertype<RayEmitter>("rayemitter",
+                                 "targets",&RayEmitter::targets,
+                                 "positions",&RayEmitter::positions,
+                                 "add_target",&RayEmitter::addTarget,
+                                 "get_target",&RayEmitter::getTarget,
+                                 sol::base_classes,sol::bases<Component>()
+                                 );
+
+    lua.new_usertype<PlayerInput>("playerinput",
+                                 sol::base_classes,sol::bases<Component>()
+                                 );
+
+
 }
 
 void LuaController::bindFunctions()
@@ -127,6 +145,10 @@ void LuaController::bindFunctions()
     //global game functions
     lua.set_function("change_level", [&](std::string s) {
         game->changeLevel(s);
+    });
+
+    lua.set_function("delta", [&](std::string s) {
+        return game->delta;
     });
 
     //object access functions
@@ -145,6 +167,18 @@ void LuaController::bindFunctions()
 
     lua.set_function("get_collidable", [&](int n) {
         return &(game->componentLoader.getCollidable(n));
+    });
+
+    lua.set_function("get_rigidbody", [&](int n) {
+        return &(game->componentLoader.getRigidBody(n));
+    });
+
+    lua.set_function("get_spriterenderer", [&](int n) {
+        return &(game->componentLoader.getSpriteRenderer(n));
+    });
+
+    lua.set_function("get_rayemitter", [&](int n) {
+        return &(game->componentLoader.getRayEmitter(n));
     });
 
 }

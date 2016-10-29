@@ -4,7 +4,7 @@ using namespace BQ;
 
 Game::Game()
 {
-
+    delta = 0;
 }
 
 void Game::runTests()
@@ -33,8 +33,8 @@ void Game::runEngines()
 
     inputEngine.run();
 
-    float deltaStep = debug->time.getSecondsAndRestart("stepClock");
-    transformEngine.setDelta(deltaStep);
+    delta = debug->time.getSecondsAndRestart("stepClock");
+    transformEngine.setDelta(delta);
     transformEngine.runStep();
 
     transformEngine.setBounds(viewPort.renderRegion);

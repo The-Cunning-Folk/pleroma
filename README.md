@@ -1,4 +1,4 @@
-# Plemora
+# Pleroma
 
 A 2D component based in-house game engine written by the Cunning Folk.
 

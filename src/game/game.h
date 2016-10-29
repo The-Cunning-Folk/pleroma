@@ -59,6 +59,8 @@ public:
 
     std::string currentLevel;
 
+    float delta;
+
     Level & getCurrentLevel();
 
     void setFrameRate(float);

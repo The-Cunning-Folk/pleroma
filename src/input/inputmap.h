@@ -21,6 +21,7 @@ private:
     std::map<std::string,ButtonInput> buttons;
     std::map<std::string,JoystickInput> axes;
     std::map<std::string,KeyInput> keys;
+
     std::map<std::string,KeyInput>::iterator it;
     std::map<std::string,ButtonInput>::iterator bt;
     std::map<std::string,JoystickInput>::iterator jt;
@@ -35,6 +36,7 @@ public:
     bool keyPressed(std::string);
 
     void setKeyInput(std::string,sf::Keyboard::Key);
+    void setKeyInput(std::string,int);
 
     std::vector<std::string> getKeysDown();
     std::vector<std::string> getButtonsDown();
