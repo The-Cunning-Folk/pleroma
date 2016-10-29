@@ -17,60 +17,77 @@ LuaController::LuaController()
 void LuaController::bindTypes()
 {
     //SFML data structures
-    lua.new_usertype<sf::Vector2f>("Vector2f",
+    lua.new_usertype<sf::Vector2f>("vector2f",
                                    "x",&sf::Vector2f::x,
                                    "y",&sf::Vector2f::y
                                    );
-    lua.new_usertype<sf::Vector2i>("Vector2i",
+    lua.new_usertype<sf::Vector2i>("vector2i",
                                    "x",&sf::Vector2i::x,
                                    "y",&sf::Vector2i::y
                                    );
-    lua.new_usertype<sf::FloatRect>("FloatRect",
-                                   "l",&sf::FloatRect::left,
-                                   "t",&sf::FloatRect::top,
-                                   "w",&sf::FloatRect::width,
-                                   "h",&sf::FloatRect::height
-                                   );
-    lua.new_usertype<sf::IntRect>("IntRect",
-                                   "l",&sf::IntRect::left,
-                                   "t",&sf::IntRect::top,
-                                   "w",&sf::IntRect::width,
-                                   "h",&sf::IntRect::height
-                                   );
+    lua.new_usertype<sf::FloatRect>("float_rect",
+                                    "l",&sf::FloatRect::left,
+                                    "t",&sf::FloatRect::top,
+                                    "w",&sf::FloatRect::width,
+                                    "h",&sf::FloatRect::height
+                                    );
+    lua.new_usertype<sf::IntRect>("int_rect",
+                                  "l",&sf::IntRect::left,
+                                  "t",&sf::IntRect::top,
+                                  "w",&sf::IntRect::width,
+                                  "h",&sf::IntRect::height
+                                  );
 
     //basic plemora structures
-    lua.new_usertype<ConvexPolygon>("Polygon",
+    lua.new_usertype<ConvexPolygon>("polygon",
                                     "position",&ConvexPolygon::position,
                                     "points",&ConvexPolygon::points,
                                     "bbox",&ConvexPolygon::bBox,
                                     "center",&ConvexPolygon::centre
-                                   );
+                                    );
+
+    lua.new_usertype<Animation>("animation",
+                                "running",&Animation::running,
+                                "stopped",&Animation::stopped,
+                                "spf",&Animation::spf,
+                                "rate",&Animation::rate,
+                                "frame",&Animation::frame,
+                                "play",&Animation::play,
+                                "pause",&Animation::pause,
+                                "stop",&Animation::stop
+                                );
 
     //object structures
-    lua.new_usertype<GameObject>("Object",
-                                 "name", &GameObject::name,
+    lua.new_usertype<GameObject>("gameobject",
+                                 "name", sol::readonly(&GameObject::name),
                                  "transform", &GameObject::transform,
                                  "components", &GameObject::components
                                  );
 
     //component structures
-    lua.new_usertype<Component>("Component",
-                                "index",&Component::index,
+    lua.new_usertype<Component>("component",
+                                "index",sol::readonly(&Component::index),
                                 "name",&Component::name,
-                                "parent",&Component::parent,
+                                "parent",sol::readonly(&Component::parent),
                                 "transform",&Component::transform,
-                                "type",&Component::typeId,
-                                "id",&Component::uniqueId
+                                "type",sol::readonly(&Component::typeId),
+                                "id",sol::readonly(&Component::uniqueId)
                                 );
 
-    lua.new_usertype<Transform>("Transform",
+    lua.new_usertype<Transform>("transform",
+                                "grid_position", sol::readonly(&Transform::gridPosition),
                                 "position", &Transform::position,
                                 "velocity", &Transform::velocity,
+                                "last_frame",sol::readonly(&Transform::lastFrame),
+                                "step",sol::readonly(&Transform::step),
+                                "correction",sol::readonly(&Transform::correction),
+                                "size",&Transform::size,
+                                "children",&Transform::children,
                                 "move", sol::resolve<void(float,float)>( &Transform::move),
                                 sol::base_classes,sol::bases<Component>()
-                                 );
+                                );
     
-    lua.new_usertype<Collidable>("Collidable",
+    lua.new_usertype<Collidable>("collidable",
                                  "solid", &Collidable::solid,
                                  "opaque", &Collidable::opaque,
                                  "pathable", &Collidable::pathable,
@@ -80,6 +97,29 @@ void LuaController::bindTypes()
                                  "polygon",&Collidable::polygon,
                                  sol::base_classes,sol::bases<Component>()
                                  );
+
+    lua.new_usertype<RigidBody>("rigidbody",
+                                "momentum", &RigidBody::momentum,
+                                "restitution",&RigidBody::restitution,
+                                "friction",&RigidBody::friction,
+                                "set_mass",&RigidBody::setMass,
+                                "get_mass",&RigidBody::getMass,
+                                "inv_mass",&RigidBody::getInvmass,
+                                sol::base_classes,sol::bases<Component>()
+                                );
+
+    lua.new_usertype<SpriteRenderer>("spriterenderer",
+                                     "animation",&SpriteRenderer::animation,
+                                     "offset",&SpriteRenderer::offset,
+                                     "depth_offset",&SpriteRenderer::depthOffset,
+                                     "depth",&SpriteRenderer::depth,
+                                     "texture",&SpriteRenderer::texture,
+                                     "spritesheet",&SpriteRenderer::spritesheet,
+                                     "clip",&SpriteRenderer::clip,
+                                     "frame",&SpriteRenderer::frame,
+                                     "texture_rect",&SpriteRenderer::textureRect,
+                                     sol::base_classes,sol::bases<Component>()
+                                     );
 }
 
 void LuaController::bindFunctions()
