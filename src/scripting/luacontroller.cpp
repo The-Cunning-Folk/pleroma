@@ -145,6 +145,11 @@ void LuaController::bindTypes()
                                   sol::base_classes,sol::bases<Component>()
                                   );
 
+    lua.new_usertype<Event>("event",
+                            "triggered_by",&Event::triggeredBy,
+                            "script",&Event::script
+                            );
+
 
 }
 
@@ -161,6 +166,10 @@ void LuaController::bindFunctions()
 
     lua.set_function("get_global_input", [&]() {
         return &(game->input);
+    });
+
+    lua.set_function("get_global_events",[&](){
+        return game->eventEngine.events;
     });
 
     //object access functions
@@ -199,8 +208,8 @@ void LuaController::bindFunctions()
 void LuaController::bindLuaFunctions()
 {
     //runs the global lua file which contains global script definitions
-
     lua.script_file("var/global_scripts/global.lua");
+    lua.script_file("var/global_scripts/base_behaviour.lua");
 }
 
 

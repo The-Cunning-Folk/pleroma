@@ -78,7 +78,9 @@ public:
     void initialiseEnvironment();
     void initialiseTests();
     void runTests();
+    void startEngines();
     void runEngines();
+    void finishEngines();
 
     void setDebug(DebugUtils *value);
 

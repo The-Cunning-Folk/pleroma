@@ -24,6 +24,11 @@ void Game::runTests()
 
 }
 
+void Game::startEngines()
+{
+
+}
+
 void Game::runEngines()
 {
 
@@ -79,6 +84,11 @@ void Game::runEngines()
 
     debugDisplayEngine.run();
 
+
+}
+
+void Game::finishEngines()
+{
     transformEngine.finish();
     eventEngine.finish();
     collisionEngine.finish();
@@ -249,6 +259,8 @@ void Game::run()
             window.draw(fpsDisplay);
             window.draw(posDisplay);
         }
+
+        finishEngines();
 
         window.display();
 

@@ -34,6 +34,7 @@ void EventFactory::createEvent(std::string script, GameObject & object)
 
 void EventFactory::createCollision(Collision c)
 {
+    createEvent("collision("+c.objectA+":"+std::to_string(c.collidableA)+","+c.objectB+":"+std::to_string(c.collidableB)+")",c.objectA);
     eventEngine->collisions.push_back(c);
 }
 
