@@ -182,7 +182,7 @@ SpriteRendererPattern GameObjectPattern::parseSpriteRenderer(rapidjson::Value & 
 CollidablePattern GameObjectPattern::parseCollidable(rapidjson::Value & json)
 {
     CollidablePattern collidable;
-
+    collidable.name = json.HasMember("name") ? json["name"].GetString() : "";
     collidable.immovable = json.HasMember("immovable") ? json["immovable"].GetBool() : false;
     collidable.solid = json.HasMember("solid") ? json["solid"].GetBool() : true;
     collidable.diminutive = json.HasMember("diminutive") ? json["diminutive"].GetBool() : false;

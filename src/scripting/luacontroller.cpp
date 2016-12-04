@@ -8,7 +8,14 @@ using namespace BQ;
 
 LuaController::LuaController()
 {
-    lua.open_libraries(sol::lib::base, sol::lib::package, sol::lib::io);
+    lua.open_libraries(
+                sol::lib::base,
+                sol::lib::package,
+                sol::lib::io,
+                sol::lib::string,
+                sol::lib::table
+                );
+
     bindLuaFunctions();
     bindTypes();
     bindFunctions();
@@ -164,6 +171,10 @@ void LuaController::bindFunctions()
         return game->delta;
     });
 
+    lua.set_function("current_level",[&](){
+        return game->currentLevel;
+    });
+
     lua.set_function("get_global_input", [&]() {
         return &(game->input);
     });
@@ -178,7 +189,9 @@ void LuaController::bindFunctions()
     });
 
     //object-based component access functions
-
+    lua.set_function("get_obj_transform", [&](std::string s){
+        return &(game->componentLoader.getTransform(game->getCurrentLevel().objects.objects[s].transform));
+    });
 
     //direct component access functions
 

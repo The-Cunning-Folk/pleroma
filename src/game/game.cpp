@@ -154,6 +154,8 @@ void Game::run()
     collisionEngine.wake();
     renderEngine.wake();
 
+     sol::load_result mainScript = resourceLoader.loadLuaScript(luaCtrl.lua,"main.lua");
+
     while(window.isOpen()){
         //game loop goes here
 
@@ -195,6 +197,7 @@ void Game::run()
         runEngines();
         viewPort.update();
         //end logic
+
 
 
 
@@ -260,10 +263,11 @@ void Game::run()
             window.draw(posDisplay);
         }
 
-        finishEngines();
+        mainScript();
 
         window.display();
 
+        finishEngines();
 
 
     }
