@@ -188,6 +188,10 @@ void LuaController::bindFunctions()
         return &(game->getCurrentLevel().objects.objects[s]);
     });
 
+    lua.set_function("remove_object", [&](std::string s) {
+        return game->getCurrentLevel().objects.removeObject(s);
+    });
+
     //object-based component access functions
     lua.set_function("get_obj_transform", [&](std::string s){
         return &(game->componentLoader.getTransform(game->getCurrentLevel().objects.objects[s].transform));
