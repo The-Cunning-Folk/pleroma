@@ -79,7 +79,8 @@ void LuaController::bindTypes()
     lua.new_usertype<GameObject>("gameobject",
                                  "name", sol::readonly(&GameObject::name),
                                  "transform", &GameObject::transform,
-                                 "components", &GameObject::components
+                                 "components", &GameObject::components,
+                                 "active", &GameObject::active
                                  );
 
     //component structures
@@ -89,7 +90,8 @@ void LuaController::bindTypes()
                                 "parent",sol::readonly(&Component::parent),
                                 "transform",&Component::transform,
                                 "type",sol::readonly(&Component::typeId),
-                                "id",sol::readonly(&Component::uniqueId)
+                                "id",sol::readonly(&Component::uniqueId),
+                                "active", &Component::active
                                 );
 
     lua.new_usertype<Transform>("transform",
@@ -190,6 +192,14 @@ void LuaController::bindFunctions()
 
     lua.set_function("remove_object", [&](std::string s) {
         return game->getCurrentLevel().objects.removeObject(s);
+    });
+
+    lua.set_function("deactivate_object", [&](std::string s) {
+        return game->getCurrentLevel().objects.deactivateObject(s);
+    });
+
+    lua.set_function("activate_object", [&](std::string s) {
+        return game->getCurrentLevel().objects.activateObject(s);
     });
 
     //object-based component access functions

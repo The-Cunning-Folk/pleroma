@@ -101,6 +101,19 @@ GameObject & GameObjectStore::addObject(std::string name)
     return generateObject(name);
 }
 
+GameObject &GameObjectStore::getObject(std::string s)
+{
+    std::map<std::string,GameObject>::iterator it = objects.find(s);
+    if(it != objects.end())
+    {
+        return objects[s];
+    }
+    else
+    {
+        return nullObj;
+    }
+}
+
 void GameObjectStore::removeObjectComponents(GameObject & o)
 {
     removeTransform(o.transform);
@@ -127,10 +140,59 @@ void GameObjectStore::removeObjectComponents(GameObject & o)
 
 void GameObjectStore::removeObjectComponents(std::string s)
 {
-    std::map<std::string,GameObject>::iterator it = objects.find(s);
-    if(it != objects.end())
+    removeObjectComponents(getObject(s));
+}
+
+void GameObjectStore::deactivateObjectComponents(GameObject & o)
+{
+
+    std::map<int,Transform>::iterator it_c = transforms.find(o.transform);
+    if(it_c != transforms.end())
     {
-        removeObjectComponents(objects[s]);
+        it_c->second.deactivate();
+    }
+
+    for(it_strint it = o.components["transform"].begin(); it != o.components["transform"].end(); it++) {
+        std::map<int,Transform>::iterator it_c = transforms.find(it->second);
+        if(it_c != transforms.end())
+        {
+            it_c->second.deactivate();
+        }
+    }
+    for(it_strint it = o.components["collidable"].begin(); it != o.components["collidable"].end(); it++) {
+        std::map<int,Collidable>::iterator it_c = collidables.find(it->second);
+        if(it_c != collidables.end())
+        {
+            it_c->second.deactivate();
+        }
+    }
+    for(it_strint it = o.components["rigidbody"].begin(); it != o.components["rigidbody"].end(); it++) {
+        std::map<int,RigidBody>::iterator it_c = rigidBodies.find(it->second);
+        if(it_c != rigidBodies.end())
+        {
+            it_c->second.deactivate();
+        }
+    }
+    for(it_strint it = o.components["gamelogic"].begin(); it != o.components["gamelogic"].end(); it++) {
+        std::map<int,GameLogic>::iterator it_c = gamelogics.find(it->second);
+        if(it_c != gamelogics.end())
+        {
+            it_c->second.deactivate();
+        }
+    }
+    for(it_strint it = o.components["rayemitter"].begin(); it != o.components["rayemitter"].end(); it++) {
+        std::map<int,RayEmitter>::iterator it_c = rayEmitters.find(it->second);
+        if(it_c != rayEmitters.end())
+        {
+            it_c->second.deactivate();
+        }
+    }
+    for(it_strint it = o.components["spriterenderer"].begin(); it != o.components["spriterenderer"].end(); it++) {
+        std::map<int,SpriteRenderer>::iterator it_c = spriteRenderers.find(it->second);
+        if(it_c != spriteRenderers.end())
+        {
+            it_c->second.deactivate();
+        }
     }
 }
 
@@ -148,6 +210,26 @@ void GameObjectStore::removeObject(std::string s)
         removeObjectComponents(objects[s]);
         objects.erase(it);
     }
+}
+
+void GameObjectStore::deactivateObject(std::string s)
+{
+    deactivateObject(getObject(s));
+}
+
+void GameObjectStore::activateObject(std::string s)
+{
+    activateObject(getObject(s));
+}
+
+void GameObjectStore::deactivateObject(GameObject & o)
+{
+    o.deactivate();
+}
+
+void GameObjectStore::activateObject(GameObject & o)
+{
+    o.activate();
 }
 
 Transform & GameObjectStore::addTransform()

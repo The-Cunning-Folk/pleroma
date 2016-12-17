@@ -38,3 +38,13 @@ void Component::setName(std::string value)
     name = value;
 }
 
+void Component::activate()
+{
+    active = true;
+}
+
+void Component::deactivate()
+{
+    active = false;
+}
+

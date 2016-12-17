@@ -28,16 +28,28 @@ class GameObjectStore
 public:
     GameObjectStore();
 
+    GameObject nullObj;
+
     ComponentLoader* componentLoader;
 
     GameObject& addObject();
     GameObject& addObject(std::string);
 
+    GameObject& getObject(std::string);
+
     void removeObjectComponents(GameObject &);
     void removeObjectComponents(std::string);
 
+    void deactivateObjectComponents(GameObject &);
+
     void removeObject(GameObject&);
     void removeObject(std::string);
+
+    void deactivateObject(std::string);
+    void activateObject(std::string);
+
+    void deactivateObject(GameObject &);
+    void activateObject(GameObject &);
 
     std::map<std::string,GameObject> objects;
 

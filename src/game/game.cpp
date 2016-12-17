@@ -145,6 +145,7 @@ void Game::run()
     bool pathingDebug = false;
     bool raycastingDebug = false;
     bool runDebugScript = false;
+    bool eventDebug = false;
 
     viewPort.focus();
 
@@ -190,6 +191,9 @@ void Game::run()
 
         if(input.keyToggled("runDebugScript"))
             runDebugScript = !runDebugScript;
+
+        if(input.keyToggled("eventDebug"))
+            eventDebug = !eventDebug;
         //temporary behaviours
 
         runTests();
@@ -220,6 +224,9 @@ void Game::run()
 
         if(raycastingDebug)
             rayCastingEngine.drawDebug();
+
+        if(eventDebug)
+            eventEngine.drawDebug();
 
         if(objectDebug)
             printObjectDebug();
@@ -396,7 +403,7 @@ void Game::initialiseInput()
     input.setKeyInput("pathingDebug",sf::Keyboard::F6);
     input.setKeyInput("raycastingDebug",sf::Keyboard::F7);
     input.setKeyInput("runDebugScript",sf::Keyboard::F8);
-
+    input.setKeyInput("eventDebug",sf::Keyboard::F9);
 
 }
 
