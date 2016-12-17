@@ -37,13 +37,16 @@ std::vector<int> OcclusionManager::getActiveComponents(std::string tag)
     for(unsigned int i=0; i<activeObjects.size();i++)
     {
         GameObject & o = gameObjectLoader->loadGameObject(activeObjects[i]);
-        std::map<std::string,int> m = o.components[tag];
-        std::vector<int> thisComponents(0);
-        for(it iterator = m.begin(); iterator != m.end(); iterator++) {
-            thisComponents.push_back(iterator->second);
-        }
+        if(o.active)
+        {
+            std::map<std::string,int> m = o.components[tag];
+            std::vector<int> thisComponents(0);
+            for(it iterator = m.begin(); iterator != m.end(); iterator++) {
+                thisComponents.push_back(iterator->second);
+            }
 
-        components.insert(components.end(), thisComponents.begin(), thisComponents.end());
+            components.insert(components.end(), thisComponents.begin(), thisComponents.end());
+        }
     }
     return components;
 }

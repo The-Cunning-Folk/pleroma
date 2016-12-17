@@ -21,6 +21,11 @@ public:
     std::string name;
     int uniqueId;
 
+    bool active;
+
+    void deactivate();
+    void activate();
+
     void addComponent(Component&);
     void addComponent(std::string,Component&);
 

@@ -38,6 +38,8 @@ public:
     float getDelta() const;
     void setDelta(float value);
 
+    void drawDebug();
+
 
 protected:
 

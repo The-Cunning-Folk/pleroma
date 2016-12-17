@@ -24,6 +24,8 @@ public:
     int index;
     int transform;
 
+    bool active;
+
     void setName(std::string);
 
     virtual void update()
@@ -34,6 +36,9 @@ public:
     {
         //nothing here
     }
+
+    void activate();
+    void deactivate();
 
     std::string getParent() const;
     void setParent(const std::string &value);

@@ -13,6 +13,7 @@
 
 namespace BQ{
 
+typedef std::map<std::string, int>::iterator it_strint;
 typedef std::map<std::string, GameObject>::iterator it_object;
 typedef std::map<int, Transform>::iterator it_transform;
 typedef std::map<int, Collidable>::iterator it_collidable;
@@ -27,10 +28,28 @@ class GameObjectStore
 public:
     GameObjectStore();
 
+    GameObject nullObj;
+
     ComponentLoader* componentLoader;
 
     GameObject& addObject();
     GameObject& addObject(std::string);
+
+    GameObject& getObject(std::string);
+
+    void removeObjectComponents(GameObject &);
+    void removeObjectComponents(std::string);
+
+    void deactivateObjectComponents(GameObject &);
+
+    void removeObject(GameObject&);
+    void removeObject(std::string);
+
+    void deactivateObject(std::string);
+    void activateObject(std::string);
+
+    void deactivateObject(GameObject &);
+    void activateObject(GameObject &);
 
     std::map<std::string,GameObject> objects;
 
@@ -56,6 +75,15 @@ public:
     void setComponentLoader(ComponentLoader *value);
 
 private:
+
+
+    void removeTransform(int);
+    void removeCollidable(int);
+    void removeGameLogic(int);
+    void removePlayerInput(int);
+    void removeRayEmitter(int);
+    void removeRigidBody(int);
+    void removeSpriteRenderer(int);
 
     GameObject& generateObject(std::string);
 

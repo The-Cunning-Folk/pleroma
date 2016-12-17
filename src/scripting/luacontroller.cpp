@@ -8,7 +8,14 @@ using namespace BQ;
 
 LuaController::LuaController()
 {
-    lua.open_libraries(sol::lib::base, sol::lib::package, sol::lib::io);
+    lua.open_libraries(
+                sol::lib::base,
+                sol::lib::package,
+                sol::lib::io,
+                sol::lib::string,
+                sol::lib::table
+                );
+
     bindLuaFunctions();
     bindTypes();
     bindFunctions();
@@ -72,7 +79,8 @@ void LuaController::bindTypes()
     lua.new_usertype<GameObject>("gameobject",
                                  "name", sol::readonly(&GameObject::name),
                                  "transform", &GameObject::transform,
-                                 "components", &GameObject::components
+                                 "components", &GameObject::components,
+                                 "active", &GameObject::active
                                  );
 
     //component structures
@@ -82,7 +90,8 @@ void LuaController::bindTypes()
                                 "parent",sol::readonly(&Component::parent),
                                 "transform",&Component::transform,
                                 "type",sol::readonly(&Component::typeId),
-                                "id",sol::readonly(&Component::uniqueId)
+                                "id",sol::readonly(&Component::uniqueId),
+                                "active", &Component::active
                                 );
 
     lua.new_usertype<Transform>("transform",
@@ -145,6 +154,11 @@ void LuaController::bindTypes()
                                   sol::base_classes,sol::bases<Component>()
                                   );
 
+    lua.new_usertype<Event>("event",
+                            "triggered_by",&Event::triggeredBy,
+                            "script",&Event::script
+                            );
+
 
 }
 
@@ -159,8 +173,16 @@ void LuaController::bindFunctions()
         return game->delta;
     });
 
+    lua.set_function("current_level",[&](){
+        return game->currentLevel;
+    });
+
     lua.set_function("get_global_input", [&]() {
         return &(game->input);
+    });
+
+    lua.set_function("get_global_events",[&](){
+        return game->eventEngine.events;
     });
 
     //object access functions
@@ -168,8 +190,22 @@ void LuaController::bindFunctions()
         return &(game->getCurrentLevel().objects.objects[s]);
     });
 
-    //object-based component access functions
+    lua.set_function("remove_object", [&](std::string s) {
+        return game->getCurrentLevel().objects.removeObject(s);
+    });
 
+    lua.set_function("deactivate_object", [&](std::string s) {
+        return game->getCurrentLevel().objects.deactivateObject(s);
+    });
+
+    lua.set_function("activate_object", [&](std::string s) {
+        return game->getCurrentLevel().objects.activateObject(s);
+    });
+
+    //object-based component access functions
+    lua.set_function("get_obj_transform", [&](std::string s){
+        return &(game->componentLoader.getTransform(game->getCurrentLevel().objects.objects[s].transform));
+    });
 
     //direct component access functions
 
@@ -199,8 +235,8 @@ void LuaController::bindFunctions()
 void LuaController::bindLuaFunctions()
 {
     //runs the global lua file which contains global script definitions
-
     lua.script_file("var/global_scripts/global.lua");
+    lua.script_file("var/global_scripts/base_behaviour.lua");
 }
 
 

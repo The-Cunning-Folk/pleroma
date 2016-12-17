@@ -243,3 +243,11 @@ void EventEngine::setDelta(float value)
     delta = value;
 }
 
+void EventEngine::drawDebug()
+{
+    for (int i=0; i<events.size(); i++)
+    {
+        debug->println(events[i].script);
+    }
+}
+

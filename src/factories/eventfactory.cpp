@@ -34,6 +34,7 @@ void EventFactory::createEvent(std::string script, GameObject & object)
 
 void EventFactory::createCollision(Collision c)
 {
+    createEvent("collision("+c.objectA+":"+game->componentLoader.getCollidable(c.collidableA).name+","+c.objectB+":"+game->componentLoader.getCollidable(c.collidableB).name+")",c.objectA);
     eventEngine->collisions.push_back(c);
 }
 

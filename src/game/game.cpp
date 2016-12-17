@@ -24,6 +24,11 @@ void Game::runTests()
 
 }
 
+void Game::startEngines()
+{
+
+}
+
 void Game::runEngines()
 {
 
@@ -79,6 +84,11 @@ void Game::runEngines()
 
     debugDisplayEngine.run();
 
+
+}
+
+void Game::finishEngines()
+{
     transformEngine.finish();
     eventEngine.finish();
     collisionEngine.finish();
@@ -135,6 +145,7 @@ void Game::run()
     bool pathingDebug = false;
     bool raycastingDebug = false;
     bool runDebugScript = false;
+    bool eventDebug = false;
 
     viewPort.focus();
 
@@ -143,6 +154,8 @@ void Game::run()
     transformEngine.wake();
     collisionEngine.wake();
     renderEngine.wake();
+
+     sol::load_result mainScript = resourceLoader.loadLuaScript(luaCtrl.lua,"main.lua");
 
     while(window.isOpen()){
         //game loop goes here
@@ -178,6 +191,9 @@ void Game::run()
 
         if(input.keyToggled("runDebugScript"))
             runDebugScript = !runDebugScript;
+
+        if(input.keyToggled("eventDebug"))
+            eventDebug = !eventDebug;
         //temporary behaviours
 
         runTests();
@@ -185,6 +201,7 @@ void Game::run()
         runEngines();
         viewPort.update();
         //end logic
+
 
 
 
@@ -207,6 +224,9 @@ void Game::run()
 
         if(raycastingDebug)
             rayCastingEngine.drawDebug();
+
+        if(eventDebug)
+            eventEngine.drawDebug();
 
         if(objectDebug)
             printObjectDebug();
@@ -250,8 +270,11 @@ void Game::run()
             window.draw(posDisplay);
         }
 
+        mainScript();
+
         window.display();
 
+        finishEngines();
 
 
     }
@@ -380,7 +403,7 @@ void Game::initialiseInput()
     input.setKeyInput("pathingDebug",sf::Keyboard::F6);
     input.setKeyInput("raycastingDebug",sf::Keyboard::F7);
     input.setKeyInput("runDebugScript",sf::Keyboard::F8);
-
+    input.setKeyInput("eventDebug",sf::Keyboard::F9);
 
 }
 

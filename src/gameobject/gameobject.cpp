@@ -4,7 +4,17 @@ using namespace BQ;
 
 GameObject::GameObject()
 {
+    active = true;
+}
 
+void GameObject::deactivate()
+{
+    active = false;
+}
+
+void GameObject::activate()
+{
+    active = true;
 }
 
 
