@@ -21,33 +21,9 @@ PlayerBehaviours::PlayerBehaviours()
 
     //set the attack area polygons
 
-    attackScaleFactor = 2.0F;
+    attackScaleFactor = 0.5F;
 
     ConvexPolygon c;
-
-    c.addPoint(6,-12);
-    c.addPoint(20,-30);
-    c.addPoint(25,-20);
-    c.addPoint(10,-8);
-
-    attackFrames.push_back(c);
-    c.clearPoints();
-
-    c.addPoint(10,-8);
-    c.addPoint(25,-20);
-    c.addPoint(30,0);
-    c.addPoint(12,0);
-
-    attackFrames.push_back(c);
-    c.clearPoints();
-
-    c.addPoint(12,0);
-    c.addPoint(30,0);
-    c.addPoint(25,20);
-    c.addPoint(10,8);
-
-    attackFrames.push_back(c);
-    c.clearPoints();
 
     c.addPoint(10,8);
     c.addPoint(25,20);
@@ -58,9 +34,38 @@ PlayerBehaviours::PlayerBehaviours()
     attackFrames.push_back(c);
     c.clearPoints();
 
+    c.addPoint(12,0);
+    c.addPoint(30,0);
+    c.addPoint(25,20);
+    c.addPoint(10,8);
+
+    attackFrames.push_back(c);
+    c.clearPoints();
+
+    c.addPoint(10,-8);
+    c.addPoint(25,-20);
+    c.addPoint(30,0);
+    c.addPoint(12,0);
+
+    attackFrames.push_back(c);
+    c.clearPoints();
+
+    c.addPoint(6,-12);
+    c.addPoint(20,-30);
+    c.addPoint(25,-20);
+    c.addPoint(10,-8);
+
+    attackFrames.push_back(c);
+    c.clearPoints();
+
+
+
+
+
+
     //set the attack properties
 
-    attackDuration = 0.15;
+    attackDuration = 0.5;
     attackCooldown = 0.05;
     startAttack = false;
     attackCooled = false;
@@ -298,13 +303,34 @@ void PlayerBehaviours::update()
 
     SpriteRenderer & spr = componentLoader.getSpriteRendererFromObject(g,"sprite");
 
-    if(rolling)
+    if(attacking)
+    {
+        if(spr.spritesheet != "clo_attack")
+        {
+            spr.animation.stop();
+            spr.update();
+            spr.spritesheet = "clo_attack";
+            spr.clip = "attack_down";
+
+            if(facing[0] == 'd'){spr.clip = "attack_down";}
+            else if(facing[0] == 'u'){spr.clip = "attack_up";}
+            else if(facing[0] == 'r'){spr.clip = "attack_right";}
+            else if(facing[0] == 'l'){spr.clip = "attack_left";}
+
+            spr.animation.rate = 1.0;
+            spr.animation.spf = attackDuration/8.0;
+            spr.animation.play();
+        }
+
+    }
+    else if(rolling)
     {
         if(spr.spritesheet != "clo_roll")
         {
             spr.animation.stop();
             spr.update();
             spr.spritesheet = "clo_roll";
+            spr.animation.rate = 1.0;
         }
 
         if(facing[0] == 'd')
@@ -325,7 +351,7 @@ void PlayerBehaviours::update()
             spr.clip = "roll_left";
             spr.offset.x = -8;
         }
-        spr.animation.spf = rollDuration/4.0;
+        spr.animation.spf = rollDuration/8.0;
         spr.animation.play();
     }
     else if(game->math.mag(velocity) < 0.01f)
@@ -370,7 +396,7 @@ void PlayerBehaviours::update()
     }
     if(attacking)
     {
-        attackFrame = (int) floor((attackFrames.size())*(attackTimer.asSeconds()/attackDuration));
+        attackFrame = (int) floor((attackFrames.size())*(attackTimer.asSeconds()/(attackDuration*0.3)));
         if(attackFrame < 0) {attackFrame = 0;}
         if(attackFrame >= attackFrames.size()) {attackFrame = attackFrames.size()-1;}
         velocity.x = 0;
