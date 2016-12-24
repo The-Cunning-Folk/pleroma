@@ -41,6 +41,8 @@ public:
     bool attackCooled;
     float attackDuration;
     float attackCooldown;
+    float attackStart;
+    float attackEnd;
     float attackMom;
     float attackScaleFactor;
 
@@ -50,6 +52,7 @@ public:
 
     std::string getFacing(float,float);
     sf::Vector2f getOctDirection();
+    sf::Vector2f getQuadDirection();
     void checkInputLogic();
 
     void collisionWith(GameObject &, std::string, std::string);

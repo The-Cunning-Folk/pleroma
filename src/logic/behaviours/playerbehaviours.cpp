@@ -21,50 +21,28 @@ PlayerBehaviours::PlayerBehaviours()
 
     //set the attack area polygons
 
-    attackScaleFactor = 0.5F;
+    attackScaleFactor = 1.0F;
 
     ConvexPolygon c;
 
-    c.addPoint(10,8);
-    c.addPoint(25,20);
-    c.addPoint(20,30);
-    c.addPoint(6,12);
-
-
+    c.addPoint(5,0);
+    c.addPoint(25,0);
+    c.addPoint(25,8);
+    c.addPoint(5,12);
     attackFrames.push_back(c);
     c.clearPoints();
 
-    c.addPoint(12,0);
-    c.addPoint(30,0);
-    c.addPoint(25,20);
-    c.addPoint(10,8);
-
+    c.addPoint(5,-12);
+    c.addPoint(25,-8);
+    c.addPoint(25,0);
+    c.addPoint(5,0);
     attackFrames.push_back(c);
     c.clearPoints();
-
-    c.addPoint(10,-8);
-    c.addPoint(25,-20);
-    c.addPoint(30,0);
-    c.addPoint(12,0);
-
-    attackFrames.push_back(c);
-    c.clearPoints();
-
-    c.addPoint(6,-12);
-    c.addPoint(20,-30);
-    c.addPoint(25,-20);
-    c.addPoint(10,-8);
-
-    attackFrames.push_back(c);
-    c.clearPoints();
-
-
-
-
-
 
     //set the attack properties
 
+    attackStart = 0.1;
+    attackEnd = 0.3;
     attackDuration = 0.5;
     attackCooldown = 0.05;
     startAttack = false;
@@ -167,6 +145,29 @@ sf::Vector2f PlayerBehaviours::getOctDirection()
     return octDir;
 }
 
+sf::Vector2f PlayerBehaviours::getQuadDirection()
+{
+    sf::Vector2f quadDir;
+    if(compare(facing,"l"))
+    {
+        quadDir = sf::Vector2f(-1,0);
+    }
+    else if(compare(facing,"u"))
+    {
+        quadDir = sf::Vector2f(0,-1);
+    }
+    else if(compare(facing,"r"))
+    {
+        quadDir = sf::Vector2f(1,0);
+    }
+    else if(compare(facing,"d"))
+    {
+        quadDir = sf::Vector2f(0,1);
+    }
+    quadDir = game->math.unit(quadDir);
+    return quadDir;
+}
+
 void PlayerBehaviours::checkInputLogic()
 {
     if(startRoll && !attacking)
@@ -175,7 +176,7 @@ void PlayerBehaviours::checkInputLogic()
         startRoll = false;
         rollDirection = game->math.mag(direction) > 0.01f
                 ? direction
-                : getOctDirection();
+                : getQuadDirection();
     }
     if(rolling)
     {
@@ -197,7 +198,7 @@ void PlayerBehaviours::checkInputLogic()
     {
         attacking = true;
         startAttack = false;
-        attackDirection = getOctDirection();
+        attackDirection = getQuadDirection();
     }
     if(attacking)
     {
@@ -396,16 +397,22 @@ void PlayerBehaviours::update()
     }
     if(attacking)
     {
-        attackFrame = (int) floor((attackFrames.size())*(attackTimer.asSeconds()/(attackDuration*0.3)));
-        if(attackFrame < 0) {attackFrame = 0;}
-        if(attackFrame >= attackFrames.size()) {attackFrame = attackFrames.size()-1;}
+        attackFrame = (int) floor((attackFrames.size())*((attackTimer.asSeconds()-attackStart)/(attackEnd-attackStart)));
         velocity.x = 0;
         velocity.y = 0;
-        Collidable & attack = componentLoader.getCollidableFromObject(gameObjectLoader.loadGameObject(parent),"attack");
-        ConvexPolygon scaled = game->math.scale(attackFrames[attackFrame],attackScaleFactor);
-        scaled = game->math.rotateClockwise(scaled,game->math.getBearing(attackDirection));
-        scaled.position = attack.polygon.position;
-        attack.polygon = scaled;
+        if(attackFrame >= 0 && attackFrame < attackFrames.size())
+        {
+            Collidable & attack = componentLoader.getCollidableFromObject(gameObjectLoader.loadGameObject(parent),"attack");
+            ConvexPolygon scaled = game->math.scale(attackFrames[attackFrame],attackScaleFactor);
+            scaled = game->math.rotateClockwise(scaled,game->math.getBearing(attackDirection));
+            scaled.position = attack.polygon.position;
+            attack.polygon = scaled;
+        }
+        else
+        {
+            Collidable & attack = componentLoader.getCollidableFromObject(gameObjectLoader.loadGameObject(parent),"attack");
+            attack.polygon.clearPoints();
+        }
 
     }
     else
