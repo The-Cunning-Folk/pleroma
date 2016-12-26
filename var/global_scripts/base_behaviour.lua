@@ -10,6 +10,7 @@ end
 
 --called every loop
 function Behaviour:update(self)
+	print(self.name)
 end
 
 --called when the object is made inactive

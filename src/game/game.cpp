@@ -36,6 +36,13 @@ void Game::runEngines()
 
     GameObject & player = gameObjectLoader.loadGameObject("player_1");
 
+    sol::table b = luaCtrl.lua["Behaviour"];
+    b["update"](b,player);
+    if(b["nofunc"]!= NULL)
+    {
+        b["nofunc"]();
+    }
+
     inputEngine.run();
 
     delta = debug->time.getSecondsAndRestart("stepClock");
