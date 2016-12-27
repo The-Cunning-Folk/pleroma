@@ -68,6 +68,11 @@ public:
         }
     }
 
+    virtual void load(){
+        if(debug != NULL){
+            debug->printerr("undefined engine.drawDebug()");
+        }
+    }
 
     DebugUtils *getDebug() const;
     void setDebug(DebugUtils *value);

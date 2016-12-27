@@ -32,3 +32,8 @@ void DebugDisplayEngine::wake()
 {
 
 }
+
+void DebugDisplayEngine::load()
+{
+
+}

@@ -6,9 +6,9 @@
 
 using namespace BQ;
 
-LuaController::LuaController()
+LuaController::LuaController() : sol::state()
 {
-    lua.open_libraries(
+    open_libraries(
                 sol::lib::base,
                 sol::lib::package,
                 sol::lib::io,
@@ -24,21 +24,21 @@ LuaController::LuaController()
 void LuaController::bindTypes()
 {
     //SFML data structures
-    lua.new_usertype<sf::Vector2f>("vector2f",
+    new_usertype<sf::Vector2f>("vector2f",
                                    "x",&sf::Vector2f::x,
                                    "y",&sf::Vector2f::y
                                    );
-    lua.new_usertype<sf::Vector2i>("vector2i",
+    new_usertype<sf::Vector2i>("vector2i",
                                    "x",&sf::Vector2i::x,
                                    "y",&sf::Vector2i::y
                                    );
-    lua.new_usertype<sf::FloatRect>("float_rect",
+    new_usertype<sf::FloatRect>("float_rect",
                                     "l",&sf::FloatRect::left,
                                     "t",&sf::FloatRect::top,
                                     "w",&sf::FloatRect::width,
                                     "h",&sf::FloatRect::height
                                     );
-    lua.new_usertype<sf::IntRect>("int_rect",
+    new_usertype<sf::IntRect>("int_rect",
                                   "l",&sf::IntRect::left,
                                   "t",&sf::IntRect::top,
                                   "w",&sf::IntRect::width,
@@ -46,14 +46,14 @@ void LuaController::bindTypes()
                                   );
 
     //basic plemora structures
-    lua.new_usertype<ConvexPolygon>("polygon",
+    new_usertype<ConvexPolygon>("polygon",
                                     "position",&ConvexPolygon::position,
                                     "points",&ConvexPolygon::points,
                                     "bbox",&ConvexPolygon::bBox,
                                     "center",&ConvexPolygon::centre
                                     );
 
-    lua.new_usertype<Animation>("animation",
+    new_usertype<Animation>("animation",
                                 "running",&Animation::running,
                                 "stopped",&Animation::stopped,
                                 "spf",&Animation::spf,
@@ -64,7 +64,7 @@ void LuaController::bindTypes()
                                 "stop",&Animation::stop
                                 );
 
-    lua.new_usertype<InputMap>("inputmap",
+    new_usertype<InputMap>("inputmap",
                                "button_pressed",&InputMap::buttonPressed,
                                "button_toggled",&InputMap::buttonToggled,
                                "key_pressed",&InputMap::keyPressed,
@@ -76,7 +76,7 @@ void LuaController::bindTypes()
 
 
     //object structures
-    lua.new_usertype<GameObject>("gameobject",
+    new_usertype<GameObject>("gameobject",
                                  "name", sol::readonly(&GameObject::name),
                                  "transform", &GameObject::transform,
                                  "components", &GameObject::components,
@@ -84,7 +84,7 @@ void LuaController::bindTypes()
                                  );
 
     //component structures
-    lua.new_usertype<Component>("component",
+    new_usertype<Component>("component",
                                 "index",sol::readonly(&Component::index),
                                 "name",&Component::name,
                                 "parent",sol::readonly(&Component::parent),
@@ -94,7 +94,7 @@ void LuaController::bindTypes()
                                 "active", &Component::active
                                 );
 
-    lua.new_usertype<Transform>("transform",
+    new_usertype<Transform>("transform",
                                 "grid_position", sol::readonly(&Transform::gridPosition),
                                 "position", &Transform::position,
                                 "velocity", &Transform::velocity,
@@ -107,7 +107,7 @@ void LuaController::bindTypes()
                                 sol::base_classes,sol::bases<Component>()
                                 );
     
-    lua.new_usertype<Collidable>("collidable",
+    new_usertype<Collidable>("collidable",
                                  "solid", &Collidable::solid,
                                  "opaque", &Collidable::opaque,
                                  "pathable", &Collidable::pathable,
@@ -118,7 +118,7 @@ void LuaController::bindTypes()
                                  sol::base_classes,sol::bases<Component>()
                                  );
 
-    lua.new_usertype<RigidBody>("rigidbody",
+    new_usertype<RigidBody>("rigidbody",
                                 "momentum", &RigidBody::momentum,
                                 "restitution",&RigidBody::restitution,
                                 "friction",&RigidBody::friction,
@@ -128,7 +128,7 @@ void LuaController::bindTypes()
                                 sol::base_classes,sol::bases<Component>()
                                 );
 
-    lua.new_usertype<SpriteRenderer>("spriterenderer",
+    new_usertype<SpriteRenderer>("spriterenderer",
                                      "animation",&SpriteRenderer::animation,
                                      "offset",&SpriteRenderer::offset,
                                      "depth_offset",&SpriteRenderer::depthOffset,
@@ -141,7 +141,7 @@ void LuaController::bindTypes()
                                      sol::base_classes,sol::bases<Component>()
                                      );
 
-    lua.new_usertype<RayEmitter>("rayemitter",
+    new_usertype<RayEmitter>("rayemitter",
                                  "targets",&RayEmitter::targets,
                                  "positions",&RayEmitter::positions,
                                  "add_target",&RayEmitter::addTarget,
@@ -149,12 +149,12 @@ void LuaController::bindTypes()
                                  sol::base_classes,sol::bases<Component>()
                                  );
 
-    lua.new_usertype<PlayerInput>("playerinput",
+    new_usertype<PlayerInput>("playerinput",
                                   "map",&PlayerInput::inputMap,
                                   sol::base_classes,sol::bases<Component>()
                                   );
 
-    lua.new_usertype<Event>("event",
+    new_usertype<Event>("event",
                             "triggered_by",&Event::triggeredBy,
                             "script",&Event::script
                             );
@@ -165,67 +165,67 @@ void LuaController::bindTypes()
 void LuaController::bindFunctions()
 {
     //global game functions
-    lua.set_function("change_level", [&](std::string s) {
+    set_function("change_level", [&](std::string s) {
         game->changeLevel(s);
     });
 
-    lua.set_function("delta", [&]() {
+    set_function("delta", [&]() {
         return game->delta;
     });
 
-    lua.set_function("current_level",[&](){
+    set_function("current_level",[&](){
         return game->currentLevel;
     });
 
-    lua.set_function("get_global_input", [&]() {
+    set_function("get_global_input", [&]() {
         return &(game->input);
     });
 
-    lua.set_function("get_global_events",[&](){
+    set_function("get_global_events",[&](){
         return game->eventEngine.events;
     });
 
     //object access functions
-    lua.set_function("get_object", [&](std::string s) {
+    set_function("get_object", [&](std::string s) {
         return &(game->getCurrentLevel().objects.objects[s]);
     });
 
-    lua.set_function("remove_object", [&](std::string s) {
+    set_function("remove_object", [&](std::string s) {
         return game->getCurrentLevel().objects.removeObject(s);
     });
 
-    lua.set_function("deactivate_object", [&](std::string s) {
+    set_function("deactivate_object", [&](std::string s) {
         return game->getCurrentLevel().objects.deactivateObject(s);
     });
 
-    lua.set_function("activate_object", [&](std::string s) {
+    set_function("activate_object", [&](std::string s) {
         return game->getCurrentLevel().objects.activateObject(s);
     });
 
     //object-based component access functions
-    lua.set_function("get_obj_transform", [&](std::string s){
+    set_function("get_obj_transform", [&](std::string s){
         return &(game->componentLoader.getTransform(game->getCurrentLevel().objects.objects[s].transform));
     });
 
     //direct component access functions
 
-    lua.set_function("get_transform", [&](int n) {
+    set_function("get_transform", [&](int n) {
         return &(game->componentLoader.getTransform(n));
     });
 
-    lua.set_function("get_collidable", [&](int n) {
+    set_function("get_collidable", [&](int n) {
         return &(game->componentLoader.getCollidable(n));
     });
 
-    lua.set_function("get_rigidbody", [&](int n) {
+    set_function("get_rigidbody", [&](int n) {
         return &(game->componentLoader.getRigidBody(n));
     });
 
-    lua.set_function("get_spriterenderer", [&](int n) {
+    set_function("get_spriterenderer", [&](int n) {
         return &(game->componentLoader.getSpriteRenderer(n));
     });
 
-    lua.set_function("get_rayemitter", [&](int n) {
+    set_function("get_rayemitter", [&](int n) {
         return &(game->componentLoader.getRayEmitter(n));
     });
 
@@ -235,8 +235,13 @@ void LuaController::bindFunctions()
 void LuaController::bindLuaFunctions()
 {
     //runs the global lua file which contains global script definitions
-    lua.script_file("var/global_scripts/global.lua");
-    lua.script_file("var/global_scripts/base_behaviour.lua");
+    script_file("var/global_scripts/global.lua");
+    script_file("var/global_scripts/base_behaviour.lua");
+}
+
+void LuaController::bindBehaviours()
+{
+
 }
 
 

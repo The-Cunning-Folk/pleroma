@@ -23,6 +23,7 @@ public:
     void run();
     void finish();
     void drawDebug();
+    void load();
 
     sf::FloatRect visibleRegion;
 };

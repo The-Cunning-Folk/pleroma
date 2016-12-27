@@ -17,7 +17,14 @@ class LogicEngine : public Engine
 
 public:
 
+
+    void start();
+    void run();
+    void finish();
+    void drawDebug();
     void wake();
+    void load();
+
 
     std::vector<logicUnit> behaviours;
 

@@ -14,6 +14,9 @@
 #include <sol.hpp>
 
 namespace BQ{
+
+class LuaController;
+
 class ResourceLoader
 {
 public:
@@ -24,7 +27,7 @@ public:
     std::string loadFileAsString(std::string);
 
     rapidjson::Document loadJsonFile(std::string);
-    sol::load_result loadLuaScript(sol::state& ,std::string);
+    sol::load_result loadLuaScript(LuaController& ,std::string);
 
     DebugUtils *getDebug() const;
     void setDebug(DebugUtils *value);

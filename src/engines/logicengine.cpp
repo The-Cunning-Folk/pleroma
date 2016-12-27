@@ -10,6 +10,31 @@ void LogicEngine::wake()
 
 }
 
+void LogicEngine::start()
+{
+
+}
+
+void LogicEngine::run()
+{
+
+}
+
+void LogicEngine::finish()
+{
+
+}
+
+void LogicEngine::drawDebug()
+{
+
+}
+
+void LogicEngine::load()
+{
+
+}
+
 Behaviour &LogicEngine::bindBehaviour(GameLogic & g, std::string type)
 {
     logicUnit newBehaviour = logicUnit(new Behaviour);

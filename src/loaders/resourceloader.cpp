@@ -1,4 +1,5 @@
 #include "resourceloader.h"
+#include <luacontroller.h>
 
 using namespace BQ;
 
@@ -26,10 +27,10 @@ rapidjson::Document ResourceLoader::loadJsonFile(std::string path)
     return doc;
 }
 
-sol::load_result ResourceLoader::loadLuaScript(sol::state & lua, std::string path)
+sol::load_result ResourceLoader::loadLuaScript(LuaController & lua, std::string path)
 {
-    sol::load_result s = lua.load_file(baseDirectory+"/"+scriptsDirectory+"/"+path);
-    return s;
+    lua.behaviourScripts[path] = lua.load_file(baseDirectory+"/"+scriptsDirectory+"/"+path);
+    return lua.behaviourScripts[path];
 }
 
 DebugUtils *ResourceLoader::getDebug() const

@@ -17,6 +17,7 @@ public:
     void finish();
     void drawDebug();
     void wake();
+    void load();
 
 private:
 };

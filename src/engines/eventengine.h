@@ -22,10 +22,14 @@ public:
     std::vector<Collision> collisions;
     std::vector<int> toUpdate;
 
+
     void start();
     void run();
     void finish();
+    void drawDebug();
+    void load();
     void wake();
+
 
     void pushEvent(Event);
 
@@ -37,8 +41,6 @@ public:
 
     float getDelta() const;
     void setDelta(float value);
-
-    void drawDebug();
 
 
 protected:

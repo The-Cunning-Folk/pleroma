@@ -102,8 +102,116 @@ void RenderEngine::setVisibleRegion(const sf::FloatRect & r)
 
 void RenderEngine::wake()
 {
-    //load sprite sheets
+    GameObjectStore & os = game->getCurrentLevel().objects;
+    for(it_sprrenderer it = os.spriteRenderers.begin(); it != os.spriteRenderers.end(); it++)
+    {
+        SpriteRenderer & s = it->second;
+        s.wake();
+    }
+}
 
+void BQ::RenderEngine::start()
+{
+
+}
+
+void BQ::RenderEngine::run()
+{
+    GameObjectStore & os = game->getCurrentLevel().objects;
+    for(int i=0; i<activeComponents.size(); i++)
+    {
+
+        SpriteRenderer & s = os.spriteRenderers[activeComponents[i]];
+        SpriteSheet& sheet = spriteSheets[s.spritesheet];
+        s.update();
+        s.depth = componentLoader->getTransform(s.transform).position.y + s.depthOffset;
+
+
+            if(sheet.sprites.find(s.clip) != sheet.sprites.end())
+            {
+
+            }
+            else if(sheet.sprites.size()>0)
+            {
+                s.clip = sheet.sprites.begin()->first;
+            }
+            else
+            {
+                s.clip = "NONE";
+            }
+
+            if(s.clip != "NONE")
+            {
+                bool spritefound = true;
+                if(s.frame < 0 || s.frame >= sheet.sprites[s.clip].frames.size())
+                {
+                    if(sheet.sprites[s.clip].frames.size() > 0)
+                    {
+                        s.frame = 0;
+                    }
+                    else
+                    {
+                        spritefound = false;
+                    }
+                }
+            }
+
+
+    }
+}
+
+void BQ::RenderEngine::finish()
+{
+
+}
+
+void BQ::RenderEngine::drawDebug()
+{
+    std::vector<SpriteRenderer> renderList;
+
+    Level & l = game->getCurrentLevel();
+
+
+    drawTileMap(l.groundMap);
+
+    for(int i=0; i<activeComponents.size(); i++)
+    {
+        renderList.push_back(l.objects.spriteRenderers[activeComponents[i]]);
+    }
+
+    std::sort(renderList.begin(),renderList.end());
+
+    for(int i=0; i<renderList.size(); i++)
+    {
+        SpriteRenderer & s = renderList[i];
+        if(s.getParent()=="")
+        {
+            debug->println(s.name);
+        }
+        sf::Sprite spr;
+
+        if ( spriteSheets.find(s.spritesheet) == spriteSheets.end() ) {
+            spr.setTexture(resourceLoader->getTexture(""));
+        }
+
+        SpriteSheet& sheet = spriteSheets[s.spritesheet];
+        spr.setTexture(resourceLoader->getTexture(sheet.texture));
+        spr.setTextureRect(sheet.getSprite(s.clip).getFrame(s.frame));
+
+        sf::Vector2f pos = componentLoader->getTransform(s.transform).position;
+        if(s.centreOrigin)
+        {
+            pos.x -= 0.5*spr.getLocalBounds().width;
+            pos.y -= 0.5*spr.getLocalBounds().height;
+        }
+        spr.setPosition(maths->round(pos + s.offset));
+        gameWindow->draw(spr);
+    }
+    drawTileMap(l.ceilingMap);
+}
+
+void RenderEngine::load()
+{
     //load and parse textures.json
     rapidjson::Document tconfig = resourceLoader->loadJsonFile("config/textures.json");
 
@@ -230,106 +338,4 @@ void RenderEngine::wake()
 
     }
 
-
-
-}
-
-void BQ::RenderEngine::start()
-{
-
-}
-
-void BQ::RenderEngine::run()
-{
-    GameObjectStore & os = game->getCurrentLevel().objects;
-    for(int i=0; i<activeComponents.size(); i++)
-    {
-
-        SpriteRenderer & s = os.spriteRenderers[activeComponents[i]];
-        SpriteSheet& sheet = spriteSheets[s.spritesheet];
-        s.update();
-        s.depth = componentLoader->getTransform(s.transform).position.y + s.depthOffset;
-
-
-            if(sheet.sprites.find(s.clip) != sheet.sprites.end())
-            {
-
-            }
-            else if(sheet.sprites.size()>0)
-            {
-                s.clip = sheet.sprites.begin()->first;
-            }
-            else
-            {
-                s.clip = "NONE";
-            }
-
-            if(s.clip != "NONE")
-            {
-                bool spritefound = true;
-                if(s.frame < 0 || s.frame >= sheet.sprites[s.clip].frames.size())
-                {
-                    if(sheet.sprites[s.clip].frames.size() > 0)
-                    {
-                        s.frame = 0;
-                    }
-                    else
-                    {
-                        spritefound = false;
-                    }
-                }
-            }
-
-
-    }
-}
-
-void BQ::RenderEngine::finish()
-{
-
-}
-
-void BQ::RenderEngine::drawDebug()
-{
-    std::vector<SpriteRenderer> renderList;
-
-    Level & l = game->getCurrentLevel();
-
-
-    drawTileMap(l.groundMap);
-
-    for(int i=0; i<activeComponents.size(); i++)
-    {
-        renderList.push_back(l.objects.spriteRenderers[activeComponents[i]]);
-    }
-
-    std::sort(renderList.begin(),renderList.end());
-
-    for(int i=0; i<renderList.size(); i++)
-    {
-        SpriteRenderer & s = renderList[i];
-        if(s.getParent()=="")
-        {
-            debug->println(s.name);
-        }
-        sf::Sprite spr;
-
-        if ( spriteSheets.find(s.spritesheet) == spriteSheets.end() ) {
-            spr.setTexture(resourceLoader->getTexture(""));
-        }
-
-        SpriteSheet& sheet = spriteSheets[s.spritesheet];
-        spr.setTexture(resourceLoader->getTexture(sheet.texture));
-        spr.setTextureRect(sheet.getSprite(s.clip).getFrame(s.frame));
-
-        sf::Vector2f pos = componentLoader->getTransform(s.transform).position;
-        if(s.centreOrigin)
-        {
-            pos.x -= 0.5*spr.getLocalBounds().width;
-            pos.y -= 0.5*spr.getLocalBounds().height;
-        }
-        spr.setPosition(maths->round(pos + s.offset));
-        gameWindow->draw(spr);
-    }
-    drawTileMap(l.ceilingMap);
 }

@@ -36,12 +36,6 @@ void Game::runEngines()
 
     GameObject & player = gameObjectLoader.loadGameObject("player_1");
 
-    sol::table b = luaCtrl.lua["Behaviour"];
-    b["update"](b,player);
-    if(b["nofunc"]!= NULL)
-    {
-        b["nofunc"]();
-    }
 
     inputEngine.run();
 
@@ -88,6 +82,8 @@ void Game::runEngines()
 
     renderEngine.start();
     renderEngine.run();
+
+
 
     debugDisplayEngine.run();
 
@@ -158,11 +154,28 @@ void Game::run()
 
 
     //end temporary behaviours
+
     transformEngine.wake();
+    collisionEngine.load();
     collisionEngine.wake();
+    renderEngine.load();
     renderEngine.wake();
 
-     sol::load_result mainScript = resourceLoader.loadLuaScript(luaCtrl.lua,"main.lua");
+    rapidjson::Document bconfig = resourceLoader.loadJsonFile("config/scripts.json");
+
+    assert(bconfig["parentdirectory"].IsString());
+    std::string bDir = bconfig["parentdirectory"].GetString();
+
+    //load the scripts array
+    const rapidjson::Value & files = bconfig["scripts"];
+    assert(files.IsArray());
+
+    for (rapidjson::SizeType i = 0; i < files.Size(); i++)
+    {
+        std::string fileName = files[i].GetString();
+        debug->println(resourceLoader.baseDirectory + "/" + bDir + "/" + fileName);
+        luaCtrl.script_file(resourceLoader.baseDirectory + "/" + bDir + "/" + fileName);
+    }
 
     while(window.isOpen()){
         //game loop goes here
@@ -240,7 +253,7 @@ void Game::run()
 
         if(runDebugScript)
         {
-            sol::load_result debugScript = resourceLoader.loadLuaScript(luaCtrl.lua,"debug.lua");
+            sol::load_result debugScript = resourceLoader.loadLuaScript(luaCtrl,"debug.lua");
             debugScript();
         }
 
@@ -277,6 +290,7 @@ void Game::run()
             window.draw(posDisplay);
         }
 
+        sol::load_result mainScript = resourceLoader.loadLuaScript(luaCtrl,"main.lua");
         mainScript();
 
         window.display();

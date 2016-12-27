@@ -161,3 +161,8 @@ void RaycastingEngine::drawDebug()
     gameWindow->draw(drawRays);
 }
 
+void RaycastingEngine::load()
+{
+
+}
+

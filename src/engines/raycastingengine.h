@@ -23,6 +23,7 @@ public:
     void run();
     void finish();
     void drawDebug();
+    void load();
 
     std::vector<SimpleRay> getSimpleRays() const;
     void setSimpleRays(const std::vector<SimpleRay> &value);

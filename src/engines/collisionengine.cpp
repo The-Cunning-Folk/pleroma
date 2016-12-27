@@ -487,3 +487,8 @@ void CollisionEngine::wake()
     }
 }
 
+void CollisionEngine::load()
+{
+
+}
+
