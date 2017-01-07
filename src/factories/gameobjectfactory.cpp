@@ -59,7 +59,6 @@ GameObject &GameObjectFactory::buildComponentsFromPattern(GameObjectStore & s, G
             std::string b = pattern.gameLogicPatterns[i].behaviours[j];
             componentFactory->bindBehaviour(s,l,b);
         }
-
     }
     return g;
 }

@@ -2,6 +2,7 @@
 #define GAMELOGICPATTERN_H
 
 #include <factorypattern.h>
+#include <scriptbehaviour.h>
 
 namespace BQ
 {
@@ -12,6 +13,7 @@ public:
     GameLogicPattern();
 
     std::vector<std::string> behaviours;
+    std::vector<ScriptBehaviour> scripts;
 
 };
 

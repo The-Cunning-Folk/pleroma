@@ -75,13 +75,7 @@ void LuaController::bindTypes()
                                );
 
 
-    //object structures
-    new_usertype<GameObject>("gameobject",
-                                 "name", sol::readonly(&GameObject::name),
-                                 "transform", &GameObject::transform,
-                                 "components", &GameObject::components,
-                                 "active", &GameObject::active
-                                 );
+
 
     //component structures
     new_usertype<Component>("component",
@@ -158,6 +152,19 @@ void LuaController::bindTypes()
                             "triggered_by",&Event::triggeredBy,
                             "script",&Event::script
                             );
+
+    new_usertype<GameLogic>("logic",
+                            "events",&GameLogic::events,
+                            sol::base_classes,sol::bases<Component>()
+                            );
+
+    //object structures
+    new_usertype<GameObject>("gameobject",
+                                 "name", sol::readonly(&GameObject::name),
+                                 "transform", &GameObject::transform,
+                                 "components", &GameObject::components,
+                                 "active", &GameObject::active
+                                 );
 
 
 }

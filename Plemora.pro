@@ -119,7 +119,8 @@ HEADERS += $$SRCDIR/window/gamewindow.h \
     src/settings/camerasettings.h \
     src/structures/floatrect.h \
     src/physics/physicalexchange.h \
-    src/scripting/luacontroller.h
+    src/scripting/luacontroller.h \
+    src/logic/scriptbehaviour.h
 
 SOURCES += src/main.cpp \
     $$SRCDIR/window/gamewindow.cpp \
@@ -205,7 +206,8 @@ SOURCES += src/main.cpp \
     src/settings/camerasettings.cpp \
     src/structures/floatrect.cpp \
     src/physics/physicalexchange.cpp \
-    src/scripting/luacontroller.cpp
+    src/scripting/luacontroller.cpp \
+    src/logic/scriptbehaviour.cpp
 
 unix {
 # Copies the given files to the destination directory

@@ -148,6 +148,13 @@ void EventEngine::run()
         GameLogic & g = os.gamelogics[activeComponents[i]];
         g.setDelta(delta);
         g.update();
+
+        for(int j=0;j<g.scripts.size();j++)
+        {
+            sol::table self = game->luaCtrl["Pot"];
+            game->luaCtrl["Pot"]["update"](self,g.parent);
+        }
+
         for(int j=0;j<g.behaviours.size();j++)
         {
             Behaviour & b =componentLoader->getBehaviour(g.behaviours[j]);

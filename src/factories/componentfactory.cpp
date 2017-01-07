@@ -67,6 +67,7 @@ void ComponentFactory::buildRayEmitterFromPattern(BQ::RayEmitterPattern & patter
 void ComponentFactory::buildGameLogicFromPattern(GameLogicPattern & pattern, GameLogic & g)
 {
     g.name = pattern.name;
+    g.scripts = pattern.scripts;
 }
 
 LogicEngine *ComponentFactory::getLogicEngine() const

@@ -102,6 +102,25 @@ bool GameObjectPattern::parseFromJson(std::string rawJson)
                     }
                 }
             }
+            if(gameLogics[i].HasMember("scripts") && gameLogics[i]["scripts"].IsArray())
+            {
+                for(rapidjson::SizeType b = 0; b<gameLogics[i]["scripts"].Size(); b++)
+                {
+                    if
+                    (   gameLogics[i]["scripts"][b].IsObject()
+                        && gameLogics[i]["scripts"][b].HasMember("file")
+                        && gameLogics[i]["scripts"][b].HasMember("table")
+                        && gameLogics[i]["scripts"][b]["file"].IsString()
+                        && gameLogics[i]["scripts"][b]["table"].IsString() )
+                    {
+
+                        g.scripts.push_back(ScriptBehaviour(
+                                                gameLogics[i]["scripts"][b]["file"].GetString(),
+                                                gameLogics[i]["scripts"][b]["table"].GetString()
+                                ));
+                    }
+                }
+            }
             gameLogicPatterns.push_back(g);
         }
     }

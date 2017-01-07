@@ -24,6 +24,7 @@ void GameLogic::addEvent(std::string script, std::string triggered,std::map<std:
 {
     Event event(script,triggered);
     event.parsedScript = parsed;
+    events.push_back(event);
     for(unsigned int i = 0; i<behaviours.size(); i++)
     {
         c.getBehaviour(behaviours[i]).addEvent(event);

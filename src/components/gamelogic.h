@@ -3,7 +3,8 @@
 
 #include <component.h>
 #include <collidable.h>
-
+#include <scriptbehaviour.h>
+#include <event.h>
 
 
 namespace BQ{
@@ -25,6 +26,8 @@ public:
     void wake();
 
      std::vector<int> behaviours;
+     std::vector<ScriptBehaviour> scripts;
+     std::vector<Event> events;
 
 private:
 
