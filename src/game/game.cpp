@@ -119,6 +119,24 @@ void Game::run()
     initialiseInjections(); //injections
     initialiseInput();
     initialiseClocks(); //clock definitions
+
+    rapidjson::Document bconfig = resourceLoader.loadJsonFile("config/scripts.json");
+
+    assert(bconfig["parentdirectory"].IsString());
+    std::string bDir = bconfig["parentdirectory"].GetString();
+
+    //load the scripts array
+    const rapidjson::Value & files = bconfig["scripts"];
+    assert(files.IsArray());
+
+    for (rapidjson::SizeType i = 0; i < files.Size(); i++)
+    {
+        std::string fileName = files[i].GetString();
+        debug->println(resourceLoader.baseDirectory + "/" + bDir + "/" + fileName);
+        luaCtrl.script_file(resourceLoader.baseDirectory + "/" + bDir + "/" + fileName);
+    }
+
+
     initialiseEnvironment();
     initialisePlayers();
     initialiseTests();
@@ -161,21 +179,6 @@ void Game::run()
     renderEngine.load();
     renderEngine.wake();
 
-    rapidjson::Document bconfig = resourceLoader.loadJsonFile("config/scripts.json");
-
-    assert(bconfig["parentdirectory"].IsString());
-    std::string bDir = bconfig["parentdirectory"].GetString();
-
-    //load the scripts array
-    const rapidjson::Value & files = bconfig["scripts"];
-    assert(files.IsArray());
-
-    for (rapidjson::SizeType i = 0; i < files.Size(); i++)
-    {
-        std::string fileName = files[i].GetString();
-        debug->println(resourceLoader.baseDirectory + "/" + bDir + "/" + fileName);
-        luaCtrl.script_file(resourceLoader.baseDirectory + "/" + bDir + "/" + fileName);
-    }
 
     while(window.isOpen()){
         //game loop goes here

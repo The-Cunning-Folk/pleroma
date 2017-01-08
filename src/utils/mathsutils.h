@@ -46,6 +46,8 @@ public:
     int intDegRad(float x);
     int intDegDeg(float x);
 
+    std::string randomString(std::size_t);
+
     float fSqrt(float);
 
     float degToRad;

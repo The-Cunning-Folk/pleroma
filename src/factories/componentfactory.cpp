@@ -67,7 +67,21 @@ void ComponentFactory::buildRayEmitterFromPattern(BQ::RayEmitterPattern & patter
 void ComponentFactory::buildGameLogicFromPattern(GameLogicPattern & pattern, GameLogic & g)
 {
     g.name = pattern.name;
-    g.scripts = pattern.scripts;
+//    g.scripts = pattern.scripts;
+
+    for(int i=0; i< pattern.scripts.size(); i++)
+    {
+        ScriptBehaviour s = pattern.scripts[i];
+        if(s.table != "")
+        {
+            std::string ins = game->math.randomString(10);
+            sol::table t = game->luaCtrl["copy_table"](game->luaCtrl[s.table]);
+            game->luaCtrl.set(ins,t);
+            s.instance=ins;
+            g.scripts.push_back(s);
+        }
+
+    }
 }
 
 LogicEngine *ComponentFactory::getLogicEngine() const

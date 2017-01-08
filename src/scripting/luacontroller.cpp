@@ -13,7 +13,8 @@ LuaController::LuaController() : sol::state()
                 sol::lib::package,
                 sol::lib::io,
                 sol::lib::string,
-                sol::lib::table
+                sol::lib::table,
+                sol::lib::math
                 );
 
     bindLuaFunctions();

@@ -11,6 +11,7 @@ public:
     ScriptBehaviour(std::string,std::string);
 
     std::string file;
+    std::string instance;
     std::string table;
 };
 

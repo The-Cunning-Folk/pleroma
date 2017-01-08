@@ -151,8 +151,13 @@ void EventEngine::run()
 
         for(int j=0;j<g.scripts.size();j++)
         {
-            sol::table self = game->luaCtrl["Pot"];
-            game->luaCtrl["Pot"]["update"](self,g.parent);
+            ScriptBehaviour s = g.scripts[j];
+            if(s.instance != "")
+            {
+                sol::table self = game->luaCtrl[s.instance];
+                game->luaCtrl[s.instance]["update"](self,g.parent);
+            }
+
         }
 
         for(int j=0;j<g.behaviours.size();j++)
