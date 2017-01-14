@@ -178,6 +178,7 @@ void Game::run()
     collisionEngine.wake();
     renderEngine.load();
     renderEngine.wake();
+    eventEngine.wake();
 
 
     while(window.isOpen()){
@@ -656,6 +657,7 @@ void Game::changeLevel(std::string level)
     transformEngine.wake();
     collisionEngine.wake();
     renderEngine.wake();
+    eventEngine.wake();
 
     viewPort.focus();
 }

@@ -381,7 +381,7 @@ void PlayerBehaviours::update()
             spr.clip = "walk_right";
         else if(facing[0] == 'l')
             spr.clip = "walk_left";
-        spr.animation.rate = 2*game->math.mag(velocity)/speed;
+        spr.animation.rate = 1.5*game->math.mag(velocity)/speed;
         spr.animation.play();
     }
 

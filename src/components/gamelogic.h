@@ -15,6 +15,7 @@ public:
     GameLogic();
 
     void addBehaviour(int);
+    void addScriptBehaviour(ScriptBehaviour);
 
     void addEvent(std::string,std::string,std::map<std::string,std::string>,ComponentLoader &);
 

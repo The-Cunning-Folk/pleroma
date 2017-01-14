@@ -155,7 +155,10 @@ void EventEngine::run()
             if(s.instance != "")
             {
                 sol::table self = game->luaCtrl[s.instance];
-                game->luaCtrl[s.instance]["update"](self,g.parent);
+                if(self.valid() && game->luaCtrl[s.instance]["update"].valid())
+                {
+                    game->luaCtrl[s.instance]["update"](self,g.parent);
+                }
             }
 
         }
@@ -184,8 +187,19 @@ void EventEngine::wake()
     GameObjectStore & os = game->getCurrentLevel().objects;
     for(it_gamelogic it = os.gamelogics.begin(); it != os.gamelogics.end(); it++)
     {
+
         GameLogic & g = it->second;
         g.wake();
+
+        for(int i=0; i<g.scripts.size();i++)
+        {
+            ScriptBehaviour & s = g.scripts[i];
+            sol::table self = game->luaCtrl[s.instance];
+            if(self.valid() && game->luaCtrl[s.instance]["wake"].valid())
+            {
+                game->luaCtrl[s.instance]["wake"](self,g.parent);
+            }
+        }
     }
 }
 

@@ -20,6 +20,11 @@ void GameLogic::addBehaviour(int logic)
     behaviours.push_back(logic);
 }
 
+void GameLogic::addScriptBehaviour(ScriptBehaviour s)
+{
+    scripts.push_back(s);
+}
+
 void GameLogic::addEvent(std::string script, std::string triggered,std::map<std::string,std::string> parsed,ComponentLoader & c)
 {
     Event event(script,triggered);
