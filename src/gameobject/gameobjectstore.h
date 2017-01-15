@@ -29,6 +29,13 @@ public:
     GameObjectStore();
 
     GameObject nullObj;
+    Transform nullTransform;
+    Collidable nullCollidable;
+    GameLogic nullLogic;
+    PlayerInput nullInput;
+    RayEmitter nullEmitter;
+    RigidBody nullBody;
+    SpriteRenderer nullSpriteRenderer;
 
     ComponentLoader* componentLoader;
 
@@ -71,8 +78,14 @@ public:
     RigidBody & addRigidBody();
     SpriteRenderer & addSpriteRenderer();
 
+    Transform & getTransform(int);
+    Collidable &getCollidable(int);
+    GameLogic &getGameLogic(int);
+
     ComponentLoader *getComponentLoader() const;
     void setComponentLoader(ComponentLoader *value);
+
+    std::string level;
 
 private:
 

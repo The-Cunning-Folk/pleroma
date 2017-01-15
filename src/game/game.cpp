@@ -5,6 +5,7 @@ using namespace BQ;
 Game::Game()
 {
     delta = 0;
+    nullLevel.name = "null";
 }
 
 void Game::runTests()
@@ -511,6 +512,11 @@ void Game::initialiseEnvironment()
         levels[lvl.name]=lvl;
     }
 
+
+    for(it_lvl it = levels.begin(); it != levels.end(); it++) {
+        it->second.start();
+    }
+
 }
 
 void Game::stabiliseFrameRate(float currentFrameDuration)
@@ -660,6 +666,11 @@ void Game::changeLevel(std::string level)
     eventEngine.wake();
 
     viewPort.focus();
+}
+
+Level &Game::getLevel(std::string key)
+{
+    return levels.count(key) ? levels[key] : nullLevel;
 }
 
 Level &Game::getCurrentLevel()

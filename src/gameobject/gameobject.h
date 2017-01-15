@@ -19,6 +19,7 @@ public:
     int transform;
 
     std::string name;
+    std::string level;
     int uniqueId;
 
     bool active;

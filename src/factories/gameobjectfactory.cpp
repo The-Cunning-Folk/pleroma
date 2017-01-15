@@ -80,6 +80,7 @@ GameObject& GameObjectFactory::newObject(GameObjectStore & s)
     Transform & t = componentFactory->newTransform(s);
     t.setParent(object.name);
     object.setTransform(t.index);
+    object.level = s.level;
     return object;
 }
 

@@ -99,6 +99,7 @@ void LuaController::bindTypes()
                                 "size",&Transform::size,
                                 "children",&Transform::children,
                                 "move", sol::resolve<void(float,float)>( &Transform::move),
+                                "set_position", sol::resolve<void(float,float)>( &Transform::setPosition),
                                 sol::base_classes,sol::bases<Component>()
                                 );
     
@@ -162,17 +163,33 @@ void LuaController::bindTypes()
     //object structures
     new_usertype<GameObject>("gameobject",
                                  "name", sol::readonly(&GameObject::name),
-                                 "transform", &GameObject::transform,
+                                 "level", sol::readonly(&GameObject::level),
+                                 "transform", sol::readonly(&GameObject::transform),
                                  "components", &GameObject::components,
                                  "active", &GameObject::active
                                  );
 
+    //level structures
+
+    new_usertype<GameObjectStore>("store",
+                                 "get_transform",&GameObjectStore::getTransform
+                                 );
+
+    new_usertype<Level>("level",
+                        "name", &Level::name,
+                        "store", &Level::objects
+                        );
 
 }
 
 void LuaController::bindFunctions()
 {
     //global game functions
+
+    set_function("get_level", [&](std::string s) {
+        return game->getLevel(s);
+    });
+
     set_function("change_level", [&](std::string s) {
         game->changeLevel(s);
     });
@@ -212,7 +229,7 @@ void LuaController::bindFunctions()
 
     //object-based component access functions
     set_function("get_obj_transform", [&](std::string s){
-        return &(game->componentLoader.getTransform(game->getCurrentLevel().objects.objects[s].transform));
+        return &(game->getCurrentLevel().objects.transforms[game->getCurrentLevel().objects.objects[s].transform]);
     });
 
     //direct component access functions

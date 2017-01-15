@@ -157,7 +157,7 @@ void EventEngine::run()
                 sol::table self = game->luaCtrl[s.instance];
                 if(self.valid() && game->luaCtrl[s.instance]["update"].valid())
                 {
-                    game->luaCtrl[s.instance]["update"](self,g.parent);
+                    game->luaCtrl[s.instance]["update"](self,game->getCurrentLevel().objects.objects[g.parent]);
                 }
             }
 
@@ -197,7 +197,7 @@ void EventEngine::wake()
             sol::table self = game->luaCtrl[s.instance];
             if(self.valid() && game->luaCtrl[s.instance]["wake"].valid())
             {
-                game->luaCtrl[s.instance]["wake"](self,g.parent);
+                game->luaCtrl[s.instance]["wake"](self,game->getCurrentLevel().objects.objects[g.parent]);
             }
         }
     }

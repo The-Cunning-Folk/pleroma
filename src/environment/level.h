@@ -29,6 +29,7 @@ public:
     TileMap ceilingMap;
 
     bool loadLevelFromFile(std::string);
+    void start();
 
     Game *getGame() const;
     void setGame(Game *value);

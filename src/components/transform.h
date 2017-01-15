@@ -43,6 +43,7 @@ public:
     void setWindowPosition(const sf::Vector2i &value);
 
     void setPosition(const sf::Vector2f &value);
+    void setPosition(float,float);
 
     sf::Vector2f getSize() const;
     void setSize(const sf::Vector2f &value);

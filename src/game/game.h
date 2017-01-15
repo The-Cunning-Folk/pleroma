@@ -41,6 +41,7 @@
 
 
 typedef std::shared_ptr<BQ::GameWindow> window_ptr;
+typedef std::map<std::string, Level>::iterator it_lvl;
 
 namespace BQ
 {
@@ -52,10 +53,13 @@ public:
     void setGameWindow(window_ptr);
     window_ptr getGameWindow();
 
+    Level nullLevel;
+
     std::map<std::string,Level> levels;
     std::map<std::string,GameObjectPattern> entities;
 
     void changeLevel(std::string);
+    Level &getLevel(std::string);
 
     std::string currentLevel;
 

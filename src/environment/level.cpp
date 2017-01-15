@@ -20,6 +20,8 @@ bool Level::loadLevelFromFile(std::string path)
     assert(levelJson["name"].IsString());
     name = levelJson["name"].GetString();
 
+    objects.level = name;
+
     //player
     GameObject & player = gameObjectFactory.newPlayerObject(objects);
 
@@ -262,7 +264,29 @@ bool Level::loadLevelFromFile(std::string path)
             }
         }
     }
+
+
     return true;
+}
+
+void Level::start()
+{
+    for(int i=0; i<objects.gamelogics.size();i++)
+    {
+        GameLogic & g = objects.gamelogics[i];
+        for(int j=0; j<g.scripts.size(); j++)
+        {
+            ScriptBehaviour & s = g.scripts[j];
+            if(s.instance != "")
+            {
+                sol::table self = game->luaCtrl[s.instance];
+                if(self.valid() && game->luaCtrl[s.instance]["start"].valid())
+                {
+                    game->luaCtrl[s.instance]["start"](self,objects.objects[g.parent]);
+                }
+            }
+        }
+    }
 }
 
 Game *Level::getGame() const

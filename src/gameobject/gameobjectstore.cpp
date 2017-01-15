@@ -288,6 +288,21 @@ SpriteRenderer &GameObjectStore::addSpriteRenderer()
     return spriteRenderers[nSpriteRenderer]=s;
 }
 
+Transform &GameObjectStore::getTransform(int key)
+{
+    return transforms.count(key) ? transforms[key] : nullTransform;
+}
+
+Collidable &GameObjectStore::getCollidable(int key)
+{
+    return collidables.count(key) ? collidables[key] : nullCollidable;
+}
+
+GameLogic &GameObjectStore::getGameLogic(int key)
+{
+    return gamelogics.count(key) ? gamelogics[key] : nullLogic;
+}
+
 
 GameObject& GameObjectStore::generateObject(std::string name)
 {

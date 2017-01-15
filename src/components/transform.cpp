@@ -57,6 +57,11 @@ void Transform::setPosition(const sf::Vector2f &value)
     position = value;
 }
 
+void Transform::setPosition(float x, float y)
+{
+    setPosition(sf::Vector2f(x,y));
+}
+
 
 void Transform::update()
 {
