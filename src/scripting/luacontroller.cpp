@@ -191,7 +191,7 @@ void LuaController::bindFunctions()
     });
 
     set_function("create_object", [&](std::string level, std::string pattern) {
-         game->gameObjectFactory.buildGameObjectFromPattern(game->levels[level].objects,game->entities[pattern]);
+         return &(game->gameObjectFactory.buildGameObjectFromPattern(game->getLevel(level).objects,game->entities[pattern]));
     });
 
 
