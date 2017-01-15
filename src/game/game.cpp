@@ -176,10 +176,11 @@ void Game::run()
 
     transformEngine.wake();
     collisionEngine.load();
-    collisionEngine.wake();
     renderEngine.load();
-    renderEngine.wake();
     eventEngine.wake();
+    collisionEngine.wake();
+    renderEngine.wake();
+
 
 
     while(window.isOpen()){
@@ -661,9 +662,10 @@ void Game::changeLevel(std::string level)
     viewPort.bounds = getCurrentLevel().cameraSettings.bounds.asSFFloatRect();
 
     transformEngine.wake();
+    eventEngine.wake();
     collisionEngine.wake();
     renderEngine.wake();
-    eventEngine.wake();
+
 
     viewPort.focus();
 }

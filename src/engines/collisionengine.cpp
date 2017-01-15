@@ -483,7 +483,6 @@ void CollisionEngine::wake()
         Collidable & c = it->second;
         c.polygon.setPosition(componentLoader->getTransform(c.transform).position);
         c.wake();
-
     }
 }
 

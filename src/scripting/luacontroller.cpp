@@ -187,8 +187,13 @@ void LuaController::bindFunctions()
     //global game functions
 
     set_function("get_level", [&](std::string s) {
-        return game->getLevel(s);
+        return &(game->getLevel(s));
     });
+
+    set_function("create_object", [&](std::string level, std::string pattern) {
+         game->gameObjectFactory.buildGameObjectFromPattern(game->levels[level].objects,game->entities[pattern]);
+    });
+
 
     set_function("change_level", [&](std::string s) {
         game->changeLevel(s);
